@@ -7,65 +7,67 @@ type ButtonProps =
 {
     children?: never,
     specificStyle?: CSSProperties | undefined,
-    variant: "btn-regular-icon-left" | "btn-regular-icon-right" | "btn-nav-icon-right" | "btn-nav-icon-left",
-    icon: IconName
-    background: string,
-    color: string,
-    text: string
-} | {
-    children?: never,
-    specificStyle?: CSSProperties | undefined,
-    variant: "btn-regular",
-    background: string,
-    color:string,
+    variant: "regular",
+    iconPosition?: never,
+    iconName?: never,
     text: string,
-    icon?: never
+    iconColor?: never
 } | {
     children?: never,
     specificStyle?: CSSProperties | undefined,
-    variant: "btn-icon",
-    background: string,
-    color:string,
-    text?: never,
-    icon: string
+    variant: "nav" | "text-icon",
+    iconPosition: "left" | "right",
+    iconName: IconName,
+    text: string,
+    iconColor: string
 } | {
     children: ReactNode,
     specificStyle?: CSSProperties | undefined,
-    variant: "btn-custom",
+    variant: "custom",
+    iconPosition?: never,
     text?: never,
-    icon?: never,
-    background?: never,
-    color?:never,
-} 
+    iconName?: never,
+    iconColor?: never
+} | {
+    children?: never,
+    specificStyle?: CSSProperties | undefined,
+    variant: "icon",
+    iconPosition?: never,
+    text?: never,
+    iconName: IconName,
+    iconColor: string
+}
 
 export default function Button({
     children, 
     specificStyle, 
     text, 
     variant,
-    icon,
-    background,
-    color
+    iconPosition,
+    iconName,
+    iconColor
 }: ButtonProps) {
-    const regularStyle: string = `items-center bg-[${background}] text-[${color}] text-[12px] justify-center py-1 px-3 font-600 flex gap-1 rounded-[40px]`
-    const navStyle: string = `items-center text-white bg-[background] text-[color] text-[12px] justify-center py-1 px-3 font-600 flex gap-1 rounded-[40px]`
+    const baseStyle: string = `flex items-center text-[12px] h-[36px] rounded-[4px] font-600`
+    const regularStyle: string = `w-[max-content] justify-center py-1 px-4 gap-2 rounded-[40px]`
+    const navStyle: string = `w-full text-white text-[12px] justify-left py-1 px-3 gap-4 rounded-[8px]`
+    const iconStyle: string = `w-[35px] justify-center`
+
+    const applyRegularStyle = variant === "regular" || variant === "text-icon"? regularStyle : null
+    const applyNavStyle = variant === "nav"? navStyle : null
+    const applyIconStyle = variant === "icon"? iconStyle : null
 
   return (
-    <button>
-        {
-            variant === "btn-regular-icon-left"? 
-            <Icon variant="icon-md" name={icon} color={color}/>:null
-        }
-        {
-            variant !== "btn-custom"? text : null
-        }
-        {
-            variant === "btn-regular-icon-right"? 
-            <Icon variant="icon-md" name={icon} color={color}/>:null
-        }
-        { 
-            variant === "btn-custom"? children : null
-        }
+    <button className={`
+        ${baseStyle}
+        ${applyRegularStyle}
+        ${applyNavStyle}
+        ${applyIconStyle}
+    `} style={specificStyle}>
+        {iconName && iconPosition === "left" && <Icon variant="icon-md" name={iconName} color={iconColor}/>}
+        {text && text}
+        {iconName && iconPosition === "right" && <Icon variant="icon-md" name={iconName} color={iconColor}/>}
+        {children && children}
+        {iconName && variant === "icon" && <Icon variant="icon-md" name={iconName} color={iconColor}/>}
     </button>
   )
 }

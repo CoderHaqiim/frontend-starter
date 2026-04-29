@@ -32,12 +32,16 @@ export default function Icon({ variant, name, color }: IconProps) {
     strokeWidth: 1.5,
     size:
       variant === "icon-sm"
-        ? 16
+        ? 12
         : variant === "icon-md"
-        ? 24
+        ? 16
         : variant === "icon-lg"
-        ? 28
-        : 20,
+        ? 20
+        : variant === "icon-xl"
+        ? 24
+        : variant === "icon-flex"
+        ? '100%'
+        : 16,
     color,
   };
 
