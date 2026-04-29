@@ -1,14 +1,66 @@
-import Button from "@/src/components/ui/button"
 import Frame from "@/src/components/mixed/frame"
 
 export default function Layout() {
   return (
-    <div className="bg-white flex flex-col">
-        <Frame variant="fixed" rounded specificStyle={{width:"200px", height:"200px", backgroundColor:"yellow"}}/>
-        <Frame variant="hug" specificStyle={{backgroundColor:"pink"}}>
-            Frame2
+    <Frame variant="custom" specificStyle={{width:"100%", height:"100vh", backgroundColor:"white"}}>
+        <Frame direction="row" variant="hug">
+          Hello Wrold
         </Frame>
-    </div>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+        <Frame variant="hug">
+          Hello Wrold
+        </Frame>
+    </Frame>
   )
 }
 

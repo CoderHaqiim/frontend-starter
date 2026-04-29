@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.scrollVisible::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+.scrollVisible::-webkit-scrollbar-thumb{
+  width:10px;
+  height:10px;
+  border-radius:20px;
+  background-color:black;
+}
