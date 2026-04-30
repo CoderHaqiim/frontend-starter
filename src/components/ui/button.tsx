@@ -47,7 +47,7 @@ export default function Button({
     iconName,
     iconColor
 }: ButtonProps) {
-    const baseStyle: string = `flex items-center text-[12px] h-[36px] rounded-[4px] font-600`
+    const baseStyle: string = `flex items-center text-[12px] h-[36px] rounded-[4px] font-[600]`
     const regularStyle: string = `w-[max-content] justify-center py-1 px-4 gap-2 rounded-[40px]`
     const navStyle: string = `w-full text-white text-[12px] justify-left py-1 px-3 gap-4 rounded-[8px]`
     const iconStyle: string = `w-[35px] justify-center`

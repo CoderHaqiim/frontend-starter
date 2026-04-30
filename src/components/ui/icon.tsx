@@ -24,7 +24,7 @@ export type IconName = "icon-eye" | "icon-user-circle" | "icon-badge-check" | "i
 
 interface IconProps{
     variant: "icon-sm" | "icon-md" | "icon-lg",
-    color: string,
+    color?: string,
     stroke?: number
     name: IconName
     fill?: string
@@ -32,7 +32,7 @@ interface IconProps{
 
 export default function Icon({ fill, variant, name, color }: IconProps) {
   const iconProps = {
-    strokeWidth: 1.5,
+    strokeWidth: 2,
     size:
       variant === "icon-sm"
         ? 12
