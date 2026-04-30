@@ -8,15 +8,16 @@ type FrameProp = {
     children?: ReactNode,
     scrollbar?: boolean,
     direction?: "row" | "column"
+    padded?: boolean
 }
 
-export default function Frame({variant, scrollbar, rounded, scroll, direction, children, specificStyle}:FrameProp) {
+export default function Frame({variant, scrollbar, padded, rounded, scroll, direction, children, specificStyle}:FrameProp) {
 
   const baseStyle = 
-  `${direction === "column"? "flex-col" : "flex-row"} flex ${rounded? "rounded-[8px]" : ""} p-4 ${direction === "row"? (scroll? "overflow-x-scroll" : "overflow-hidden") : (scroll? "overflow-y-scroll" : "overflow-hidden") } [&>*]:shrink-0`
+  `${direction === "column"? "flex-col" : "flex-row"} flex ${rounded? "rounded-[8px]" : ""} ${padded? "p-4" : ""} ${direction === "row"? (scroll? "overflow-x-scroll" : "overflow-hidden") : (scroll? "overflow-y-scroll" : "overflow-hidden") } [&>*]:shrink-0`
 
-  const hugStyle = `w-[max-content] h-[max-content] flex gap-2 ${rounded? "rounded-[8px]" : ""}`
-  const stretchStyle = `w-full h-full flex gap-2 ${rounded? "rounded-[8px]" : ""}`
+  const hugStyle = `w-[max-content] h-[max-content] flex ${rounded? "rounded-[8px]" : ""}`
+  const stretchStyle = `w-full h-full flex ${rounded? "rounded-[8px]" : ""}`
   const scrollStyle = `shrink-0 ${scrollbar? "scrollVisible" : null}`
 
   const applyHugStyle = variant === "hug"? hugStyle : null
