@@ -8,11 +8,17 @@ type ToastProps = {
 }
 
 export default function Toast({variant, text}: ToastProps) {
-  const baseStyle = {height:"max-content", width: "350px"}
-  const successStyle = {border:"0.5px solid #02681d", color:"#02681d", backgroundColor:"#def9e0", gap:"8px", ...baseStyle}
-  const errorStyle = {border:"0.5px solid #e50000", color:"#e50000", backgroundColor:"#f6d0d0", gap:"8px", ...baseStyle}
-  const warningStyle = {border:"0.5px solid #c09d05", color:"#c09d05", backgroundColor:"#f6f0bf", gap:"8px", ...baseStyle}
-  const infoStyle = {border:"0.5px solid #0534c0", color:"#0534c0", backgroundColor:"#bfccf6", gap:"8px", ...baseStyle}
+  const accentColor = 
+  variant === "success"? "#02681d":
+  variant === "error"? "#e50000":
+  variant === "warning"? "#bd8c04":
+  variant === "info"? "#0534c0": undefined
+
+  const baseStyle = {height:"max-content", width: "350px", border:`0.5px solid ${accentColor}`, color:`${accentColor}`}
+  const successStyle = {backgroundColor:"#def9e0", gap:"8px", ...baseStyle}
+  const errorStyle = {backgroundColor:"#f6d0d0", gap:"8px", ...baseStyle}
+  const warningStyle = {backgroundColor:"#f9f7e3", gap:"8px", ...baseStyle}
+  const infoStyle = {backgroundColor:"#d9e0f7", gap:"8px", ...baseStyle}
   
   const specificStyle = 
   variant === "success"? successStyle : 
@@ -20,15 +26,9 @@ export default function Toast({variant, text}: ToastProps) {
   variant === "warning"? warningStyle : 
   variant === "info"? infoStyle : undefined
 
-  const accentColor = 
-  variant === "success"? "#02681d":
-  variant === "error"? "#e50000":
-  variant === "warning"? "#c09d05":
-  variant === "info"? "#0534c0": undefined
-
   return (
     <Frame variant="custom" padded rounded specificStyle={specificStyle}>
-        <Icon variant="icon-md" name="icon-badge-alert" color={accentColor}/>
+        <Icon size="md" name="icon-badge-alert" color={accentColor}/>
         <Paragraph size="md" text={text} specificStyle={{color: accentColor, width:"280px"}}/>
     </Frame>
   )

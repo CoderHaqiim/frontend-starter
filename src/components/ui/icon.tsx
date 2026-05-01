@@ -20,40 +20,36 @@ import {
   Calculator
 } from 'lucide-react'
 
-export type IconName = "icon-eye" | "icon-user-circle" | "icon-badge-check" | "icon-badge-alert"
+export type IconName = "icon-eye" | "icon-user-circle" | "icon-badge-check" | "icon-badge-alert" | "icon-x"
 
 interface IconProps{
-    variant: "icon-sm" | "icon-md" | "icon-lg",
+    size: "sm" | "md" | "lg" | "xl",
     color?: string,
     stroke?: number
     name: IconName
     fill?: string
 }
 
-export default function Icon({ fill, variant, name, color }: IconProps) {
+export default function Icon({ fill, size, name, color }: IconProps) {
+  const sizes = {
+    "sm" : 14,
+    "md" : 18,
+    "lg" : 22,
+    "xl" : 25 
+  }
   const iconProps = {
     strokeWidth: 2,
-    size:
-      variant === "icon-sm"
-        ? 12
-        : variant === "icon-md"
-        ? 16
-        : variant === "icon-lg"
-        ? 20
-        : variant === "icon-xl"
-        ? 24
-        : variant === "icon-flex"
-        ? '100%'
-        : 16,
-    color,
-    fill: fill ?? undefined
+    size: sizes[size],
+    color: color ?? "var(--text-color2)",
+    fill: fill ?? "transparent"
   };
 
   const icons = {
     "icon-user-circle": CircleUser,
     "icon-eye": Eye,
     "icon-badge-check": BadgeCheck,
-    "icon-badge-alert": BadgeAlert
+    "icon-badge-alert": BadgeAlert,
+    "icon-x": X
   };
 
   const IconComponent = icons[name];
