@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { CSSProperties, ReactNode } from "react"
 import Icon, { IconName } from "./icon"
 
@@ -52,14 +53,14 @@ export default function Button(props: ButtonProps) {
         "xl": "h-[45px] w-[45px]"
     }
 
-    const baseStyle: string = `flex items-center text-[12px] rounded-[4px] font-[600]`
+    const baseStyle: string = `flex items-center text-[12px] rounded-[4px]`
 
     const buttonSize = variant === "icon" && iconButtonSizes[props.size]
 
     const variantStyle = {
         "textIcon": `w-[max-content] bg-[var(--text-color)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[40px]`,
         "regular": `w-[max-content] bg-[var(--text-color)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[40px]`,
-        "nav": `w-full h-[35px] text-[12px] justify-left py-1 px-3 gap-4 rounded-[8px]`,
+        "nav": `w-full h-[40px] text-[14px] text-[var(--text-color2)] font-[600] justify-left py-1 px-4 gap-5 rounded-[8px]`,
         "icon": `${buttonSize} justify-center`,
         "custom": ""
     }
@@ -71,7 +72,7 @@ export default function Button(props: ButtonProps) {
             case "textIcon": {
                 const {text,iconName,iconColor,iconPosition} = props
 
-                const icon = (<Icon name={iconName} color={iconColor} size="md"/>)
+                const icon = (<Icon name={iconName} color={iconColor} size={variant ==="nav"?"lg":"md"}/>)
 
                 return (
                     <>
@@ -88,7 +89,8 @@ export default function Button(props: ButtonProps) {
                     <Icon name={iconName} color={iconColor} size={size}/>
                 )
             }
-            case "custom": return props.children
+            case "custom": return props.children;
+            default: return
         }
     }
 

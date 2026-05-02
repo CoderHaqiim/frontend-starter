@@ -7,7 +7,7 @@ type ParagraphProps = {
 }
 
 export default function Paragraph({text, size, specificStyle}: ParagraphProps) {
-  const baseStyle = `leading-[1rem] break-words text-[#010101] overflow-wrap font-[300]`
+  const baseStyle = `leading-[1rem] break-words text-[var(--text-color)] overflow-wrap font-[300]`
   const smStyle = `text-[12px]`
   const mdStyle = `text-[14px]`
   const lgStyle = `text-[16px]`

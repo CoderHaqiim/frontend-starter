@@ -20,7 +20,7 @@ import {
   Calculator
 } from 'lucide-react'
 
-export type IconName = "icon-eye" | "icon-user-circle" | "icon-badge-check" | "icon-badge-alert" | "icon-x"
+export type IconName = "icon-eye" | "icon-user-circle" | "icon-badge-check" | "icon-badge-alert" | "icon-x" | "icon-house"
 
 interface IconProps{
     size: "sm" | "md" | "lg" | "xl",
@@ -45,6 +45,7 @@ export default function Icon({ fill, size, name, color }: IconProps) {
   };
 
   const icons = {
+    "icon-house" : House,
     "icon-user-circle": CircleUser,
     "icon-eye": Eye,
     "icon-badge-check": BadgeCheck,

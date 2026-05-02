@@ -1,13 +1,24 @@
 @import "tailwindcss";
 
 :root {
+  --accent-color1:#565665;
+  --accent-color2:#565665;
+  --accent-color3:#565665;
+
   --background1: #ffffff;
   --background2: #fafafa;
   --background3: #eaeaea;
-  --outline-color: #999999; /*secondary button and text*/
+  --outline-color1: #999999; /*secondary button and text*/
   --outline-color2: #303030;
   --text-color: #010101; /*primary button and text*/
   --text-color2: #454545;
+
+  --space-m: 2px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 32px;
+  --space-5: 40px;
 }
 
 @theme inline {
