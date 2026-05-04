@@ -30,7 +30,7 @@ interface IconProps{
     fill?: string
 }
 
-export default function Icon({ fill, size, name, color }: IconProps) {
+export default function Icon({ fill, stroke, size, name, color }: IconProps) {
   const sizes = {
     "sm" : 14,
     "md" : 18,
@@ -38,7 +38,7 @@ export default function Icon({ fill, size, name, color }: IconProps) {
     "xl" : 25 
   }
   const iconProps = {
-    strokeWidth: 2,
+    strokeWidth: stroke ?? 1.5,
     size: sizes[size],
     color: color ?? "var(--text-color2)",
     fill: fill ?? "transparent"

@@ -4,37 +4,38 @@ type navItem = {
     id: number,
     text:string,
     icon :IconName
+    link: string
 }
 type navItems = navItem[]
 export const navItems: navItems = [
     {
         id: 0,
         text: "Home",
-        icon: "icon-house"
+        icon: "icon-house",
+        link: "/"
     },
     {
         id: 1,
-        text: "Home",
-        icon: "icon-badge-check"
+        text: "Teachers",
+        icon: "icon-badge-check",
+        link:"/dashboard/teachers"
     },
     {
         id: 2,
         text: "Home",
-        icon: "icon-eye"
+        icon: "icon-eye",
+        link: "/home"
     },
     {
         id: 3,
         text: "Home",
-        icon: "icon-user-circle"
+        icon: "icon-user-circle",
+        link: "/home"
     },
     {
         id: 4,
         text: "Home",
-        icon: "icon-badge-alert"
-    },
-    {
-        id: 5,
-        text: "Home",
-        icon: "icon-user-circle"
+        icon: "icon-badge-alert",
+        link: "/home"
     }
 ]

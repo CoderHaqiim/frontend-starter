@@ -14,7 +14,7 @@ export default function Toast({variant, text}: ToastProps) {
   variant === "warning"? "#bd8c04":
   variant === "info"? "#0534c0": undefined
 
-  const baseStyle = {height:"max-content", width: "350px", border:`0.5px solid ${accentColor}`, color:`${accentColor}`}
+  const baseStyle = {height:"max-content", width: "350px", border:`1px solid ${accentColor}`, color:`${accentColor}`}
   const successStyle = {backgroundColor:"#def9e0", gap:"8px", ...baseStyle}
   const errorStyle = {backgroundColor:"#f6d0d0", gap:"8px", ...baseStyle}
   const warningStyle = {backgroundColor:"#f9f7e3", gap:"8px", ...baseStyle}
@@ -27,8 +27,8 @@ export default function Toast({variant, text}: ToastProps) {
   variant === "info"? infoStyle : undefined
 
   return (
-    <Frame variant="custom" padded rounded specificStyle={specificStyle}>
-        <Icon size="md" name="icon-badge-alert" color={accentColor}/>
+    <Frame variant="custom" padding="lg" rounded specificStyle={specificStyle}>
+        <Icon size="md" stroke={2} name="icon-badge-alert" color={accentColor}/>
         <Paragraph size="md" text={text} specificStyle={{color: accentColor, width:"280px"}}/>
     </Frame>
   )

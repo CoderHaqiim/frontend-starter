@@ -7,8 +7,8 @@ type MainProps = {
 
 export default function Main({children}: MainProps) {
   return (
-    <Frame variant="custom">
+    <main className="w-auto flex-1 h-full">
         {children}
-    </Frame>
+    </main>
   )
 }
