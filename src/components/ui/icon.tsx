@@ -2,6 +2,8 @@ import {
   BadgeCheck,
   BadgeAlert,
   CircleUser,
+  User2,
+  LayoutDashboard,
   MessageSquareText,
   Search,
   Bell,
@@ -20,7 +22,17 @@ import {
   Calculator
 } from 'lucide-react'
 
-export type IconName = "icon-eye" | "icon-user-circle" | "icon-badge-check" | "icon-badge-alert" | "icon-x" | "icon-house"
+export type IconName = 
+"icon-eye" 
+| "icon-user-circle" | 
+"icon-dashboard" | 
+"icon-badge-check" | 
+"icon-badge-alert" | 
+"icon-x" | 
+"icon-house" | 
+"icon-user" | 
+"icon-bell" | 
+"icon-search"
 
 interface IconProps{
     size: "sm" | "md" | "lg" | "xl",
@@ -50,7 +62,11 @@ export default function Icon({ fill, stroke, size, name, color }: IconProps) {
     "icon-eye": Eye,
     "icon-badge-check": BadgeCheck,
     "icon-badge-alert": BadgeAlert,
-    "icon-x": X
+    "icon-x": X,
+    "icon-dashboard": LayoutDashboard,
+    "icon-user": User2,
+    "icon-bell" : Bell,
+    "icon-search" : Search,
   };
 
   const IconComponent = icons[name];

@@ -9,7 +9,8 @@ type FrameProp = {
     scrollbar?: boolean,
     direction?: "row" | "column",
     padding?: "sm" | "md" | "lg"
-    border?: boolean
+    border?: boolean,
+    centered?: boolean
 }
 
 export default function Frame({
@@ -21,13 +22,15 @@ export default function Frame({
   scroll, 
   direction, 
   children, 
-  specificStyle
+  specificStyle,
+  centered
 }:FrameProp) {
 
   const baseStyle = 
   `${direction === "column"? "flex-col" : "flex-row"} 
   ${border? "border-[0.5px] border-[var(--outline-color1)]" : ""} relative flex 
   ${rounded? "rounded-[8px]" : ""} 
+  ${centered?"justify-center items-center": ""}
   ${padding === "sm"? "p-1" :
     padding === "md"? "p-2" :
     padding === "lg"? "p-4" : null
@@ -42,12 +45,11 @@ export default function Frame({
   const applyStretchStyle = variant === "stretch"? stretchStyle : null
   const applyScrollStyle = scroll? scrollStyle : null
 
+  const frameStyle = `${baseStyle} ${applyHugStyle} ${applyStretchStyle} ${applyScrollStyle}`
+
   return (
     <div className={`
-        ${baseStyle}
-        ${applyHugStyle}
-        ${applyStretchStyle}
-        ${applyScrollStyle}
+        ${frameStyle}
     `} style={specificStyle}>
         {children}
     </div>

@@ -1,4 +1,4 @@
-import React, { JSXElementConstructor } from 'react'
+import React from 'react'
 
 type HeadingProps = {
     text: string,
@@ -6,15 +6,15 @@ type HeadingProps = {
 }
 
 export default function Heading({text, type}: HeadingProps){
-  const baseStyle = `text-[#101010]`
+  const baseStyle = `text-[var(--text-color1)]`
   return (
     type === "heading1"?
-    <h1 className={`${baseStyle} font-800 text-[24px]`}>{text}</h1>:
+    <h1 className={`${baseStyle} w-full font-[700] mb-6 text-[1.602rem]`}>{text}</h1>:
     type === "heading2"?
-    <h2 className={`${baseStyle} font-800 text-[20px]`}>{text}</h2>:
+    <h2 className={`${baseStyle} w-full font-[700] text-[1.266rem]`}>{text}</h2>:
     type === "heading3"?
-    <h3 className={`${baseStyle} font-800 text-[16px]`}>{text}</h3>:
+    <h3 className={`${baseStyle} w-full font-[700] text-[1.266rem]`}>{text}</h3>:
     type === "heading4"?
-    <h4 className={`${baseStyle} font-800 text-[14px]`}>{text}</h4>: null
+    <h4 className={`${baseStyle} w-full font-[700] text-[0.889rem]`}>{text}</h4>: null
   )
 }

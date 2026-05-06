@@ -1,8 +1,8 @@
 import { create } from "zustand"
 
 type SelectedNavState = {
-  selectedNavState: number
-  setSelectedNavState: (newSelection: number) => void
+  selectedNavState: number | string
+  setSelectedNavState: (newSelection: number| string) => void
 }
 
 export const useSelectedNavState = create<SelectedNavState>((set) => ({

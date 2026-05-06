@@ -9,8 +9,8 @@ type LinkCompProps = {
 }
 
 export default function LinkComponent({variant, underline, children, href}: LinkCompProps) {
-    const baseStyle = `${variant === "hug"? "w-[max-content]" : "w-full"} overflow-hidden h-[max-content]`
-    const lineStyle = underline? `leading-[14px] border-b-[1px] border-b-[var(--text-color1)]` : ""
+    const baseStyle = `${variant === "hug"? "w-[max-content]" : "w-full"} font-[700] text-[var(--accent-color1)] overflow-hidden h-[max-content]`
+    const lineStyle = underline? `border-b-[1px] border-b-[var(--text-color1)]` : ""
     const linkStyle  = `${baseStyle} ${lineStyle}`
     return (
     <Link href= {href} className={`${linkStyle}`}>

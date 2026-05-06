@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export default function Logo() {
   return (
-    <Frame variant='custom' border specificStyle={{width:"80px", height:"60px" }}>
+    <Frame variant='custom' border specificStyle={{width:"100px", height:"45px" }}>
         <Image
             alt='logo'
             src="/public/logo.svg"

@@ -29,7 +29,9 @@ export default function Toast({variant, text}: ToastProps) {
   return (
     <Frame variant="custom" padding="lg" rounded specificStyle={specificStyle}>
         <Icon size="md" stroke={2} name="icon-badge-alert" color={accentColor}/>
-        <Paragraph size="md" text={text} specificStyle={{color: accentColor, width:"280px"}}/>
+        <Paragraph size="md" specificStyle={{color: accentColor, width:"280px"}}>
+          {text}
+        </Paragraph>
     </Frame>
   )
 }

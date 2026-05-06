@@ -1,15 +1,15 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 
 type ParagraphProps = {
-    text: string,
+    children?: ReactNode,
     size: "sm" | "md" | "lg",
-    specificStyle: CSSProperties
+    specificStyle?: CSSProperties
 }
 
-export default function Paragraph({text, size, specificStyle}: ParagraphProps) {
-  const baseStyle = `leading-[1rem] break-words text-[var(--text-color1)] overflow-wrap font-[400]`
-  const smStyle = `text-[0.79rem]`
-  const mdStyle = `text-[0.889rem]`
+export default function Paragraph({children, size, specificStyle}: ParagraphProps) {
+  const baseStyle = `leading-[1rem] break-words text-[var(--text-color2)] flex items-center w-full overflow-wrap font-[400]`
+  const smStyle = `text-[0.7rem]`
+  const mdStyle = `text-[0.8rem]`
   const lgStyle = `text-[1rem]`
 
   const applySmStyle = size === "sm"? smStyle : null
@@ -22,7 +22,7 @@ export default function Paragraph({text, size, specificStyle}: ParagraphProps) {
         ${applyMdStyle}
         ${applyLgStyle}
     `} style={specificStyle}>
-        {text}
+        {children}
     </p>
   )
 }
