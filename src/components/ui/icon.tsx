@@ -23,8 +23,8 @@ import {
 } from 'lucide-react'
 
 export type IconName = 
-"icon-eye" 
-| "icon-user-circle" | 
+"icon-eye" | 
+"icon-user-circle" | 
 "icon-dashboard" | 
 "icon-badge-check" | 
 "icon-badge-alert" | 
@@ -49,9 +49,12 @@ export default function Icon({ fill, stroke, size, name, color }: IconProps) {
     "lg" : 22,
     "xl" : 25 
   }
+
+  const iconSize = size && sizes[size] 
+
   const iconProps = {
     strokeWidth: stroke ?? 1.5,
-    size: sizes[size],
+    size: iconSize ?? "18px",
     color: color ?? "var(--text-color2)",
     fill: fill ?? "transparent"
   };
