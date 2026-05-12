@@ -24,6 +24,7 @@ import {
 
 export type IconName = 
 "icon-eye" | 
+"icon-eye-off" | 
 "icon-user-circle" | 
 "icon-dashboard" | 
 "icon-badge-check" | 
@@ -63,6 +64,7 @@ export default function Icon({ fill, stroke, size, name, color }: IconProps) {
     "icon-house" : House,
     "icon-user-circle": CircleUser,
     "icon-eye": Eye,
+    "icon-eye-off": EyeOff,
     "icon-badge-check": BadgeCheck,
     "icon-badge-alert": BadgeAlert,
     "icon-x": X,

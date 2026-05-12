@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { CSSProperties, ReactNode } from "react"
 import Icon, { IconName } from "./icon"
 import { useSelectedNavState } from "@/src/store/navState"
@@ -8,7 +7,9 @@ import { useSelectedNavState } from "@/src/store/navState"
 type baseProps = {
     specificStyle?: CSSProperties | undefined,
     id: number | string,
-    func?: (() => void) | (() => void)
+    func?: (arg?: number | string) => void | Promise<void>
+    propagate?: boolean
+    role?: "button" | "submit"
 }
 
 type regularProps = baseProps & {
@@ -64,7 +65,7 @@ export default function Button(props: ButtonProps) {
     const variantStyle = {
         "textIcon": `w-[max-content] bg-[var(--text-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[40px]`,
         "regular": `after:absolute after:pointer-events-none after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] after:rounded-[inherit] hover:after:border-[var(--text-color1)] focus:after:border-[var(--text-color1)] hover:after:border-[2px] focus:after:border-[2px] w-[max-content] bg-[var(--accent-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[100px]`,
-        "nav": `${props.id === selectedNavState? "bg-[var(--background3)] text-[var(--text-color1)] border-[0.5px] border-[var(--outline-color1)] h-[40px] text-[0.8rem] px-6 font-[600]" : "text-[var(--text-color2)] hover:bg-[var(--background2)] bg-transparent text-[0.8rem] px-4 h-[35px] font-[400]"} origin-center w-full font-[400] justify-left py-1  gap-4 rounded-[100px]`,
+        "nav": `${props.id === selectedNavState? "bg-[var(--background3)] text-[var(--text-color1)] border-[0.5px] border-[var(--outline-color1)] h-[40px] text-[0.8rem] px-6 font-[600]" : "text-[var(--text-color2)] hover:bg-[var(--background2)] bg-transparent text-[0.8rem] px-4 h-[40px] font-[400]"} origin-center w-full font-[400] justify-left py-1  gap-4 rounded-[100px]`,
         "icon": `${buttonSize} justify-center`,
         "custom": " "
     }
@@ -98,14 +99,24 @@ export default function Button(props: ButtonProps) {
         }
     }
 
-    const clickHandler = () => {
+    const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+        if(!props.propagate){
+            event.preventDefault()
+        }
+
+        if(props.func){
+            props.func()
+        }
+
         switch(variant){
-            case "nav" : setSelectedNavState(props.id)
+            case "nav" : (setSelectedNavState(props.id))
         }
     }
 
   return (
     <button 
+    type={props.role ?? "button"}
     onClick={clickHandler}
     className={`
         ${baseStyle}

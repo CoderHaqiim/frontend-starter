@@ -15,8 +15,8 @@ export default function Nav() {
           <Logo/>
           <Frame variant='hug' specificStyle={{gap:"8px"}}>
             <Searchbar/>
-            <Button size="md" iconName="icon-bell" id="notification-btn" variant="icon" specificStyle={{border:"solid 1px var(--outline-color1)", borderRadius:"8px"}}/>
-            <Button size="md" iconName="icon-user" id="profile-btn" variant="icon" specificStyle={{border:"solid 1px var(--outline-color1)", borderRadius:"50%"}}/>
+            <Button size="md" iconName="icon-bell" id="notification-btn" variant="icon" specificStyle={{border:"solid 1px var(--outline-color2)", borderRadius:"8px"}}/>
+            <Button size="md" iconName="icon-user" id="profile-btn" variant="icon" specificStyle={{border:"solid 1px var(--outline-color2)", borderRadius:"50%"}}/>
           </Frame>
         </Frame>
     </nav>

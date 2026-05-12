@@ -10,10 +10,13 @@ type InputProp = {
     outline?: boolean,
     size: "sm" | "md" | "lg" | "xl"
     variant: "password" | "default"
+    name: string,
+    func?: () => void
+    formFunc? : (e:React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void
 }
 
 
-export default function Input({type, outline, variant, specificStyle, border, size, placeholder}: InputProp){
+export default function Input({type, name, func, formFunc, outline, variant, specificStyle, border, size, placeholder}: InputProp){
 
     const [showText, setShowText] = useState<boolean>(false)
 
@@ -34,8 +37,8 @@ export default function Input({type, outline, variant, specificStyle, border, si
 
   return (
       <div className='w-auto flex flex-1 justify-center flex-col '>
-        <input type={typeCheck} autoComplete="true" placeholder={placeholder ?? undefined} className={`w-auto flex p-[8px] outline-none ${outline && "hover:border-[1px] hover:border-[var(--accent-color)]"} text-[14px] ${height} placeholder-[#999999] rounded-[8px] ${border && "border-[var(--outline-color1)] border-[0.5px]"}`} style={specificStyle}/>
-        {variant === "password" && <Button variant="icon" size={size} iconName="icon-eye" id="xyz" specificStyle={{position:"absolute", right:"0px"}}/>}
+        <input onChange={formFunc} type={typeCheck} onFocus={func} onBlur={func} name={name} autoComplete="true" placeholder={placeholder ?? undefined} className={`w-auto flex p-[8px] outline-none ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--accent-color1)] hover:border-[var(--accent-color1)]"} text-[14px] ${height} placeholder-[#999999] rounded-[8px] ${border && "border-[var(--outline-color2)] border-[0.5px]"}`} style={specificStyle}/>
+        {variant === "password" && <Button func={toggleText} variant="icon" size={size} iconName={showText? "icon-eye-off" : "icon-eye"} id="xyz" specificStyle={{position:"absolute", right:"0px"}}/>}
       </div>
   )
 }
