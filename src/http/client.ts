@@ -18,7 +18,7 @@ export async function http(url: string, body?:FormObjectTypes, options?: HttpOpt
             throw new Error("error occured during fetch")
         }
     }catch(error){
-        console.log("Server error")
+        console.log("error occured during fetch")
         throw error
     }
 }
