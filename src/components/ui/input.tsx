@@ -9,10 +9,10 @@ type InputProp = {
     border?: boolean,
     outline?: boolean,
     size: "sm" | "md" | "lg" | "xl"
-    variant: "password" | "default"
+    variant: "password" | "checkbox" | "radio" | "default"
     name: string,
     func?: () => void
-    formFunc? : (e:React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void
+    formFunc? : (e:React.ChangeEvent<HTMLInputElement>) => void
 }
 
 

@@ -10,54 +10,30 @@ import Paragraph from '@/src/components/ui/paragraph'
 import LinkComponent from '@/src/components/ui/link'
 import Heading from '@/src/components/ui/heading'
 import Toggle from '@/src/components/ui/toggle'
-import { useState } from 'react'
 
 export default function Page() {
-
-    type signupData = {
-        username: string,
-        email: string,
-        password: string,
-        confirmPassword: string
-    }
-
-    const [formData, setFormData] = useState< signupData | null >(null)
-
-    const inputHandler = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-         const {name, value} = e.currentTarget
-        setFormData((prev) => ({...prev, [name]:value}) as signupData)
-    }
-
-    const submitForm = async() =>{  
-        const jsonData = JSON.stringify(formData)
-        console.log(jsonData)
-
-        http("url", {
-            method: "POST",
-            headers:{
-                "Content-type": "application/json"
-            }
-        })
-    }
-
   return (
-    <Frame variant="custom" direction='column' centered padding="lg" specificStyle={{backgroundColor:"var(--background2)", alignItems:"center", minHeight:"100vh", height:"max-content"}}>
+    <Frame variant="page" direction='column' centered padding="xl" specificStyle={{backgroundColor:"var(--background2)"}}>
         <Frame variant='custom' direction="column" specificStyle={{width:"500px", gap:"8px", height:"max-content"}}>
-            <Form>
+            <Form url="/auth/signup">
                 <Heading type='heading1' text="Create new account"/>
                 <Frame direction='column' variant="stretch" specificStyle={{gap:"2px"}}>
                     <Label text='Username' size='md'/>
-                    <Input formFunc={inputHandler} outline name="username" variant='default' type='text' size='lg' border placeholder='Username'/>
+                    <Input outline name="username" variant='default' type='text' size='lg' border placeholder='Username'/>
                     <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                 </Frame>
+                <label htmlFor="gender">
+                    <input type="radio" name="gender" value="male"/>
+                    <input type="radio" name="gender" value="female"/>
+                </label>
                 <Frame direction='column' variant="stretch" specificStyle={{gap:"2px"}}>
                     <Label text='Email' size='md'/>
-                    <Input formFunc={inputHandler} outline name="email" variant="default" type='text' size="lg" border placeholder="Email"/>
+                    <Input outline name="email" variant="default" type='text' size="lg" border placeholder="Email"/>
                     <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                 </Frame>
                 <Frame direction='column' variant="stretch" specificStyle={{gap:"2px"}}>
                     <Label text='Password' size='md'/>
-                    <Input formFunc={inputHandler} outline name="password" variant="password" type='text' size='lg' border placeholder='Confirm Password'/>
+                    <Input outline name="password" variant="password" type='text' size='lg' border placeholder='Confirm Password'/>
                     <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                 </Frame>
                 <Frame 
@@ -77,7 +53,6 @@ export default function Page() {
                         border 
                         placeholder='password'
                         outline
-                        formFunc={inputHandler}
                     />
                     <div className='hidden text-[0.6rem] font-[500] text-[red]'>
                         Error message here
@@ -85,7 +60,8 @@ export default function Page() {
                 </Frame>
                 <Toggle name='agreement'/>
                 <Button  
-                    func={submitForm}
+                    propagate
+                    role='submit'
                     id="sign-btn" 
                     variant="custom" 
                     specificStyle={{

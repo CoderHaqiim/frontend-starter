@@ -1,12 +1,21 @@
 "use client"
-import React, {useState}from 'react'
+import React, {useState, useEffect}from 'react'
 
 type ToggleProps = {
-    name: string
+    name: string,
+    formFunc?: (e:React.ChangeEvent<HTMLInputElement>) => void 
 }
 
-export default function Toggle({name} : ToggleProps) {
+export default function Toggle({name, formFunc} : ToggleProps) {
     const [checked, setChecked] = useState<boolean>(false)
+
+    const toggleFunction = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setChecked(e.target.checked)
+
+        // if(formFunc){
+        //     formFunc()
+        // }
+    }
 
   return (
     <label className='w-[max-content] h-[max-content] flex cursor-pointer'>
@@ -15,7 +24,7 @@ export default function Toggle({name} : ToggleProps) {
                 className='hidden'
                 name={name}
                 checked={checked}
-                onChange={(e) => setChecked(e.target.checked)}
+                onChange={toggleFunction}
             />
 
             <div

@@ -9,7 +9,8 @@ type baseProps = {
     id: number | string,
     func?: (arg?: number | string) => void | Promise<void>
     propagate?: boolean
-    role?: "button" | "submit"
+    role?: "button" | "submit" | "reset"
+    size?: "sm" | "md" | "lg" | "xl"
 }
 
 type regularProps = baseProps & {
@@ -51,6 +52,13 @@ export default function Button(props: ButtonProps) {
     const {selectedNavState, setSelectedNavState} = useSelectedNavState()
     const {specificStyle, variant} = props
     
+    const buttonSizes = {
+        "sm": "h-[24px] text-[10px]",
+        "md": "h-[30px] text-[12px]",
+        "lg": "h-[35px] text-[14px]",
+        "xl": "h-[45px] text-[16px]"
+    }
+
     const iconButtonSizes = {
         "sm": "h-[30px] w-[30px]",
         "md": "h-[35px] w-[35px]",
@@ -62,9 +70,10 @@ export default function Button(props: ButtonProps) {
 
     const buttonSize = variant === "icon" && iconButtonSizes[props.size]
 
+    const hoverStyles = `after:absolute after:pointer-events-none after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] after:rounded-[inherit] hover:after:border-[var(--text-color1)] focus:after:border-[var(--text-color1)] hover:after:border-[2px] focus:after:border-[2px]`
     const variantStyle = {
-        "textIcon": `w-[max-content] bg-[var(--text-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[40px]`,
-        "regular": `after:absolute after:pointer-events-none after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] after:rounded-[inherit] hover:after:border-[var(--text-color1)] focus:after:border-[var(--text-color1)] hover:after:border-[2px] focus:after:border-[2px] w-[max-content] bg-[var(--accent-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[100px]`,
+        "textIcon": `${hoverStyles} w-[max-content] bg-[var(--text-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[40px]`,
+        "regular": `${hoverStyles} w-[max-content] bg-[var(--accent-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[100px]`,
         "nav": `${props.id === selectedNavState? "bg-[var(--background3)] text-[var(--text-color1)] border-[0.5px] border-[var(--outline-color1)] h-[40px] text-[0.8rem] px-6 font-[600]" : "text-[var(--text-color2)] hover:bg-[var(--background2)] bg-transparent text-[0.8rem] px-4 h-[40px] font-[400]"} origin-center w-full font-[400] justify-left py-1  gap-4 rounded-[100px]`,
         "icon": `${buttonSize} justify-center`,
         "custom": " "
