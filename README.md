@@ -5,9 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 1. Clone repo - git clone https://github.com/aiki-ai/back-office-UI.git
 2. Run: ```npm install``` - install dependencies
 3. Run: ```npm run dev``` - start development server
-
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
 To learn more about Next.js, take a look at the following resources:
