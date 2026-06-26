@@ -10,7 +10,7 @@ type AsideProps = {
 
 export default function Aside({children, variant, specificStyles}: AsideProps){
   return (
-    <aside className={`h-full bg-[white] p-[var(--lg)]`} style={{...specificStyles, ...spaceVariables}}>
+    <aside className={`h-full p-[var(--lg)]`} style={{...specificStyles, ...spaceVariables}}>
        {children}
     </aside>
   )

@@ -16,9 +16,9 @@ export default function Searchbar() {
 
   const url = `/search-url`
 
-  const searchResults =  http(url, {
-        method: "GET",
-  })
+  // const searchResults =  http(url, {
+  //       method: "GET",
+  // })
 
   return (
     <Frame variant='hug' centered border rounded="sm"
