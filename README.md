@@ -36,3 +36,25 @@ Target users:
 - Freelancers
 
 ---
+
+### Features
+
+-Multi-Business Management
+Manage multiple businesses from one dashboard.
+
+-Unified Financial Dashboard
+View income, expenses, balances, and performance across businesses.
+
+-Transaction Logging
+Record transactions quickly with minimal input.
+
+-Business Switching
+Move between businesses without logging in again.
+
+-Financial Insights
+See trends and summaries for better decision making.
+
+-Notifications
+Receive email or in-app updates.
+
+---
