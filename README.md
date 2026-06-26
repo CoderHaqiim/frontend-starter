@@ -24,7 +24,7 @@
 
 ---
 
-#### Overview
+### Overview
 
 Back-office is a Business Management OS designed for entrepreneurs managing multiple businesses or income streams.
 
@@ -34,3 +34,5 @@ Target users:
 - Entrepreneurs
 - Small business operators
 - Freelancers
+
+---
