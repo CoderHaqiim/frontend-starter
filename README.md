@@ -1,8 +1,8 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Back-office-ui
+# Back-office-ui
 
-# Business Management OS — A virtual office platform that helps entrepreneurs manage multiple businesses from one dashboard.
+## Business Management OS — A virtual office platform that helps entrepreneurs manage multiple businesses from one dashboard.
 
 1. Clone repo - git clone https://github.com/aiki-ai/back-office-UI.git
 2. Run: ```npm install``` - install dependencies
