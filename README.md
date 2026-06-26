@@ -1,24 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 # Back-office-ui
 
-### Business Management OS — A virtual office platform that helps entrepreneurs manage multiple businesses from one dashboard.
+## Business Management OS — A virtual office platform that helps entrepreneurs manage multiple businesses from one dashboard.
 
 1. Clone repo - git clone https://github.com/aiki-ai/back-office-UI.git
 2. Run: ```npm install``` - install dependencies
 3. Run: ```npm run dev``` - start development server
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+---
 
-To learn more about Next.js, take a look at the following resources:
+### Table of Contents
+- Overview
+- Features
+- Tech Stack
+- Installation
+- Configuration
+- Usage
+- Project Structure
+- API Documentation
+- Roadmap
+- Contributing
+- License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Overview
 
-## Deploy on Vercel
+Back-office is a Business Management OS designed for entrepreneurs managing multiple businesses or income streams.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The platform gives users a unified dashboard to track finances, record transactions quickly, and gain visibility across all operations without switching between multiple tools.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Target users:
+- Entrepreneurs
+- Small business operators
+- Freelancers
