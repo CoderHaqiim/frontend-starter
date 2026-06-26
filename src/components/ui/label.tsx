@@ -1,27 +1,33 @@
-import React from 'react'
+import { CSSProperties } from 'react'
+import { bodySize } from '@/src/app/design/fontSize'
+import { fontWeightVariables } from '@/src/app/design/fontWeight'
+import { colorVariables } from '@/src/app/design/colors'
+import { space, spaceVariables } from '@/src/app/design/space'
 
 type LabelProps = {
- text: string,
- size: "sm" | "md" | "lg"
+ text: string | undefined,
+ size: "xs" | "sm" | "md",
+ specificStyle?: CSSProperties
 }
 
-export default function Label({text, size}: LabelProps) {
-  const baseStyle = `text-[#010101] text-left font-[500] w-full h-[max-content]`
-  const smStyle = `text-[12px]`
-  const mdStyle = `text-[14px]`
-  const lgStyle = `text-[16px]`
+export default function Label({text, size, specificStyle}: LabelProps) {
+  const baseStyle = `font-[var(--medium)] leading-[1] text-[var(--text-color1)] text-left w-full h-[max-content]`
 
-  const applySmStyle = size === "sm"? smStyle : null
-  const applyMdStyle = size === "md"? mdStyle : null
-  const applyLgStyle = size === "lg"? lgStyle : null
+  const defaultStyle: CSSProperties = {
+    fontSize: bodySize[size],
+    marginBottom: space["sm"]
+  }
 
   return (
     <label className={`
       ${baseStyle}
-      ${applyMdStyle}
-      ${applySmStyle}
-      ${applyLgStyle}
-    `}>
+    `} style={{
+      ...defaultStyle, 
+      ...specificStyle,
+      ...spaceVariables,
+      ...colorVariables,
+      ...fontWeightVariables
+      }}>
       {text}
     </label>
   )

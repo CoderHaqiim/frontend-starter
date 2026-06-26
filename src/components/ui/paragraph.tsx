@@ -1,27 +1,29 @@
 import React, { CSSProperties, ReactNode } from 'react'
+import { ObjectRecord } from '@/src/types/types'
+import { bodySize } from '@/src/app/design/fontSize'
 
 type ParagraphProps = {
     children?: ReactNode,
-    size: "sm" | "md" | "lg",
+    size: "xs" | "sm" | "md",
     specificStyle?: CSSProperties
 }
 
 export default function Paragraph({children, size, specificStyle}: ParagraphProps) {
-  const baseStyle = `leading-[1rem] break-words text-[var(--text-color2)] flex items-center w-full overflow-wrap font-[400]`
-  const smStyle = `text-[0.7rem]`
-  const mdStyle = `text-[0.8rem]`
-  const lgStyle = `text-[1rem]`
+  const baseClass = `break-words text-[var(--text-color2)] w-full flex`
 
-  const applySmStyle = size === "sm"? smStyle : null
-  const applyMdStyle = size === "md"? mdStyle : null
-  const applyLgStyle = size === "lg"? lgStyle : null
+  const sizeMap: ObjectRecord = {
+    "xs": bodySize.xs,
+    "sm": bodySize.sm,
+    "md": bodySize.md
+  }
+
+  const defaultStyle: CSSProperties = {
+    fontSize: `${sizeMap[size]}`,
+    color: 'var(--text-color2)'
+  }
+
   return (
-    <p className={`
-        ${baseStyle}
-        ${applySmStyle}
-        ${applyMdStyle}
-        ${applyLgStyle}
-    `} style={specificStyle}>
+    <p className={baseClass} style={{...defaultStyle, ...specificStyle}}>
         {children}
     </p>
   )

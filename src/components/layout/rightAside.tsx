@@ -1,12 +1,10 @@
 import Aside from "./aside";
-import LinkComponent from "../ui/link";
-import Button from "../ui/button";
-import { navItems } from "@/src/utils/navItems";
 import Frame from "../mixed/frame";
+import { colors } from "@/src/app/design/colors";
 
 export default function RightAside() {
   return (
-    <Aside variant="right" specificStyles={{width:"300px"}}>
+    <Aside variant="right" specificStyles={{width:"300px", backgroundColor: colors["background2"]}}>
         <Frame variant="stretch" direction="column">
             
         </Frame>

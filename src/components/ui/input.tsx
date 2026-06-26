@@ -1,6 +1,9 @@
 "use client"
+import { elementSizes } from '@/src/app/design/elementSize'
 import React, { useState, CSSProperties } from 'react'
 import Button from './button'
+import { bodySize } from '@/src/app/design/fontSize'
+import { colorVariables } from '@/src/app/design/colors'
 
 type InputProp = {
     type: React.HTMLInputTypeAttribute,
@@ -8,7 +11,7 @@ type InputProp = {
     placeholder?: string,
     border?: boolean,
     outline?: boolean,
-    size: "sm" | "md" | "lg" | "xl"
+    size?: "xs" | "sm" | "md" | "lg" | "xl"
     variant: "password" | "checkbox" | "radio" | "default"
     name: string,
     func?: () => void
@@ -24,21 +27,18 @@ export default function Input({type, name, func, formFunc, outline, variant, spe
         setShowText(prev => !prev)
     }
 
-    const sizes = {
-        "sm": "h-[25px]",
-        "md": "h-[35px]",
-        "lg": "h-[45px]",
-        "xl": "h-[45px]",
-    }
 
-    const height = size && sizes[size]
+    const defaultStyles: CSSProperties= {
+        height: size ? elementSizes[size] : elementSizes["md"],
+        fontSize: size? bodySize[size] : bodySize["md"]
+    }
 
     const typeCheck = variant === "password"? (showText? "text":"password") : type
 
   return (
       <div className='w-auto flex flex-1 justify-center flex-col '>
-        <input onChange={formFunc} type={typeCheck} onFocus={func} onBlur={func} name={name} autoComplete="true" placeholder={placeholder ?? undefined} className={`w-auto flex p-[8px] outline-none ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--accent-color1)] hover:border-[var(--accent-color1)]"} text-[14px] ${height} placeholder-[#999999] rounded-[8px] ${border && "border-[var(--outline-color2)] border-[0.5px]"}`} style={specificStyle}/>
-        {variant === "password" && <Button func={toggleText} variant="icon" size={size} iconName={showText? "icon-eye-off" : "icon-eye"} id="xyz" specificStyle={{position:"absolute", right:"0px"}}/>}
+        <input onChange={formFunc} type={typeCheck} onFocus={func} onBlur={func} name={name} autoComplete="true" placeholder={placeholder ?? undefined} className={`w-auto flex p-[8px] outline-none ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--accent1)] hover:border-[var(--accent1)]"} items-[center] placeholder-[#999999] rounded-[8px] ${border && "border-[var(--outline-color2)] border-[0.5px]"}`} style={{...defaultStyles, ...specificStyle, ...colorVariables }}/>
+        {variant === "password" && <Button func={toggleText} variant="icon" size={size ?? "md"} iconName={showText? "icon-eye-off" : "icon-eye"} id="xyz" specificStyle={{position:"absolute", right:"0px"}}/>}
       </div>
   )
 }

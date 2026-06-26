@@ -1,5 +1,5 @@
 "use client"
-import React, {useState, useEffect}from 'react'
+import React, {useState} from 'react'
 
 type ToggleProps = {
     name: string,
@@ -12,9 +12,7 @@ export default function Toggle({name, formFunc} : ToggleProps) {
     const toggleFunction = (e: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(e.target.checked)
 
-        // if(formFunc){
-        //     formFunc()
-        // }
+        formFunc?.(e)
     }
 
   return (

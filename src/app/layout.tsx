@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
+import Toast from "../components/ui/toast";
+import Frame from "../components/mixed/frame";
+import { space } from "./design/space";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,9 +17,33 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full bg-[var(--background2)] antialiased`}
+      className="h-full bg-[var(--background2)] antialiased"
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body
+        className="min-h-full flex flex-col relative"
+        suppressHydrationWarning
+      >
+        <Frame variant="stretch"  
+          specificStyle={{
+            position: "fixed", 
+            zIndex:"1000", 
+            height:"max-content",
+            top:"0px", 
+            display:"flex",
+            left:"0px",
+            gap: space["sm"],
+            alignItems:"end",
+            flexDirection:"column",
+            padding: space['lg'],
+            pointerEvents: "none"
+            }}>
+          {/* <Toast variant="success" title="not connected" text="there are a lot of errors in the message here"/>
+          <Toast variant="error" title="not connected" text="there are a lot of errors in the message here"/>
+          <Toast variant="info" title="not connected" text="there are a lot of errors in the message here"/>
+          <Toast variant="warning" title="not connected" text="there are a lot of errors in the message here"/> */}
+        </Frame>
+        {children}
+      </body>
     </html>
   );
 }

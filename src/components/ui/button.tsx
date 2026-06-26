@@ -1,8 +1,12 @@
 "use client"
 
-import { CSSProperties, ReactNode } from "react"
-import Icon, { IconName } from "./icon"
-import { useSelectedNavState } from "@/src/store/navState"
+import { Children, CSSProperties, ReactNode } from "react"
+import Icon, {IconType} from "./icon"
+import { elementSizes } from "@/src/app/design/elementSize"
+import { colorVariables} from "@/src/app/design/colors"
+import { spaceVariables } from "@/src/app/design/space"
+import { fontWeightVariables } from "@/src/app/design/fontWeight"
+import { bodySize } from "@/src/app/design/fontSize"
 
 type baseProps = {
     specificStyle?: CSSProperties | undefined,
@@ -10,7 +14,7 @@ type baseProps = {
     func?: (arg?: number | string) => void | Promise<void>
     propagate?: boolean
     role?: "button" | "submit" | "reset"
-    size?: "sm" | "md" | "lg" | "xl"
+    size: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
 type regularProps = baseProps & {
@@ -18,18 +22,10 @@ type regularProps = baseProps & {
     text: string,
 }
 
-type navProps = baseProps & {
-    variant: "nav",
-    text: string,
-    iconName: IconName,
-    iconColor?: string,
-    iconPosition: "left" | "right"
-}
-
 type textIconProps = baseProps & {
     variant: "textIcon",
     text: string,
-    iconName: IconName,
+    iconName: IconType,
     iconColor?: string,
     iconPosition: "left" | "right"
 }
@@ -41,52 +37,42 @@ type customProps = baseProps & {
 
 type IconProps = baseProps & {
     variant: "icon",
-    iconName: IconName,
+    iconName: IconType,
     iconColor?: string,
-    size: "sm" | "md" | "lg" | "xl"
+    children?: ReactNode
 }
 
-type ButtonProps = regularProps | navProps | textIconProps | customProps | IconProps
+type ButtonProps = regularProps | textIconProps | customProps | IconProps
 
 export default function Button(props: ButtonProps) {
-    const {selectedNavState, setSelectedNavState} = useSelectedNavState()
     const {specificStyle, variant} = props
-    
-    const buttonSizes = {
-        "sm": "h-[24px] text-[10px]",
-        "md": "h-[30px] text-[12px]",
-        "lg": "h-[35px] text-[14px]",
-        "xl": "h-[45px] text-[16px]"
-    }
 
-    const iconButtonSizes = {
-        "sm": "h-[30px] w-[30px]",
-        "md": "h-[35px] w-[35px]",
-        "lg": "h-[40px] w-[40px]",
-        "xl": "h-[45px] w-[45px]"
-    }
+    const size = props.size ?? "md";
 
-    const baseStyle: string = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative overflow-visible rounded-[8px]`
+    const staticTextSize = ["xl", "lg"]
 
-    const buttonSize = variant === "icon" && iconButtonSizes[props.size]
+    const defaultStyles: CSSProperties = {
+        height: elementSizes[size],
+        fontSize: staticTextSize.includes(size)? bodySize["medium"] : bodySize[size],
+        width: variant === "icon" ? elementSizes[size] : undefined,
+    };
 
-    const hoverStyles = `after:absolute after:pointer-events-none after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] after:rounded-[inherit] hover:after:border-[var(--text-color1)] focus:after:border-[var(--text-color1)] hover:after:border-[2px] focus:after:border-[2px]`
+    const baseStyle: string = `flex pointer-events-auto cursor-pointer transition-[0.1s_ease-out] items-center relative overflow-visible rounded-[8px]`
+    const hoverStyles = `after:absolute after:pointer-events-none after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] after:rounded-[inherit] hover:after:border-[var(--accent1)] focus:after:border-[var(--text-color1)] hover:after:border-[2px] focus:after:border-[2px]`
     const variantStyle = {
-        "textIcon": `${hoverStyles} w-[max-content] bg-[var(--text-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[40px]`,
-        "regular": `${hoverStyles} w-[max-content] bg-[var(--accent-color1)] text-[var(--background1)] h-[35px] justify-center py-1 px-4 gap-2 rounded-[100px]`,
-        "nav": `${props.id === selectedNavState? "bg-[var(--background3)] text-[var(--text-color1)] border-[0.5px] border-[var(--outline-color1)] h-[40px] text-[0.8rem] px-6 font-[600]" : "text-[var(--text-color2)] hover:bg-[var(--background2)] bg-transparent text-[0.8rem] px-4 h-[40px] font-[400]"} origin-center w-full font-[400] justify-left py-1  gap-4 rounded-[100px]`,
-        "icon": `${buttonSize} justify-center`,
+        "textIcon": `${hoverStyles} w-[max-content] bg-[var(--text-color1)] text-[var(--background1)] justify-center py-1 px-4 gap-2 font-[400] rounded-[40px]`,
+        "regular": `${hoverStyles} font-[400] w-[max-content] bg-[var(--accent1)] text-[var(--background1)] justify-center py-1 px-4 gap-2 rounded-[100px]`,
+        "icon": `${hoverStyles} justify-center`,
         "custom": " "
     }
 
     const renderContent = () => {
         switch(variant){
             case "regular" : return props.text
-            case "nav":
             case "textIcon": {
                 const {text,iconName,iconColor,iconPosition} = props
 
-                const icon = (<Icon name={iconName} stroke={selectedNavState === props.id? 2 : 1.5} color={selectedNavState === props.id? "var(--text-color1)" : iconColor } size="md"/>)
+                const icon = (<Icon name={iconName} color={iconColor} size={props.size}/>)
 
                 return (
                     <>
@@ -100,7 +86,10 @@ export default function Button(props: ButtonProps) {
                 const {iconName, iconColor, size} = props
 
                 return (
-                    <Icon name={iconName} color={iconColor} stroke={2} size={size}/>
+                    <>
+                        <Icon name={iconName} color={iconColor} stroke={2} size={size}/>
+                        {props.children && props.children}
+                    </>
                 )
             }
             case "custom": return props.children;
@@ -117,10 +106,6 @@ export default function Button(props: ButtonProps) {
         if(props.func){
             props.func()
         }
-
-        switch(variant){
-            case "nav" : (setSelectedNavState(props.id))
-        }
     }
 
   return (
@@ -130,7 +115,13 @@ export default function Button(props: ButtonProps) {
     className={`
         ${baseStyle}
         ${variantStyle[variant]}
-    `} style={specificStyle}>
+    `} style={{
+        ...defaultStyles,
+        ...specificStyle,
+        ...colorVariables,
+        ...spaceVariables,
+        ...fontWeightVariables
+        }}>
         {renderContent()}
     </button>
   )

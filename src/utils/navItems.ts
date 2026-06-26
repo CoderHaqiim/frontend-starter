@@ -1,41 +1,41 @@
-import { IconName } from "../components/ui/icon"
+import { IconType } from "../components/ui/icon"
 
 type navItem = {
     id: number,
     text:string,
-    icon :IconName
+    icon :IconType
     link: string
 }
 type navItems = navItem[]
 export const navItems: navItems = [
     {
         id: 0,
-        text: "Dashboard",
+        text: "Item-1",
         icon: "icon-dashboard",
         link: "/dashboard"
     },
     {
         id: 1,
-        text: "Teachers",
+        text: "Item-2", /*change to real page name*/
         icon: "icon-badge-check",
-        link:"/dashboard/teachers"
+        link:"/dashboard/item2" /*change to real page link*/
     },
     {
         id: 2,
-        text: "Home",
+        text: "Item3",
         icon: "icon-eye",
-        link: "/home"
+        link: "/dashboard/item3"
     },
     {
         id: 3,
-        text: "Home",
+        text: "Item-4",
         icon: "icon-user-circle",
-        link: "/home"
+        link: "/dashboard/item4"
     },
     {
         id: 4,
-        text: "Home",
+        text: "Item-5",
         icon: "icon-badge-alert",
-        link: "/home"
+        link: "/dashboard/item5"
     }
 ]

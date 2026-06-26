@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import Frame from "../mixed/frame"
+import { colors, colorVariables} from "@/src/app/design/colors"
 
 type MainProps = {
     children: ReactNode
@@ -7,7 +7,7 @@ type MainProps = {
 
 export default function Main({children}: MainProps) {
   return (
-    <main className="w-auto flex-1 h-full">
+    <main className="w-auto flex-1 h-full bg-[var(--background2)]" style={{...colorVariables}}>
         {children}
     </main>
   )

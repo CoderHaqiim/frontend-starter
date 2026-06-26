@@ -6,10 +6,11 @@ import { http } from '@/src/http/client'
 
 type FormProps = {
     children: ReactNode,
-    url: string
+    url: string,
+    variant: "plain" | "card"
 }
 
-export default function Form({children, url}: FormProps) {
+export default function Form({children, variant, url}: FormProps) {
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     const dataHolder: FormObjectTypes = {}
@@ -21,15 +22,16 @@ export default function Form({children, url}: FormProps) {
 
     http(url, dataHolder, {
       method: "POST",
-      headers:{
-        "Content-type":"application/json",
-      }
     })
   }
 
+  const cardFormStyle = `border-[1px] p-8 gap-4 w-full bg-[var(--background1)] rounded-[40px] h-[max-content] flex flex-col items-center justify-center border-[var(--outline-color1)]`
+  const plainFormStyle = `gap-4 w-full h-[max-content] flex flex-col items-center justify-center]`
+
+  const styles = variant === "plain"? plainFormStyle : cardFormStyle;
 
   return (
-    <form onSubmit={(e) =>{handleSubmit(e)}} className='border-[1px] p-8 gap-4 w-full bg-[var(--background1)] rounded-[40px] h-[max-content] flex flex-col items-center justify-center border-[var(--outline-color1)]'>
+    <form onSubmit={(e) =>{handleSubmit(e)}} className={styles}>
         {children}
     </form>
   )

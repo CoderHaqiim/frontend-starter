@@ -1,7 +1,5 @@
-import React, { CSSProperties, ReactNode } from 'react'
-import { navItems } from '@/src/utils/navItems'
-import LinkComponent from '../ui/link'
-import Button from '../ui/button'
+import { CSSProperties, ReactNode } from 'react'
+import { space, spaceVariables } from '@/src/app/design/space'
 
 
 type AsideProps = {
@@ -12,7 +10,7 @@ type AsideProps = {
 
 export default function Aside({children, variant, specificStyles}: AsideProps){
   return (
-    <aside className={`h-full px-2 py-4 ${variant === "left"? "border-r-[0.5px] border-r-[var(--outline-color1)]" : "border-l-[0.5px] border-l-[var(--outline-color1)]"}`} style={specificStyles}>
+    <aside className={`h-full bg-[white] p-[var(--lg)]`} style={{...specificStyles, ...spaceVariables}}>
        {children}
     </aside>
   )
