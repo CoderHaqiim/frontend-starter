@@ -1,15 +1,18 @@
 import React, { CSSProperties, ReactNode } from 'react'
 import { colorVariables } from '@/src/app/design/colors'
+import { radius, radiusVariables } from '@/src/app/design/radius'
+import { space } from '@/src/app/design/space'
+
 
 type FrameProp = {
     variant: "hug" | "stretch" | "custom" | "page",
     scroll?: boolean,
     specificStyle?: CSSProperties
-    rounded?: boolean | "xs" | "sm" | "md" | "lg",
+    rounded?: "round" | "xs" | "sm" | "md" | "lg" | "xl"
     children?: ReactNode,
     scrollbar?: boolean,
     direction?: "row" | "column",
-    padding?: "xs" | "sm" | "md" | "lg"
+    padding?: "xs" | "sm" | "md" | "lg" | "xl"
     border?: boolean,
     centered?: boolean
 }
@@ -27,26 +30,14 @@ export default function Frame({
   centered
 }:FrameProp) {
 
-  const roundSizes: Record<string, string> = {
-    xs: "4px",
-    sm: "8px",
-    md: "12px",
-    lg: "16px",
-    xl: "40px"
-  }
-
-  const borderRadiusValue = rounded
-    ? typeof rounded === 'string'
-      ? roundSizes[rounded]
-      : roundSizes.lg
-    : undefined
+  const borderRadiusValue = rounded? (rounded === "round"? "50%": radius["rounded"]): undefined
 
   const baseStyle = 
   `${direction === "column"? "flex-col" : "flex-row"} 
   ${border && "border-[0.5px] border-[var(--outline-color1)]"} relative flex 
   ${centered && "justify-center items-center"}
   ${padding === "xs"? "p-1" : padding === "sm"? "p-2" : padding === "md"? "p-4" : padding === "lg"? "p-8" : null} 
-  ${direction === "row"? (scroll? "overflow-x-scroll" : "overflow-x-visible") : (scroll? "overflow-y-scroll" : "overflow-y-visible") } [&>*]:shrink-0`
+  ${direction === "row"? (scroll? "overflow-x-scroll" : "overflow-x-visible") : (scroll? "overflow-y-scroll" : "overflow-y-visible") } [&>*]:shrink-0}`
 
   const hugStyle = `w-[max-content] h-[max-content] flex`
   const stretchStyle = `w-full h-full flex`
@@ -61,8 +52,8 @@ export default function Frame({
   const frameStyle = `${baseStyle} ${applyHugStyle} ${applyStretchStyle} ${applyScrollStyle} ${applyPageStyle}`
 
   const mergedStyle: CSSProperties = {
+    borderRadius: borderRadiusValue,
     ...specificStyle,
-    borderRadius: borderRadiusValue
   }
 
   return (
