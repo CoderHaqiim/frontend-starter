@@ -58,3 +58,19 @@ See trends and summaries for better decision making.
 Receive email or in-app updates.
 
 ---
+
+### Tech stack
+
+-Next.js
+-Tailwind css
+-zustand
+
+---
+###Installation
+
+1. Clone repo - git clone https://github.com/aiki-ai/back-office-UI.git
+2. Run: ```npm install``` - install dependencies
+3. Run: ```npm run dev``` - start development server
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+---
