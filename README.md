@@ -51,10 +51,10 @@ Record transactions quickly with minimal input.
 - Business Switching
 Move between businesses without logging in again.
 
--Financial Insights
+- Financial Insights
 See trends and summaries for better decision making.
 
--Notifications
+- Notifications
 Receive email or in-app updates.
 
 ---
