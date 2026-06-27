@@ -39,16 +39,16 @@ Target users:
 
 ### Features
 
--Multi-Business Management
+- Multi-Business Management
 Manage multiple businesses from one dashboard.
 
--Unified Financial Dashboard
+- Unified Financial Dashboard
 View income, expenses, balances, and performance across businesses.
 
--Transaction Logging
+- Transaction Logging
 Record transactions quickly with minimal input.
 
--Business Switching
+- Business Switching
 Move between businesses without logging in again.
 
 -Financial Insights
@@ -61,9 +61,9 @@ Receive email or in-app updates.
 
 ### Tech stack
 
--Next.js
--Tailwind css
--zustand
+- Next.js
+- Tailwind css
+- zustand
 
 ---
 ###Installation
