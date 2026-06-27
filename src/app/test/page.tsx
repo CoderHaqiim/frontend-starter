@@ -38,7 +38,7 @@ export default function Test() {
                 <Toast variant="success" title="not connected" text="there are a lot of errors in the message here"/>
                 <Toast variant="error" title="not connected" text="there are a lot of errors in the message here"/>
               </Frame>
-      <Card variant='hug'>
+      <Card padding='md' variant='hug'>
           <div className='w-[400px] h-[300px]'>
             <Paragraph size="sm">Hello</Paragraph>
           </div>
