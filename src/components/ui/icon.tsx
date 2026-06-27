@@ -13,7 +13,8 @@ import {
   EyeOff, 
   X,
   ChevronDown,
-  WifiOff
+  WifiOff,
+  Plus
 } from 'lucide-react'
 
 
@@ -40,7 +41,8 @@ const icons = {
     "icon-chevron-down" : ChevronDown,
     "icon-wifi-off" : WifiOff,
     "icon-badge-x" : BadgeX,
-    "icon-badge-info" : BadgeInfo
+    "icon-badge-info" : BadgeInfo,
+    "icon-plus" : Plus
 };
 
 export type IconType = keyof typeof icons;
