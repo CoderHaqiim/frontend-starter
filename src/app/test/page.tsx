@@ -50,6 +50,7 @@ export default function Test() {
       <Button variant="regular" size="sm" id="open-btn" text="hello"/>
       <Button variant="regular" size="xs" id="open-btn" text="hello"/>
       <Button size="md" variant="textIcon" id="open-btn" text="hello" iconName="icon-eye" iconPosition='right' iconColor='var(--background1)'/>
+      <Button size="md" variant="textIcon" id="open-btn" text="hello" iconName="icon-eye" iconPosition='left'/>
       <Modal isOpen={true} onClose={() => {}} title="Hello">
         <div className='w-full h-full flex items-center justify-center'>
           Modal content

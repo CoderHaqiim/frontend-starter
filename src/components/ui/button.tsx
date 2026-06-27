@@ -60,7 +60,7 @@ export default function Button(props: ButtonProps) {
     const baseStyle: string = `flex pointer-events-auto cursor-pointer transition-[0.1s_ease-out] items-center relative overflow-visible rounded-[8px]`
     const hoverStyles = `after:absolute after:pointer-events-none after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] after:rounded-[inherit] hover:after:border-[var(--accent1)] focus:after:border-[var(--text-color1)] hover:after:border-[2px] focus:after:border-[2px]`
     const variantStyle = {
-        "textIcon": `${hoverStyles} w-[max-content] bg-[var(--text-color1)] text-[var(--background1)] justify-center py-1 px-4 gap-2 font-[400] rounded-[40px]`,
+        "textIcon": `${hoverStyles} w-[max-content] bg-[var(--accent1)] text-[var(--background1)] justify-center py-1 px-4 gap-2 font-[400] rounded-[40px]`,
         "regular": `${hoverStyles} font-[400] w-[max-content] bg-[var(--accent1)] text-[var(--background1)] justify-center py-1 px-4 gap-2 rounded-[100px]`,
         "icon": `${hoverStyles} justify-center`,
         "custom": " "
