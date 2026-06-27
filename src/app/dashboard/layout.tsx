@@ -6,6 +6,7 @@ import RightAside from "@/src/components/layout/rightAside"
 import { ReactNode } from "react"
 import { colors, colorVariables } from "../design/colors"
 import { space } from "../design/space"
+import Button from "@/src/components/ui/button"
 
 type LayoutProps = {
   children: ReactNode
@@ -21,6 +22,12 @@ export default function Layout({children}: LayoutProps) {
         </Main>
         <RightAside/>
       </Frame>
+      <Button text="Add new business" variant="textIcon" size="xl" id="create-business" iconPosition="left" iconName="icon-plus"  iconColor={colors["white"]} specificStyle={{
+        position:"absolute",
+        bottom:space["xl"],
+        right: space["xl"],
+        boxShadow:"2px 2px 5px #0000009a"
+      }}/>
     </Frame>
   )
 }
