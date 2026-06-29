@@ -1,0 +1,123 @@
+src/
+│
+├── app/                               # Next.js App Router
+│   ├── (auth)/
+│   ├── dashboard/
+│   ├── customers/
+│   ├── products/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── loading.tsx
+│   ├── error.tsx
+│   └── globals.css
+│
+├── components/                        # Reusable UI Components
+│   │
+│   ├── primitives/
+│   │   ├── Frame/
+│   │   ├── Text/
+│   │   ├── Heading/
+│   │   ├── Button/
+│   │   ├── Input/
+│   │   ├── Icon/
+│   │   ├── Image/
+│   │   ├── Spinner/
+│   │   └── index.ts
+│   │
+│   ├── composites/
+│   │   ├── Card/
+│   │   ├── Modal/
+│   │   ├── Dialog/
+│   │   ├── Dropdown/
+│   │   ├── Table/
+│   │   ├── Tabs/
+│   │   ├── Accordion/
+│   │   ├── Toast/
+│   │   └── index.ts
+│   │
+│   ├── layouts/
+│   │   ├── Page/
+│   │   ├── Sidebar/
+│   │   ├── Navbar/
+│   │   ├── Header/
+│   │   └── index.ts
+│   │
+│   └── index.ts
+│
+├── design/                            # Design Tokens
+│   ├── colors.ts
+│   ├── typography.ts
+│   ├── space.ts
+│   ├── radius.ts
+│   ├── shadows.ts
+│   ├── elementSize.ts
+│   ├── iconSize.ts
+│   ├── breakpoints.ts
+│   ├── zIndex.ts
+│   ├── animation.ts
+│   ├── themes/
+│   │   ├── light.ts
+│   │   └── dark.ts
+│   └── index.ts
+│
+├── features/                          # Business Features
+│   ├── auth/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── types.ts
+│   │   └── index.ts
+│   │
+│   ├── products/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   ├── types.ts
+│   │   └── index.ts
+│   │
+│   ├── customers/
+│   ├── inventory/
+│   ├── orders/
+│   ├── analytics/
+│   └── ...
+│
+├── hooks/                             # Global reusable hooks
+│   ├── useDebounce.ts
+│   ├── useMediaQuery.ts
+│   ├── useClickOutside.ts
+│   └── ...
+│
+├── lib/                               # Libraries & configuration
+│   ├── axios.ts
+│   ├── http.ts
+│   ├── auth.ts
+│   ├── redis.ts
+│   └── ...
+│
+├── services/                          # External services
+│   ├── storage/
+│   ├── payment/
+│   ├── email/
+│   └── ...
+│
+├── store/                             # Redux/Zustand/etc.
+│   ├── index.ts
+│   └── ...
+│
+├── types/
+│   ├── api.ts
+│   ├── common.ts
+│   └── ...
+│
+├── utils/
+│   ├── cn.ts
+│   ├── formatCurrency.ts
+│   ├── formatDate.ts
+│   ├── validators.ts
+│   └── ...
+│
+└── constants/
+    ├── routes.ts
+    ├── permissions.ts
+    └── ...
