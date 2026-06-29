@@ -7,6 +7,7 @@
 :root {
   --font-inter: Inter, ui-sans-serif, system-ui, sans-serif;
   --font-noto-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+  --accent1: "#32064f"
 }
 
 body {
@@ -16,15 +17,14 @@ body {
 }
 
 .scrollVisible::-webkit-scrollbar{
-  width:10px;
-  height:10px;
+  width:3px;
+  height:3px;
 }
 
 .scrollVisible::-webkit-scrollbar-thumb{
-  width:10px;
-  height:10px;
-  border-radius:20px;
-  background-color:black;
+  width:3px;
+  height:3px;
+  background-color:var(--accent1);
 }
 
 /* @media (prefers-color-scheme: light) {

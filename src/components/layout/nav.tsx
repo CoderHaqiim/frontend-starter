@@ -113,7 +113,7 @@ export default function Nav() {
   }, [notificationsOpen])
 
   return (
-    <nav className='flex z-[500] items-center justify-center w-full h-[60px]'>
+    <nav className='flex z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
         <Frame width="stretch" height="stretch" specificStyle={{justifyContent:"space-between", alignItems: "center", padding:`0px ${space["lg"]}`, backgroundColor:"white"}}>
           <Logo/>
           <Frame width="hug" height="stretch" specificStyle={{gap:space["md"], height:"100%", alignItems:"center"}}>

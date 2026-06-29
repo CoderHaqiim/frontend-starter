@@ -5,19 +5,20 @@ import { space } from "@/src/app/design/spacing"
 
 type MainProps = {
     children: ReactNode,
-    padding: Sizes
+    padding: Sizes,
+    specificStyles: CSSProperties
 }
 
-export default function Main({children, padding}: MainProps) {
+export default function Main({children, specificStyles, padding}: MainProps) {
 
-  const specificStyle:CSSProperties = {
+  const defaultStyle:CSSProperties = {
     backgroundColor: colors["background2"],
     padding: space[padding]
   }
 
   return (
-    <main className="w-auto flex-1 min-h-[100vh] h-max" 
-      style={{...specificStyle}}>
+    <main className="scrollVisible w-auto flex-1 min-h-[100vh] overflow-y-scroll h-full" 
+      style={{...defaultStyle, ...specificStyles}}>
         {children}
     </main>
   )

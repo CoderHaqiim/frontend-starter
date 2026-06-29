@@ -45,7 +45,7 @@ export default function LoginPage() {
                         
                 </Form>
                 <Paragraph size='sm' specificStyle={{gap:"8px"}}>
-                    <span>Don't have an account?</span>
+                    <span>Don&apos;t have an account?</span>
                     <LinkComponent href="/signup" variant="hug" underline>Sign up</LinkComponent>
                 </Paragraph>
             </Frame>

@@ -13,11 +13,27 @@ type LayoutProps = {
 }
 export default function Layout({children}: LayoutProps) {
   return (
-    <PageComponent scrollable={false} direction="column" specificStyle={{gap:"1px", height:"100vh", backgroundColor: colors["background3"]}}>
+    <PageComponent 
+      scrollable={false} 
+      direction="column" 
+      specificStyle={{
+        gap:"1px", 
+        overflow:"hidden",
+        backgroundColor: colors["background3"]
+      }}
+    >
       <Nav/>
-      <Frame width="stretch" height="auto" specificStyle={{gap: space["xs"], flex:"1"}}>
+      <Frame width="stretch" height="stretch"
+        specificStyle={{
+          gap: space["xs"], 
+          flex:"1",
+        }}
+        >
         <LeftAside/>
-        <Main padding="lg">
+        <Main padding="lg"
+          specificStyles={{
+            paddingBottom: "80px",
+          }}>
           {children}
         </Main>
         <RightAside/>

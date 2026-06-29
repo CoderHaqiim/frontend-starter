@@ -63,7 +63,6 @@ export default function Frame({
         ? "overflow-y-auto"
         : "overflow-y-visible"
     }
-    [&>*]:shrink-0
   `;
 
   const frameStyle = `

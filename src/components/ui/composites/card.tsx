@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import Frame from './primitives/frame'
+import Frame from '../primitives/frame'
 import { CSSProperties } from 'react'
 
 type CardProps = {
