@@ -1,24 +1,18 @@
 import React, { CSSProperties, ReactNode } from 'react'
-import { ObjectRecord } from '@/src/types/types'
-import { bodySize } from '@/src/app/design/fontSize'
+import { Sizes } from '@/src/types/types'
+import { bodySize } from '@/src/app/design/typograhy'
 
 type ParagraphProps = {
     children?: ReactNode,
-    size: "xs" | "sm" | "md",
+    size: Sizes
     specificStyle?: CSSProperties
 }
 
-export default function Paragraph({children, size, specificStyle}: ParagraphProps) {
+export default function Paragraph({children, size ="md", specificStyle}: ParagraphProps) {
   const baseClass = `break-words text-[var(--text-color2)] w-full flex`
 
-  const sizeMap: ObjectRecord = {
-    "xs": bodySize.xs,
-    "sm": bodySize.sm,
-    "md": bodySize.md
-  }
-
   const defaultStyle: CSSProperties = {
-    fontSize: `${sizeMap[size]}`,
+    fontSize: bodySize[size],
     color: 'var(--text-color2)'
   }
 

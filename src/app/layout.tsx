@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Toast from "../components/ui/toast";
-import Frame from "../components/mixed/frame";
-import { space } from "./design/space";
+import Toast from "../components/ui/composites/toast";
+import Frame from "../components/ui/primitives/frame";
+import { space } from "./design/spacing";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,17 +23,17 @@ export default function RootLayout({
         className="min-h-full flex flex-col relative"
         suppressHydrationWarning
       >
-        <Frame variant="stretch"  
+        <Frame
+          direction="column"
+          width="stretch"
+          height="hug"
           specificStyle={{
             position: "fixed", 
             zIndex:"1000", 
-            height:"max-content",
             top:"0px", 
-            display:"flex",
             left:"0px",
             gap: space["sm"],
             alignItems:"end",
-            flexDirection:"column",
             padding: space['lg'],
             pointerEvents: "none"
             }}>

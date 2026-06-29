@@ -1,4 +1,4 @@
-import { IconType } from "../components/ui/icon"
+import { IconType } from "../components/ui/primitives/icon"
 
 type navItem = {
     id: number,

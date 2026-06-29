@@ -1,9 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import Frame from '../mixed/frame'
-import Input from './input'
-import Button from './button'
-import { space } from '@/src/app/design/space'
+import Frame from '../primitives/frame'
+import Input from '../primitives/input'
+import Button from '../primitives/button'
+import { space } from '@/src/app/design/spacing'
 import { colors } from '@/src/app/design/colors'
 import { http } from '@/src/http/client'
 
@@ -114,30 +114,26 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
   const showResults = focused && Boolean(searchInput.trim())
 
   return (
-    <Frame variant='hug' centered border rounded="sm"
+    <Frame width="350px" height="hug" centered border rounded="sm"
     specificStyle={{ 
-      border: focused? `1.5px ${colors["accent1"]} solid` : "0.5px var(--outline-color2) solid",
+      border: focused? `1.5px ${colors["accent1"]} solid` : `0.5px ${colors["outline"]} solid`,
       position: "relative",
       backgroundColor: colors["background2"],
-      width:"350px",
       }}>
-        <Frame variant='stretch' specificStyle={{flex:"1"}}>
-            <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
+        <Frame width="hug" height="hug" specificStyle={{flex:"1"}}>
+            <Input size='lg' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
         </Frame>
-        <Button id="search-btn" variant='icon' size='md' iconName='icon-search'/>
-        {showResults && <Frame variant='custom' rounded="md" padding='md' direction="column"
+        <Button variant='icon' size='lg' iconName='icon-search'/>
+        {showResults && <Frame width="full" height="auto" rounded="md" padding='md' direction="column"
           specificStyle={{
             position: "absolute",
             width:"100%",  
             minHeight:"80px",
             maxHeight:"300px",
             backgroundColor:"white", 
-            borderRadius:space["md"], 
-            border:"solid 1px var(--liner)", 
             top:"120%",
             left:"0px",
             boxShadow:"0px 1px 5px -1px #000000c4",
-            overflowY:"auto",
             zIndex: 20,
             gap: space["sm"]
             }}>

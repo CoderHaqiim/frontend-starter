@@ -1,13 +1,14 @@
 "use client"
 
 import { useEffect, useRef, useState } from 'react'
-import Frame from '../mixed/frame'
-import Logo from '../ui/logo'
-import Button from '../ui/button'
-import Searchbar from '../ui/searchbar'
-import { space, spaceVariables } from '@/src/app/design/space'
+import Frame from '../ui/primitives/frame'
+import Logo from '../ui/brand.tsx/logo'
+import Button from '../ui/primitives/button'
+import Searchbar from '../ui/composites/searchbar'
+import { space, spaceVariables } from '@/src/app/design/spacing'
 import { colorVariables } from '@/src/app/design/colors'
 import { http } from '@/src/http/client'
+import { colors } from '@/src/app/design/colors'
 
 type Notification = unknown
 
@@ -113,21 +114,29 @@ export default function Nav() {
 
   return (
     <nav className='flex z-[500] items-center justify-center w-full h-[60px]'>
-        <Frame variant="stretch" specificStyle={{justifyContent:"space-between", height:"100%", alignItems: "center", padding:`0px ${space["lg"]}`, backgroundColor:"white"}}>
+        <Frame width="stretch" height="stretch" specificStyle={{justifyContent:"space-between", alignItems: "center", padding:`0px ${space["lg"]}`, backgroundColor:"white"}}>
           <Logo/>
-          <Frame variant='custom' specificStyle={{gap:space["md"], height:"100%", alignItems:"center"}}>
+          <Frame width="hug" height="stretch" specificStyle={{gap:space["md"], height:"100%", alignItems:"center"}}>
             <Searchbar/>
             <div ref={notificationRef} className="relative flex items-center">
-              <Button func={toggleNotifications} size="md" iconName="icon-bell" id="notification-btn" variant="icon" specificStyle={{border:"solid 1px var(--outline-color2)", borderRadius:"8px"}}>
-                <span className={`w-[20px] font-[600] flex items-center justify-center absolute top-[-8px] rounded-[var(--lg)] right-[-8px] text-[9px] bg-[var(--accent1)] h-[20px] text-[white] border-[2px] border-[white]`} style={{...spaceVariables, ...colorVariables}}>
+              <Button func={toggleNotifications} size="lg" iconName="icon-bell" variant="icon" 
+                specificStyles={{
+                  border:`solid 1px ${colors["outline"]}`, 
+                  borderRadius:"8px"
+                }}>
+                <span className={`w-[20px] font-[600] flex items-center justify-center absolute top-[-8px] rounded-[var(--lg)] right-[-8px] text-[9px] bg-[var(--accent1)] h-[20px] text-[white] border-[2px] border-[white]`} 
+                  style={{
+                    ...spaceVariables, 
+                    ...colorVariables
+                  }}>
                   {notifications.length}
                 </span>
               </Button>
-              {notificationsOpen && (
-                <Frame variant="custom" rounded="md" padding="sm" direction="column"
+              {
+                notificationsOpen && (
+                <Frame width={320} height="auto" rounded="md" padding="sm" direction="column"
                   specificStyle={{
                     position: "absolute",
-                    width: "320px",
                     minHeight: "80px",
                     maxHeight: "360px",
                     backgroundColor: "white",
@@ -145,10 +154,9 @@ export default function Nav() {
                   {!loadingNotifications && !notificationsError && notifications.map((notification, index) => (
                     <Button
                       key={index}
-                      id={`notification-${index}`}
                       variant="custom"
-                      size="md"
-                      specificStyle={{
+                      size="lg"
+                      specificStyles={{
                         width: "100%",
                         height: "auto",
                         minHeight: "40px",
@@ -165,7 +173,11 @@ export default function Nav() {
                 </Frame>
               )}
             </div>
-            <Button size="md" iconName="icon-user" id="profile-btn" variant="icon" specificStyle={{border:"solid 1px var(--outline-color2)", borderRadius:"50%"}}/>
+            <Button size="lg" iconName="icon-user" variant="icon" 
+              specificStyles={{
+                border:`solid 1px ${colors["outline"]}`, 
+                borderRadius:"50%"
+              }}/>
           </Frame>
         </Frame>
     </nav>
