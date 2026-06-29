@@ -14,7 +14,11 @@ import {
   X,
   ChevronDown,
   WifiOff,
-  Plus
+  Plus,
+  Store,
+  ArrowLeftRight,
+  ListTodo,
+  NotebookPen
 } from 'lucide-react'
 
 
@@ -42,7 +46,11 @@ const icons = {
     "icon-wifi-off" : WifiOff,
     "icon-badge-x" : BadgeX,
     "icon-badge-info" : BadgeInfo,
-    "icon-plus" : Plus
+    "icon-plus" : Plus,
+    "icon-store": Store,
+    "icon-transactions": ArrowLeftRight,
+    "icon-todo": ListTodo,
+    "icon-note": NotebookPen
 };
 
 export type IconType = keyof typeof icons;

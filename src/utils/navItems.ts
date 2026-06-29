@@ -10,32 +10,32 @@ type navItems = navItem[]
 export const navItems: navItems = [
     {
         id: 0,
-        text: "Item-1",
+        text: "Dashboard",
         icon: "icon-dashboard",
         link: "/dashboard"
     },
     {
         id: 1,
-        text: "Item-2", /*change to real page name*/
-        icon: "icon-badge-check",
+        text: "Businesses", /*change to real page name*/
+        icon: "icon-store",
         link:"/dashboard/item2" /*change to real page link*/
     },
     {
         id: 2,
-        text: "Item3",
-        icon: "icon-eye",
+        text: "Transactions",
+        icon: "icon-transactions",
         link: "/dashboard/item3"
     },
     {
         id: 3,
-        text: "Item-4",
-        icon: "icon-user-circle",
+        text: "Tasks",
+        icon: "icon-todo",
         link: "/dashboard/item4"
     },
     {
         id: 4,
-        text: "Item-5",
-        icon: "icon-badge-alert",
+        text: "Journal",
+        icon: "icon-note",
         link: "/dashboard/item5"
     }
 ]
