@@ -66,7 +66,7 @@ Receive email or in-app updates.
 - zustand
 
 ---
-###Installation
+### Installation
 
 1. Clone repo - git clone https://github.com/aiki-ai/back-office-UI.git
 2. Run: ```npm install``` - install dependencies
