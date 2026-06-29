@@ -25,12 +25,12 @@ export default function LoginPage() {
                     <Heading size="xxl" type='h1' text=" Log in to your account."/>
                     <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Email' size='md'/>
-                        <Input outline name="email" variant='default' type='text' size='lg' border placeholder='Username'/>
+                        <Input outline name="email" variant='default' type='text' size='xl' border placeholder='Username'/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
                     <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Password' size='md'/>
-                        <Input outline name="password" variant="password" type='text' size='lg' border placeholder='Confirm Password'/>
+                        <Input outline name="password" variant="password" type='text' size='xl' border placeholder='Confirm Password'/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
                     <Button  

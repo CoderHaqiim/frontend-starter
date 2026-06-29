@@ -25,22 +25,22 @@ export default function SignupPage() {
                     <Heading size="xxl" type='h1' text="Create new account"/>
                     <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Username' size='md'/>
-                        <Input outline name="username" variant='default' type='text' size='lg' border placeholder='Username'/>
+                        <Input outline name="username" variant='default' type='text' size='xl' border placeholder='Username'/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
                     <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Email' size='md'/>
-                        <Input outline name="email" variant="default" type='text' size="lg" border placeholder="Email"/>
+                        <Input outline name="email" variant="default" type='text' size="xl" border placeholder="Email"/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
                     <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Password' size='md'/>
-                        <Input outline name="password" variant="password" type='text' size='lg' border placeholder='Confirm Password'/>
+                        <Input outline name="password" variant="password" type='text' size='xl' border placeholder='Confirm Password'/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
                     <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Confirm Password' size='md'/>
-                        <Input name='confirmPassword' variant='password' type='text' size="lg" border placeholder='password' outline/>
+                        <Input name='confirmPassword' variant='password' type='text' size="xl" border placeholder='password' outline/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>
                             Error message here
                         </div>

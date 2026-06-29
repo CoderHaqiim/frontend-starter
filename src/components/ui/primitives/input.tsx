@@ -39,10 +39,12 @@ export default function Input({
         setShowText(prev => !prev)
     }
 
+    const staticTextSize = ["xl", "lg", "xxl"]
+    const fontSize = size ?? "md"
 
     const defaultStyles: CSSProperties= {
         height: size ? elementSizes[size] : elementSizes["md"],
-        fontSize: size? bodySize[size] : bodySize["md"]
+        fontSize: staticTextSize.includes(fontSize)? bodySize["md"] : bodySize[fontSize],
     }
 
     const typeCheck = variant === "password"? (showText? "text":"password") : type

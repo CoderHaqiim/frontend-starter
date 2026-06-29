@@ -4,7 +4,7 @@ import { CSSProperties } from "react"
 export const space: ObjectRecord = {
     "xs": "2px",
     "sm": "4px",
-    "md": "8px",
+    "md": "10px",
     "lg": "16px",
     "xl" : "32px",
     "xxl" : "40px"

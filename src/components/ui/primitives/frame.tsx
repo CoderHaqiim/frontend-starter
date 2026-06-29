@@ -41,7 +41,7 @@ export default function Frame({
     relative
     flex
     ${direction === "column" ? "flex-col" : "flex-row"}
-    ${border ? "border-[0.5px] border-[var(--outline-color1)]" : ""}
+    ${border ? "border-[0.5px] border-[var(--outline)]" : ""}
     ${centered ? "justify-center items-center" : ""}
     ${
       padding === "xs"
