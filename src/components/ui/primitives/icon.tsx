@@ -14,7 +14,8 @@ import {
   X,
   ChevronDown,
   WifiOff,
-  Plus
+  Plus,
+  Settings
 } from 'lucide-react'
 
 
@@ -42,7 +43,8 @@ const icons = {
     "icon-wifi-off" : WifiOff,
     "icon-badge-x" : BadgeX,
     "icon-badge-info" : BadgeInfo,
-    "icon-plus" : Plus
+    "icon-plus" : Plus,
+    "icon-settings"  : Settings
 };
 
 export type IconType = keyof typeof icons;
