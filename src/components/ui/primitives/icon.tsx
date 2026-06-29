@@ -15,10 +15,7 @@ import {
   ChevronDown,
   WifiOff,
   Plus,
-  Store,
-  ArrowLeftRight,
-  ListTodo,
-  NotebookPen
+  Settings
 } from 'lucide-react'
 
 
@@ -47,10 +44,7 @@ const icons = {
     "icon-badge-x" : BadgeX,
     "icon-badge-info" : BadgeInfo,
     "icon-plus" : Plus,
-    "icon-store": Store,
-    "icon-transactions": ArrowLeftRight,
-    "icon-todo": ListTodo,
-    "icon-note": NotebookPen
+    "icon-settings"  : Settings
 };
 
 export type IconType = keyof typeof icons;
