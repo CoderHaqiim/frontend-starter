@@ -1,8 +1,8 @@
 import { CSSProperties } from 'react'
-import { bodySize } from '@/src/app/design/fontSize'
-import { fontWeightVariables } from '@/src/app/design/fontWeight'
+import { bodySize } from '@/src/app/design/typograhy'
+import { fontWeightVariables, fontWeight } from '@/src/app/design/typograhy'
 import { colorVariables } from '@/src/app/design/colors'
-import { space, spaceVariables } from '@/src/app/design/space'
+import { space, spaceVariables } from '@/src/app/design/spacing'
 
 type LabelProps = {
  text: string | undefined,

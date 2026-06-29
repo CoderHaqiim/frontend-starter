@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from 'react'
-import { space, spaceVariables } from '@/src/app/design/space'
+import { space, spaceVariables } from '@/src/app/design/spacing'
 
 
 type AsideProps = {

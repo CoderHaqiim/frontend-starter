@@ -6,7 +6,8 @@ import { CSSProperties } from "react"
     "sm" : "8px",
     "md" : "12px",
     "lg" : "16px",
-    "xl" : "40px"
+    "xl" : "40px",
+    "xxl" : "50%"
   }
 
   export const radiusVariables = {
@@ -15,4 +16,5 @@ import { CSSProperties } from "react"
     "--radius-md": radius["md"],
     "--radius-lg": radius["lg"],
     "--radius-xl": radius["xl"],
+    "--radius-xxl": radius["xxl"],
   } as CSSProperties

@@ -13,8 +13,8 @@ export const colors: ObjectRecord = {
     background1:"#ffffff",
     background2: "#f9f9f9",
     background3: "#e3dede",
-    background4: "#eae8e8",
-    white: "#ffffff"
+    white: "#ffffff",
+    outline:"#cac9c9"
 }
 
 
@@ -25,11 +25,12 @@ export const colorVariables = {
     "--info" : colors.info,
     "--accent1" : colors.accent1,
     "--accent2" : colors.accent2,
-    "--text-color1" : colors.textColor1,
-    "--text-color2" : colors.textColor2,
+    "--textColor1" : colors.textColor1,
+    "--textColor2" : colors.textColor2,
     "--background1":  colors.background1,
     "--background2":   colors.background2,
     "--background3": colors.background3,
     "--background4": colors.background4,
     "--white": colors.white,
+    "--outline" : colors.outline
 } as CSSProperties

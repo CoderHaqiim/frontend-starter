@@ -70,7 +70,7 @@ export default function Icon({ fill, stroke, size, name, color }: IconProps) {
   const iconProps = {
     strokeWidth: stroke ?? 1.5,
     size: iconSize ?? "18px",
-    color: color ?? "var(--text-color1)",
+    color: color ?? "var(--textColor1)",
     fill: fill ?? "transparent"
   };
 

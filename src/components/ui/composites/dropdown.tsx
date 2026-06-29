@@ -1,7 +1,7 @@
 "use client"
 
 import React, { CSSProperties } from 'react'
-import Icon from './icon'
+import Icon from '../primitives/icon'
 
 type DropdownOption = string | {
   label: string,

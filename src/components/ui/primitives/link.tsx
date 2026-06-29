@@ -4,11 +4,11 @@ import React, { CSSProperties, ReactNode } from 'react'
 import Link from 'next/link'
 import Icon, { IconType } from './icon'
 import { useSelectedNavState } from '@/src/store/navState'
-import { elementSizes } from '@/src/app/design/elementSize'
+import { elementSizes } from '@/src/app/design/sizes'
 import { colorVariables, colors } from '@/src/app/design/colors'
-import { spaceVariables } from '@/src/app/design/space'
-import { fontWeightVariables } from '@/src/app/design/fontWeight'
-import { bodySize } from '@/src/app/design/fontSize'
+import { spaceVariables } from '@/src/app/design/spacing'
+import { fontWeightVariables, fontWeight } from '@/src/app/design/typograhy'
+import { bodySize } from '@/src/app/design/typograhy'
 
 type BaseLinkProps = {
     href: string
@@ -44,11 +44,12 @@ export default function LinkComponent(props: LinkCompProps) {
         const isSelected = id === selectedNavState
         const defaultStyles: CSSProperties = {
             height: elementSizes[size],
-            fontSize: staticTextSize.includes(size)? bodySize["medium"] : bodySize[size],
+            fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         }
-        const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative overflow-visible rounded-[8px]`
-        const navStyle = `${isSelected? "border-[1px] border[var(--accent1)] bg-[var(--background3)] text-[var(--accent1)] px-6 font-[var(--bold)]" : "text-[var(--text-color2)] font-[var(--medium)] hover:bg-[var(--background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--md)]`
-        const icon = (<Icon name={iconName} stroke={isSelected? 2 : 1.5} color={isSelected? colors["accent1"] : iconColor } size={size}/>)
+
+        const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative`
+        const navStyle = `${isSelected? "border-[1px] border[var(--accent1)] bg-[var(--background3)] text-[var(--accent1)] px-6 font-[var(--bold)]" : "text-[var(--textColor2)] font-[var(--medium)] hover:bg-[var(--background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--md)]`
+        const icon = (<Icon name={iconName} stroke={isSelected? 2 : 1.5} color={isSelected? colors["accent1"] : colors["textColor2"] } size={size}/>)
 
         return (
             <Link
@@ -70,13 +71,13 @@ export default function LinkComponent(props: LinkCompProps) {
         )
     }
 
+    const baseStyle = `${variant === "hug"? "w-max" : "w-full"} font-[var(--medium)] flex cursor-pointer transition-[0.1s_ease-out] text-[var(--textColor1)] items-center relative`
     const {underline, children} = props
-    const baseStyle = `${variant === "hug"? "w-[max-content]" : "w-full"} relative cursor-pointer transition-[0.1s_ease-out] font-[700] text-[var(--accent-color1)] overflow-hidden h-[max-content] flex`
-    const lineStyle = underline? `border-b-[1px] border-b-[var(--text-color1)]` : ""
+    const lineStyle = underline? `border-b-[1px] border-b-[var(--textColor1)]` : ""
     const linkStyle  = `${baseStyle} ${lineStyle}`
 
     return (
-    <Link href= {href} className={`${linkStyle}`} style={specificStyle}>
+    <Link href= {href} className={`${linkStyle}`} style={{...specificStyle, ...colorVariables, ...fontWeightVariables}}>
         {children}
     </Link>
   )

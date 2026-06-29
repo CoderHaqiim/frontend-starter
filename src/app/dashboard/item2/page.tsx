@@ -1,10 +1,11 @@
-import Frame from '@/src/components/mixed/frame'
-import Heading from '@/src/components/ui/heading'
+import Frame from '@/src/components/ui/primitives/frame'
+import Heading from '@/src/components/ui/primitives/heading'
+import Main from '@/src/components/layout/main'
 
 export default function Item2() {
   return (
-    <Frame variant="custom" padding="md" specificStyle={{width: "100%", height:"100%"}}>
-      <Heading type="h1" text="Item2"/>
+    <Frame width="stretch" height="stretch"> 
+      <Heading size="lg" type="h1" text="item2"/>
     </Frame>
   )
 }

@@ -1,39 +1,44 @@
 "use client"
 
-import Frame from '@/src/components/mixed/frame'
-import Form from '@/src/components/ui/form'
-import Label from '@/src/components/ui/label'
-import Input from '@/src/components/ui/input'
-import Button from '@/src/components/ui/button'
-import Paragraph from '@/src/components/ui/paragraph'
-import LinkComponent from '@/src/components/ui/link'
-import Heading from '@/src/components/ui/heading'
+import Frame from '@/src/components/ui/primitives/frame'
+import Form from '@/src/components/ui/composites/form'
+import Label from '@/src/components/ui/primitives/label'
+import Input from '@/src/components/ui/primitives/input'
+import Button from '@/src/components/ui/primitives/button'
+import Paragraph from '@/src/components/ui/primitives/paragraph'
+import LinkComponent from '@/src/components/ui/primitives/link'
+import Heading from '@/src/components/ui/primitives/heading'
 import { colors } from '../../design/colors'
+import Page from '@/src/components/layout/page'
 
-export default function Page() {
+export default function SignupPage() {
   return (
-    <Frame variant="page" direction='row' centered specificStyle={{backgroundColor:"var(--background2)"}}>
-        <Frame variant="custom" direction='column' specificStyle={{backgroundColor: colors["accent1"], width:"400px", height:"100vh"}}></Frame>
-        <Frame centered variant="custom"specificStyle={{flex:"1"}} >
-            <Frame variant='custom' padding='lg' direction="column" specificStyle={{width:"500px", gap:"8px", height:"max-content"}}>
+    <Page 
+    direction='row' 
+    centered
+    scrollable
+    specificStyle={{backgroundColor:"var(--background2)"}}>
+        <Frame width="400px" height="100vh" direction='column' specificStyle={{backgroundColor: colors["accent1"]}}></Frame>
+        <Frame centered width="auto" height="stretch" specificStyle={{flex:"1"}} >
+            <Frame width="500px" height="max-content" padding='lg' direction="column" specificStyle={{gap:"8px"}}>
                 <Form variant="plain" url="/auth/signup">
-                    <Heading type='display' text="Create new account"/>
-                    <Frame direction='column' variant="stretch">
+                    <Heading size="xxl" type='h1' text="Create new account"/>
+                    <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Username' size='md'/>
                         <Input outline name="username" variant='default' type='text' size='lg' border placeholder='Username'/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
-                    <Frame direction='column' variant="stretch">
+                    <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Email' size='md'/>
                         <Input outline name="email" variant="default" type='text' size="lg" border placeholder="Email"/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
-                    <Frame direction='column' variant="stretch">
+                    <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Password' size='md'/>
                         <Input outline name="password" variant="password" type='text' size='lg' border placeholder='Confirm Password'/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                     </Frame>
-                    <Frame direction='column' variant="stretch">
+                    <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Confirm Password' size='md'/>
                         <Input name='confirmPassword' variant='password' type='text' size="lg" border placeholder='password' outline/>
                         <div className='hidden text-[0.6rem] font-[500] text-[red]'>
@@ -41,14 +46,12 @@ export default function Page() {
                         </div>
                     </Frame>
                     <Button  
-                        text='Signup'
+                        text='Sign up'
                         propagate
                         role='submit'
-                        id="sign-btn" 
                         variant="regular" 
                         size='xl'
-                        specificStyle={{
-                            justifyContent:"center", 
+                        specificStyles={{
                             width:"100%"
                         }}/>
                         
@@ -59,6 +62,6 @@ export default function Page() {
                 </Paragraph>
             </Frame>
         </Frame>
-    </Frame>
+    </Page>
   )
 }
