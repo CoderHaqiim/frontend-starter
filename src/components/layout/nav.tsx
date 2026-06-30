@@ -119,7 +119,7 @@ export default function Nav() {
           <Frame width="hug" height="stretch" specificStyle={{gap:space["md"], height:"100%", alignItems:"center"}}>
             <Searchbar/>
             <div ref={notificationRef} className="relative flex items-center">
-              <Button func={toggleNotifications} size="lg" iconName="icon-bell" variant="icon" 
+              <Button func={toggleNotifications} size="md" iconName="icon-bell" variant="icon" 
                 specificStyles={{
                   border:`solid 1px ${colors["outline"]}`, 
                   borderRadius:"8px"
@@ -155,7 +155,7 @@ export default function Nav() {
                     <Button
                       key={index}
                       variant="custom"
-                      size="lg"
+                      size="md"
                       specificStyles={{
                         width: "100%",
                         height: "auto",
@@ -173,7 +173,7 @@ export default function Nav() {
                 </Frame>
               )}
             </div>
-            <Button size="lg" iconName="icon-user" variant="icon" 
+            <Button size="md" iconName="icon-user" variant="icon" 
               specificStyles={{
                 border:`solid 1px ${colors["outline"]}`, 
                 borderRadius:"50%"

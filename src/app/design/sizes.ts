@@ -1,12 +1,12 @@
   import { ObjectRecord } from "@/src/types/types"
 
 export const elementSizes: ObjectRecord = {
-    "xs": "24px",
-    "sm": "28px",
-    "md": "32px",
-    "lg": "36px",
-    "xl": "40px",
-    "xxl": "44px",
+    "xs": "28px",
+    "sm": "36px",
+    "md": "40px",
+    "lg": "44px",
+    "xl": "48px",
+    "xxl": "52px",
 }
 
 export const paddingSizes:ObjectRecord = {

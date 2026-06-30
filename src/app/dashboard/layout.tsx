@@ -6,6 +6,7 @@ import RightAside from "@/src/components/layout/rightAside"
 import { ReactNode } from "react"
 import { colors, colorVariables } from "../design/colors"
 import { space } from "../design/spacing"
+import Button from "@/src/components/ui/primitives/button"
 import PageComponent from "@/src/components/layout/page"
 
 type LayoutProps = {
@@ -17,7 +18,7 @@ export default function Layout({children}: LayoutProps) {
       scrollable={false} 
       direction="column" 
       specificStyle={{
-        gap:"1px", 
+        gap:"2px", 
         overflow:"hidden",
         backgroundColor: colors["background3"]
       }}
@@ -25,7 +26,7 @@ export default function Layout({children}: LayoutProps) {
       <Nav/>
       <Frame width="stretch" height="stretch"
         specificStyle={{
-          gap: space["xs"], 
+          gap:"2px", 
           flex:"1",
         }}
         >
@@ -37,6 +38,20 @@ export default function Layout({children}: LayoutProps) {
           {children}
         </Main>
         <RightAside/>
+        <Button 
+          variant="textIcon" 
+          size="lg" 
+          iconName="icon-plus" 
+          iconPosition="left" 
+          text="Create Business"
+          iconColor = {colors["white"]}
+
+          specificStyles={{
+            position:"fixed",
+            bottom: space["xl"],
+            right: space["xl"]
+          }}
+        />
       </Frame>
     </PageComponent>
   )

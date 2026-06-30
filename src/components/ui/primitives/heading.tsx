@@ -6,10 +6,11 @@ import { fontWeightVariables } from "@/src/app/design/typograhy"
 type HeadingProps = {
     text: string,
     type: "h1" | "h2" | "h3" | "h4",
-    size: Sizes
+    size: Sizes,
+    specificStyles?: CSSProperties
 }
 
-export default function Heading({text, size, type}: HeadingProps){
+export default function Heading({text, size, type, specificStyles}: HeadingProps){
 
   const baseClass = `w-full text-[var(--text-color1)] font-[var(--semi-bold)]`
 
@@ -22,6 +23,7 @@ export default function Heading({text, size, type}: HeadingProps){
     <HeadingTag className={`${baseClass}`} 
     style={{
       ...defaultStyle,
+      ...specificStyles,
       ...fontWeightVariables
       }}>
       {text}

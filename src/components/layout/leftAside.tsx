@@ -8,7 +8,7 @@ import { colors } from "@/src/app/design/colors";
 export default function LeftAside() {
    
   return (
-    <Aside variant="left" specificStyles={{width:"240px", backgroundColor: colors["background2"]}}>
+    <Aside variant="left" specificStyles={{width:"240px", backgroundColor: colors["white"]}}>
         <Frame width="stretch" height="hug" direction="column" specificStyle={{gap: space["sm"]}}>
             {
                 navItems.map(item =>

@@ -54,7 +54,7 @@ export default function Button(props: ButtonProps) {
 
     const defaultStyles: CSSProperties = {
         height: elementSizes[size],
-        fontSize: staticTextSize.includes(size)? bodySize["lg"] : bodySize[size],
+        fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         width: variant === "icon" ? elementSizes[size] : undefined,
     };
 

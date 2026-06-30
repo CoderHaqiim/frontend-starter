@@ -10,9 +10,9 @@ export const bodySize: ObjectRecord = {
 }
 
 export const headingSize: ObjectRecord = {
-  "xs": "1rem",     // 16px
-  "sm": "1.1rem",   // 17.6px
-  "md": "1.2rem",   // 19.2px
+  "xs": "0.8rem", 
+  "sm": "1rem",   // 17.6px
+  "md": "1.1rem",   // 19.2px
   "lg": "1.35rem",  // 21.6px
   "xl": "1.5rem",   // 24px
   "xxl": "1.75rem", // 28px
@@ -21,8 +21,8 @@ export const headingSize: ObjectRecord = {
 export const fontWeight: ObjectRecord = {
     "normal": "400",
     "medium": "500",
-    "semi-bold": "600",
-    "bold" :"700"
+    "semi-bold": "700",
+    "bold" :"900"
 }
 
 export const fontWeightVariables: ObjectRecord = {

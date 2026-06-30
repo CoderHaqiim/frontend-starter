@@ -5,7 +5,7 @@ import Main from '@/src/components/layout/main'
 export default function Item2() {
   return (
     <Frame width="stretch" height="stretch"> 
-      <Heading size="lg" type="h1" text="item2"/>
+      <Heading size="lg" type="h1" text="Settings"/>
     </Frame>
   )
 }

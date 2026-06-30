@@ -121,9 +121,9 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
       backgroundColor: colors["background2"],
       }}>
         <Frame width="hug" height="hug" specificStyle={{flex:"1"}}>
-            <Input size='lg' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
+            <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
         </Frame>
-        <Button variant='icon' size='lg' iconName='icon-search'/>
+        <Button variant='icon' size='md' iconName='icon-search'/>
         {showResults && <Frame width="full" height="auto" rounded="md" padding='md' direction="column"
           specificStyle={{
             position: "absolute",

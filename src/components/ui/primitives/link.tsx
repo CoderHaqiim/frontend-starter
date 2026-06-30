@@ -48,7 +48,7 @@ export default function LinkComponent(props: LinkCompProps) {
         }
 
         const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative`
-        const navStyle = `${isSelected? "border-[1px] border[var(--accent1)] bg-[var(--background3)] text-[var(--accent1)] px-6 font-[var(--bold)]" : "text-[var(--textColor2)] font-[var(--medium)] hover:bg-[var(--background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--md)]`
+        const navStyle = `${isSelected? "bg-[var(--background3)] text-[var(--accent1)] px-6 font-[var(--bold)]" : "text-[var(--textColor2)] font-[var(--medium)] hover:bg-[var(--background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--md)]`
         const icon = (<Icon name={iconName} stroke={isSelected? 2 : 1.5} color={isSelected? colors["accent1"] : colors["textColor2"] } size={size}/>)
 
         return (

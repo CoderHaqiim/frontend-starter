@@ -6,15 +6,16 @@ export const colors: ObjectRecord = {
     error: "#e50000",
     warning: "#bd8c04",
     info: "#0534c0",
-    accent1: "#32064f",
+    accent1: "#45086d",
     accent2: "#d397fa",
-    textColor1: "#050505",
-    textColor2:"#5a5858",
+    textColor1: "#1e1e1e",
+    muted: "#484646",
+    textColor2:"#535151",
     background1:"#ffffff",
-    background2: "#f9f9f9",
-    background3: "#e3dede",
+    background2: "#f7f6f6",
+    background3: "#ede9e9",
     white: "#ffffff",
-    outline:"#bcbaba"
+    outline:"#dbd9d9"
 }
 
 
