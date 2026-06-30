@@ -9,10 +9,10 @@ export default function LeftAside() {
    
   return (
     <Aside variant="left" specificStyles={{width:"240px", backgroundColor: colors["white"]}}>
-        <Frame width="stretch" height="hug" direction="column" specificStyle={{gap: space["sm"]}}>
+        <Frame width="stretch" height="hug" direction="column" specificStyle={{gap: space["xs"]}}>
             {
                 navItems.map(item =>
-                    <LinkComponent key={item.id} href={item.link} size="xl" text={item.text} iconName={item.icon} iconPosition="left" variant="nav-link" id={item.id} />
+                    <LinkComponent key={item.id} href={item.link} size="lg" text={item.text} iconName={item.icon} iconPosition="left" variant="nav-link" id={item.id} />
                 )
             }
         </Frame>

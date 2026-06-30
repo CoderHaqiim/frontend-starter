@@ -40,7 +40,7 @@ export default function Layout({children}: LayoutProps) {
         <RightAside/>
         <Button 
           variant="textIcon" 
-          size="lg" 
+          size="xl" 
           iconName="icon-plus" 
           iconPosition="left" 
           text="Create Business"

@@ -1,8 +1,8 @@
   import { ObjectRecord } from "@/src/types/types"
 
 export const elementSizes: ObjectRecord = {
-    "xs": "28px",
-    "sm": "36px",
+    "xs": "25px",
+    "sm": "30px",
     "md": "40px",
     "lg": "44px",
     "xl": "48px",
