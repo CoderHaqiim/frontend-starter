@@ -2,6 +2,7 @@ import { headingSize } from "@/src/app/design/typograhy"
 import { CSSProperties } from "react"
 import { Sizes } from "@/src/types/types"
 import { fontWeightVariables } from "@/src/app/design/typograhy"
+import { colorVariables } from "@/src/app/design/colors"
 
 type HeadingProps = {
     text: string,
@@ -12,7 +13,7 @@ type HeadingProps = {
 
 export default function Heading({text, size, type, specificStyles}: HeadingProps){
 
-  const baseClass = `w-full text-[var(--text-color1)] font-[var(--semi-bold)]`
+  const baseClass = `w-full text-[var(--textColor1)] font-[var(--semi-bold)]`
 
   const HeadingTag = type 
   const defaultStyle: CSSProperties = {
@@ -24,7 +25,8 @@ export default function Heading({text, size, type, specificStyles}: HeadingProps
     style={{
       ...defaultStyle,
       ...specificStyles,
-      ...fontWeightVariables
+      ...fontWeightVariables,
+      ...colorVariables
       }}>
       {text}
     </HeadingTag>

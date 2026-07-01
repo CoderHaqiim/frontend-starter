@@ -43,7 +43,7 @@ export default function Layout({children}: LayoutProps) {
           size="xl" 
           iconName="icon-plus" 
           iconPosition="left" 
-          text="Create Business"
+          text="Add Business"
           iconColor = {colors["white"]}
 
           specificStyles={{

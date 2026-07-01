@@ -15,7 +15,7 @@ export const colors: ObjectRecord = {
     background2: "#f7f6f6",
     background3: "#ede9e9",
     white: "#ffffff",
-    outline:"#dbd9d9"
+    outline:"#cecccc"
 }
 
 

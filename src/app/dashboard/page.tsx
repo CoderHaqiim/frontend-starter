@@ -10,6 +10,7 @@ import Paragraph from "@/src/components/ui/primitives/paragraph"
 import { colors } from "../design/colors"
 import { fontWeight } from "../design/typograhy"
 import Dropdown from "@/src/components/ui/composites/dropdown"
+import Chart1 from "@/src/components/ui/charts/chart1" 
 
 export default function Home() {
   const {userState} = useUserState()
@@ -112,6 +113,29 @@ export default function Home() {
           >
             $3500
           </Paragraph>
+        </Card>
+      </Frame>
+       <Frame 
+      width="stretch" 
+      height="hug"
+      specificStyle={{
+        gap: space["md"]
+      }}
+      >
+        <Card width="stretch" height="stretch" padding="md" rounded="sm">
+          <Frame width="stretch" height="hug" 
+          specificStyle={{
+            justifyContent:"space-between",
+            marginBottom: space["lg"]
+          }}>
+            <Heading 
+              size="md" 
+              type="h2" 
+              text="Performance Overview"
+            />
+            <Dropdown name="report" size="sm" options={options}/>
+          </Frame>
+          <Chart1 />
         </Card>
       </Frame>
       <Frame 
