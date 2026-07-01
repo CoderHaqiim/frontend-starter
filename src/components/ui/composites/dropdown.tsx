@@ -38,12 +38,17 @@ export default function Dropdown({
   const getOptionValue = (option: DropdownOption) =>
     typeof option === "string" ? option : option.value;
 
+  const formFuncHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (formFunc) {
+      formFunc(e);
+    }
+  };
 
   return (
     <div className="relative flex w-max flex-1 items-center">
       <select
         name="cars"
-        onChange={formFunc}
+        onChange={formFuncHandler}
         className={`w-max appearance-none rounded-[4px] pr-[30px] bg-[var(--background1)] px-[8px] text-[14px] text-[var(--textColor1)] outline-none ${
           border ? "border border-[var(--outline)]" : ""
         } ${

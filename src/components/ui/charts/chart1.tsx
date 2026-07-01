@@ -1,6 +1,7 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { colors } from '@/src/app/design/colors';
-import { bodySize } from '@/src/app/design/typograhy';
+import { bodySize, fontWeight } from '@/src/app/design/typograhy';
+
 // #region Sample data
 const data = [
   {
@@ -25,7 +26,7 @@ const data = [
     name: 'week 3',
     "total income": 3000,
     "expenses": 3908,
-    "profit": -908,
+    "profit": 908,
   },
   {
     name: 'week 4',
@@ -34,12 +35,37 @@ const data = [
     "profit": 2181,
   }
 ];
+
+type ChartProps = {
+  variant: "Line chart" | "Bar chart"
+}
 // #endregion
 
-export default function Chart1() {
+export default function Chart1({variant}: ChartProps) {
+
+    const chartStyle = {
+        width: '100%',
+        maxWidth: '600px',
+        height: '100%',
+        maxHeight: '300px',
+        aspectRatio: 1.618
+    }
+
+    const useLegend = () =>{
+        return (
+            <Legend 
+                align='left'
+                iconType="square"
+                iconSize={5}
+            />
+        )
+    }
+
   return (
+
+    variant === "Line chart" ? (
     <LineChart
-      style={{ width: '100%', maxWidth: '600px', height: '100%', maxHeight: '300px', aspectRatio: 1.618 }}
+      style={chartStyle}
       responsive
       data={data}
       margin={{
@@ -50,8 +76,8 @@ export default function Chart1() {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" stroke={colors["outline"]} />
-      <XAxis dataKey="name" axisLine={{stroke: colors["textColor2"]}}  tick={{ fontSize: bodySize["sm"], fill: colors["textColor1"] }}/>
-      <YAxis width="auto" axisLine={{stroke: colors["textColor2"]}} tick={{ fontSize: bodySize["sm"], fill: colors["textColor1"] }}/>
+      <XAxis dataKey="name" axisLine={{stroke: colors["textColor1"]}}  tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["textColor1"] }}/>
+      <YAxis width="auto" axisLine={{stroke: colors["textColor1"]}} tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["textColor1"] }}/>
       <Tooltip
         cursor={{
           stroke: 'var(--color-border-2)',
@@ -61,7 +87,7 @@ export default function Chart1() {
           borderColor: 'var(--color-border-2)',
         }}
       />
-      <Legend />
+      {useLegend()}
       <Line
         type="monotone"
         dataKey="total income"
@@ -90,5 +116,26 @@ export default function Chart1() {
         activeDot={{ stroke: 'var(--color-surface-base)' }}
       />
     </LineChart>
-  );
-}
+  ) : (<BarChart
+      style={chartStyle}
+      responsive
+      data={data}
+      margin={{
+        top: 5,
+        right: 0,
+        left: 0,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis width="auto" />
+      <Tooltip />
+      {useLegend()}
+      <Bar dataKey="total income" fill="#8884d8" activeBar={{ fill: 'pink', stroke: 'blue' }} radius={[10, 10, 0, 0]} />
+      <Bar dataKey="expenses" fill="#82ca9d" activeBar={{ fill: 'gold', stroke: 'purple' }} radius={[10, 10, 0, 0]} />
+      <Bar dataKey="profit" fill="#217cc7" activeBar={{ fill: 'lightblue', stroke: 'darkblue' }} radius={[10, 10, 0, 0]} />
+    </BarChart>
+    )
+)}
+    

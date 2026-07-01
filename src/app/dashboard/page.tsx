@@ -11,10 +11,19 @@ import { colors } from "../design/colors"
 import { fontWeight } from "../design/typograhy"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import Chart1 from "@/src/components/ui/charts/chart1" 
+import { useState } from "react"
 
 export default function Home() {
   const {userState} = useUserState()
-  const options = ["This month", "January", "February"]
+  const reportOptions = ["This week", "This month", "This year"]
+  const chartOptions = ["Line chart", "Bar chart"]
+  const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
+
+  const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value as "Line chart" | "Bar chart";
+    setSelectedChart(selectedValue);
+  };
+
   return (
     <Frame width="stretch" direction="column" height="hug"
       specificStyle={{
@@ -133,9 +142,16 @@ export default function Home() {
               type="h2" 
               text="Performance Overview"
             />
-            <Dropdown name="report" size="sm" options={options}/>
+            <Frame 
+              width="hug" 
+              height="hug" specificStyle={{
+                gap: space["sm"]
+              }}>
+              <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
+              <Dropdown name="report" size="sm" options={reportOptions}/>
+            </Frame>
           </Frame>
-          <Chart1 />
+          <Chart1 variant={selectedChart}/>
         </Card>
       </Frame>
       <Frame 
@@ -154,7 +170,6 @@ export default function Home() {
               type="h2" 
               text="Performance Overview"
             />
-            <Dropdown name="report" size="sm" options={options}/>
           </Frame>
         </Card>
       </Frame>
