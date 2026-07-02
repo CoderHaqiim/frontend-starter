@@ -37,7 +37,7 @@ export default function LoginPage() {
                         text='Log in'
                         propagate
                         role='submit'
-                        variant="regular" 
+                        variant="text" 
                         size='xl'
                         specificStyles={{
                             width:"100%"

@@ -11,6 +11,7 @@ import { colors } from "../design/colors"
 import { fontWeight } from "../design/typograhy"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import Chart1 from "@/src/components/ui/charts/chart1" 
+import Modal from "@/src/components/ui/composites/modal"
 import { useState } from "react"
 
 export default function Home() {
@@ -47,7 +48,7 @@ export default function Home() {
 
             specificStyles={{
               color: colors["textColor2"],
-              fontWeight: fontWeight["medium"]
+              fontWeight: fontWeight["normal"]
             }}
           />
           <Paragraph 
@@ -68,7 +69,7 @@ export default function Home() {
 
             specificStyles={{
               color: colors["textColor2"],
-              fontWeight: fontWeight["medium"]
+              fontWeight: fontWeight["normal"]
             }}
           />
           <Paragraph 
@@ -89,7 +90,7 @@ export default function Home() {
 
             specificStyles={{
               color: colors["textColor2"],
-              fontWeight: fontWeight["medium"]
+              fontWeight: fontWeight["normal"]
             }}
           />
           <Paragraph 
@@ -110,7 +111,7 @@ export default function Home() {
 
             specificStyles={{
               color: colors["textColor2"],
-              fontWeight: fontWeight["medium"]
+              fontWeight: fontWeight["normal"]
             }}
           />
           <Paragraph 
@@ -135,7 +136,7 @@ export default function Home() {
           <Frame width="stretch" height="hug" 
           specificStyle={{
             justifyContent:"space-between",
-            marginBottom: space["lg"]
+            marginBottom: space["md"]
           }}>
             <Heading 
               size="md" 

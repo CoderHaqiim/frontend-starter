@@ -141,7 +141,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
           {!loading && error && <p className="text-sm text-red-500">{error}</p>}
           {!loading && !error && searchResults.length === 0 && <p className="text-sm text-[#666666]">No results found</p>}
           {!loading && !error && searchResults.map((result, index) => (
-            <div key={index} className="w-full rounded-[6px] px-2 py-1 text-sm hover:bg-[var(--background2)]">
+            <div key={index} className="w-full rounded-[var(--md)] px-2 py-1 text-sm hover:bg-[var(--background2)]">
               {getResultLabel(result)}
             </div>
           ))}

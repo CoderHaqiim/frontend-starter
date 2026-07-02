@@ -134,13 +134,13 @@ export default function Nav() {
               </Button>
               {
                 notificationsOpen && (
-                <Frame width={320} height="auto" rounded="md" padding="sm" direction="column"
+                <Frame width="350px" height="auto" rounded="md" padding="sm" direction="column"
                   specificStyle={{
                     position: "absolute",
                     minHeight: "80px",
                     maxHeight: "360px",
                     backgroundColor: "white",
-                    border: "solid 1px var(--liner)",
+                    border: "solid 1px var(--outline)",
                     top: "120%",
                     right: "0px",
                     boxShadow: "0px 1px 5px -1px #000000c4",

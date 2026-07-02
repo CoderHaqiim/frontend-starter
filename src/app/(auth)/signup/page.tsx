@@ -49,7 +49,7 @@ export default function SignupPage() {
                         text='Sign up'
                         propagate
                         role='submit'
-                        variant="regular" 
+                        variant="text" 
                         size='xl'
                         specificStyles={{
                             width:"100%"

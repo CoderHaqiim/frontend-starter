@@ -5,10 +5,9 @@ import Link from 'next/link'
 import Icon, { IconType } from './icon'
 import { useSelectedNavState } from '@/src/store/navState'
 import { elementSizes } from '@/src/app/design/sizes'
-import { colorVariables, colors } from '@/src/app/design/colors'
-import { spaceVariables } from '@/src/app/design/spacing'
-import { fontWeightVariables, fontWeight } from '@/src/app/design/typograhy'
+import { colors } from '@/src/app/design/colors'
 import { bodySize } from '@/src/app/design/typograhy'
+import { SizeType } from '@/src/types/types'
 
 type BaseLinkProps = {
     href: string
@@ -28,7 +27,7 @@ type NavLinkProps = BaseLinkProps & {
     iconName: IconType
     iconColor?: string
     iconPosition: "left" | "right"
-    size: "xs" | "sm" | "md" | "lg" | "xl"
+    size: SizeType
 }
 
 type LinkCompProps = DefaultLinkProps | NavLinkProps
@@ -59,9 +58,6 @@ export default function LinkComponent(props: LinkCompProps) {
                 style={{
                     ...defaultStyles,
                     ...specificStyle,
-                    ...colorVariables,
-                    ...spaceVariables,
-                    ...fontWeightVariables
                 }}
             >
                 {iconPosition === "left" && icon}
@@ -77,7 +73,11 @@ export default function LinkComponent(props: LinkCompProps) {
     const linkStyle  = `${baseStyle} ${lineStyle}`
 
     return (
-    <Link href= {href} className={`${linkStyle}`} style={{...specificStyle, ...colorVariables, ...fontWeightVariables}}>
+    <Link href= {href} className={`${linkStyle}`} 
+        style={{
+            ...specificStyle
+        }}
+    >
         {children}
     </Link>
   )

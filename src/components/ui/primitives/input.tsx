@@ -3,8 +3,7 @@ import { elementSizes } from '@/src/app/design/sizes'
 import React, { useState, CSSProperties } from 'react'
 import Button from './button'
 import { bodySize } from '@/src/app/design/typograhy'
-import { colorVariables } from '@/src/app/design/colors'
-import { Sizes } from '@/src/types/types'
+import { SizeType } from '@/src/types/types'
 
 type InputProp = {
     type: React.HTMLInputTypeAttribute,
@@ -12,7 +11,7 @@ type InputProp = {
     placeholder?: string,
     border?: boolean,
     outline?: boolean,
-    size?: Sizes
+    size?: SizeType
     variant: "password" | "checkbox" | "radio" | "default"
     name: string,
     func?: () => void
@@ -62,13 +61,12 @@ export default function Input({
             className={
                 `w-auto flex p-[8px] outline-none 
                 ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--accent1)] hover:border-[var(--accent1)]"} 
-                items-[center] placeholder-[#999999] rounded-[8px] 
+                items-[center] placeholder-[var(--text-color2)] rounded-[var(--md)] 
                 ${border && "border-[var(--outline-color2)] border-[0.5px]"}
             `} 
             style={{
                 ...defaultStyles, 
-                ...specificStyle, 
-                ...colorVariables 
+                ...specificStyle
             }}
         />
         {
@@ -77,7 +75,10 @@ export default function Input({
                     func={toggleText} 
                     variant="icon" 
                     size={size ?? "md"} iconName={showText? "icon-eye-off" : "icon-eye"}
-                    specificStyles={{position:"absolute", right:"0px"}}
+                    specificStyles={{
+                        position:"absolute", 
+                        right:"0px"
+                    }}
                 />
             }
       </div>

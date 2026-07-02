@@ -4,6 +4,14 @@ import Toast from "../components/ui/composites/toast";
 import Frame from "../components/ui/primitives/frame";
 import { space } from "./design/spacing";
 import { Google_Sans } from "next/font/google";
+import {spaceVariables} from "./design/spacing";
+import { colorVariables } from "./design/colors";
+import { fontWeightVariables } from "./design/typograhy";
+import { radiusVariables } from "./design/radius";
+import { bodySizeVariables } from "./design/typograhy";
+import { headingSizeVariables } from "./design/typograhy";
+import { paddingSizesVariables } from "./design/sizes";
+import { elementSizesVariables } from "./design/sizes";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,7 +35,17 @@ export default function RootLayout({
       className= "h-full bg-[var(--background2)] antialiased"
     >
       <body
-        className={`${googleSans.variable} min-h-full flex flex-col relative`}
+        className={`min-h-full flex flex-col relative ${googleSans.variable}`}
+        style={{
+          ...spaceVariables,
+          ...colorVariables,
+          ...fontWeightVariables,
+          ...radiusVariables,
+          ...bodySizeVariables,
+          ...headingSizeVariables,
+          ...paddingSizesVariables,
+          ...elementSizesVariables
+        }}
         suppressHydrationWarning
       >
         <Frame

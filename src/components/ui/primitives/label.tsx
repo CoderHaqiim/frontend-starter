@@ -1,12 +1,11 @@
 import { CSSProperties } from 'react'
 import { bodySize } from '@/src/app/design/typograhy'
-import { fontWeightVariables, fontWeight } from '@/src/app/design/typograhy'
-import { colorVariables } from '@/src/app/design/colors'
-import { space, spaceVariables } from '@/src/app/design/spacing'
+import { space } from '@/src/app/design/spacing'
+import {SizeType} from '@/src/types/types'
 
 type LabelProps = {
  text: string | undefined,
- size: "xs" | "sm" | "md",
+ size: SizeType,
  specificStyle?: CSSProperties
 }
 
@@ -24,9 +23,6 @@ export default function Label({text, size, specificStyle}: LabelProps) {
     `} style={{
       ...defaultStyle, 
       ...specificStyle,
-      ...spaceVariables,
-      ...colorVariables,
-      ...fontWeightVariables
       }}>
       {text}
     </label>

@@ -21,12 +21,14 @@ import {
   NotebookPen
 } from 'lucide-react'
 
+import { SizeType } from '@/src/types/types'
 
-interface IconProps{
-    size: "xs" | "sm" | "md" | "lg" | "xl" | "xxl",
+
+type IconProps = {
+    size: SizeType,
     color?: string,
-    stroke?: number
-    name: IconType
+    stroke?: number,
+    name: IconType,
     fill?: string
 }
 

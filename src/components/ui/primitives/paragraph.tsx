@@ -1,11 +1,11 @@
 import React, { CSSProperties, ReactNode } from 'react'
-import { Sizes } from '@/src/types/types'
+import { SizeType } from '@/src/types/types'
 import { bodySize } from '@/src/app/design/typograhy'
 import { colors } from '@/src/app/design/colors'
 
 type ParagraphProps = {
     children?: ReactNode,
-    size: Sizes
+    size: SizeType
     specificStyle?: CSSProperties
 }
 
@@ -18,7 +18,12 @@ export default function Paragraph({children, size ="md", specificStyle}: Paragra
   }
 
   return (
-    <p className={baseClass} style={{...defaultStyle, ...specificStyle}}>
+    <p className={baseClass} 
+      style={{
+        ...defaultStyle, 
+        ...specificStyle
+        }}
+    >
         {children}
     </p>
   )

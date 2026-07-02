@@ -3,7 +3,7 @@
 import React, { CSSProperties } from "react";
 import Icon from "../primitives/icon";
 import { elementSizes } from "@/src/app/design/sizes";
-import { Sizes } from "@/src/types/types";
+import { SizeType } from "@/src/types/types";
 import { colorVariables } from "@/src/app/design/colors";
 
 type DropdownOption =
@@ -16,7 +16,7 @@ type DropdownOption =
 type DropdownProps = {
   name: string;
   options: DropdownOption[];
-  size?: Sizes;
+  size?: SizeType;
   border?: boolean;
   outline?: boolean;
   specificStyle?: CSSProperties;
@@ -49,16 +49,15 @@ export default function Dropdown({
       <select
         name="cars"
         onChange={formFuncHandler}
-        className={`w-max appearance-none rounded-[4px] pr-[30px] bg-[var(--background1)] px-[8px] text-[14px] text-[var(--textColor1)] outline-none ${
+        className={`w-max accent-[var(--accent2)] appearance-none rounded-[var(--sm)] pr-[30px] bg-[var(--background1)] px-[8px] text-[14px] text-[var(--textColor1)] outline-none ${
           border ? "border border-[var(--outline)]" : ""
         } ${
           outline
-            ? "hover:border-[var(--accent-color1)] focus:border-2 focus:border-[var(--accent-color1)]"
+            ? "hover:border-[var(--accent1)] focus:border-2 focus:border-[var(--accent1)]"
             : ""
         }`}
         style={{
           height: elementSizes[size],
-          ...colorVariables,
           ...specificStyle,
         }}
       >

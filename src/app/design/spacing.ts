@@ -1,20 +1,17 @@
-import { ObjectRecord } from "@/src/types/types"
-import { CSSProperties } from "react"
+import { generateVariable } from "@/src/utils/generateVariable"
 
-export const space: ObjectRecord = {
+const space = {
     "xs": "4px",
     "sm": "6px",
     "md": "10px",
     "lg": "16px",
     "xl" : "32px",
     "xxl" : "40px"
-}
+}as const
 
-export const spaceVariables = {
-    "--xs": space["xs"],
-    "--sm": space["sm"],
-    "--md": space["md"],
-    "--lg": space["lg"],
-    "--xl" : space["xl"],
-    "--xxl" : space["xxl"]
-} as CSSProperties
+const spaceVariables = generateVariable(space)
+
+export {
+    space, 
+    spaceVariables
+}

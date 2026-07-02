@@ -1,13 +1,14 @@
 import React, { ReactNode } from 'react'
 import Frame from '../primitives/frame'
 import { CSSProperties } from 'react'
+import { FrameSizeType, SizeType } from '@/src/types/types'
 
 type CardProps = {
     children: ReactNode,
-    rounded?: "xs" | "sm" | "md" | "lg" | "xl",
-    padding: "xs" | "sm" | "md" | "lg" | "xl",
-    width: "hug" | "stretch" | CSSProperties["width"];
-    height: "hug" | "stretch" | CSSProperties["height"];
+    rounded?: SizeType,
+    padding: SizeType,
+    width: FrameSizeType,
+    height: FrameSizeType,
 }
 
 export default function Card({children, width, height, padding, rounded}: CardProps) {

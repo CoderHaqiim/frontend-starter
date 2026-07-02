@@ -1,20 +1,22 @@
 import React, { CSSProperties, ReactNode } from "react";
 import { colorVariables } from "@/src/app/design/colors";
 import { radius } from "@/src/app/design/radius";
-import { Sizes } from "@/src/types/types";
+import { SizeType } from "@/src/types/types";
+import { space } from "@/src/app/design/spacing";
+import { FrameSizeType } from "@/src/types/types";
 
 type FrameProp = {
   scroll?: boolean;
   specificStyle?: CSSProperties;
-  rounded?: "round" | Sizes;
+  rounded?: SizeType;
   children?: ReactNode;
   scrollbar?: boolean;
   direction?: "row" | "column";
-  padding?: Sizes | undefined;
+  padding?: SizeType | undefined;
   border?: boolean;
   centered?: boolean;
-  width: "hug" | "stretch" | CSSProperties["width"];
-  height: "hug" | "stretch" | CSSProperties["height"];
+  width: FrameSizeType
+  height: FrameSizeType
 };
 
 export default function Frame({
@@ -30,45 +32,15 @@ export default function Frame({
   width,
   height,
 }: FrameProp) {
-  const borderRadiusValue =
-    rounded === "round"
-      ? "50%"
-      : rounded
-      ? radius[rounded]
-      : undefined;
 
   const baseStyle = `
-    relative
-    flex
-    ${direction === "column" ? "flex-col" : "flex-row"}
+    relative flex
     ${border ? "border-[0.5px] border-[var(--outline)]" : ""}
     ${centered ? "justify-center items-center" : ""}
-    ${
-      padding === "xs"
-        ? "p-1"
-        : padding === "sm"
-        ? "p-2"
-        : padding === "md"
-        ? "p-4"
-        : padding === "lg"
-        ? "p-8"
-        : ""
-    }
-    ${
-      direction === "row"
-        ? scroll
-          ? "overflow-x-auto"
-          : "overflow-x-visible"
-        : scroll
-        ? "overflow-y-auto"
-        : "overflow-y-visible"
-    }
+    ${scroll? direction === "column" ? "overflow-y-scroll" : "overflow-x-scroll": ""}
   `;
 
-  const frameStyle = `
-    ${baseStyle}
-    ${scroll && scrollbar ? "scrollVisible" : ""}
-  `;
+  const frameStyle = `${baseStyle} ${scroll && scrollbar ? "scrollVisible" : ""}`;
 
   const widthValue: CSSProperties["width"] =
     width === "hug"
@@ -84,19 +56,20 @@ export default function Frame({
       ? "100%"
       : height;
 
-  const mergedStyle: CSSProperties = {
-    borderRadius: borderRadiusValue,
+  const defaultStyle: CSSProperties = {
+    borderRadius: rounded && radius[rounded],
     width: widthValue,
     height: heightValue,
-    ...specificStyle,
+    flexDirection: direction,
+    padding: padding && space[padding]
   };
 
   return (
     <div
       className={frameStyle}
       style={{
-        ...mergedStyle,
-        ...colorVariables,
+        ...defaultStyle,
+        ...specificStyle
       }}
     >
       {children}
