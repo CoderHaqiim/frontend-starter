@@ -18,7 +18,11 @@ import {
   Store,
   Settings,
   ArrowRightLeft,
-  NotebookPen
+  NotebookPen,
+  CreditCard,
+  Sun,
+  Moon,
+  Maximize2
 } from 'lucide-react'
 
 import { SizeType } from '@/src/types/types'
@@ -52,7 +56,11 @@ const icons = {
     "icon-settings"  : Settings,
     "icon-store"  : Store,
     "icon-transactions": ArrowRightLeft,
-    "icon-notes" : NotebookPen
+    "icon-notes" : NotebookPen,
+    "icon-credit-card" : CreditCard,
+    "icon-sun" : Sun,
+    "icon-moon" : Moon,
+    "icon-expand" : Maximize2
 };
 
 export type IconType = keyof typeof icons;
@@ -64,7 +72,7 @@ export default function Icon({ fill, stroke, size, name, color }: IconProps) {
     "md" : 18,
     "lg" : 20,
     "xl" : 22,
-    "xxl": 24
+    "xxl": 28
   }
 
   const iconSize = size && sizes[size] 
@@ -72,7 +80,7 @@ export default function Icon({ fill, stroke, size, name, color }: IconProps) {
   const iconProps = {
     strokeWidth: stroke ?? 1.5,
     size: iconSize ?? "18px",
-    color: color ?? "var(--textColor1)",
+    color: color ?? "var(--color-textColor1)",
     fill: fill ?? "transparent"
   };
 

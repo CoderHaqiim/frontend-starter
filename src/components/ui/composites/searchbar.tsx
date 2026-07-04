@@ -115,21 +115,21 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
 
   return (
     <Frame width="350px" height="hug" centered border rounded="sm"
-    specificStyle={{ 
+    specificStyles={{ 
       border: focused? `1.5px ${colors["accent1"]} solid` : `0.5px ${colors["outline"]} solid`,
       position: "relative",
       backgroundColor: colors["background2"],
       }}>
-        <Frame width="hug" height="hug" specificStyle={{flex:"1"}}>
+        <Frame width="hug" height="hug" specificStyles={{flex:"1"}}>
             <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
         </Frame>
         <Button variant='icon' size='md' iconName='icon-search'/>
         {showResults && <Frame width="full" height="auto" rounded="md" padding='md' direction="column"
-          specificStyle={{
+          specificStyles={{
             position: "absolute",
             width:"100%",  
             minHeight:"80px",
-            maxHeight:"300px",
+            maxHeight:"300px", 
             backgroundColor:"white", 
             top:"120%",
             left:"0px",
@@ -138,10 +138,10 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
             gap: space["sm"]
             }}>
           {loading && <p className="text-sm text-[#666666]">Searching...</p>}
-          {!loading && error && <p className="text-sm text-red-500">{error}</p>}
-          {!loading && !error && searchResults.length === 0 && <p className="text-sm text-[#666666]">No results found</p>}
+          {!loading && error && <p className="text-[var(--bodySize-sm)] text-red-500">{error}</p>}
+          {!loading && !error && searchResults.length === 0 && <p className="text-[var(--bodySize-sm)] text-[#666666]">No results found</p>}
           {!loading && !error && searchResults.map((result, index) => (
-            <div key={index} className="w-full rounded-[var(--md)] px-2 py-1 text-sm hover:bg-[var(--background2)]">
+            <div key={index} className="w-full rounded-[var(--radius-md)] px-2 py-1 text-sm hover:bg-[var(--color-background2)]">
               {getResultLabel(result)}
             </div>
           ))}

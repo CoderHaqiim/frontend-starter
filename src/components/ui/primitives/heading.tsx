@@ -11,7 +11,7 @@ type HeadingProps = {
 
 export default function Heading({text, size, type, specificStyles}: HeadingProps){
 
-  const baseClass = `w-full text-[var(--textColor1)] font-[var(--semi-bold)]`
+  const baseClass = `w-full text-[var(--color-textColor1)] font-[var(--fontWeight-semiBold)]`
 
   const HeadingTag = type 
 

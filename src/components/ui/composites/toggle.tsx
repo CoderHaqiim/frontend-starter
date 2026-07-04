@@ -16,7 +16,7 @@ export default function Toggle({name, formFunc} : ToggleProps) {
     }
 
   return (
-    <label className='w-[max-content] h-[max-content] flex cursor-pointer'>
+    <label className='w-max h-max flex cursor-pointer'>
             <input
                 type="checkbox"
                 className='hidden'
@@ -26,11 +26,11 @@ export default function Toggle({name, formFunc} : ToggleProps) {
             />
 
             <div
-                className={`transition-all duration-300 flex p-[2px] border-[var(--outline-color2)] border-[1.5px] h-[max-content] ${
+                className={`transition-all duration-300 flex p-[2px] border-[var(--color-outline)] border-[1.5px] h-max ${
                     checked ? "justify-end" : "justify-start"
-                } rounded-[var(--xl)] w-[38px] items-center`}
+                } rounded-[var(--radius-xl)] w-[38px] items-center`}
             >
-                <div className='bg-[var(--accent-color1)] w-[16px] h-[16px] rounded-[var(--xxl)]'></div>
+                <div className='bg-[var(--color-accent1)] w-[16px] h-[16px] rounded-[var(--radius-xxl)]'></div>
             </div>
         </label>
   )

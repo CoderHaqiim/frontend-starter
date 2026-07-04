@@ -11,7 +11,7 @@ export default function Backdrop({children}:BlindProps) {
         width="stretch" 
         height="stretch" 
         centered 
-        specificStyle={{
+        specificStyles={{
             backgroundColor: "#00000033",
             position: "fixed",
             inset: 0,

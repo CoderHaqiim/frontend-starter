@@ -7,7 +7,7 @@ import { FrameSizeType } from "@/src/types/types";
 
 type FrameProp = {
   scroll?: boolean;
-  specificStyle?: CSSProperties;
+  specificStyles?: CSSProperties;
   rounded?: SizeType;
   children?: ReactNode;
   scrollbar?: boolean;
@@ -15,8 +15,8 @@ type FrameProp = {
   padding?: SizeType | undefined;
   border?: boolean;
   centered?: boolean;
-  width: FrameSizeType
-  height: FrameSizeType
+  width?: FrameSizeType
+  height?: FrameSizeType
 };
 
 export default function Frame({
@@ -27,7 +27,7 @@ export default function Frame({
   scroll,
   direction = "row",
   children,
-  specificStyle,
+  specificStyles,
   centered,
   width,
   height,
@@ -35,7 +35,7 @@ export default function Frame({
 
   const baseStyle = `
     relative flex
-    ${border ? "border-[0.5px] border-[var(--outline)]" : ""}
+    ${border ? "border-[0.5px] border-[var(--color-outline)]" : ""}
     ${centered ? "justify-center items-center" : ""}
     ${scroll? direction === "column" ? "overflow-y-scroll" : "overflow-x-scroll": ""}
   `;
@@ -69,7 +69,7 @@ export default function Frame({
       className={frameStyle}
       style={{
         ...defaultStyle,
-        ...specificStyle
+        ...specificStyles
       }}
     >
       {children}

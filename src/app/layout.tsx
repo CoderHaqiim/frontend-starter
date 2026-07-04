@@ -52,7 +52,7 @@ export default function RootLayout({
           direction="column"
           width="stretch"
           height="hug"
-          specificStyle={{
+          specificStyles={{
             position: "fixed", 
             zIndex:"1000", 
             top:"0px", 

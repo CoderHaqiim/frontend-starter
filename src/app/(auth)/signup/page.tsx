@@ -18,9 +18,15 @@ export default function SignupPage() {
     centered
     scrollable
     specificStyle={{backgroundColor:"var(--background2)"}}>
-        <Frame width="400px" height="100vh" direction='column' specificStyle={{backgroundColor: colors["accent1"]}}></Frame>
-        <Frame centered width="auto" height="stretch" specificStyle={{flex:"1"}} >
-            <Frame width="500px" height="max-content" padding='lg' direction="column" specificStyle={{gap:"8px"}}>
+        <Frame width="400px" height="100vh" direction='column' 
+        specificStyles={{
+            backgroundColor: colors["accent1"]
+            }}
+        >
+
+        </Frame>
+        <Frame centered width="auto" height="stretch" specificStyles={{flex:"1"}} >
+            <Frame width="500px" height="max-content" padding='lg' direction="column" specificStyles={{gap:"8px"}}>
                 <Form variant="plain" url="/auth/signup">
                     <Heading size="xxl" type='h1' text="Create new account"/>
                     <Frame direction='column' width="stretch" height="stretch">

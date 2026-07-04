@@ -1,6 +1,4 @@
 import { CSSProperties, ReactNode } from 'react'
-import { space, spaceVariables } from '@/src/app/design/spacing'
-
 
 type AsideProps = {
     children: ReactNode,
@@ -8,9 +6,13 @@ type AsideProps = {
     specificStyles?: CSSProperties
 }
 
-export default function Aside({children, variant, specificStyles}: AsideProps){
+export default function Aside({children, specificStyles}: AsideProps){
   return (
-    <aside className={`h-full p-[var(--lg)]`} style={{...specificStyles, ...spaceVariables}}>
+    <aside className={`h-full p-(--space-lg)`} 
+      style={{
+        ...specificStyles, 
+        }}
+    >
        {children}
     </aside>
   )

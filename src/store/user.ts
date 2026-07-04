@@ -8,6 +8,7 @@ type UserState = {
 export const useUserState = create<UserState>((set) => ({
   userState: {
     username: "Haqiim",
+    role: "Business owner",
     id: 90
   },
 

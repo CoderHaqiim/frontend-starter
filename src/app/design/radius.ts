@@ -1,15 +1,16 @@
 import { generateVariable } from "@/src/utils/generateVariable"
 
   const radius = {
+    "name": "radius",
     "xs" : "4px",
     "sm" : "8px",
-    "md" : "12px",
-    "lg" : "16px",
-    "xl" : "40px",
+    "md" : "16px",
+    "lg" : "32px",
+    "xl" : "50px",
     "xxl" : "50%"
   } as const
 
-const radiusVariables = generateVariable(radius)
+const radiusVariables = generateVariable(radius, radius.name)
 
 export {  
     radius,

@@ -10,7 +10,7 @@ type LabelProps = {
 }
 
 export default function Label({text, size, specificStyle}: LabelProps) {
-  const baseStyle = `font-[var(--medium)] leading-[1] text-[var(--text-color1)] text-left w-full h-[max-content]`
+  const baseStyle = `font-[var(--fontWeight-medium)] leading-[1] text-[var(--color-textColor1)] text-left w-full h-[max-content]`
 
   const defaultStyle: CSSProperties = {
     fontSize: bodySize[size],

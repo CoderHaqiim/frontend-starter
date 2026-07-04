@@ -1,6 +1,7 @@
 import { generateVariable } from "@/src/utils/generateVariable"
 
 const space = {
+    "name": "space",
     "xs": "4px",
     "sm": "6px",
     "md": "10px",
@@ -9,7 +10,7 @@ const space = {
     "xxl" : "40px"
 }as const
 
-const spaceVariables = generateVariable(space)
+const spaceVariables = generateVariable(space, space.name)
 
 export {
     space, 

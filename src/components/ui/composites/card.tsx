@@ -9,14 +9,28 @@ type CardProps = {
     padding: SizeType,
     width: FrameSizeType,
     height: FrameSizeType,
+    specificStyles?: CSSProperties
 }
 
-export default function Card({children, width, height, padding, rounded}: CardProps) {
+export default function Card({
+  children, 
+  width, 
+  height, 
+  padding, 
+  rounded, 
+  specificStyles
+}: CardProps) {
   return (
-    <Frame width={width} height={height} rounded={rounded} direction="column" border padding={padding}
-    specificStyle={{
+    <Frame 
+      width={width} 
+      height={height} 
+      rounded={rounded} 
+      direction="column" 
+      border 
+      padding={padding}
+    specificStyles={{
       boxShadow:"0px 0px 2px -2px black",
-      backgroundColor: `var(--background1)`,
+      ...specificStyles
     }}>
       {children}
     </Frame>

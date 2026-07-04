@@ -60,9 +60,9 @@ export default function Input({
             placeholder={placeholder} 
             className={
                 `w-auto flex p-[8px] outline-none 
-                ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--accent1)] hover:border-[var(--accent1)]"} 
-                items-[center] placeholder-[var(--text-color2)] rounded-[var(--md)] 
-                ${border && "border-[var(--outline-color2)] border-[0.5px]"}
+                ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--accent1)] hover:border-[var(--color-accent1)]"} 
+                items-[center] placeholder-[var(--color-textColor2)] rounded-[var(--radius-md)] 
+                ${border && "border-[var(--color-outline)] border-[0.5px]"}
             `} 
             style={{
                 ...defaultStyles, 

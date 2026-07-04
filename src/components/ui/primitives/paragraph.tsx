@@ -1,7 +1,6 @@
 import React, { CSSProperties, ReactNode } from 'react'
 import { SizeType } from '@/src/types/types'
 import { bodySize } from '@/src/app/design/typograhy'
-import { colors } from '@/src/app/design/colors'
 
 type ParagraphProps = {
     children?: ReactNode,
@@ -10,11 +9,10 @@ type ParagraphProps = {
 }
 
 export default function Paragraph({children, size ="md", specificStyle}: ParagraphProps) {
-  const baseClass = `break-words text-[var(--text-color2)] w-full flex`
+  const baseClass = `break-words text-[var(--color-textColor2)] w-full flex`
 
   const defaultStyle: CSSProperties = {
     fontSize: bodySize[size],
-    color: colors["textColor2"]
   }
 
   return (

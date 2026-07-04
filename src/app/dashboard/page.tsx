@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <Frame width="stretch" direction="column" height="hug"
-      specificStyle={{
+      specificStyles={{
         gap: space["lg"]
       }}> 
       <Frame width="hug" height="hug" direction="column">
@@ -37,10 +37,10 @@ export default function Home() {
         </Paragraph>
       </Frame>
       <Frame width="stretch" height="100px" 
-        specificStyle={{
+        specificStyles={{
           gap: space["md"]
         }}>
-        <Card width="stretch" height="stretch" padding="md" rounded="sm">
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
           <Heading 
             size="xs" 
             type="h2" 
@@ -61,7 +61,7 @@ export default function Home() {
             3
           </Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="md" rounded="sm">
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
           <Heading 
             size="xs" 
             type="h2" 
@@ -82,7 +82,7 @@ export default function Home() {
             $4000
           </Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="md" rounded="sm">
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
           <Heading 
             size="xs" 
             type="h2" 
@@ -103,7 +103,7 @@ export default function Home() {
             $500
           </Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="md" rounded="sm">
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
           <Heading 
             size="xs" 
             type="h2" 
@@ -128,13 +128,13 @@ export default function Home() {
        <Frame 
       width="stretch" 
       height="hug"
-      specificStyle={{
+      specificStyles={{
         gap: space["md"]
       }}
       >
-        <Card width="stretch" height="stretch" padding="md" rounded="sm">
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
           <Frame width="stretch" height="hug" 
-          specificStyle={{
+          specificStyles={{
             justifyContent:"space-between",
             marginBottom: space["md"]
           }}>
@@ -145,7 +145,8 @@ export default function Home() {
             />
             <Frame 
               width="hug" 
-              height="hug" specificStyle={{
+              height="hug" 
+              specificStyles={{
                 gap: space["sm"]
               }}>
               <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
@@ -158,18 +159,19 @@ export default function Home() {
       <Frame 
       width="stretch" 
       height="250px"
-      specificStyle={{
+      specificStyles={{
         gap: space["md"]
       }}
       >
         <Card width="stretch" height="stretch" padding="md" rounded="sm">
-          <Frame width="stretch" height="hug" specificStyle={{
+          <Frame width="stretch" height="hug" 
+          specificStyles={{
             justifyContent:"space-between"
           }}>
             <Heading 
               size="md" 
               type="h2" 
-              text="Performance Overview"
+              text="Business Overview"
             />
           </Frame>
         </Card>

@@ -7,6 +7,7 @@ type navItem = {
     link: string
 }
 type navItems = navItem[]
+
 export const navItems: navItems = [
     {
         id: 0,

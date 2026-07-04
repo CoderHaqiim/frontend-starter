@@ -15,8 +15,8 @@ type LayoutProps = {
 export default function Layout({children}: LayoutProps) {
   return (
     <PageComponent 
-      scrollable={false} 
       direction="column" 
+      scrollable={false}
       specificStyle={{
         gap:"2px", 
         overflow:"hidden",
@@ -24,17 +24,15 @@ export default function Layout({children}: LayoutProps) {
       }}
     >
       <Nav/>
-      <Frame width="stretch" height="stretch"
-        specificStyle={{
+      <Frame width="stretch"
+        specificStyles={{
           gap:"2px", 
           flex:"1",
+          minHeight:"0px"
         }}
         >
         <LeftAside/>
-        <Main padding="lg"
-          specificStyles={{
-            paddingBottom: "80px",
-          }}>
+        <Main padding="lg">
           {children}
         </Main>
         <RightAside/>

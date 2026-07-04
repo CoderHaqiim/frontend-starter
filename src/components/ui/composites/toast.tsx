@@ -34,7 +34,7 @@ export default function Toast({variant, title, text}: ToastProps) {
 
   return (
     <Frame width="350px" border height="hug" padding="md" rounded="sm" 
-      specificStyle={{
+      specificStyles={{
         ...baseStyle, 
         ...toastStyle
       }}

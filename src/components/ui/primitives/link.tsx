@@ -41,14 +41,15 @@ export default function LinkComponent(props: LinkCompProps) {
         const size = props.size ?? "md"
         const staticTextSize = ["xl", "lg"]
         const isSelected = id === selectedNavState
+
         const defaultStyles: CSSProperties = {
-            height: elementSizes[size],
+            height: isSelected? elementSizes["lg"] : elementSizes[size],
             fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         }
 
         const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative`
-        const navStyle = `${isSelected? "bg-[var(--background3)] text-[var(--accent1)] px-6 font-[var(--bold)]" : "text-[var(--textColor2)] font-[var(--medium)] hover:bg-[var(--background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--md)]`
-        const icon = (<Icon name={iconName} stroke={isSelected? 2 : 1.5} color={isSelected? colors["accent1"] : colors["textColor2"] } size={size}/>)
+        const navStyle = `${isSelected? "bg-[var(--color-accent2)] text-[var(--color-textColor1)] px-6 font-[var(--fontWeight-bold)]" : "text-[var(--color-textColor2)] font-[var(--color-fontWeight-medium)] hover:bg-[var(--color-background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--radius-xl)]`
+        const icon = (<Icon name={iconName} stroke={isSelected? 2 : 1.5} color={isSelected? colors["textColor1"] : colors["textColor2"] } size={size}/>)
 
         return (
             <Link
@@ -68,7 +69,7 @@ export default function LinkComponent(props: LinkCompProps) {
     }
 
     const baseStyle = `${variant === "hug"? "w-max" : "w-full"} font-[var(--medium)] flex cursor-pointer transition-[0.1s_ease-out] text-[var(--textColor1)] items-center relative`
-    const {underline, children} = props
+    const { underline, children } = props
     const lineStyle = underline? `border-b-[1px] border-b-[var(--textColor1)]` : ""
     const linkStyle  = `${baseStyle} ${lineStyle}`
 

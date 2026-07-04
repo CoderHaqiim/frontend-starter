@@ -25,8 +25,8 @@ export default function Form({children, variant, url}: FormProps) {
     })
   }
 
-  const cardFormStyle = `border-[1px] p-8 gap-4 w-full bg-[var(--background1)] rounded-[40px] h-[max-content] flex flex-col items-center justify-center border-[var(--outline-color1)]`
-  const plainFormStyle = `gap-4 w-full h-[max-content] flex flex-col items-center justify-center]`
+  const cardFormStyle = `border-[1px] p-8 gap-4 w-full bg-[var(--color-background1)] rounded-[var(--radius-xl)] h-max flex flex-col items-center justify-center border-[var(--color-outline)]`
+  const plainFormStyle = `gap-4 w-full h-max flex flex-col items-center justify-center`
 
   const styles = variant === "plain"? plainFormStyle : cardFormStyle;
 

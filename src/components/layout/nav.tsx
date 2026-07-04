@@ -9,6 +9,7 @@ import { space, spaceVariables } from '@/src/app/design/spacing'
 import { colorVariables } from '@/src/app/design/colors'
 import { http } from '@/src/http/client'
 import { colors } from '@/src/app/design/colors'
+import { radius } from '@/src/app/design/radius'
 
 type Notification = unknown
 
@@ -114,33 +115,25 @@ export default function Nav() {
 
   return (
     <nav className='flex z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
-        <Frame width="stretch" height="stretch" specificStyle={{justifyContent:"space-between", alignItems: "center", padding:`0px ${space["lg"]}`, backgroundColor:"white"}}>
+        <Frame width="stretch" height="stretch" specificStyles={{justifyContent:"space-between", alignItems: "center", padding:`0px ${space["lg"]}`, backgroundColor:"white"}}>
           <Logo/>
-          <Frame width="hug" height="stretch" specificStyle={{gap:space["md"], height:"100%", alignItems:"center"}}>
+          <Frame width="hug" height="stretch" specificStyles={{gap:space["md"], height:"100%", alignItems:"center"}}>
             <Searchbar/>
             <div ref={notificationRef} className="relative flex items-center">
-              <Button func={toggleNotifications} size="md" iconName="icon-bell" variant="icon" 
-                specificStyles={{
-                  border:`solid 1px ${colors["outline"]}`, 
-                  borderRadius:"8px"
-                }}>
-                <span className={`w-[20px] font-[600] flex items-center justify-center absolute top-[-8px] rounded-[var(--lg)] right-[-8px] text-[9px] bg-[var(--accent1)] h-[20px] text-[white] border-[2px] border-[white]`} 
-                  style={{
-                    ...spaceVariables, 
-                    ...colorVariables
-                  }}>
+              <Button func={toggleNotifications} size="md" border iconName="icon-bell" variant="icon">
+                <span className={`w-[20px] font-[600] flex items-center justify-center leading-[1px] absolute top-[-8px] rounded-[var(--radius-xxl)] right-[-8px] text-[9px] bg-[var(--color-accent1)] h-[20px] text-[white] border-[2px] border-[white]`}>
                   {notifications.length}
                 </span>
               </Button>
               {
                 notificationsOpen && (
                 <Frame width="350px" height="auto" rounded="md" padding="sm" direction="column"
-                  specificStyle={{
+                  specificStyles={{
                     position: "absolute",
                     minHeight: "80px",
                     maxHeight: "360px",
                     backgroundColor: "white",
-                    border: "solid 1px var(--outline)",
+                    border: `solid 1px ${colors["outline"]}`,
                     top: "120%",
                     right: "0px",
                     boxShadow: "0px 1px 5px -1px #000000c4",
@@ -165,7 +158,7 @@ export default function Nav() {
                         padding: "8px",
                         textAlign: "left"
                       }}>
-                      <span className="w-full text-sm text-[var(--text-color1)]">
+                      <span className="w-full text-sm text-[var(--color-textColor1)]">
                         {getNotificationLabel(notification)}
                       </span>
                     </Button>
@@ -173,11 +166,15 @@ export default function Nav() {
                 </Frame>
               )}
             </div>
-            <Button size="md" iconName="icon-user" variant="icon" 
+            <Button 
+              size="md" 
+              iconName="icon-sun" 
+              border
+              variant="icon" 
               specificStyles={{
-                border:`solid 1px ${colors["outline"]}`, 
-                borderRadius:"50%"
-              }}/>
+                borderRadius: radius["xxl"]
+              }}
+            />
           </Frame>
         </Frame>
     </nav>
