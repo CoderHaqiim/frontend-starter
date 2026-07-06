@@ -4,7 +4,7 @@ import { space } from '@/src/app/design/spacing'
 import {SizeType} from '@/src/types/types'
 
 type LabelProps = {
- text: string | undefined,
+ text: string,
  size: SizeType,
  specificStyle?: CSSProperties
 }
@@ -18,11 +18,10 @@ export default function Label({text, size, specificStyle}: LabelProps) {
   }
 
   return (
-    <label className={`
-      ${baseStyle}
-    `} style={{
-      ...defaultStyle, 
-      ...specificStyle,
+    <label className={`${baseStyle}`} 
+      style={{
+        ...defaultStyle, 
+        ...specificStyle,
       }}>
       {text}
     </label>

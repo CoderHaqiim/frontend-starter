@@ -123,7 +123,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
         <Frame width="hug" height="hug" specificStyles={{flex:"1"}}>
             <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
         </Frame>
-        <Button variant='icon' size='md' iconName='icon-search'/>
+        <Button variant='ghost' size='md' isIcon iconName='icon-search'/>
         {showResults && <Frame width="full" height="auto" rounded="md" padding='md' direction="column"
           specificStyles={{
             position: "absolute",

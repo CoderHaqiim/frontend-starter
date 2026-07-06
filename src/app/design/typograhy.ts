@@ -2,7 +2,7 @@ import { generateVariable } from "@/src/utils/generateVariable"
 
 const bodySize = {
   "name": "bodySize",
-  "xs": "0.7rem",   // 12px
+  "xs": "0.625rem",   // 12px
   "sm": "0.8rem",  // 14px
   "md": "1rem",      // 16px
   "lg": "1.125rem",  // 18px

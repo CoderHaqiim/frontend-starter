@@ -37,10 +37,10 @@ export default function Frame({
     relative flex
     ${border ? "border-[0.5px] border-[var(--color-outline)]" : ""}
     ${centered ? "justify-center items-center" : ""}
-    ${scroll? direction === "column" ? "overflow-y-scroll" : "overflow-x-scroll": ""}
+    ${scroll? (direction === "column" ? "overflow-y-scroll" : "overflow-x-scroll"): " "}
   `;
 
-  const frameStyle = `${baseStyle} ${scroll && scrollbar ? "scrollVisible" : ""}`;
+  const frameStyle = `${baseStyle} ${scroll && scrollbar ? "scrollVisible" : "scrollInvisible"}`;
 
   const widthValue: CSSProperties["width"] =
     width === "hug"

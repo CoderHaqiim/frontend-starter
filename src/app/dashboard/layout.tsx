@@ -1,8 +1,8 @@
 import Frame from "@/src/components/ui/primitives/frame"
 import Nav from "@/src/components/layout/nav"
 import Main from "@/src/components/layout/main"
-import LeftAside from "@/src/components/layout/leftAside"
-import RightAside from "@/src/components/layout/rightAside"
+import LeftAside from "@/src/components/app/leftAside"
+import RightAside from "@/src/components/app/rightAside"
 import { ReactNode } from "react"
 import { colors, colorVariables } from "../design/colors"
 import { space } from "../design/spacing"
@@ -12,6 +12,7 @@ import PageComponent from "@/src/components/layout/page"
 type LayoutProps = {
   children: ReactNode
 }
+
 export default function Layout({children}: LayoutProps) {
   return (
     <PageComponent 
@@ -36,18 +37,11 @@ export default function Layout({children}: LayoutProps) {
           {children}
         </Main>
         <RightAside/>
-        <Button 
-          variant="text-icon" 
-          size="xl" 
-          iconName="icon-plus" 
-          iconPosition="left" 
-          text="Add Business"
-          iconColor = {colors["white"]}
-
+        <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg"
           specificStyles={{
             position:"fixed",
-            bottom: space["xl"],
-            right: space["xl"]
+            bottom: space["xxl"],
+            right: space["xxl"]
           }}
         />
       </Frame>

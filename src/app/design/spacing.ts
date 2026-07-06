@@ -2,7 +2,7 @@ import { generateVariable } from "@/src/utils/generateVariable"
 
 const space = {
     "name": "space",
-    "xs": "4px",
+    "xs": "2px",
     "sm": "6px",
     "md": "10px",
     "lg": "16px",

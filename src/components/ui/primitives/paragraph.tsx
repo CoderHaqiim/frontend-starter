@@ -8,7 +8,11 @@ type ParagraphProps = {
     specificStyle?: CSSProperties
 }
 
-export default function Paragraph({children, size ="md", specificStyle}: ParagraphProps) {
+export default function Paragraph({
+  children, 
+  size ="md", 
+  specificStyle
+}: ParagraphProps) {
   const baseClass = `break-words text-[var(--color-textColor2)] w-full flex`
 
   const defaultStyle: CSSProperties = {

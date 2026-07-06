@@ -2,14 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Frame from '../ui/primitives/frame'
-import Logo from '../ui/brand.tsx/logo'
+import Logo from '../app/brand/logo'
 import Button from '../ui/primitives/button'
 import Searchbar from '../ui/composites/searchbar'
-import { space, spaceVariables } from '@/src/app/design/spacing'
-import { colorVariables } from '@/src/app/design/colors'
+import { space } from '@/src/app/design/spacing'
 import { http } from '@/src/http/client'
 import { colors } from '@/src/app/design/colors'
-import { radius } from '@/src/app/design/radius'
 
 type Notification = unknown
 
@@ -120,7 +118,13 @@ export default function Nav() {
           <Frame width="hug" height="stretch" specificStyles={{gap:space["md"], height:"100%", alignItems:"center"}}>
             <Searchbar/>
             <div ref={notificationRef} className="relative flex items-center">
-              <Button func={toggleNotifications} size="md" border iconName="icon-bell" variant="icon">
+              <Button 
+                func={toggleNotifications} 
+                size="md" 
+                iconName="icon-bell" 
+                variant="outline"
+                isIcon
+              >
                 <span className={`w-[20px] font-[600] flex items-center justify-center leading-[1px] absolute top-[-8px] rounded-[var(--radius-xxl)] right-[-8px] text-[9px] bg-[var(--color-accent1)] h-[20px] text-[white] border-[2px] border-[white]`}>
                   {notifications.length}
                 </span>
@@ -146,18 +150,12 @@ export default function Nav() {
                   {!loadingNotifications && !notificationsError && notifications.length === 0 && <p className="px-2 py-1 text-sm text-[#666666]">No notifications</p>}
                   {!loadingNotifications && !notificationsError && notifications.map((notification, index) => (
                     <Button
+                      width="stretch"
                       key={index}
-                      variant="custom"
+                      variant="ghost"
                       size="md"
-                      specificStyles={{
-                        width: "100%",
-                        height: "auto",
-                        minHeight: "40px",
-                        justifyContent: "flex-start",
-                        backgroundColor: "transparent",
-                        padding: "8px",
-                        textAlign: "left"
-                      }}>
+                      justify='start'
+                      >
                       <span className="w-full text-sm text-[var(--color-textColor1)]">
                         {getNotificationLabel(notification)}
                       </span>
@@ -169,11 +167,9 @@ export default function Nav() {
             <Button 
               size="md" 
               iconName="icon-sun" 
-              border
-              variant="icon" 
-              specificStyles={{
-                borderRadius: radius["xxl"]
-              }}
+              variant="outline" 
+              rounded="xxl"
+              isIcon
             />
           </Frame>
         </Frame>

@@ -15,8 +15,13 @@ body {
 }
 
 .scrollVisible::-webkit-scrollbar{
-  width:3px;
-  height:3px;
+  width:5px;
+  height:5px;
+}
+
+.scrollVisible::-webkit-scrollbar-track-piece{
+  width:5px;
+  height:5px;
 }
 
 .scrollInvisible::-webkit-scrollbar{
@@ -32,7 +37,7 @@ body {
 .scrollVisible::-webkit-scrollbar-thumb{
   width:3px;
   height:3px;
-  background-color:var(--accent1);
+  background-color:var(--color-accent1);
 }
 
 /* @media (prefers-color-scheme: light) {

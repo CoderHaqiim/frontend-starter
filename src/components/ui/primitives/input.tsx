@@ -49,7 +49,7 @@ export default function Input({
     const typeCheck = variant === "password"? (showText? "text":"password") : type
 
   return (
-      <div className='w-auto flex flex-1 justify-center flex-col '>
+      <div className='w-auto flex flex-1 justify-center overflow-y-hidden flex-col '>
         <input
             onChange={formFunc} 
             type={typeCheck} 
@@ -73,7 +73,7 @@ export default function Input({
             variant === "password" && 
                 <Button 
                     func={toggleText} 
-                    variant="icon" 
+                    variant="ghost" 
                     size={size ?? "md"} iconName={showText? "icon-eye-off" : "icon-eye"}
                     specificStyles={{
                         position:"absolute", 

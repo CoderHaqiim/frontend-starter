@@ -1,17 +1,18 @@
 import { headingSize } from "@/src/app/design/typograhy"
 import { CSSProperties } from "react"
 import { SizeType} from "@/src/types/types"
+import { ReactNode } from "react"
 
 type HeadingProps = {
-    text: string,
+    children: ReactNode
     type: "h1" | "h2" | "h3" | "h4",
     size: SizeType,
     specificStyles?: CSSProperties
 }
 
-export default function Heading({text, size, type, specificStyles}: HeadingProps){
+export default function Heading({children, size, type, specificStyles}: HeadingProps){
 
-  const baseClass = `w-full text-[var(--color-textColor1)] font-[var(--fontWeight-semiBold)]`
+  const baseClass = `w-max text-[var(--color-textColor1)] font-[var(--fontWeight-semiBold)]`
 
   const HeadingTag = type 
 
@@ -25,7 +26,7 @@ export default function Heading({text, size, type, specificStyles}: HeadingProps
       ...defaultStyle,
       ...specificStyles,
       }}>
-      {text}
+      {children}
     </HeadingTag>
   )
 }

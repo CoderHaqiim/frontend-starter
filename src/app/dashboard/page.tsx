@@ -3,7 +3,7 @@
 import Frame from "@/src/components/ui/primitives/frame"
 import Main from "@/src/components/layout/main"
 import Heading from "@/src/components/ui/primitives/heading"
-import { useUserState } from "@/src/store/user"
+import { useUserState } from "@/src/store/userState"
 import Card from "@/src/components/ui/composites/card"
 import { space } from "../design/spacing"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
@@ -31,7 +31,9 @@ export default function Home() {
         gap: space["lg"]
       }}> 
       <Frame width="hug" height="hug" direction="column">
-        <Heading size="xl" type="h1" text={`Welcome back, ${userState.username}.`}/>
+        <Heading size="xl" type="h1">
+          {`Welcome back, ${userState.username}`}
+        </Heading>
         <Paragraph size="md">
           Here's what's happening today.
         </Paragraph>
@@ -41,16 +43,9 @@ export default function Home() {
           gap: space["md"]
         }}>
         <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading 
-            size="xs" 
-            type="h2" 
-            text="Active Businesses" 
-
-            specificStyles={{
-              color: colors["textColor2"],
-              fontWeight: fontWeight["normal"]
-            }}
-          />
+          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"],fontWeight: fontWeight["normal"]}}>
+            Active Businesses
+          </Heading>
           <Paragraph 
             size="xxl"
             specificStyle={{
@@ -62,16 +57,9 @@ export default function Home() {
           </Paragraph>
         </Card>
         <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading 
-            size="xs" 
-            type="h2" 
-            text="Total Income" 
-
-            specificStyles={{
-              color: colors["textColor2"],
-              fontWeight: fontWeight["normal"]
-            }}
-          />
+          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"],fontWeight: fontWeight["normal"]}}>
+            Total Income
+          </Heading>
           <Paragraph 
             size="xxl"
             specificStyle={{
@@ -83,16 +71,9 @@ export default function Home() {
           </Paragraph>
         </Card>
         <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading 
-            size="xs" 
-            type="h2" 
-            text="Total Expenses" 
-
-            specificStyles={{
-              color: colors["textColor2"],
-              fontWeight: fontWeight["normal"]
-            }}
-          />
+          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"],fontWeight: fontWeight["normal"]}}>
+            Total Expenses
+          </Heading>
           <Paragraph 
             size="xxl"
             specificStyle={{
@@ -104,23 +85,10 @@ export default function Home() {
           </Paragraph>
         </Card>
         <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading 
-            size="xs" 
-            type="h2" 
-            text="Net Profit" 
-
-            specificStyles={{
-              color: colors["textColor2"],
-              fontWeight: fontWeight["normal"]
-            }}
-          />
-          <Paragraph 
-            size="xxl"
-            specificStyle={{
-              color: colors["textColor1"],
-              fontWeight: fontWeight["bold"]
-            }}
-          >
+          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"], fontWeight: fontWeight["normal"]}}>
+            Net Profit
+          </Heading>
+          <Paragraph size="xxl"specificStyle={{ color: colors["textColor1"], fontWeight: fontWeight["bold"]}}>
             $3500
           </Paragraph>
         </Card>
@@ -134,21 +102,15 @@ export default function Home() {
       >
         <Card width="stretch" height="stretch" padding="lg" rounded="sm">
           <Frame width="stretch" height="hug" 
-          specificStyles={{
-            justifyContent:"space-between",
-            marginBottom: space["md"]
-          }}>
-            <Heading 
-              size="md" 
-              type="h2" 
-              text="Performance Overview"
-            />
+            specificStyles={{
+              justifyContent:"space-between",
+              marginBottom: space["md"]
+            }}>
+            <Heading size="md" type="h2">Performance Overview</Heading>
             <Frame 
               width="hug" 
               height="hug" 
-              specificStyles={{
-                gap: space["sm"]
-              }}>
+              specificStyles={{gap: space["sm"]}}>
               <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
               <Dropdown name="report" size="sm" options={reportOptions}/>
             </Frame>
@@ -168,11 +130,7 @@ export default function Home() {
           specificStyles={{
             justifyContent:"space-between"
           }}>
-            <Heading 
-              size="md" 
-              type="h2" 
-              text="Business Overview"
-            />
+             <Heading size="md" type="h2">Business Overview</Heading>
           </Frame>
         </Card>
       </Frame>

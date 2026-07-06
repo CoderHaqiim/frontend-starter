@@ -8,134 +8,110 @@ import { SizeType } from "@/src/types/types"
 import { paddingSizes } from "@/src/app/design/sizes"
 import { FunctionType } from "@/src/types/types"
 import { colors } from "@/src/app/design/colors"
+import { FrameSizeType } from "@/src/types/types"
+import { radius } from "@/src/app/design/radius"
 
-type baseProps = {
-    specificStyles?: CSSProperties | undefined,
-    func?: FunctionType
-    propagate?: boolean
-    role?: "button" | "submit" | "reset"
-    size: SizeType,
-    border?: boolean
-}
-
-type regularProps = baseProps & {
-    variant: "text"
-    text: string | number,
-}
-
-type textIconProps = baseProps & {
-    variant: "text-icon",
-    text: string | number,
-    iconName: IconType,
-    iconColor?: string,
-    iconPosition: "left" | "right"
-}
-
-type customProps = baseProps & {
-    variant: "custom",
-    children: ReactNode,
-}
-
-type IconProps = baseProps & {
-    variant: "icon",
-    iconName: IconType,
-    iconColor?: string,
+type ButtonProps = {
+    variant: "ghost" | "fill" | "outline",
+    rounded?: SizeType,
+    iconName?: IconType,
+    iconColor?: CSSProperties["color"],
+    iconPosition?: "left" | "right"
     children?: ReactNode,
-    border?: boolean
+    size?: SizeType,
+    width?: FrameSizeType
+    specificStyles?: CSSProperties,
+    func?: FunctionType
+    role?: "submit" | "button" | "reset"
+    propagate?: boolean
+    justify?: "start" | "end"| "center",
+    isIcon?: boolean
 }
 
-type ButtonProps = regularProps | textIconProps | customProps | IconProps
+export default function Button({
+    variant, 
+    rounded = "sm",
+    iconName,
+    isIcon = false,
+    iconColor,
+    iconPosition = "left",
+    children,
+    size = "md",
+    specificStyles,
+    width = "hug",
+    role = "button",
+    propagate = false,
+    justify = "center",
+    func
+}: ButtonProps) {
 
-export default function Button(props: ButtonProps) {
-    const {specificStyles, variant} = props
-
-    const size = props.size ?? "md";
-
+    const derivedPadding = !isIcon &&  paddingSizes[size]
     const staticTextSize = ["xl", "lg", "xxl"]
-
-    const defaultStyles: CSSProperties = {
+    const defaultStyles = {
+        width: 
+            isIcon? elementSizes[size] :
+            width === "hug"? "max-content" : 
+            width === "stretch"? "100%" : 
+            width,
+        borderRadius: 
+            rounded && radius[rounded],
+        backgroundColor: 
+           variant === "fill"? colors["accent1"]:
+           variant === "ghost"? colors["background2"]
+           :"",
+        color: 
+            variant === "fill"? colors["white"]: 
+            variant === "outline"? colors["textColor1"]:
+            variant === "ghost"? colors["textColor1"]:
+            "",
+        border: 
+            variant === "outline"? `solid 1px ${colors["outline"]}` : "",
         height: elementSizes[size],
         fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
-        width: variant === "icon" ? elementSizes[size] : undefined,
-        border: props.border? `solid 1px ${colors["outline"]}` : ""
+        justifyContent: justify
     }
 
-    const paddingVariables = paddingSizes[props.size]
-
-    const baseStyle = `flex justify-center pointer-events-auto cursor-pointer transition-[0.1s_ease-out] items-center relative overflow-visible leading-none font-[var(--fontWeight-medium)]`
-    const hoverStyles = `after:absolute after:pointer-events-none after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] after:rounded-[inherit] hover:after:border-[var(--color-accent1)] focus:after:border-[var(--color-textColor1)] hover:after:border-[2px] focus:after:border-[2px]`
-
-    const variantStyle = {
-        "text-icon": 
-        `${hoverStyles} 
-         ${paddingVariables} 
-         w-max bg-[var(--color-accent1)] text-[var(--color-background1)] font-[var(--fontWeight-medium)] rounded-[var(--radius-lg)]`,
-
-        "text": 
-        `${hoverStyles}
-         ${paddingVariables} 
-         font-[var(--fontWeight-medium)] w-max bg-[var(--color-accent1)] text-[var(--color-background1)] rounded-[var(--radius-lg)]`,
-
-        "icon": `${hoverStyles} rounded-[var(--radius-sm)]`,
-
-        "custom": `${paddingVariables} `
-    }
+    const hoverStyles = `
+    after:self-center
+    after:absolute after:pointer-events-none 
+    after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] 
+    after:rounded-[inherit] hover:after:border-[var(--color-accent1)] 
+    focus:after:border-[var(--color-textColor1)] hover:after:border-[2px] 
+    focus:after:border-[2px]`
 
     const renderContent = () => {
-        switch(variant){
-            case "text" : return props.text
-            case "text-icon": {
-                const { text, iconName, iconColor, iconPosition } = props
-
-                const icon = (<Icon name={iconName} color={iconColor} size={props.size}/>)
-
-                return (
-                    <>
-                        {iconPosition === "left" && icon}
-                        {text}
-                        {iconPosition === "right" && icon}
-                    </>
-                )
-            }
-            case "icon" : {
-                const {iconName, iconColor, size} = props
-
-                return (
-                    <>
-                        <Icon name={iconName} color={iconColor} stroke={2} size={size}/>
-                        {props.children && props.children}
-                    </>
-                )
-            }
-            case "custom": return props.children;
-            default: return
-        }
+        return (
+            <>
+                {iconName && iconPosition === "left" && <Icon name={iconName} color={iconColor ?? (variant === "fill"? colors["white"] : undefined)} size={size} stroke={2}/>}
+                {children}
+                {iconName && iconPosition === "right" && <Icon name={iconName} color={iconColor ?? (variant === "fill"? colors["white"] : undefined)}  size={size} stroke={2}/>}
+            </>
+        )
     }
 
-    const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-
-        if(!props.propagate){
+     const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if(!propagate){
             event.preventDefault()
         }
 
-        if(props.func){
-            props.func()
-        }
+        {func && func()}
     }
 
   return (
     <button 
-        type={props.role ?? "button"}
-        onClick={clickHandler}
-        className={`
-            ${baseStyle}
-            ${variantStyle[variant]}
-        `} 
-        style={{
-            ...defaultStyles,
-            ...specificStyles,
-        }}>
-            {renderContent()}
+    type={role}
+    onClick={clickHandler}
+    className={`
+            ${derivedPadding}
+            ${hoverStyles}
+            justify-center items-center relative flex font-[var(--fontWeight-medium)]
+        `}
+    style={{
+        ...defaultStyles,
+        ...specificStyles
+    }}>
+        {renderContent()}
     </button>
   )
 }
+

@@ -28,7 +28,7 @@ export default function SignupPage() {
         <Frame centered width="auto" height="stretch" specificStyles={{flex:"1"}} >
             <Frame width="500px" height="max-content" padding='lg' direction="column" specificStyles={{gap:"8px"}}>
                 <Form variant="plain" url="/auth/signup">
-                    <Heading size="xxl" type='h1' text="Create new account"/>
+                    <Heading size="xxl" type='h1'>Create new account</Heading>
                     <Frame direction='column' width="stretch" height="stretch">
                         <Label text='Username' size='md'/>
                         <Input outline name="username" variant='default' type='text' size='xl' border placeholder='Username'/>
@@ -51,20 +51,11 @@ export default function SignupPage() {
                             Error message here
                         </div>
                     </Frame>
-                    <Button  
-                        text='Sign up'
-                        propagate
-                        role='submit'
-                        variant="text" 
-                        size='xl'
-                        specificStyles={{
-                            width:"100%"
-                        }}/>
-                        
+                    <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Sign up</Button>  
                 </Form>
                 <Paragraph size='sm' specificStyle={{gap:"8px"}}>
                     <span>Already have an account?</span>
-                    <LinkComponent href="/login" variant="hug" underline>Login</LinkComponent>
+                    <LinkComponent href="/login" variant="inline" underline>Login</LinkComponent>
                 </Paragraph>
             </Frame>
         </Frame>

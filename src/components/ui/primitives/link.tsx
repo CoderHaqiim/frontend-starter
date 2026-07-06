@@ -7,21 +7,22 @@ import { useSelectedNavState } from '@/src/store/navState'
 import { elementSizes } from '@/src/app/design/sizes'
 import { colors } from '@/src/app/design/colors'
 import { bodySize } from '@/src/app/design/typograhy'
-import { SizeType } from '@/src/types/types'
+import { FrameSizeType, SizeType } from '@/src/types/types'
 
 type BaseLinkProps = {
     href: string
     specificStyle?: CSSProperties
+    width?: FrameSizeType
 }
 
 type DefaultLinkProps = BaseLinkProps & {
     children: ReactNode
-    variant: "stretch" | "hug"
+    variant: "inline"
     underline?: boolean
 }
 
 type NavLinkProps = BaseLinkProps & {
-    variant: "nav-link"
+    variant: "nav"
     text: string
     id?: string | number
     iconName: IconType
@@ -36,7 +37,7 @@ export default function LinkComponent(props: LinkCompProps) {
     const {selectedNavState, setSelectedNavState} = useSelectedNavState()
     const {variant, href, specificStyle} = props
 
-    if(variant === "nav-link"){
+    if(variant === "nav"){
         const {id, text, iconName, iconColor, iconPosition} = props
         const size = props.size ?? "md"
         const staticTextSize = ["xl", "lg"]
@@ -68,7 +69,7 @@ export default function LinkComponent(props: LinkCompProps) {
         )
     }
 
-    const baseStyle = `${variant === "hug"? "w-max" : "w-full"} font-[var(--medium)] flex cursor-pointer transition-[0.1s_ease-out] text-[var(--textColor1)] items-center relative`
+    const baseStyle = `${variant === "inline"? "w-max" : "w-full"} font-[var(--medium)] flex cursor-pointer transition-[0.1s_ease-out] text-[var(--textColor1)] items-center relative`
     const { underline, children } = props
     const lineStyle = underline? `border-b-[1px] border-b-[var(--textColor1)]` : ""
     const linkStyle  = `${baseStyle} ${lineStyle}`

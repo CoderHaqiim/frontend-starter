@@ -39,7 +39,7 @@ export default function Toast({variant, title, text}: ToastProps) {
         ...toastStyle
       }}
     >
-        <Button variant="icon" iconName="icon-x" size="sm" 
+        <Button variant="ghost" isIcon iconName="icon-x" size="sm" 
           specificStyles={{
             position:"absolute", 
             right: space["sm"], 
@@ -48,7 +48,9 @@ export default function Toast({variant, title, text}: ToastProps) {
         />
         <Icon size="xxl" stroke={2} name={iconMap[variant]} color={accentColor}/>
         <Paragraph size="sm" specificStyle={{color: accentColor, display:"flex", flexDirection:"column", width:"280px", lineHeight:"1.2"}}>
-          <Label size="md" text={title && variant + ": " + title} specificStyle={{color: accentColor}}/>
+          {
+            title && <Label size="md" text={variant + ": " + title} specificStyle={{color: accentColor}}/>
+          }
           <span className="leading-[1.5] mt-[4px]">
             {text}
           </span>

@@ -1,11 +1,12 @@
 import { ReactNode } from "react"
 import Frame from "./frame"
 
-type BlindProps = {
-    children: ReactNode
+type BackdropProps = {
+    children: ReactNode,
+    modalIsOpen : boolean
 }
 
-export default function Backdrop({children}:BlindProps) {
+export default function Backdrop({children, modalIsOpen}:BackdropProps) {
   return (
     <Frame 
         width="stretch" 
@@ -15,7 +16,8 @@ export default function Backdrop({children}:BlindProps) {
             backgroundColor: "#00000033",
             position: "fixed",
             inset: 0,
-            zIndex: 2000
+            zIndex: 2000,
+            display: modalIsOpen? "flex" : "none"
         }}
     >
         {

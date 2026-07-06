@@ -29,7 +29,7 @@ export default function Card({
       border 
       padding={padding}
     specificStyles={{
-      boxShadow:"0px 0px 2px -2px black",
+      boxShadow:"0px 2px 2px -3px black",
       ...specificStyles
     }}>
       {children}
