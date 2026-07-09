@@ -25,7 +25,7 @@ export default function Card({
   scroll
 }: CardProps) {
   return (
-    <Frame width={width} scroll="hidden" height={height} rounded={rounded} direction="column" border padding={padding} className={className}
+    <Frame width={width} height={height} rounded={rounded} direction="column" border padding={padding} className={className}
       specificStyles={{...specificStyles }}>
       {children}
     </Frame>

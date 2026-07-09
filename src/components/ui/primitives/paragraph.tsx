@@ -18,15 +18,15 @@ export default function Paragraph({
   size ="md", 
   specificStyle,
   className,
-  weight = fontWeight["normal"],
-  color = colors["textColor2"]
+  weight = "normal",
+  color = "textColor2"
 }: ParagraphProps) {
   const baseClass = `break-words text-[var(--color-textColor2)] flex`
 
   const defaultStyle: CSSProperties = {
     fontSize: bodySize[size],
     color: color,
-    fontWeight: weight
+    fontWeight:weight
   }
 
   return (

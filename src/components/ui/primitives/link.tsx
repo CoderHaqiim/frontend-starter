@@ -70,9 +70,9 @@ export default function LinkComponent(props: LinkCompProps) {
         )
     }
 
-    const baseStyle = `${variant === "inline"? "w-max" : "w-full"} font-[var(--medium)] flex cursor-pointer transition-[0.1s_ease-out] text-[var(--textColor1)] items-center relative`
+    const baseStyle = `${variant === "inline"? "w-max" : "w-full"} flex cursor-pointer transition-[0.1s_ease-out] text-[var(--textColor1)] items-center relative`
     const { underline, children } = props
-    const lineStyle = underline? `border-b-[1px] border-b-[var(--textColor1)]` : ""
+    const lineStyle = underline? `border-b-[1px] border-b-[var(--color-accent1)]` : ""
     const linkStyle  = `${baseStyle} ${lineStyle}`
 
     return (

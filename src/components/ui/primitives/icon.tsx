@@ -75,6 +75,7 @@ const icons = {
 
 export type IconType = keyof typeof icons;
   const sizes = {
+    "xxs" : 12,
     "xs" : 14,
     "sm" : 18,
     "md" : 22,

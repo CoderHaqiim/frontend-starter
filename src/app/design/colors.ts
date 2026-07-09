@@ -1,4 +1,5 @@
 import { generateVariable } from "@/src/utils/generateVariable"
+import { CSSProperties } from "react"
 
 const colors = {
     "name": "color",
@@ -11,11 +12,11 @@ const colors = {
     "textColor1": "#1e1e1e",
     "muted": "#484646",
     "textColor2": "#535151",
-    "background1": "#fbfbfb",
+    "background1": "#f9f9f9",
     "background2": "#f5f5f5",
     "background3": "#e6e3e3",
     "white": "#ffffff",
-    "outline": "#d4d3d3",
+    "outline": "#cbcaca",
     "success2": "#eaf7ec",
     "error2": "#f7e1de",
     "warning2": "#f5f0dc",

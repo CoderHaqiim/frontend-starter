@@ -2,6 +2,7 @@ import { generateVariable } from "@/src/utils/generateVariable"
 
 const elementSizes = {
     "name": "elementSize",
+    "xxs": "20px",
     "xs": "24px",
     "sm": "30px",
     "md": "40px",
@@ -12,6 +13,7 @@ const elementSizes = {
 
 const paddingSizes = {
     "name": "paddingSize",
+    "xxs": "px-[5px] gap-[0.5px]",
     "xs": "px-[10px] gap-1",
     "sm": "px-[12px] gap-1",
     "md": "px-[15px] gap-2",

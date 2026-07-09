@@ -10,7 +10,7 @@ type FrameProp = {
   rounded?: SizeType;
   children?: ReactNode;
   direction?: "row" | "column";
-  padding?: SizeType | undefined;
+  padding?: SizeType;
   border?: boolean;
   width?: FrameSizeType
   height?: FrameSizeType
@@ -18,7 +18,7 @@ type FrameProp = {
   background?: CSSProperties["color"]
   justify?: CSSProperties["justifyContent"]
   align?: CSSProperties["alignItems"]
-  gap?: CSSProperties["gap"]
+  gap?: SizeType
 };
 
 export default function Frame({
@@ -54,7 +54,7 @@ export default function Frame({
     padding: padding && space[padding],
     justifyContent: justify,
     alignItems: align,
-    gap: gap
+    gap: gap && space[gap]
   };
 
   return (

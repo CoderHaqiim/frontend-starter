@@ -2,6 +2,7 @@
 import React, { ReactNode } from 'react'
 import { FormObjectTypes } from '@/src/types/types'
 import { http } from '@/src/http/client'
+import { space } from '@/src/app/design/spacing'
 
 
 type FormProps = {
@@ -25,8 +26,8 @@ export default function Form({children, variant, url}: FormProps) {
     })
   }
 
-  const cardFormStyle = `border-[1px] p-8 gap-4 w-full bg-[var(--color-background1)] rounded-[var(--radius-xl)] h-max flex flex-col items-center justify-center border-[var(--color-outline)]`
-  const plainFormStyle = `gap-4 w-full h-max flex flex-col items-center justify-center`
+  const cardFormStyle = `border-[1px] p-8 gap-[var(--space-md)] w-full bg-[var(--color-background1)] rounded-[var(--radius-xl)] h-max flex flex-col items-center justify-center border-[var(--color-outline)]`
+  const plainFormStyle = `gap-[var(--space-lg)] w-full h-max flex flex-col items-center justify-center`
 
   const styles = variant === "plain"? plainFormStyle : cardFormStyle;
 

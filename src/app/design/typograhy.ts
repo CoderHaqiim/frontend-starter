@@ -27,7 +27,7 @@ const fontWeight = {
     "normal": "400",
     "medium": "600",
     "semiBold": "700",
-    "bold" :"800"
+    "bold" :"700"
 } as const
 
 const bodySizeVariables = generateVariable(bodySize, bodySize.name)

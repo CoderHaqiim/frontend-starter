@@ -15,58 +15,52 @@ import Tooltip from "../../ui/composites/tooltip"
 export default function TaskManagerCard() {
   return (
     
-            <Card padding="md" rounded="sm" width="stretch" height="hug" className="bg-[var(--color-background1)]">
-              <Frame width="full" height="hug" 
-                specificStyles={{ justifyContent: "space-between",
-                  alignItems: "center",
-                  paddingBottom: space["md"],
-                  borderBottom: `solid 1px ${colors["outline"]}`
-                }}>
+            <Card padding="lg" rounded="sm" width="stretch" height="hug" className="bg-[var(--color-background1)]">
+              <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline)] pb-[var(--space-md)]">
                 <Heading type="h2" size="md">Task Manager</Heading>
-                <Frame specificStyles={{gap: space["sm"]}}>
+                <Frame gap="sm">
                   <Button variant="fill" iconPosition="left" rounded="lg" size="sm" iconName="icon-plus">Add Task</Button>
                   <Tooltip content="expand" position="top">
                     <Button variant="outline" isIcon size="sm" iconName="icon-expand"/>
                   </Tooltip>
                 </Frame>
               </Frame>
-              <Frame width="stretch" height="hug" specificStyles={{marginTop: space["sm"], marginBottom: space["sm"], gap: space["xs"], alignItems: "center"}}>
+              <Frame width="stretch" align="center" gap="xs" height="hug" className="mb-[var(--space-md)] mt-[var(--space-sm)]">
                 <Heading type="h3" size="sm">Today</Heading>
                 <Frame>
                   <Paragraph size="xs"> • 8 Tasks • 5 Completed • 5 Pending  </Paragraph>
                 </Frame>
               </Frame>
-              <Frame width="stretch" direction="column" padding="md" specificStyles={{ flex:1, overflow: "hidden",gap: space["sm"]}}>
+              <Frame width="stretch" gap="xxs" rounded="md" border direction="column" className="flex-1" specificStyles={{overflow: "hidden"}}>
                 <MiniTaskLine >
-                  <Frame>{shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}</Frame>
-                  <Frame specificStyles={{justifyContent: "space-between", alignItems:"center"}}>
-                    <Frame width="stretch" height="hug" specificStyles={{ gap:space["xs"]}}>
-                      <Frame width="hug" height="hug" rounded="lg" specificStyles={{
-                        fontSize: bodySize["xs"],
-                        fontWeight: fontWeight["medium"],
-                        color: colors["accent1"],
-                        backgroundColor: colors["accent2"],
-                        padding: `1px 6px`
-                      }}>
-                        high
+                  <Frame>
+                    <Paragraph size="sm" color={colors["textColor1"]} >
+                      {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
+                    </Paragraph>
+                  </Frame>
+                  <Frame justify="space-between" align="center">
+                    <Frame width="stretch" height="hug" gap="xs">
+                      <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
+                        <Paragraph color={colors["accent1"]} size="xxs" weight={fontWeight["medium"]}>
+                          high
+                        </Paragraph>
                       </Frame>
                       <Frame width="hug" height="hug" rounded="lg" specificStyles={{
-                          fontSize: bodySize["xs"],
-                          fontWeight: fontWeight["medium"],
-                          color: colors["success"],
                           backgroundColor: colors["success2"],
                           padding: `1px 6px`
                       }}>
-                        Completed
+                        <Paragraph color={colors["success"]} size="xxs" weight={fontWeight["medium"]}>
+                          Completed
+                        </Paragraph>
                       </Frame>
                     </Frame>
-                    <Frame specificStyles={{gap:space["sm"]}}>
+                    <Frame gap="sm">
                       <Tooltip content="mark as done" position="top">
                         <Button iconColor={colors["success"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
                           backgroundColor:colors["success2"]
                         }}/>
                       </Tooltip>
-                      <Tooltip content="delete task" position="top">
+                      <Tooltip content="delete" position="top">
                         <Button iconColor={colors["error"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
                           backgroundColor:colors["error2"]
                         }}/>
@@ -75,48 +69,74 @@ export default function TaskManagerCard() {
                   </Frame>
                 </MiniTaskLine>
                 <MiniTaskLine >
-                  <Frame>{shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}</Frame>
-                  <Frame specificStyles={{gap:space["xs"]}}>
-                    <Frame width="hug" height="hug" rounded="lg" specificStyles={{
-                      fontSize: bodySize["xs"],
-                      fontWeight: fontWeight["medium"],
-                      color: colors["accent1"],
-                      backgroundColor: colors["accent2"],
-                      padding: `1px 6px`
-                    }}>
-                      high
+                  <Frame>
+                    <Paragraph size="sm" color={colors["textColor1"]} >
+                      {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
+                    </Paragraph>
+                  </Frame>
+                  <Frame justify="space-between" align="center">
+                    <Frame width="stretch" height="hug" gap="xs">
+                      <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
+                        <Paragraph color={colors["accent1"]} size="xxs" weight={fontWeight["medium"]}>
+                          high
+                        </Paragraph>
+                      </Frame>
+                      <Frame width="hug" height="hug" rounded="lg" specificStyles={{
+                          backgroundColor: colors["success2"],
+                          padding: `1px 6px`
+                      }}>
+                        <Paragraph color={colors["success"]} size="xxs" weight={fontWeight["medium"]}>
+                          Completed
+                        </Paragraph>
+                      </Frame>
                     </Frame>
-                    <Frame width="hug" height="hug" rounded="lg" specificStyles={{
-                      fontSize: bodySize["xs"],
-                      fontWeight: fontWeight["medium"],
-                      color: colors["info"],
-                      backgroundColor: colors["info2"],
-                      padding: `1px 6px`
-                    }}>
-                      In Progress
+                    <Frame gap="sm">
+                      <Tooltip content="mark as done" position="top">
+                        <Button iconColor={colors["success"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
+                          backgroundColor:colors["success2"]
+                        }}/>
+                      </Tooltip>
+                      <Tooltip content="delete" position="top">
+                        <Button iconColor={colors["error"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
+                          backgroundColor:colors["error2"]
+                        }}/>
+                      </Tooltip>
                     </Frame>
                   </Frame>
                 </MiniTaskLine>
                 <MiniTaskLine >
-                  <Frame>{shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}</Frame>
-                  <Frame specificStyles={{gap:space["xs"]}}>
-                    <Frame width="hug" height="hug" rounded="lg" specificStyles={{
-                      fontSize: bodySize["xs"],
-                      fontWeight: fontWeight["medium"],
-                      color: colors["accent1"],
-                      backgroundColor: colors["accent2"],
-                      padding: `1px 6px`
-                    }}>
-                      high
+                  <Frame>
+                    <Paragraph size="sm" color={colors["textColor1"]} >
+                      {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
+                    </Paragraph>
+                  </Frame>
+                  <Frame justify="space-between" align="center">
+                    <Frame width="stretch" height="hug" gap="xs">
+                      <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
+                        <Paragraph color={colors["accent1"]} size="xxs" weight={fontWeight["medium"]}>
+                          high
+                        </Paragraph>
+                      </Frame>
+                      <Frame width="hug" height="hug" rounded="lg" specificStyles={{
+                          backgroundColor: colors["warning2"],
+                          padding: `1px 6px`
+                      }}>
+                        <Paragraph color={colors["warning"]} size="xxs" weight={fontWeight["medium"]}>
+                          Pending
+                        </Paragraph>
+                      </Frame>
                     </Frame>
-                    <Frame width="hug" height="hug" rounded="lg" specificStyles={{
-                      fontSize: bodySize["xs"],
-                      fontWeight: fontWeight["medium"],
-                      color: colors["warning"],
-                      backgroundColor: colors["warning2"],
-                      padding: `1px 6px`
-                    }}>
-                      Pending
+                    <Frame gap="sm">
+                      <Tooltip content="mark as done" position="top">
+                        <Button iconColor={colors["success"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
+                          backgroundColor:colors["success2"]
+                        }}/>
+                      </Tooltip>
+                      <Tooltip content="delete" position="top">
+                        <Button iconColor={colors["error"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
+                          backgroundColor:colors["error2"]
+                        }}/>
+                      </Tooltip>
                     </Frame>
                   </Frame>
                 </MiniTaskLine>

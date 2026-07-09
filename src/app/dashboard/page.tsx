@@ -73,7 +73,7 @@ export default function Home() {
         <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
              <Heading size="md" type="h2">Businesses Overview</Heading>
-             <Frame width="hug" height="hug" gap={space["sm"]}>
+             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
              </Frame>
           </Frame>
@@ -85,16 +85,16 @@ export default function Home() {
           </Frame>
         </Card>
       </Frame>
-      <Frame width="stretch" height="hug" gap={space["md"]}>
+      <Frame width="stretch" height="hug" gap="md">
         <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
              <Heading size="md" type="h2">Performance Ranking</Heading>
-             <Frame width="hug" height="hug" gap={space["sm"]}>
+             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={businessMetrics}/>
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
              </Frame>
           </Frame>
-          <Frame width="stretch" height="hug" gap={space["sm"]} direction="column" className="">
+          <Frame width="stretch" border height="hug" rounded="md" gap="xxs" direction="column" className="overflow-hidden">
             <MetricsRow data={{name:"Business1"}}/>
             <MetricsRow data={{name:"Business2"}}/>
             <MetricsRow data={{name:"Business3"}}/>
@@ -106,11 +106,11 @@ export default function Home() {
         <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
              <Heading size="md" type="h2">Latest Transactions</Heading>
-             <Frame width="hug" height="hug" gap={space["sm"]}>
+             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
              </Frame>
           </Frame>
-          <Frame width="stretch" rounded="md" height="hug" gap={space["xxs"]} scroll="hidden" border direction="column" className="max-h-[200px]">
+          <Frame width="stretch" rounded="md" height="hug" gap="xxs" scroll="hidden" border direction="column" className="max-h-[200px]">
             {/* <TransactionHeader/> */}
             <Transaction/>
             <Transaction/>

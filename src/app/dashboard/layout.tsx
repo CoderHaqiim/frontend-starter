@@ -16,9 +16,9 @@ type LayoutProps = {
 
 export default function Layout({children}: LayoutProps) {
   return (
-    <Frame direction="column" height="100vh" gap={space["xxs"]} className="overflow-hidden bg-[var(--color-background3)]">
+    <Frame direction="column" height="100vh" gap="xxs" className="overflow-hidden bg-[var(--color-background3)]">
       <Nav/>
-      <Frame width="stretch" className="gap-[2px] flex-1 min-h-[0px]">
+      <Frame width="stretch" justify="space-between" className="gap-[2px] flex-1 min-h-[0px]">
         <LeftAside/>
         <Main padding="lg">
           {children}

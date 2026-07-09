@@ -4,6 +4,7 @@ import React, { useState, CSSProperties } from 'react'
 import Button from './button'
 import { bodySize } from '@/src/app/design/typograhy'
 import { SizeType } from '@/src/types/types'
+import { radius } from '@/src/app/design/radius'
 
 type InputProp = {
     type: React.HTMLInputTypeAttribute,
@@ -12,6 +13,7 @@ type InputProp = {
     border?: boolean,
     outline?: boolean,
     size?: SizeType
+    rounded?: SizeType
     variant: "password" | "checkbox" | "radio" | "default"
     name: string,
     func?: () => void
@@ -29,6 +31,7 @@ export default function Input({
     specificStyle, 
     border, 
     size, 
+    rounded,
     placeholder
 }: InputProp){
 
@@ -43,6 +46,7 @@ export default function Input({
 
     const defaultStyles: CSSProperties= {
         height: size ? elementSizes[size] : elementSizes["md"],
+        borderRadius: rounded && radius[rounded],
         fontSize: staticTextSize.includes(fontSize)? bodySize["md"] : bodySize[fontSize],
     }
 
@@ -60,8 +64,8 @@ export default function Input({
             placeholder={placeholder} 
             className={
                 `w-auto flex p-[8px] outline-none 
-                ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--accent1)] hover:border-[var(--color-accent1)]"} 
-                items-[center] placeholder-[var(--color-textColor2)] rounded-[var(--radius-md)] 
+                ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--color-accent1)] hover:border-[var(--color-accent1)]"} 
+                items-[center] placeholder-[var(--color-outline)]
                 ${border && "border-[var(--color-outline)] border-[0.5px]"}
             `} 
             style={{
@@ -76,6 +80,7 @@ export default function Input({
                     variant="ghost" 
                     size={size ?? "md"} iconName={showText? "icon-eye-off" : "icon-eye"}
                     specificStyles={{
+                        backgroundColor:"transparent",
                         position:"absolute", 
                         right:"0px"
                     }}

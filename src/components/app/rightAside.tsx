@@ -7,7 +7,7 @@ import TaskManagerCard from "./cards/taskManagerCard";
 export default function RightAside() {
   return (
     <Aside variant="right" specificStyles={{ width:"350px", backgroundColor: colors["white"]}}>
-        <Frame width="stretch" height="hug" direction="column"specificStyles={{ gap: space["md"]}}>
+        <Frame width="stretch" height="hug" direction="column" gap="md">
             <TaskManagerCard/>
         </Frame>
     </Aside>

@@ -10,8 +10,8 @@ type MiniTaskLineProps = {
 
 export default function MiniTaskLine({children}: MiniTaskLineProps) {
   return (
-    <Frame width="stretch" height="hug" rounded="sm" border padding="md" direction="column" 
-    className="shrink-0 gap-[var(--space-xs)] bg-[var(--color-white)] text-[length:var(--bodySize-sm)] justify-center">
+    <Frame width="stretch" gap="xs" height="hug" padding="md" direction="column" 
+    className="shrink-0 bg-[var(--color-white)] text-[length:var(--bodySize-sm)] justify-center">
         {children}
     </Frame>
   )

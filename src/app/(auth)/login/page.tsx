@@ -9,49 +9,60 @@ import Paragraph from '@/src/components/ui/primitives/paragraph'
 import LinkComponent from '@/src/components/ui/primitives/link'
 import Heading from '@/src/components/ui/primitives/heading'
 import { colors } from '../../design/colors'
-import Page from '@/src/components/layout/page'
+import Image from 'next/image'
+import { space } from '../../design/spacing'
+import { fontWeight } from '../../design/typograhy'
 
 export default function LoginPage() {
   return (
-    <Page 
-    direction='row' 
-    centered
-    scrollable
-    specificStyle={{backgroundColor:"var(--background2)"}}>
-        <Frame width="400px" height="100vh" direction='column' 
-            specificStyles={{
-                backgroundColor: colors["accent1"]
-                }}
-        >
-        </Frame>
-        <Frame centered width="auto" height="stretch" 
-            specificStyles={{
-                flex:"1"
-            }} >
-            <Frame width="500px" height="max-content" padding='lg' direction="column" 
-                specificStyles={{
-                    gap:"8px"
-                }}>
-                <Form variant="plain" url="/auth/login">
-                    <Heading size="xxl" type='h1'>Log in to your account.</Heading>
-                    <Frame direction='column' width="stretch" height="stretch">
-                        <Label text='Email' size='md'/>
-                        <Input outline name="email" variant='default' type='text' size='xl' border placeholder='Username'/>
-                        <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+    <Frame width="stretch" height="100vh" justify="center" padding="xs" align="center" className="bg-[var(--color-white]">
+        <Frame width="stretch" justify='center' align='center' height="stretch" className="overflow-hidden bg-[var(--color-white)]">
+            <Frame width="400px" height="stretch" rounded="md" direction='column' className="bg-[var(--color-accent1)]">
+            </Frame>
+            <Frame justify="center" align="center" width="auto" height="stretch" scroll='hidden' padding='lg' className='flex-1' >
+                <Frame width="450px" height="max-content" direction="column" gap="sm">
+                    <Frame width="stretch" height="hug" className='mb-[var(--space-xl)]'>
+                        <Heading size="xxl" type='h1'>Log in to your account</Heading>
                     </Frame>
-                    <Frame direction='column' width="stretch" height="stretch">
-                        <Label text='Password' size='md'/>
-                        <Input outline name="password" variant="password" type='text' size='xl' border placeholder='Confirm Password'/>
-                        <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                    <Form variant="plain" url="/auth/login">
+                        <Frame direction='column' width="stretch" height="stretch">
+                            <Label text='Email' size='md'/>
+                            <Input outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
+                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                        </Frame>
+                        <Frame direction='column' width="stretch" height="stretch">
+                            <Label text='Password' size='md'/>
+                            <Input outline rounded='sm' name="password" variant="password" type='text' size='md' border placeholder='Password'/>
+                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                        </Frame>
+                        <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Log in</Button>  
+                    </Form>
+                    <Frame height={30} justify='center' align="center" width="stretch" >
+                        <Paragraph size='sm' color={colors["textColor1"]} className='justify-center text-center z-[5] bg-[var(--color-white)]' specificStyle={{width: "70px"}}>OR</Paragraph>
+                        <hr className='w-[70%] border-0 bg-[var(--color-outline)] h-[1px] absolute'/>
                     </Frame>
-                    <Button  propagate role='submit'variant="fill" size='xl' width="stretch">Log in</Button>                        
-                </Form>
-                <Paragraph size='sm' specificStyle={{gap:"8px"}}>
-                    <span>Don&apos;t have an account?</span>
-                    <LinkComponent href="/signup" variant="inline" underline>Sign up</LinkComponent>
-                </Paragraph>
+                    <Frame>
+                         <Button rounded='xl' variant="outline" size='xl'width="stretch" specificStyles={{border:`1px solid ${colors["accent1"]}`}}>
+                            <Image
+                              src="svgs/google-logo.svg"
+                              alt="google-logo"
+                              width={20}
+                              height={20}
+                            />
+                            <Paragraph size='md' weight={fontWeight["medium"]} color={colors["textColor1"]}>
+                                Sign in with Google
+                            </Paragraph>
+                        </Button>  
+                    </Frame>
+                    <Frame width="stretch" height="hug" gap="md" className='mt-[var(--space-lg)]'>
+                        <Paragraph size='sm'>Don't have an account?</Paragraph>
+                        <LinkComponent href="/signup" variant="inline" underline>
+                            <Paragraph size='sm' weight={fontWeight["normal"]} color={colors["accent1"]}>Sign up</Paragraph>
+                        </LinkComponent>
+                    </Frame>
+                </Frame>
             </Frame>
         </Frame>
-    </Page>
+    </Frame>
   )
 }

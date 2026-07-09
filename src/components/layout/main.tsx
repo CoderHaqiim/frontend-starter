@@ -17,7 +17,7 @@ export default function Main({children, specificStyles, padding}: MainProps) {
   }
 
   return (
-    <main className="scrollInvisible max-w-[700px] w-auto h-[100%] flex-1 overflow-y-scroll" 
+    <main className="scrollInvisible max-w-[1000px] w-auto h-[100%] flex-1 overflow-y-scroll" 
       style={{
         ...defaultStyle, 
         ...specificStyles
