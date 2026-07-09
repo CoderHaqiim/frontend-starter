@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react'
 import Frame from '../primitives/frame'
 import Input from '../primitives/input'
 import Button from '../primitives/button'
-import { space } from '@/src/app/design/spacing'
 import { colors } from '@/src/app/design/colors'
 import { http } from '@/src/http/client'
+import Tooltip from './tooltip'
 
 type SearchResult = unknown
 
@@ -114,28 +114,24 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
   const showResults = focused && Boolean(searchInput.trim())
 
   return (
-    <Frame width="350px" height="hug" centered border rounded="sm"
-    specificStyles={{ 
-      border: focused? `1.5px ${colors["accent1"]} solid` : `0.5px ${colors["outline"]} solid`,
-      position: "relative",
-      backgroundColor: colors["background2"],
+    <Frame width="350px" height="hug" justify='center' align='center' border rounded="sm" 
+      className='relative bg-[var(--color-background2)]'
+      specificStyles={{ 
+        border: focused? `1.5px ${colors["accent1"]} solid` : `0.5px ${colors["outline"]} solid`,
       }}>
-        <Frame width="hug" height="hug" specificStyles={{flex:"1"}}>
+        <Frame width="hug" height="hug" className="flex-1">
             <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
         </Frame>
-        <Button variant='ghost' size='md' isIcon iconName='icon-search'/>
-        {showResults && <Frame width="full" height="auto" rounded="md" padding='md' direction="column"
-          specificStyles={{
-            position: "absolute",
-            width:"100%",  
-            minHeight:"80px",
-            maxHeight:"300px", 
-            backgroundColor:"white", 
-            top:"120%",
-            left:"0px",
-            boxShadow:"0px 1px 5px -1px #000000c4",
-            zIndex: 20,
-            gap: space["sm"]
+        <Tooltip content="search" position='bottom'>
+          <Button variant='ghost' size='md' isIcon iconName='icon-search'/>
+        </Tooltip>
+        {
+          showResults && 
+          <Frame width="stretch" height="auto" rounded="md" padding='md' direction="column" 
+            className=' top-[120%] left-0 gap-[var(--space-sm)] z-[20] min-h-[80px] max-h-[300px] bg-[var(--color-white)]'
+            specificStyles={{
+              position: "absolute",
+              boxShadow:"0px 1px 5px -1px #000000c4",
             }}>
           {loading && <p className="text-sm text-[#666666]">Searching...</p>}
           {!loading && error && <p className="text-[var(--bodySize-sm)] text-red-500">{error}</p>}

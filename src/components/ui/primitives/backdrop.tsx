@@ -8,21 +8,11 @@ type BackdropProps = {
 
 export default function Backdrop({children, modalIsOpen}:BackdropProps) {
   return (
-    <Frame 
-        width="stretch" 
-        height="stretch" 
-        centered 
+    <Frame width="stretch" height="stretch" centered className="bg-[00000033] fixed inset-0 z-3000" 
         specificStyles={{
-            backgroundColor: "#00000033",
-            position: "fixed",
-            inset: 0,
-            zIndex: 2000,
             display: modalIsOpen? "flex" : "none"
-        }}
-    >
-        {
-            children
-        }
+        }}>
+        {children}
     </Frame>
   )
 }

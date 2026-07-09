@@ -22,10 +22,10 @@ export default function Tooltip({
   const tooltipId = useId()
 
   const positionStyles: Record<TooltipPosition, string> = {
-    top: "bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2",
-    right: "left-[calc(100%+8px)] top-1/2 -translate-y-1/2",
-    bottom: "left-1/2 top-[calc(100%+8px)] -translate-x-1/2",
-    left: "right-[calc(100%+8px)] top-1/2 -translate-y-1/2",
+    top: "bottom-[calc(100%+12px)] left-1/2 -translate-x-1/2",
+    right: "left-[calc(100%+12px)] top-1/2 -translate-y-1/2",
+    bottom: "left-1/2 top-[calc(100%+12px)] -translate-x-1/2",
+    left: "right-[calc(100%+12px)] top-1/2 -translate-y-1/2",
   }
 
   const arrowStyles: Record<TooltipPosition, string> = {
@@ -36,7 +36,7 @@ export default function Tooltip({
   }
 
   return (
-    <div className="group relative inline-flex w-max" aria-describedby={tooltipId}>
+    <div className="group relative z-[2000] inline-flex w-max" aria-describedby={tooltipId}>
       {children}
       <span
         id={tooltipId}

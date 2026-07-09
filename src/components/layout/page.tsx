@@ -9,23 +9,25 @@ type PageProps = {
     scrollable?: boolean,
     padding?: SizeType,
     specificStyle?: CSSProperties
+    justify?: CSSProperties["justifyContent"]
+    align?: CSSProperties["alignItems"]
 }
 
 export default function PageComponent({
     children, 
-    centered, 
     direction, 
     padding, 
     specificStyle,
-    scrollable
+    scrollable,
+    justify,
 }: PageProps) {
   return (
     <Frame 
         width="stretch" 
         height= {scrollable ? "max-content" : "100vh"}
         direction={direction} 
-        centered={centered} 
         padding={padding} 
+        justify={justify}
         specificStyles={specificStyle}
     >
         {children}

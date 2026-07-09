@@ -7,9 +7,10 @@ type LabelProps = {
  text: string,
  size: SizeType,
  specificStyle?: CSSProperties
+ className?: string
 }
 
-export default function Label({text, size, specificStyle}: LabelProps) {
+export default function Label({text, size, specificStyle, className}: LabelProps) {
   const baseStyle = `font-[var(--fontWeight-medium)] leading-[1] text-[var(--color-textColor1)] text-left w-full h-[max-content]`
 
   const defaultStyle: CSSProperties = {
@@ -18,11 +19,7 @@ export default function Label({text, size, specificStyle}: LabelProps) {
   }
 
   return (
-    <label className={`${baseStyle}`} 
-      style={{
-        ...defaultStyle, 
-        ...specificStyle,
-      }}>
+    <label className={`${baseStyle} ${className}`} style={{ ...defaultStyle, ...specificStyle}}>
       {text}
     </label>
   )

@@ -26,11 +26,12 @@ type ButtonProps = {
     propagate?: boolean
     justify?: "start" | "end"| "center",
     isIcon?: boolean
+    className?: string
 }
 
 export default function Button({
     variant, 
-    rounded = "sm",
+    rounded = "lg",
     iconName,
     isIcon = false,
     iconColor,
@@ -42,6 +43,7 @@ export default function Button({
     role = "button",
     propagate = false,
     justify = "center",
+    className,
     func
 }: ButtonProps) {
 
@@ -68,7 +70,8 @@ export default function Button({
             variant === "outline"? `solid 1px ${colors["outline"]}` : "",
         height: elementSizes[size],
         fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
-        justifyContent: justify
+        justifyContent: justify,
+        cursor: "pointer"
     }
 
     const hoverStyles = `
@@ -102,6 +105,7 @@ export default function Button({
     type={role}
     onClick={clickHandler}
     className={`
+            ${className}
             ${derivedPadding}
             ${hoverStyles}
             justify-center items-center relative flex font-[var(--fontWeight-medium)]

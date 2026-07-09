@@ -22,18 +22,22 @@ import {
   CreditCard,
   Sun,
   Moon,
-  Maximize2
+  Maximize2,
+  Trash2,
+  CheckCheck,
+  MoveDown,
+  MoveUp,
+  CircleArrowUp,
+  CircleArrowDown
 } from 'lucide-react'
 
+import { LucideProps } from 'lucide-react'
 import { SizeType } from '@/src/types/types'
 
 
-type IconProps = {
+type IconProps = LucideProps & {
     size: SizeType,
-    color?: string,
-    stroke?: number,
     name: IconType,
-    fill?: string
 }
 
 const icons = {
@@ -60,20 +64,26 @@ const icons = {
     "icon-credit-card" : CreditCard,
     "icon-sun" : Sun,
     "icon-moon" : Moon,
-    "icon-expand" : Maximize2
+    "icon-expand" : Maximize2,
+    "icon-delete" : Trash2,
+    "icon-double-check": CheckCheck,
+    "icon-arrow-up": MoveUp,
+    "icon-arrow-down": MoveDown,
+    "icon-circle-arrow-down": CircleArrowDown,
+    "icon-circle-arrow-up": CircleArrowUp
 };
 
 export type IconType = keyof typeof icons;
-
-export default function Icon({ fill, stroke, size, name, color }: IconProps) {
   const sizes = {
     "xs" : 14,
-    "sm" : 16,
-    "md" : 18,
-    "lg" : 20,
-    "xl" : 22,
-    "xxl": 28
+    "sm" : 18,
+    "md" : 22,
+    "lg" : 26,
+    "xl" : 30,
+    "xxl": 34
   }
+
+export default function Icon({ fill, stroke, size, name, color }: IconProps) {
 
   const iconSize = size && sizes[size] 
 

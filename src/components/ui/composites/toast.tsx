@@ -29,7 +29,7 @@ export default function Toast({variant, title, text}: ToastProps) {
     "info":"icon-badge-info"
   }
 
-  const baseStyle: CSSProperties = {gap:"12px", width: "350px", color:`${accentColor}`, boxShadow:"5px 5px 3px -2px #0000005b, 0px 0px 5px -2px #00000057"}
+  const baseStyle: CSSProperties = {gap:"12px", color:`${accentColor}`, boxShadow:"5px 5px 3px -2px #0000005b, 0px 0px 5px -2px #00000057"}
   const toastStyle = { backgroundColor: `${background[variant]}`}
 
   return (
@@ -39,13 +39,7 @@ export default function Toast({variant, title, text}: ToastProps) {
         ...toastStyle
       }}
     >
-        <Button variant="ghost" isIcon iconName="icon-x" size="sm" 
-          specificStyles={{
-            position:"absolute", 
-            right: space["sm"], 
-            top: space["sm"]
-          }}
-        />
+        <Button variant="ghost" isIcon iconName="icon-x" size="sm" className="absolute right-[var(--space-sm)] top-[var(--space-sm)]"/>
         <Icon size="xxl" stroke={2} name={iconMap[variant]} color={accentColor}/>
         <Paragraph size="sm" specificStyle={{color: accentColor, display:"flex", flexDirection:"column", width:"280px", lineHeight:"1.2"}}>
           {

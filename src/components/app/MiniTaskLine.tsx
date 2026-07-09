@@ -10,13 +10,8 @@ type MiniTaskLineProps = {
 
 export default function MiniTaskLine({children}: MiniTaskLineProps) {
   return (
-    <Frame width="stretch" height="hug" rounded="sm" border padding="md" direction="column" specificStyles={{
-      fontSize: bodySize["sm"],
-      justifyContent: "center",
-      gap: space["xs"],
-      flexShrink: 0,
-      backgroundColor: colors["white"]
-    }}>
+    <Frame width="stretch" height="hug" rounded="sm" border padding="md" direction="column" 
+    className="shrink-0 gap-[var(--space-xs)] bg-[var(--color-white)] text-[length:var(--bodySize-sm)] justify-center">
         {children}
     </Frame>
   )

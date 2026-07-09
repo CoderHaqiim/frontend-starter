@@ -10,21 +10,13 @@ import { useUserState } from "@/src/store/userState";
 import {bodySize} from "@/src/app/design/typograhy";
 import Avatar from "../ui/composites/avatar";
 import SubscriptionCard from "./cards/subscriptionCard";
+import ProfileButton from "./profileButton";
 
 export default function LeftAside() {
     const {userState} = useUserState();
 
   return (
-    <Aside variant="left" 
-        specificStyles={{
-            width:"260px", 
-            backgroundColor: colors["white"],
-            display:"flex",
-            flexDirection:"column",
-            justifyContent:"space-between",
-            alignItems:"center",
-        }}
-    >
+    <Aside variant="left" className="w-[260px] bg-[var(--color-white)] flex-col justify-between items-center">
         <Frame width="stretch" height="hug" direction="column">
             {
                 navItems.map(item =>
@@ -32,40 +24,9 @@ export default function LeftAside() {
                 )
             }
         </Frame>
-        <Frame width="stretch" height="hug" direction="column"
-            specificStyles={{
-                gap: space["md"]
-            }}>
+        <Frame width="stretch" height="hug" direction="column" specificStyles={{ gap: space["md"]}}>
             <SubscriptionCard/>
-    
-            <Button 
-                width="stretch"
-                size="xl" 
-                variant="outline"
-                rounded="sm"
-                justify="start"
-            >
-                <Avatar/>
-                <span className="flex flex-col justify-center items-start">
-                    <span className="block font-(--fontWeight-bold)"
-                        style={{
-                            fontSize: bodySize["md"],
-                            lineHeight:"1"
-                        }}
-                    >
-                        {userState.username}
-                    </span>
-                    <span className=
-                    "block text-(--color-textColor2) font-(--fontWeight-normal)"
-                        style={{
-                            color: colors["textColor2"],
-                            fontSize: bodySize["xs"], 
-                        }}
-                    >
-                            {userState.role}
-                    </span>
-                </span>
-            </Button>
+            <ProfileButton/>
         </Frame>
     </Aside>
   )

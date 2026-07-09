@@ -1,0 +1,65 @@
+import React from 'react'
+import Card from '../../ui/composites/card'
+import Heading from '../../ui/primitives/heading'
+import Frame from '../../ui/primitives/frame'
+import { space } from '@/src/app/design/spacing'
+import Button from '../../ui/primitives/button'
+import { colors } from '@/src/app/design/colors'
+import { shortenText } from '@/src/utils/shortenText'
+import Paragraph from '../../ui/primitives/paragraph'
+import { fontWeight } from '@/src/app/design/typograhy'
+
+type BusinessCardProps = {
+    title: string
+}
+
+export default function BusinessOverviewCard({title}: BusinessCardProps) {
+  return (
+    <Card width="300px" padding='lg' rounded='sm' height="hug" className='gap-[var(--space-md)] shrink-0 bg-[var(--color-white)]'>
+        {/* Header */}
+       <Frame width="sretch" height="hug" className='pb-[var(--space-xs)] items-center justify-between border-b-[var(--color-outline)] border-b-[1px]'>
+            <Heading type='h3' size='sm'>{shortenText(title, 20)}</Heading>
+            <Button size='xs' variant="fill" >View</Button>
+       </Frame>
+       {/* Health */}
+       <Frame width="stretch" height="hug" className='justify-between items-center'>
+            <Frame width="hug">
+                <Paragraph size='xs'>Last 7 days</Paragraph>
+            </Frame>
+            <Frame width="hug" height="hug" rounded='lg' className='bg-[var(--color-success2)]' specificStyles={{padding: `${space["xs"]} ${space["sm"]}`}}>
+                <Paragraph size='xs' color={colors["success"]} weight={fontWeight["medium"]}>Healthy</Paragraph>
+            </Frame>
+        </Frame>
+        {/* Operational Metrics */}
+       <Frame direction='column' padding='md' rounded="sm">
+            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
+                <Paragraph color={colors["textColor1"]} size='sm'>Overdue tasks</Paragraph>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>2</Paragraph>
+            </Frame>
+            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
+                <Paragraph color={colors["textColor1"]} size='sm'>Unpaid Bills</Paragraph>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>3</Paragraph>
+            </Frame>
+       </Frame>
+       {/* Financial Metrics */}
+       <Frame width="stretch" direction='column' padding="md" rounded='sm' height="hug" className='border-[var(--color-info)] gap-[var(--space-xs)] bg-[var(--color-accent2)]'>
+            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>Total Income</Paragraph>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>2</Paragraph>
+            </Frame>
+            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>Expenses</Paragraph>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>3</Paragraph>
+            </Frame>
+            <Frame width="stretch"  className='justify-between gap-[var(--space-sm)]'>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>Net Result</Paragraph>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["medium"]} size='sm'>3</Paragraph>
+            </Frame>
+            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["bold"]} size='sm'>Cash Balance</Paragraph>
+                <Paragraph color={colors["textColor1"]} weight={fontWeight["bold"]} size='sm'>$5000</Paragraph>
+            </Frame>
+        </Frame>
+    </Card>
+  )
+}

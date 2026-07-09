@@ -42,19 +42,16 @@ type ChartProps = {
 // #endregion
 
 export default function Chart1({variant}: ChartProps) {
-
     const chartStyle = {
         width: '100%',
-        maxWidth: '650px',
+        maxWidth: '700px',
         height: '100%',
         maxHeight: '300px',
         aspectRatio: 1.618,
         outline: "none"
     }
 
-
   return (
-
     variant === "Line chart" ? (
     <LineChart
       style={chartStyle}

@@ -12,13 +12,19 @@ import { fontWeight } from "../design/typograhy"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import Chart1 from "@/src/components/ui/charts/chart1" 
 import Modal from "@/src/components/ui/composites/modal"
+import BusinessOverviewCard from "@/src/components/app/cards/businessOverviewCard"
+import MetricsRow from "@/src/components/app/metricsRow"
+import Transaction from "@/src/components/app/transaction"
+import TransactionHeader from "@/src/components/app/transactionHeader"
 import { useState } from "react"
+import { report } from "node:process"
 
 export default function Home() {
   const {userState} = useUserState()
-  const reportOptions = ["This week", "This month", "This year"]
+  const reportDuration = ["This week", "This month", "This year"]
   const chartOptions = ["Line chart", "Bar chart"]
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
+  const businessMetrics = ["profit","revenue","expenses"]
 
   const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value as "Line chart" | "Bar chart";
@@ -26,111 +32,92 @@ export default function Home() {
   };
 
   return (
-    <Frame width="stretch" direction="column" height="hug"
-      specificStyles={{
-        gap: space["lg"]
-      }}> 
-      <Frame width="hug" height="hug" direction="column">
-        <Heading size="xl" type="h1">
-          {`Welcome back, ${userState.username}`}
-        </Heading>
+    <Frame width="stretch" direction="column" height="hug" className="mb-[var(--space-md)] gap-[var(--space-xl)]"> 
+      <Frame width="stretch" height="hug" direction="column">
+        <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
         <Paragraph size="md">
           Here's what's happening today.
         </Paragraph>
       </Frame>
-      <Frame width="stretch" height="100px" 
-        specificStyles={{
-          gap: space["md"]
-        }}>
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"],fontWeight: fontWeight["normal"]}}>
-            Active Businesses
-          </Heading>
-          <Paragraph 
-            size="xxl"
-            specificStyle={{
-              color: colors["textColor1"],
-              fontWeight: fontWeight["bold"]
-            }}
-          >
-            3
-          </Paragraph>
+      <Frame width="stretch" height="100px" className="gap-[var(--space-md)]">
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Active Businesses</Paragraph>
+          <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>3</Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"],fontWeight: fontWeight["normal"]}}>
-            Total Income
-          </Heading>
-          <Paragraph 
-            size="xxl"
-            specificStyle={{
-              color: colors["textColor1"],
-              fontWeight: fontWeight["bold"]
-            }}
-          >
-            $4000
-          </Paragraph>
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Total Income</Paragraph>
+          <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>$4000</Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"],fontWeight: fontWeight["normal"]}}>
-            Total Expenses
-          </Heading>
-          <Paragraph 
-            size="xxl"
-            specificStyle={{
-              color: colors["textColor1"],
-              fontWeight: fontWeight["bold"]
-            }}
-          >
-            $500
-          </Paragraph>
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Total Expenses</Paragraph>
+          <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>$500</Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Heading size="xs" type="h2" specificStyles={{color: colors["textColor2"], fontWeight: fontWeight["normal"]}}>
-            Net Profit
-          </Heading>
-          <Paragraph size="xxl"specificStyle={{ color: colors["textColor1"], fontWeight: fontWeight["bold"]}}>
-            $3500
-          </Paragraph>
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Net Profit</Paragraph>
+           <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>$3500</Paragraph>
         </Card>
       </Frame>
-       <Frame 
-      width="stretch" 
-      height="hug"
-      specificStyles={{
-        gap: space["md"]
-      }}
-      >
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm">
-          <Frame width="stretch" height="hug" 
-            specificStyles={{
-              justifyContent:"space-between",
-              marginBottom: space["md"]
-            }}>
+      <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
+        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
             <Heading size="md" type="h2">Performance Overview</Heading>
-            <Frame 
-              width="hug" 
-              height="hug" 
-              specificStyles={{gap: space["sm"]}}>
+            <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
               <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
-              <Dropdown name="report" size="sm" options={reportOptions}/>
+              <Dropdown name="report" size="sm" options={reportDuration}/>
             </Frame>
           </Frame>
           <Chart1 variant={selectedChart}/>
         </Card>
       </Frame>
-      <Frame 
-      width="stretch" 
-      height="250px"
-      specificStyles={{
-        gap: space["md"]
-      }}
-      >
-        <Card width="stretch" height="stretch" padding="md" rounded="sm">
-          <Frame width="stretch" height="hug" 
-          specificStyles={{
-            justifyContent:"space-between"
-          }}>
-             <Heading size="md" type="h2">Business Overview</Heading>
+      <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
+        <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+             <Heading size="md" type="h2">Businesses Overview</Heading>
+             <Frame width="hug" height="hug" gap={space["sm"]}>
+              <Dropdown name="ranking" size="sm" options={reportDuration}/>
+             </Frame>
+          </Frame>
+          <Frame width="stretch" height="hug" scroll="hidden" className="gap-[var(--space-lg)]">
+            <BusinessOverviewCard title="Business1"/>
+            <BusinessOverviewCard title="Business2"/>
+            <BusinessOverviewCard title="Business3"/>
+            <BusinessOverviewCard title="Business4"/>
+          </Frame>
+        </Card>
+      </Frame>
+      <Frame width="stretch" height="hug" gap={space["md"]}>
+        <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+             <Heading size="md" type="h2">Performance Ranking</Heading>
+             <Frame width="hug" height="hug" gap={space["sm"]}>
+              <Dropdown name="ranking" size="sm" options={businessMetrics}/>
+              <Dropdown name="ranking" size="sm" options={reportDuration}/>
+             </Frame>
+          </Frame>
+          <Frame width="stretch" height="hug" gap={space["sm"]} direction="column" className="">
+            <MetricsRow data={{name:"Business1"}}/>
+            <MetricsRow data={{name:"Business2"}}/>
+            <MetricsRow data={{name:"Business3"}}/>
+            <MetricsRow data={{name:"Business4"}}/>
+          </Frame>
+        </Card>
+      </Frame>
+      <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
+        <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+             <Heading size="md" type="h2">Latest Transactions</Heading>
+             <Frame width="hug" height="hug" gap={space["sm"]}>
+              <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
+             </Frame>
+          </Frame>
+          <Frame width="stretch" rounded="md" height="hug" gap={space["xxs"]} scroll="hidden" border direction="column" className="max-h-[200px]">
+            {/* <TransactionHeader/> */}
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
           </Frame>
         </Card>
       </Frame>

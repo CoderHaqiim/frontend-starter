@@ -45,7 +45,7 @@ export default function Dropdown({
   };
 
   return (
-    <div className="relative flex w-max flex-1 items-center">
+    <div className="relative flex w-max items-center">
       <select
         name="cars"
         onChange={formFuncHandler}

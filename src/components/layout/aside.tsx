@@ -3,16 +3,13 @@ import { CSSProperties, ReactNode } from 'react'
 type AsideProps = {
     children: ReactNode,
     variant: "right" | "left",
-    specificStyles?: CSSProperties
+    specificStyles?: CSSProperties,
+    className?: string
 }
 
-export default function Aside({children, specificStyles}: AsideProps){
+export default function Aside({children, className, specificStyles}: AsideProps){
   return (
-    <aside className={`h-full p-(--space-lg)`} 
-      style={{
-        ...specificStyles, 
-        }}
-    >
+    <aside className={`h-full flex p-[var(--space-lg)] ${className}`} style={{...specificStyles }}>
        {children}
     </aside>
   )

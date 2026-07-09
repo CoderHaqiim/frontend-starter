@@ -9,7 +9,9 @@ type CardProps = {
     padding: SizeType,
     width: FrameSizeType,
     height: FrameSizeType,
-    specificStyles?: CSSProperties
+    specificStyles?: CSSProperties,
+    className?: string
+    scroll?: boolean
 }
 
 export default function Card({
@@ -18,20 +20,13 @@ export default function Card({
   height, 
   padding, 
   rounded, 
-  specificStyles
+  specificStyles,
+  className,
+  scroll
 }: CardProps) {
   return (
-    <Frame 
-      width={width} 
-      height={height} 
-      rounded={rounded} 
-      direction="column" 
-      border 
-      padding={padding}
-    specificStyles={{
-      boxShadow:"0px 2px 2px -3px black",
-      ...specificStyles
-    }}>
+    <Frame width={width} scroll="hidden" height={height} rounded={rounded} direction="column" border padding={padding} className={className}
+      specificStyles={{...specificStyles }}>
       {children}
     </Frame>
   )

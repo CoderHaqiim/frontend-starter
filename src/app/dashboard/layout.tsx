@@ -8,6 +8,7 @@ import { colors, colorVariables } from "../design/colors"
 import { space } from "../design/spacing"
 import Button from "@/src/components/ui/primitives/button"
 import PageComponent from "@/src/components/layout/page"
+import Tooltip from "@/src/components/ui/composites/tooltip"
 
 type LayoutProps = {
   children: ReactNode
@@ -15,37 +16,24 @@ type LayoutProps = {
 
 export default function Layout({children}: LayoutProps) {
   return (
-    <PageComponent 
-      direction="column" 
-      scrollable={false}
-      specificStyle={{
-        gap:"2px", 
-        overflow:"hidden",
-        backgroundColor: colors["background3"]
-      }}
-    >
+    <Frame direction="column" height="100vh" gap={space["xxs"]} className="overflow-hidden bg-[var(--color-background3)]">
       <Nav/>
-      <Frame width="stretch"
-        specificStyles={{
-          gap:"2px", 
-          flex:"1",
-          minHeight:"0px"
-        }}
-        >
+      <Frame width="stretch" className="gap-[2px] flex-1 min-h-[0px]">
         <LeftAside/>
         <Main padding="lg">
           {children}
         </Main>
         <RightAside/>
-        <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg"
-          specificStyles={{
-            position:"fixed",
-            bottom: space["xxl"],
-            right: space["xxl"]
-          }}
-        />
+        <Frame height="hug" width="hug" className="bottom-[var(--space-xxl)] right-[var(--space-xxl)]" 
+        specificStyles={{
+          position: "fixed"
+        }}>
+          <Tooltip position="top" content="add">
+            <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg"/>
+          </Tooltip>
+        </Frame>
       </Frame>
-    </PageComponent>
+    </Frame>
   )
 }
 

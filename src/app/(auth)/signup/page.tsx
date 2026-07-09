@@ -9,24 +9,15 @@ import Paragraph from '@/src/components/ui/primitives/paragraph'
 import LinkComponent from '@/src/components/ui/primitives/link'
 import Heading from '@/src/components/ui/primitives/heading'
 import { colors } from '../../design/colors'
-import Page from '@/src/components/layout/page'
+import { space } from '../../design/spacing'
 
 export default function SignupPage() {
   return (
-    <Page 
-    direction='row' 
-    centered
-    scrollable
-    specificStyle={{backgroundColor:"var(--background2)"}}>
-        <Frame width="400px" height="100vh" direction='column' 
-        specificStyles={{
-            backgroundColor: colors["accent1"]
-            }}
-        >
-
+    <Frame direction='row' justify='center' align='center' height="100vh" specificStyles={{backgroundColor:"var(--background2)"}}>
+        <Frame width="400px" height="100vh" direction='column' specificStyles={{backgroundColor: colors["accent1"]}}>
         </Frame>
-        <Frame centered width="auto" height="stretch" specificStyles={{flex:"1"}} >
-            <Frame width="500px" height="max-content" padding='lg' direction="column" specificStyles={{gap:"8px"}}>
+        <Frame justify="center" align='center' width="auto" height="stretch" className='flex-1' >
+            <Frame width="500px" height="max-content" padding='lg' direction="column" gap={space["sm"]}>
                 <Form variant="plain" url="/auth/signup">
                     <Heading size="xxl" type='h1'>Create new account</Heading>
                     <Frame direction='column' width="stretch" height="stretch">
@@ -59,6 +50,6 @@ export default function SignupPage() {
                 </Paragraph>
             </Frame>
         </Frame>
-    </Page>
+    </Frame>
   )
 }

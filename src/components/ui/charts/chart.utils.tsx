@@ -26,8 +26,8 @@ export const useTooltip = () => {
                 stroke: 'var(--textColor2)',
                 }}
                 contentStyle={{
-                    backgroundColor: 'white',
-                    borderColor: 'var(--color-textColor2)',
+                    backgroundColor: colors["white"],
+                    borderColor:  colors["outline"],
                     borderRadius: radius["sm"],
                 }}
             />
@@ -35,6 +35,6 @@ export const useTooltip = () => {
     }
 
 export const useAxis = {
-        x: () => <XAxis dataKey="name" axisLine={{stroke: colors["textColor2"]}}  tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["textColor2"] }}/>,
-        y: () =>  <YAxis width="auto" axisLine={{stroke: colors["textColor2"]}} tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["textColor2"] }}/>
-    }
+    x: () => <XAxis dataKey="name" axisLine={{stroke: colors["textColor2"]}}  tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["textColor2"] }}/>,
+    y: () =>  <YAxis width="auto" axisLine={{stroke: colors["textColor2"]}} tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["textColor2"] }}/>
+}
