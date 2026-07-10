@@ -3,7 +3,7 @@ import Card from "../../ui/composites/card"
 import { colors } from "@/src/app/design/colors"
 import Heading from "../../ui/primitives/heading"
 import Button from "../../ui/primitives/button"
-import MiniTaskLine from "../miniTaskLine"
+import TaskLine from "../taskLine"
 import Paragraph from "../../ui/primitives/paragraph"
 import { shortenText } from "@/src/utils/shortenText"
 import Tooltip from "../../ui/composites/tooltip"
@@ -28,7 +28,7 @@ export default function TaskManagerCard() {
                 </Frame>
               </Frame>
               <Frame width="stretch" gap="xxs" rounded="md" border direction="column" className="flex-1" specificStyles={{overflow: "hidden"}}>
-                <MiniTaskLine >
+                <TaskLine >
                   <Frame>
                     <Paragraph size="sm" color="textColor1" >
                       {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
@@ -63,8 +63,8 @@ export default function TaskManagerCard() {
                       </Tooltip>
                     </Frame>
                   </Frame>
-                </MiniTaskLine>
-                <MiniTaskLine >
+                </TaskLine>
+                <TaskLine >
                   <Frame>
                     <Paragraph size="sm" color="textColor1">
                       {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
@@ -99,8 +99,8 @@ export default function TaskManagerCard() {
                       </Tooltip>
                     </Frame>
                   </Frame>
-                </MiniTaskLine>
-                <MiniTaskLine >
+                </TaskLine>
+                <TaskLine >
                   <Frame>
                     <Paragraph size="sm" color="textColor1">
                       {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
@@ -135,7 +135,7 @@ export default function TaskManagerCard() {
                       </Tooltip>
                     </Frame>
                   </Frame>
-                </MiniTaskLine>
+                </TaskLine>
               </Frame>
             </Card>
   )

@@ -12,7 +12,7 @@ const colors = {
     "textColor1": "#1e1e1e",
     "muted": "#484646",
     "textColor2": "#535151",
-    "background1": "#f9f9f9",
+    "background1": "#f5f5f5",
     "background2": "#f5f5f5",
     "background3": "#e6e3e3",
     "white": "#ffffff",
