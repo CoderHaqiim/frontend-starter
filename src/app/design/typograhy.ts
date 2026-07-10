@@ -30,6 +30,7 @@ const fontWeight = {
     "bold" :"700"
 } as const
 
+export type FontWeightTypes = keyof typeof fontWeight
 const bodySizeVariables = generateVariable(bodySize, bodySize.name)
 const headingSizeVariables = generateVariable(headingSize, headingSize.name)
 const fontWeightVariables = generateVariable(fontWeight, fontWeight.name)

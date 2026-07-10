@@ -1,8 +1,8 @@
-import { fontWeight, headingSize } from "@/src/app/design/typograhy"
+import { fontWeight, FontWeightTypes, headingSize } from "@/src/app/design/typograhy"
 import { CSSProperties } from "react"
 import { SizeType} from "@/src/types/types"
 import { ReactNode } from "react"
-import { colors } from "@/src/app/design/colors"
+import { colors, ColorTypes } from "@/src/app/design/colors"
 
 type HeadingProps = {
     children: ReactNode
@@ -10,10 +10,11 @@ type HeadingProps = {
     size: SizeType,
     specificStyles?: CSSProperties
     className?: string
-    color?: string
+    color?: ColorTypes
+    weight?: FontWeightTypes
 }
 
-export default function Heading({children, size, type, color = colors["textColor1"], className, specificStyles}: HeadingProps){
+export default function Heading({weight, children, size, type, color ="textColor1", className, specificStyles}: HeadingProps){
 
   const HeadingTag = type 
 
@@ -24,12 +25,12 @@ export default function Heading({children, size, type, color = colors["textColor
     "h4" : "medium"
   } as const
 
-  const weight = weightType[type]
+  const Weight = weightType[type]
 
   const defaultStyle: CSSProperties = {
     fontSize: headingSize[size],
-    fontWeight: fontWeight[weight],
-    color: color
+    fontWeight: (weight && fontWeight[weight]) ?? fontWeight[Weight],
+    color: colors[color] ?? colors["textColor1"]
   }
 
   return(

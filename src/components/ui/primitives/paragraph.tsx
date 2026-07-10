@@ -1,7 +1,7 @@
 import React, { CSSProperties, ReactNode } from 'react'
 import { SizeType } from '@/src/types/types'
-import { bodySize } from '@/src/app/design/typograhy'
-import { colors } from '@/src/app/design/colors'
+import { bodySize, FontWeightTypes } from '@/src/app/design/typograhy'
+import { colors, ColorTypes } from '@/src/app/design/colors'
 import { fontWeight } from '@/src/app/design/typograhy'
 
 type ParagraphProps = {
@@ -9,8 +9,8 @@ type ParagraphProps = {
     size: SizeType
     specificStyle?: CSSProperties
     className?: string,
-    color?: string,
-    weight?: string
+    color?: ColorTypes,
+    weight?: FontWeightTypes
 }
 
 export default function Paragraph({
@@ -25,8 +25,8 @@ export default function Paragraph({
 
   const defaultStyle: CSSProperties = {
     fontSize: bodySize[size],
-    color: color,
-    fontWeight:weight
+    color: colors[color],
+    fontWeight:fontWeight[weight]
   }
 
   return (

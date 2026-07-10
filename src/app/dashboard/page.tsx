@@ -41,20 +41,20 @@ export default function Home() {
       </Frame>
       <Frame width="stretch" height="100px" className="gap-[var(--space-md)]">
         <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Active Businesses</Paragraph>
-          <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>3</Paragraph>
+          <Paragraph size="xs" color="textColor2" weight="normal">Active Businesses</Paragraph>
+          <Paragraph size="xxl" color="textColor1" weight="medium">3</Paragraph>
         </Card>
         <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Total Income</Paragraph>
-          <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>$4000</Paragraph>
+          <Paragraph size="xs" color="textColor2" weight="normal">Total Income</Paragraph>
+          <Paragraph size="xxl" color="textColor1" weight="medium">$4000</Paragraph>
         </Card>
         <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Total Expenses</Paragraph>
-          <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>$500</Paragraph>
+          <Paragraph size="xs" color="textColor2" weight="normal">Total Expenses</Paragraph>
+          <Paragraph size="xxl" color="textColor1" weight="medium">$500</Paragraph>
         </Card>
         <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color={colors["textColor2"]} weight={fontWeight["normal"]}>Net Profit</Paragraph>
-           <Paragraph size="xxl" color={colors["textColor1"]} weight={fontWeight["medium"]}>$3500</Paragraph>
+          <Paragraph size="xs" color="textColor2" weight="normal">Net Profit</Paragraph>
+           <Paragraph size="xxl" color="textColor1" weight="medium">$3500</Paragraph>
         </Card>
       </Frame>
       <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">

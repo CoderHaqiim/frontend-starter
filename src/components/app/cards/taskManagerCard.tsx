@@ -1,15 +1,11 @@
 import Frame from "../../ui/primitives/frame"
 import Card from "../../ui/composites/card"
 import { colors } from "@/src/app/design/colors"
-import { space } from "@/src/app/design/spacing"
 import Heading from "../../ui/primitives/heading"
 import Button from "../../ui/primitives/button"
 import MiniTaskLine from "../miniTaskLine"
 import Paragraph from "../../ui/primitives/paragraph"
 import { shortenText } from "@/src/utils/shortenText"
-import { radius } from "@/src/app/design/radius"
-import { bodySize } from "@/src/app/design/typograhy"
-import { fontWeight } from "@/src/app/design/typograhy"
 import Tooltip from "../../ui/composites/tooltip"
 
 export default function TaskManagerCard() {
@@ -34,14 +30,14 @@ export default function TaskManagerCard() {
               <Frame width="stretch" gap="xxs" rounded="md" border direction="column" className="flex-1" specificStyles={{overflow: "hidden"}}>
                 <MiniTaskLine >
                   <Frame>
-                    <Paragraph size="sm" color={colors["textColor1"]} >
+                    <Paragraph size="sm" color="textColor1" >
                       {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
                     </Paragraph>
                   </Frame>
                   <Frame justify="space-between" align="center">
                     <Frame width="stretch" height="hug" gap="xs">
                       <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
-                        <Paragraph color={colors["accent1"]} size="xxs" weight={fontWeight["medium"]}>
+                        <Paragraph color="accent1" size="xxs" weight="medium">
                           high
                         </Paragraph>
                       </Frame>
@@ -49,7 +45,7 @@ export default function TaskManagerCard() {
                           backgroundColor: colors["success2"],
                           padding: `1px 6px`
                       }}>
-                        <Paragraph color={colors["success"]} size="xxs" weight={fontWeight["medium"]}>
+                        <Paragraph color="success" size="xxs" weight="medium">
                           Completed
                         </Paragraph>
                       </Frame>
@@ -70,14 +66,14 @@ export default function TaskManagerCard() {
                 </MiniTaskLine>
                 <MiniTaskLine >
                   <Frame>
-                    <Paragraph size="sm" color={colors["textColor1"]} >
+                    <Paragraph size="sm" color="textColor1">
                       {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
                     </Paragraph>
                   </Frame>
                   <Frame justify="space-between" align="center">
                     <Frame width="stretch" height="hug" gap="xs">
                       <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
-                        <Paragraph color={colors["accent1"]} size="xxs" weight={fontWeight["medium"]}>
+                        <Paragraph color="accent1" size="xxs" weight="medium">
                           high
                         </Paragraph>
                       </Frame>
@@ -85,7 +81,7 @@ export default function TaskManagerCard() {
                           backgroundColor: colors["success2"],
                           padding: `1px 6px`
                       }}>
-                        <Paragraph color={colors["success"]} size="xxs" weight={fontWeight["medium"]}>
+                        <Paragraph color="success" size="xxs" weight="medium">
                           Completed
                         </Paragraph>
                       </Frame>
@@ -106,14 +102,14 @@ export default function TaskManagerCard() {
                 </MiniTaskLine>
                 <MiniTaskLine >
                   <Frame>
-                    <Paragraph size="sm" color={colors["textColor1"]} >
+                    <Paragraph size="sm" color="textColor1">
                       {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
                     </Paragraph>
                   </Frame>
                   <Frame justify="space-between" align="center">
                     <Frame width="stretch" height="hug" gap="xs">
                       <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
-                        <Paragraph color={colors["accent1"]} size="xxs" weight={fontWeight["medium"]}>
+                        <Paragraph color="accent1" size="xxs" weight="medium">
                           high
                         </Paragraph>
                       </Frame>
@@ -121,7 +117,7 @@ export default function TaskManagerCard() {
                           backgroundColor: colors["warning2"],
                           padding: `1px 6px`
                       }}>
-                        <Paragraph color={colors["warning"]} size="xxs" weight={fontWeight["medium"]}>
+                        <Paragraph color="warning" size="xxs" weight="medium">
                           Pending
                         </Paragraph>
                       </Frame>

@@ -23,6 +23,8 @@ const colors = {
     "info2": "#ececfc"
 } as const
 
+export type ColorTypes = keyof typeof colors
+
 const colorVariables = generateVariable(colors, colors.name)
 
 export{

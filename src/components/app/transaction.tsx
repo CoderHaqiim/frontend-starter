@@ -12,8 +12,8 @@ export default function Transaction() {
         <Icon name="icon-circle-arrow-up" size="xxl" fill={colors["success2"]} color={colors["success"]}/>
         <Frame direction="column" width="stretch" height="hug">
             <Frame width="stretch" height="hug" justify="space-between" align="center">
-                <Paragraph weight={fontWeight["medium"]} color={colors["textColor1"]} size="sm">Got drunk and fell in a ditch</Paragraph>
-                <Paragraph weight={fontWeight["medium"]} color={colors["success"]} size="md">+$4000</Paragraph>
+                <Paragraph weight="medium" color="textColor1" size="sm">Got drunk and fell in a ditch</Paragraph>
+                <Paragraph weight="medium" color="success" size="md">+$4000</Paragraph>
             </Frame>
             <Frame width="stretch" height="hug" justify="space-between" align="center">
                 <Paragraph size="xs">Business1</Paragraph>

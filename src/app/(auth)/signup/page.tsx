@@ -43,7 +43,7 @@ export default function SignupPage() {
                         <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Create new account</Button>  
                     </Form>
                     <Frame height={30} justify='center' align="center" width="stretch" >
-                        <Paragraph size='sm' color={colors["textColor1"]} className='justify-center text-center z-[5] bg-[var(--color-white)]' specificStyle={{width: "70px"}}>OR</Paragraph>
+                        <Paragraph size='sm' color="textColor1" className='justify-center text-center z-[5] bg-[var(--color-white)]' specificStyle={{width: "70px"}}>OR</Paragraph>
                         <hr className='w-[70%] border-0 bg-[var(--color-outline)] h-[1px] absolute'/>
                     </Frame>
                     <Frame>
@@ -54,7 +54,7 @@ export default function SignupPage() {
                               width={20}
                               height={20}
                             />
-                            <Paragraph size='md' weight={fontWeight["medium"]} color={colors["textColor1"]}>
+                            <Paragraph size='md' weight="medium" color="textColor1">
                                 Sign in with Google
                             </Paragraph>
                         </Button>  
@@ -62,7 +62,7 @@ export default function SignupPage() {
                     <Frame width="stretch" height="hug" gap="md" className='mt-[var(--space-lg)]'>
                         <Paragraph size='sm'>Already have an account?</Paragraph>
                         <LinkComponent href="/login" variant="inline" underline>
-                            <Paragraph size='sm' weight={fontWeight["normal"]} color={colors["accent1"]}>Log in</Paragraph>
+                            <Paragraph size='sm' weight="normal" color="accent1">Log in</Paragraph>
                         </LinkComponent>
                     </Frame>
                 </Frame>
