@@ -5,7 +5,7 @@ import Heading from '@/src/components/ui/primitives/heading'
 export default function Item3() {
   return (
     <Frame width="stretch" height="stretch"> 
-      <Heading size="lg" type="h1" text="Transactions"/>
+      <Heading size="lg" type="h1">Transactions</Heading>
     </Frame>
   )
 }

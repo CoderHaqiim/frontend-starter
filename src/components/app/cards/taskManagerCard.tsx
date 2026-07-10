@@ -52,12 +52,12 @@ export default function TaskManagerCard() {
                     </Frame>
                     <Frame gap="sm">
                       <Tooltip content="mark as done" position="top">
-                        <Button iconColor={colors["success"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
+                        <Button iconColor="success" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
                           backgroundColor:colors["success2"]
                         }}/>
                       </Tooltip>
                       <Tooltip content="delete" position="top">
-                        <Button iconColor={colors["error"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
+                        <Button iconColor="error" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
                           backgroundColor:colors["error2"]
                         }}/>
                       </Tooltip>
@@ -88,12 +88,12 @@ export default function TaskManagerCard() {
                     </Frame>
                     <Frame gap="sm">
                       <Tooltip content="mark as done" position="top">
-                        <Button iconColor={colors["success"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
+                        <Button iconColor="success" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
                           backgroundColor:colors["success2"]
                         }}/>
                       </Tooltip>
                       <Tooltip content="delete" position="top">
-                        <Button iconColor={colors["error"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
+                        <Button iconColor="error" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
                           backgroundColor:colors["error2"]
                         }}/>
                       </Tooltip>
@@ -124,12 +124,12 @@ export default function TaskManagerCard() {
                     </Frame>
                     <Frame gap="sm">
                       <Tooltip content="mark as done" position="top">
-                        <Button iconColor={colors["success"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
+                        <Button iconColor="success" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
                           backgroundColor:colors["success2"]
                         }}/>
                       </Tooltip>
                       <Tooltip content="delete" position="top">
-                        <Button iconColor={colors["error"]} size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
+                        <Button iconColor="error" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
                           backgroundColor:colors["error2"]
                         }}/>
                       </Tooltip>

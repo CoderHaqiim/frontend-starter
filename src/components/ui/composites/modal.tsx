@@ -31,21 +31,15 @@ export default function Modal({ width="500px", height="300px", children, title, 
   }
 
   return (
-      <Backdrop modalIsOpen>
+      <Backdrop>
         <Card width={width} height={height} padding={padding} rounded='md'
           specificStyles={{
             display: selectedModal === id ? "flex" : "none"
           }}
         >
-          <Button
-            func={closeModal}
-            variant="ghost"
-            size="md"
-            isIcon
-            iconName="icon-x"
-          />
+          <Button func={closeModal} variant="ghost" size="md" isIcon iconName="icon-x"/>
           {title && <Heading type='h2' size='lg'>{title}</Heading>}
-           {children}
+          {children}
         </Card>
       </Backdrop>
   )

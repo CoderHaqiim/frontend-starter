@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-@theme inline {
- --font-sans: var(--font-noto-sans);
-}
-
 :root {
   --color-accent1: "#32064f"
 }
@@ -11,8 +7,10 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-google-sans);
+  font-family: sans-serif;
 }
+
+/* var(--font-google-sans), */
 
 .scrollVisible::-webkit-scrollbar{
   width:5px;

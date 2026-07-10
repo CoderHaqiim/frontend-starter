@@ -9,6 +9,7 @@ import { space } from '@/src/app/design/spacing'
 import { http } from '@/src/http/client'
 import { colors } from '@/src/app/design/colors'
 import Tooltip from '../ui/composites/tooltip'
+import Paragraph from '../ui/primitives/paragraph'
 
 type Notification = unknown
 
@@ -128,21 +129,13 @@ export default function Nav() {
               </Tooltip>
               {
                 notificationsOpen && (
-                <Frame width="350px" height="auto" rounded="md" padding="sm" direction="column"
+                <Frame width="350px" height="auto" gap="xs" rounded="md" padding="sm" direction="column"
+                className='absolute z-[1000] border-[1px] border-[var(--color-outline)] max-h-[360px] top-[120%] right-0 min-h-[80px] bg-[var(--color-white)] '
                   specificStyles={{
-                    position: "absolute",
-                    minHeight: "80px",
-                    maxHeight: "360px",
-                    backgroundColor: "white",
-                    border: `solid 1px ${colors["outline"]}`,
-                    top: "120%",
-                    right: "0px",
                     boxShadow: "0px 1px 5px -1px #000000c4",
                     overflowY: "auto",
-                    zIndex: 1000,
-                    gap: space["xs"]
                   }}>
-                  {loadingNotifications && <p className="px-2 py-1 text-sm text-[#666666]">Loading notifications...</p>}
+                  {loadingNotifications && <Paragraph size='sm' className="">Loading notifications...</Paragraph>}
                   {!loadingNotifications && notificationsError && <p className="px-2 py-1 text-sm text-red-500">{notificationsError}</p>}
                   {!loadingNotifications && !notificationsError && notifications.length === 0 && <p className="px-2 py-1 text-sm text-[#666666]">No notifications</p>}
                   {!loadingNotifications && !notificationsError && notifications.map((notification, index) => (

@@ -33,11 +33,15 @@ import {
 
 import { LucideProps } from 'lucide-react'
 import { SizeType } from '@/src/types/types'
+import { colors, ColorTypes } from '@/src/app/design/colors'
+import { CSSProperties } from 'react'
 
 
 type IconProps = LucideProps & {
     size: SizeType,
     name: IconType,
+    color?: ColorTypes
+    style?: CSSProperties
 }
 
 const icons = {
@@ -75,23 +79,23 @@ const icons = {
 
 export type IconType = keyof typeof icons;
   const sizes = {
-    "xxs" : 12,
-    "xs" : 14,
-    "sm" : 18,
-    "md" : 22,
-    "lg" : 26,
-    "xl" : 30,
-    "xxl": 34
+    "xxs" : 10,
+    "xs" : 12,
+    "sm" : 16,
+    "md" : 20,
+    "lg" : 24,
+    "xl" : 28,
+    "xxl": 32
   }
 
-export default function Icon({ fill, stroke, size, name, color }: IconProps) {
+export default function Icon({ fill, style, stroke, size, name, color }: IconProps) {
 
   const iconSize = size && sizes[size] 
 
   const iconProps = {
-    strokeWidth: stroke ?? 1.5,
+    strokeWidth: stroke ?? "1.5",
     size: iconSize ?? "18px",
-    color: color ?? "var(--color-textColor1)",
+    color: (color && colors[color]) ?? colors["textColor1"],
     fill: fill ?? "transparent"
   };
 
@@ -99,5 +103,5 @@ export default function Icon({ fill, stroke, size, name, color }: IconProps) {
 
   if (!IconComponent) return null;
 
-  return <IconComponent {...iconProps} />;
+  return <IconComponent {...iconProps} style={{...style, pointerEvents: "none"}}/>;
 }

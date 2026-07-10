@@ -9,7 +9,7 @@ export default function Transaction() {
     const date = new Date().toDateString()
   return (
     <Frame width="stretch" height="hug" gap="lg" align="center" padding="md" className="bg-[var(--color-white)]">
-        <Icon name="icon-circle-arrow-up" size="xxl" fill={colors["success2"]} color={colors["success"]}/>
+        <Icon name="icon-circle-arrow-up" size="xxl" fill={colors["success2"]} color="success"/>
         <Frame direction="column" width="stretch" height="hug">
             <Frame width="stretch" height="hug" justify="space-between" align="center">
                 <Paragraph weight="medium" color="textColor1" size="sm">Got drunk and fell in a ditch</Paragraph>

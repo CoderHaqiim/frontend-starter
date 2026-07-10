@@ -1,16 +1,20 @@
+"use client"
+
 import { ReactNode } from "react"
 import Frame from "./frame"
+import { useBackdropState } from "@/src/store/backdropState"
 
 type BackdropProps = {
     children: ReactNode,
-    modalIsOpen : boolean
 }
 
-export default function Backdrop({children, modalIsOpen}:BackdropProps) {
+export default function Backdrop({children}:BackdropProps) {
+  const {backdropOpen} = useBackdropState()
   return (
-    <Frame width="stretch" height="stretch" centered className="bg-[00000033] fixed inset-0 z-3000" 
+    <Frame width="stretch" height="100vh" justify="center" align="center" className="bg-[#00000040] inset-0 z-3000" 
         specificStyles={{
-            display: modalIsOpen? "flex" : "none"
+            display: backdropOpen? "flex" : "none",
+            position: "fixed"
         }}>
         {children}
     </Frame>
