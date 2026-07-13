@@ -11,9 +11,9 @@ import Tooltip from "../../ui/composites/tooltip"
 export default function TaskManagerCard() {
   return (
     
-            <Card padding="lg" rounded="sm" width="stretch" height="hug" className="bg-[var(--color-background1)]">
+            <Card padding="lg" rounded="sm" width="stretch" height="hug">
               <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline)] pb-[var(--space-md)]">
-                <Heading type="h2" size="md">Task Manager</Heading>
+                <Heading type="h2" size="sm">Task Manager</Heading>
                 <Frame gap="sm">
                   <Button variant="fill" iconPosition="left" rounded="lg" size="sm" iconName="icon-plus">Add Task</Button>
                   <Tooltip content="expand" position="top">
@@ -22,12 +22,12 @@ export default function TaskManagerCard() {
                 </Frame>
               </Frame>
               <Frame width="stretch" align="center" gap="xs" height="hug" className="mb-[var(--space-md)] mt-[var(--space-sm)]">
-                <Heading type="h3" size="sm">Today</Heading>
+                <Heading type="h3" size="xs">Today</Heading>
                 <Frame>
                   <Paragraph size="xs"> • 8 Tasks • 5 Completed • 5 Pending  </Paragraph>
                 </Frame>
               </Frame>
-              <Frame width="stretch" gap="xxs" rounded="md" border direction="column" className="flex-1" specificStyles={{overflow: "hidden"}}>
+              <Frame width="stretch" padding="xs" gap="xxs" rounded="md" border direction="column" className="flex-1" specificStyles={{overflow: "hidden"}}>
                 <TaskLine >
                   <Frame>
                     <Paragraph size="sm" color="textColor1" >

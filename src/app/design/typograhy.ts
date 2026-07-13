@@ -8,7 +8,7 @@ const bodySize = {
   "md": "16px",      // 16px
   "lg": "18px",  // 18px
   "xl": "20px",   // 20px
-  "xxl": "22px", // 22px
+  "xxl": "24px", // 22px
 } as const
 
 const headingSize = {
@@ -24,7 +24,7 @@ const headingSize = {
 
 const fontWeight = {
     "name": "fontWeight",
-    "normal": "400",
+    "normal": "500",
     "medium": "600",
     "semiBold": "700",
     "bold" :"700"

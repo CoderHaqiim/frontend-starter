@@ -9,7 +9,9 @@ export default function ProfileButton() {
  const {userState} = useUserState();
 
   return (
-    <Button width="stretch" size="xl" variant="outline" rounded="sm" justify="start">
+    <Button width="stretch" size="xl" variant="outline" rounded="lg" justify="start" specificStyles={{
+        padding:"0px 12px"
+    }}>
         <Avatar/>
         <span className="flex flex-col justify-center items-start">
             <span className="block leading-[1] text-[var(--bodySize-md)] font-[var(--fontWeight-bold)]">

@@ -7,10 +7,8 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: sans-serif;
+  font-family: var(--font-google-sans);
 }
-
-/* var(--font-google-sans), */
 
 .scrollVisible::-webkit-scrollbar{
   width:5px;
@@ -25,11 +23,13 @@ body {
 .scrollInvisible::-webkit-scrollbar{
   width:0px;
   height:0px;
+  display: none;
 }
 
 .scrollInvisible::-webkit-scrollbar-thumb{
   width:0px;
   height:0px;
+  display: none;
 }
 
 .scrollVisible::-webkit-scrollbar-thumb{

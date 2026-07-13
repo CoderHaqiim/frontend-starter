@@ -3,11 +3,14 @@ import {
   BadgeCheck,
   BadgeAlert,
   BadgeInfo,
+  Bell,
   CircleUser,
+  CircleArrowUp,
+  CircleArrowDown,
+  CheckCheck,
   User2,
   LayoutDashboard,
   Search,
-  Bell,
   House, 
   Eye, 
   EyeOff, 
@@ -24,11 +27,9 @@ import {
   Moon,
   Maximize2,
   Trash2,
-  CheckCheck,
   MoveDown,
   MoveUp,
-  CircleArrowUp,
-  CircleArrowDown
+  Pencil
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -74,7 +75,8 @@ const icons = {
     "icon-arrow-up": MoveUp,
     "icon-arrow-down": MoveDown,
     "icon-circle-arrow-down": CircleArrowDown,
-    "icon-circle-arrow-up": CircleArrowUp
+    "icon-circle-arrow-up": CircleArrowUp,
+    "icon-pencil" : Pencil
 };
 
 export type IconType = keyof typeof icons;

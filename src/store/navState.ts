@@ -6,8 +6,7 @@ type SelectedNavState = {
 }
 
 export const useSelectedNavState = create<SelectedNavState>((set) => ({
-  selectedNavState: 0,
+  selectedNavState: "dashboard",
 
-  setSelectedNavState: (newSelection) =>
-    set({ selectedNavState: newSelection }),
+  setSelectedNavState: (newSelection) => set({ selectedNavState: newSelection }),
 }))

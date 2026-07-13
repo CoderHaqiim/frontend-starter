@@ -49,13 +49,9 @@ export default function Dropdown({
       <select
         name="cars"
         onChange={formFuncHandler}
-        className={`w-max accent-[var(--color-accent2)] appearance-none rounded-[4px] pr-[30px] bg-[var(--color-background1)] px-[8px] text-[14px] text-[var(--color-textColor1)] outline-none ${
-          border ? "border border-[var(--color-outline)]" : ""
-        } ${
-          outline
-            ? "hover:border-[var(--color-accent1)] focus:border-2 focus:border-[var(--color-accent1)]"
-            : ""
-        }`}
+        className={`w-max accent-[var(--color-accent2)] appearance-none rounded-[var(--radius-sm)] pr-[30px] px-[8px] text-[length:var(--bodySize-sm)] text-[color:var(--color-textColor1)] outline-none 
+          ${ border ? "border border-[var(--color-outline)]" : ""} 
+          ${outline? "hover:border-[var(--color-accent1)] focus:border-2 focus:border-[var(--color-accent1)]" : " "}`}
         style={{
           height: elementSizes[size],
           ...specificStyle,

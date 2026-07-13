@@ -11,7 +11,8 @@ type CardProps = {
     height: FrameSizeType,
     specificStyles?: CSSProperties,
     className?: string
-    scroll?: boolean
+    scroll?: "hidden" | "visible"
+    gap?: SizeType
 }
 
 export default function Card({
@@ -22,11 +23,14 @@ export default function Card({
   rounded, 
   specificStyles,
   className,
+  gap,
   scroll
 }: CardProps) {
   return (
-    <Frame width={width} height={height} rounded={rounded} direction="column" border padding={padding} className={className}
-      specificStyles={{...specificStyles }}>
+    <Frame width={width} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" border padding={padding} className={className}
+      specificStyles={{
+        ...specificStyles 
+        }}>
       {children}
     </Frame>
   )

@@ -23,12 +23,13 @@ export const useTooltip = () => {
         return (
             <Tooltip
                 cursor={{
-                stroke: 'var(--textColor2)',
+                    stroke: 'var(--textColor2)'
                 }}
                 contentStyle={{
                     backgroundColor: colors["white"],
                     borderColor:  colors["outline"],
                     borderRadius: radius["sm"],
+                    boxShadow:"0px 2px 3px #00000080"
                 }}
             />
         )

@@ -1,7 +1,7 @@
 import { IconType } from "../components/ui/primitives/icon"
 
 type navItem = {
-    id: number,
+    id: string,
     text:string,
     icon :IconType
     link: string
@@ -10,31 +10,31 @@ type navItems = navItem[]
 
 export const navItems: navItems = [
     {
-        id: 0,
+        id: "dashboard",
         text: "Dashboard",
         icon: "icon-dashboard",
         link: "/dashboard"
     },
     {
-        id: 1,
+        id: "businesses",
         text: "Businesses", /*change to real page name*/
         icon: "icon-store",
         link:"/dashboard/businesses" /*change to real page link*/
     },
     {
-        id: 2,
+        id: "transactions",
         text: "Transactions",
         icon: "icon-transactions",
         link: "/dashboard/transactions"
     },
     {
-        id: 3,
+        id: "journal",
         text: "Journal",
         icon: "icon-notes",
         link: "/dashboard/journal"
     },
     {
-        id: 4,
+        id: "settings",
         text: "Settings",
         icon: "icon-settings",
         link: "/dashboard/settings"

@@ -16,9 +16,9 @@ type LayoutProps = {
 
 export default function Layout({children}: LayoutProps) {
   return (
-    <Frame direction="column" height="100vh" gap="xxs" className="overflow-hidden bg-[var(--color-background3)]">
+    <Frame direction="column" height="100vh" className="gap-[0.5px] overflow-hidden bg-[var(--color-background3)]">
       <Nav/>
-      <Frame width="stretch" justify="space-between" className="gap-[2px] flex-1 min-h-[0px]">
+      <Frame width="stretch" justify="space-between" className="gap-[0.5px] flex-1 min-h-[0px]">
         <LeftAside/>
         <Main padding="lg">
           {children}
@@ -26,10 +26,11 @@ export default function Layout({children}: LayoutProps) {
         <RightAside/>
         <Frame height="hug" width="hug" className="bottom-[var(--space-xxl)] right-[var(--space-xxl)]" 
         specificStyles={{
-          position: "fixed"
+          position: "fixed",
+          zIndex:"300"
         }}>
           <Tooltip position="top" content="add">
-            <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg"/>
+            <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className="shadow-[0_4px_8px_#00000080]"/>
           </Tooltip>
         </Frame>
       </Frame>

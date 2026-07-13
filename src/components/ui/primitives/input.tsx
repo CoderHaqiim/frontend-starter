@@ -63,7 +63,7 @@ export default function Input({
             autoComplete="true" 
             placeholder={placeholder} 
             className={
-                `w-auto flex p-[8px] outline-none 
+                `w-auto flex p-[var(--space-lg)] outline-none 
                 ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--color-accent1)] hover:border-[var(--color-accent1)]"} 
                 items-[center] placeholder-[var(--color-outline)]
                 ${border && "border-[var(--color-outline)] border-[0.5px]"}

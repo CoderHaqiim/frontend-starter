@@ -27,6 +27,7 @@ type ButtonProps = {
     justify?: "start" | "end"| "center",
     isIcon?: boolean
     className?: string
+    height?: CSSProperties
 }
 
 export default function Button({
@@ -44,6 +45,7 @@ export default function Button({
     propagate = false,
     justify = "center",
     className,
+    height,
     func
 }: ButtonProps) {
 
@@ -59,7 +61,7 @@ export default function Button({
             rounded && radius[rounded],
         backgroundColor: 
            variant === "fill"? colors["accent1"]:
-           variant === "ghost"? colors["background2"]
+           variant === "ghost"? colors["background1"]
            :"",
         color: 
             variant === "fill"? colors["white"]: 
@@ -68,7 +70,7 @@ export default function Button({
             "",
         border: 
             variant === "outline"? `solid 1px ${colors["outline"]}` : "",
-        height: elementSizes[size],
+        height: elementSizes[size] ?? height ,
         fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         justifyContent: justify,
         cursor: "pointer"
@@ -108,6 +110,10 @@ export default function Button({
             ${className}
             ${derivedPadding}
             ${hoverStyles}
+            transition-transform
+            duration-100
+            ease-out
+            active:scale-92
             justify-center items-center relative flex font-[var(--fontWeight-medium)]
         `}
     style={{

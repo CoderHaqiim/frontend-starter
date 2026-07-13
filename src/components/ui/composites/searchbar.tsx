@@ -114,13 +114,13 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
   const showResults = focused && Boolean(searchInput.trim())
 
   return (
-    <Frame width="350px" height="hug" justify='center' align='center' border rounded="sm" 
-      className='relative bg-[var(--color-background2)]'
+    <Frame width="350px" height="hug" justify='center' align='center' rounded="lg" 
+      className='relative bg-[var(--color-background1)]'
       specificStyles={{ 
-        border: focused? `1.5px ${colors["accent1"]} solid` : `0.5px ${colors["outline"]} solid`,
+        border: focused? `1.5px ${colors["accent1"]} solid` : "",
       }}>
         <Frame width="hug" height="hug" className="flex-1">
-            <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search'/>
+            <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search businesses'/>
         </Frame>
         <Tooltip content="search" position='bottom'>
           <Button variant='ghost' size='md' isIcon iconName='icon-search'/>

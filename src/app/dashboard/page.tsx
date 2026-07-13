@@ -17,7 +17,8 @@ import MetricsRow from "@/src/components/app/metricsRow"
 import Transaction from "@/src/components/app/transaction"
 import TransactionHeader from "@/src/components/app/transactionHeader"
 import { useState } from "react"
-import { report } from "node:process"
+import Button from "@/src/components/ui/primitives/button"
+
 
 export default function Home() {
   const {userState} = useUserState()
@@ -32,35 +33,35 @@ export default function Home() {
   };
 
   return (
-    <Frame width="stretch" direction="column" height="hug" className="mb-[var(--space-md)] gap-[var(--space-xl)]"> 
+    <Frame width="stretch" direction="column" height="hug" className=" gap-[var(--space-lg)]"> 
       <Frame width="stretch" height="hug" direction="column">
-        <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
-        <Paragraph size="md">
+        <Heading size="lg" type="h1">{`Welcome back, ${userState.username}`}</Heading>
+        <Paragraph size="sm">
           Here's what's happening today.
         </Paragraph>
       </Frame>
       <Frame width="stretch" height="100px" className="gap-[var(--space-md)]">
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
           <Paragraph size="xs" color="textColor2" weight="normal">Active Businesses</Paragraph>
           <Paragraph size="xxl" color="textColor1" weight="medium">3</Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
           <Paragraph size="xs" color="textColor2" weight="normal">Total Income</Paragraph>
           <Paragraph size="xxl" color="textColor1" weight="medium">$4000</Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
           <Paragraph size="xs" color="textColor2" weight="normal">Total Expenses</Paragraph>
           <Paragraph size="xxl" color="textColor1" weight="medium">$500</Paragraph>
         </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-white)]">
+        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
           <Paragraph size="xs" color="textColor2" weight="normal">Net Profit</Paragraph>
            <Paragraph size="xxl" color="textColor1" weight="medium">$3500</Paragraph>
         </Card>
       </Frame>
       <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
-        <Card width="stretch" height="stretch" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+        <Card width="stretch" height="stretch" padding="lg" rounded="md">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-            <Heading size="md" type="h2">Performance Overview</Heading>
+            <Heading size="sm" type="h2">Performance Overview</Heading>
             <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
               <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
               <Dropdown name="report" size="sm" options={reportDuration}/>
@@ -70,9 +71,9 @@ export default function Home() {
         </Card>
       </Frame>
       <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
-        <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+        <Card width="stretch" height="hug" padding="lg" rounded="md">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-             <Heading size="md" type="h2">Businesses Overview</Heading>
+             <Heading size="sm" type="h2">Businesses Overview</Heading>
              <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
              </Frame>
@@ -86,9 +87,9 @@ export default function Home() {
         </Card>
       </Frame>
       <Frame width="stretch" height="hug" gap="md">
-        <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+        <Card width="stretch" height="hug" padding="lg" rounded="md">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-             <Heading size="md" type="h2">Performance Ranking</Heading>
+             <Heading size="sm" type="h2">Performance Ranking</Heading>
              <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={businessMetrics}/>
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
@@ -103,9 +104,9 @@ export default function Home() {
         </Card>
       </Frame>
       <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
-        <Card width="stretch" height="hug" padding="lg" rounded="sm" className="bg-[var(--color-background1)]">
+        <Card width="stretch" height="hug" padding="lg" rounded="md">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-             <Heading size="md" type="h2">Latest Transactions</Heading>
+             <Heading size="sm" type="h2">Latest Transactions</Heading>
              <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
              </Frame>

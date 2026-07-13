@@ -11,7 +11,7 @@ type TaskLineProps = {
 export default function TaskLine({children}: TaskLineProps) {
   return (
     <Frame width="stretch" gap="xs" height="hug" padding="md" direction="column" 
-    className="shrink-0 bg-[var(--color-white)] text-[length:var(--bodySize-sm)] justify-center">
+        className="shrink-0 bg-[var(--color-white)] text-[length:var(--bodySize-sm)] justify-center">
         {children}
     </Frame>
   )

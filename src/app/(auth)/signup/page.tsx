@@ -47,7 +47,7 @@ export default function SignupPage() {
                         <hr className='w-[70%] border-0 bg-[var(--color-outline)] h-[1px] absolute'/>
                     </Frame>
                     <Frame>
-                         <Button rounded='xl' variant="outline" size='xl'width="stretch" specificStyles={{border:`1px solid ${colors["accent1"]}`}}>
+                         <Button rounded='xl' variant="outline" size='xl'width="stretch">
                             <Image
                               src="svgs/google-logo.svg"
                               alt="google-logo"

@@ -20,7 +20,7 @@ export default function SubscriptionCard() {
         }}>
         <Frame direction="column">
             <Heading size="sm" type="h2">Subscription</Heading>
-            <Paragraph size="sm">
+            <Paragraph size="xs">
                 Plan: Free
             </Paragraph>
         </Frame>
