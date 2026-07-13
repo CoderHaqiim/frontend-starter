@@ -11,7 +11,7 @@ import Tooltip from "../../ui/composites/tooltip"
 export default function TaskManagerCard() {
   return (
     
-            <Card padding="lg" rounded="sm" width="stretch" height="hug">
+            <Card padding="lg" rounded="md" width="stretch" height="hug">
               <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline)] pb-[var(--space-md)]">
                 <Heading type="h2" size="sm">Task Manager</Heading>
                 <Frame gap="sm">
