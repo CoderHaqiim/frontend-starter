@@ -45,8 +45,8 @@ export default function LinkComponent(props: LinkCompProps) {
         const isSelected = id === selectedNavState
 
         const defaultStyles: CSSProperties = {
-            height: isSelected? elementSizes["lg"] : elementSizes[size],
-            fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
+            height: elementSizes["lg"],
+            fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size]
         }
 
         const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative`
