@@ -38,6 +38,12 @@ body {
   background-color:var(--color-accent1);
 }
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 /* @media (prefers-color-scheme: light) {
   :root {
     --background1: #010101;

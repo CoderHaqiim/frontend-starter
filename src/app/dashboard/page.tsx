@@ -1,24 +1,16 @@
 "use client"
 
 import Frame from "@/src/components/ui/primitives/frame"
-import Main from "@/src/components/layout/main"
 import Heading from "@/src/components/ui/primitives/heading"
 import { useUserState } from "@/src/store/userState"
 import Card from "@/src/components/ui/composites/card"
-import { space } from "../design/spacing"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
-import { colors } from "../design/colors"
-import { fontWeight } from "../design/typograhy"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import Chart1 from "@/src/components/ui/charts/chart1" 
-import Modal from "@/src/components/ui/composites/modal"
 import BusinessOverviewCard from "@/src/components/app/cards/businessOverviewCard"
 import MetricsRow from "@/src/components/app/metricsRow"
 import Transaction from "@/src/components/app/transaction"
-import TransactionHeader from "@/src/components/app/transactionHeader"
 import { useState } from "react"
-import Button from "@/src/components/ui/primitives/button"
-
 
 export default function Home() {
   const {userState} = useUserState()
@@ -35,7 +27,7 @@ export default function Home() {
   return (
     <Frame width="stretch" direction="column" height="hug" className=" gap-[var(--space-lg)]"> 
       <Frame width="stretch" height="hug" direction="column">
-        <Heading size="lg" type="h1">{`Welcome back, ${userState.username}`}</Heading>
+        <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
         <Paragraph size="sm">
           Here's what's happening today.
         </Paragraph>
@@ -61,7 +53,7 @@ export default function Home() {
       <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
         <Card width="stretch" height="stretch" padding="lg" rounded="md">
           <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-            <Heading size="sm" type="h2">Performance Overview</Heading>
+            <Heading size="md" type="h2">Performance Overview</Heading>
             <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
               <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
               <Dropdown name="report" size="sm" options={reportDuration}/>
