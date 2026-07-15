@@ -16,7 +16,7 @@ type BusinessCardProps = {
 
 export default function BusinessOverviewCard({title, scaled}: BusinessCardProps) {
   return (
-    <Card width="320px" padding='lg' rounded='sm' height="hug" className={`gap-[var(--space-md)] shrink-0 bg-[var(--color-white)]`}>
+    <Card width="320px" padding='lg' rounded='md' height="hug" className={`gap-[var(--space-md)] shrink-0 bg-[var(--color-white)]`}>
         {/* Header */}
        <Frame width="sretch" height="hug" className='pb-[var(--space-xs)] items-center justify-between border-b-[var(--color-outline)] border-b-[1px]'>
             <Heading type='h3' size='sm'>{shortenText(title, 20)}</Heading>
@@ -32,7 +32,7 @@ export default function BusinessOverviewCard({title, scaled}: BusinessCardProps)
             </Frame>
         </Frame>
         {/* Operational Metrics */}
-       <Frame direction='column' padding='md' rounded="sm">
+       <Frame direction='column' padding='md'>
             <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
                 <Paragraph color="textColor1" size='sm'>Overdue tasks</Paragraph>
                 <Paragraph color="textColor1" weight="medium" size='sm'>2</Paragraph>
@@ -43,7 +43,7 @@ export default function BusinessOverviewCard({title, scaled}: BusinessCardProps)
             </Frame>
        </Frame>
        {/* Financial Metrics */}
-       <Frame width="stretch" direction='column' border padding="md" rounded='sm' height="hug" className='border-[var(--color-info)] gap-[var(--space-xs)] bg-[var(--color-background2)]'>
+       <Frame width="stretch" direction='column' border padding="md" rounded='md' height="hug" className='border-[var(--color-info)] gap-[var(--space-xs)] bg-[var(--color-background2)]'>
             <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
                 <Paragraph color="textColor1" weight="medium" size='sm'>Total Income</Paragraph>
                 <Paragraph color="textColor1" weight="medium" size='sm'>2</Paragraph>

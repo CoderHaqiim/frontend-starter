@@ -10,7 +10,11 @@ import Chart1 from "@/src/components/ui/charts/chart1"
 import BusinessOverviewCard from "@/src/components/app/cards/businessOverviewCard"
 import MetricsRow from "@/src/components/app/metricsRow"
 import Transaction from "@/src/components/app/transaction"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { Businesses } from "@/src/types/types"
+import { http } from "@/src/http/client"
+import { useBusinessesState } from "@/src/store/businessesState"
+import List from "@/src/components/ui/composites/list"
 
 export default function Home() {
   const {userState} = useUserState()
@@ -18,6 +22,17 @@ export default function Home() {
   const chartOptions = ["Line chart", "Bar chart"]
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
   const businessMetrics = ["profit","revenue","expenses"]
+  const {businessesState, setBusinessesState} = useBusinessesState()
+
+  useEffect(()=>{
+    const fetchBusinesses = async() => {
+      const businesses = await http<Businesses>("/api/businesses", undefined, {method: "GET"})
+      setBusinessesState(businesses)
+      // setSelectedBusiness(businesses[0])
+    }
+    
+    fetchBusinesses()
+  },[])
 
   const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value as "Line chart" | "Bar chart";
@@ -87,12 +102,12 @@ export default function Home() {
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
              </Frame>
           </Frame>
-          <Frame width="stretch" border height="hug" rounded="md" gap="xxs" direction="column" className="overflow-hidden">
+          <List specificStyles={{overflow: "hidden"}}>
             <MetricsRow data={{name:"Business1"}}/>
             <MetricsRow data={{name:"Business2"}}/>
             <MetricsRow data={{name:"Business3"}}/>
             <MetricsRow data={{name:"Business4"}}/>
-          </Frame>
+          </List>
         </Card>
       </Frame>
       <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
@@ -103,15 +118,15 @@ export default function Home() {
               <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
              </Frame>
           </Frame>
-          <Frame width="stretch" rounded="md" height="hug" gap="xxs" scroll="hidden" border direction="column" className="max-h-[200px]">
-            {/* <TransactionHeader/> */}
+          
+          <List height="200px" scroll="hidden">
             <Transaction/>
             <Transaction/>
             <Transaction/>
             <Transaction/>
             <Transaction/>
             <Transaction/>
-          </Frame>
+          </List>
         </Card>
       </Frame>
     </Frame>

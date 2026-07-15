@@ -1,7 +1,7 @@
 import React from 'react'
 import Frame from '../../ui/primitives/frame'
 import Image from 'next/image'
-import LinkComponent from '../../ui/primitives/link'
+import LinkComponent from '../../ui/primitives/navLink'
 
 export default function Logo() {
   return (

@@ -6,12 +6,13 @@ import Label from '@/src/components/ui/primitives/label'
 import Input from '@/src/components/ui/primitives/input'
 import Button from '@/src/components/ui/primitives/button'
 import Paragraph from '@/src/components/ui/primitives/paragraph'
-import LinkComponent from '@/src/components/ui/primitives/link'
+import LinkComponent from '@/src/components/ui/primitives/navLink'
 import Heading from '@/src/components/ui/primitives/heading'
 import { colors } from '../../design/colors'
 import Image from 'next/image'
 import { space } from '../../design/spacing'
 import { fontWeight } from '../../design/typograhy'
+import Link from 'next/link'
 
 export default function LoginPage() {
   return (
@@ -56,9 +57,9 @@ export default function LoginPage() {
                     </Frame>
                     <Frame width="stretch" height="hug" gap="md" className='mt-[var(--space-lg)]'>
                         <Paragraph size='sm'>Don't have an account?</Paragraph>
-                        <LinkComponent href="/signup" variant="inline" underline>
+                        <Link href="/signup">
                             <Paragraph size='sm' weight="normal" color="accent1">Sign up</Paragraph>
-                        </LinkComponent>
+                        </Link>
                     </Frame>
                 </Frame>
             </Frame>

@@ -4,6 +4,7 @@ import React, { CSSProperties } from "react";
 import Icon from "../primitives/icon";
 import { elementSizes } from "@/src/app/design/sizes";
 import { SizeType } from "@/src/types/types";
+import { fontWeight } from "@/src/app/design/typograhy";
 import { colorVariables } from "@/src/app/design/colors";
 
 type DropdownOption =
@@ -49,7 +50,7 @@ export default function Dropdown({
       <select
         name="cars"
         onChange={formFuncHandler}
-        className={`w-max accent-[var(--color-accent2)] appearance-none rounded-[var(--radius-sm)] pr-[30px] px-[8px] text-[length:var(--bodySize-sm)] text-[color:var(--color-textColor1)] outline-none 
+        className={`w-max accent-[var(--color-accent2)] font-[var(--fontWeight-normal)] appearance-none rounded-[var(--radius-sm)] pr-[30px] px-[8px] text-[length:var(--bodySize-sm)] text-[color:var(--color-textColor1)] outline-none 
           ${ border ? "border border-[var(--color-outline)]" : ""} 
           ${outline? "hover:border-[var(--color-accent1)] focus:border-2 focus:border-[var(--color-accent1)]" : " "}`}
         style={{

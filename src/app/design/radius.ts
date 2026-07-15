@@ -7,7 +7,7 @@ import { generateVariable } from "@/src/utils/generateVariable"
     "sm" : "8px",
     "md" : "16px",
     "lg" : "32px",
-    "xl" : "50px",
+    "xl" : "60px",
     "xxl" : "50%"
   } as const
 
