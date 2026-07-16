@@ -12,13 +12,15 @@ import Avatar from "../ui/composites/avatar";
 import SubscriptionCard from "./cards/subscriptionCard";
 import ProfileButton from "./profileButton";
 import NavLink from "../ui/primitives/navLink";
+import Logo from "./brand/logo";
 import Link from "next/link";
 
 export default function LeftAside() {
     const {userState} = useUserState();
 
   return (
-    <Aside variant="left" className="w-[260px] bg-[var(--color-white)] flex-col justify-between items-center">
+    <Aside width="280px" className="justify-between items-start" specificStyles={{backgroundColor: colors["background2"]}}>
+         <Logo/>
         <Frame width="stretch" height="hug" direction="column">
             {
                 navItems.map(item =>

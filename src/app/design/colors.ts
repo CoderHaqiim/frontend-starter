@@ -10,7 +10,7 @@ const colors = {
     "accent1": "#3b155c",
     "accent-lt-1":" #2dc55b",
     "accent-lt-2": "#5c153c",
-    "accent2": "#3b155c20",
+    "accent2": "#3b155c30",
     "textColor1": "#1e1e1e",
     "muted": "#484646",
     "textColor2": "#4a4949",

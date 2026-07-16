@@ -12,12 +12,11 @@ type MainProps = {
 export default function Main({children, specificStyles, padding}: MainProps) {
 
   const defaultStyle:CSSProperties = {
-    backgroundColor: colors["white"],
     padding: space[padding]
   }
 
   return (
-    <main className="scrollInvisible max-w-[1000px] w-auto h-[100%] flex-1 overflow-y-scroll" 
+    <main className="scrollInvisible bg-[var(--color-white)] flex-1 h-[100%] overflow-y-scroll" 
       style={{
         ...defaultStyle, 
         ...specificStyles

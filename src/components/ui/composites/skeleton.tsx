@@ -34,7 +34,7 @@ export default function Skeleton({
       {children}
       <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite]"
       style={{
-        background: `linear-gradient(90deg, transparent ,${colors["accent2"]}, transparent)`,
+        background: `linear-gradient(90deg, transparent ,${colors["background2"]}, transparent)`,
       }}></div>
     </div>
   );

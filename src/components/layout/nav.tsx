@@ -115,8 +115,7 @@ export default function Nav() {
 
   return (
     <nav className='flex z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
-        <Frame width="stretch" height="stretch" specificStyles={{justifyContent:"space-between", alignItems: "center", padding:`0px ${space["lg"]}`, backgroundColor:"white"}}>
-          <Logo/>
+        <Frame width="stretch" height="stretch" justify="flex-end" align='center' className='bg-[var(--color-white)]' specificStyles={{padding:`0px ${space["lg"]}`}}>
           <Frame width="hug" height="stretch" specificStyles={{gap:space["md"], height:"100%", alignItems:"center"}}>
             <Searchbar/>
             <div ref={notificationRef} className="relative flex items-center">

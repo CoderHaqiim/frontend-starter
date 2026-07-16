@@ -16,22 +16,23 @@ type LayoutProps = {
 
 export default function Layout({children}: LayoutProps) {
   return (
-    <Frame direction="column" height="100vh" className="gap-[0.5px] overflow-hidden bg-[var(--color-background3)]">
-      <Nav/>
-      <Frame width="stretch" justify="space-between" className="gap-[0.5px] flex-1 min-h-[0px]">
-        <LeftAside/>
-        <Main padding="lg">
-          {children}
-        </Main>
-        <RightAside/>
-        <Frame height="hug" width="hug" className="bottom-[var(--space-xxl)] right-[var(--space-xxl)]" 
-        specificStyles={{
-          position: "fixed",
-          zIndex:"300"
+    <Frame width="stretch" height="100vh">
+      <LeftAside/>
+      <Frame direction="column" height="stretch" className="gap-[0.5px] flex-1 min-w-[0px] overflow-hidden bg-[var(--color-background3)]">
+        <Nav/>
+        <Frame width="stretch" height="stretch" className="gap-[0.5px]" specificStyles={{
+          overflow:"hidden"
         }}>
-          <Tooltip position="top" content="add">
-            <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className="shadow-[0_4px_8px_#00000080]"/>
-          </Tooltip>
+          <Main padding="lg">
+            {children}
+          </Main>
+          <RightAside>Hello</RightAside>
+          <Frame height="hug" width="hug" className="bottom-[var(--space-xxl)] right-[var(--space-xxl)]" 
+            specificStyles={{ position: "fixed", zIndex:"300"}}>
+            <Tooltip position="top" content="add">
+              <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className="shadow-[0_4px_8px_#00000080]"/>
+            </Tooltip>
+          </Frame>
         </Frame>
       </Frame>
     </Frame>

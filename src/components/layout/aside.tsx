@@ -1,15 +1,20 @@
 import { CSSProperties, ReactNode } from 'react'
+import { FrameSizeType } from '@/src/types/types'
 
 type AsideProps = {
-    children: ReactNode,
-    variant: "right" | "left",
+    children: ReactNode
     specificStyles?: CSSProperties,
-    className?: string
+    className?: string,
+    width?: FrameSizeType
 }
 
-export default function Aside({children, className, specificStyles}: AsideProps){
+export default function Aside({children, width, className, specificStyles}: AsideProps){
   return (
-    <aside className={`h-full flex p-[var(--space-lg)] ${className}`} style={{...specificStyles }}>
+    <aside className={`h-full flex bg-[var(--color-white)] flex-col p-[var(--space-lg)] ${className}`} 
+      style={{
+        width: (width && width) ?? "max-content",
+        ...specificStyles 
+      }}>
        {children}
     </aside>
   )

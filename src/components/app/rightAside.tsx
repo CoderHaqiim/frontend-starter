@@ -6,8 +6,14 @@ import { colors } from "@/src/app/design/colors";
 import TaskManagerCard from "./cards/taskManagerCard";
 import SmallBusinessCardList from "./smallBusinessCardList";
 import { usePathname } from "next/navigation";
+import { FrameSizeType } from "@/src/types/types";
+import { Children, CSSProperties, ReactNode } from "react";
 
-export default function RightAside() {
+type RightAsideProps = {
+  specificStyles?: CSSProperties,
+}
+
+export default function RightAside({specificStyles  }: RightAsideProps) {
   const pathname = usePathname();
 
   const getAsideConfig = () => {
@@ -35,13 +41,7 @@ export default function RightAside() {
   const { width, content } = getAsideConfig();
 
   return (
-    <Aside
-      variant="right"
-      specificStyles={{
-        width,
-        backgroundColor: colors.white,
-      }}
-    >
+    <Aside width={width} specificStyles={{...specificStyles}}>
       <Frame
         width="stretch"
         height="stretch"
