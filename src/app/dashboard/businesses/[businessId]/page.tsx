@@ -11,22 +11,30 @@ import Card from '@/src/components/ui/composites/card'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { http } from '@/src/http/client'
+import Image from 'next/image'
+import Chart1 from '@/src/components/ui/charts/chart1'
+import Dropdown from '@/src/components/ui/composites/dropdown'
+import Tooltip from '@/src/components/ui/composites/tooltip'
 
 export default function BusinessPage() {
 const [business, setBusiness] = useState<Business>({})
 const {businessId} = useParams()
-
-console.log(businessId)
+const reportDuration = ["This week", "This month", "This year"]
+const chartOptions = ["Line chart", "Bar chart"]
 
 useEffect(()=>{
   async function fetchBusiness(){
     const businessOne = await http<Business>(`/api/businesses/${businessId}`)
-    console.log(businessOne)
     setBusiness(businessOne)
   }
 
   fetchBusiness()
 },[businessId])
+
+const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectedValue = e.target.value as "Line chart" | "Bar chart";
+  setSelectedChart(selectedValue);
+};
 
 const health: HealthType | string = business?.health
 
@@ -37,7 +45,7 @@ const healthMap: Record<string,ColorTypes> = {
 }
 
 const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
-
+  const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
   return (
     <Frame width="stretch" direction='column' gap="lg" height="stretch"> 
       <Frame width="stretch" rounded="sm" height="hug" justify='space-between'>
@@ -52,7 +60,12 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
           </Frame>
           <Paragraph size="sm">{business?.industry}</Paragraph>
         </Frame>
-        <Button variant="fill" size="sm" iconName='icon-pencil'>Edit Business</Button>
+        <Frame gap='sm' height="hug" width="hug" className='relative'>
+            <Button variant="fill" size="sm" iconName='icon-pencil'>Edit Business</Button>
+            <Tooltip content="business settings">
+              <Button variant="outline" isIcon size="sm" iconName='icon-settings'/>
+            </Tooltip>
+        </Frame>
       </Frame>
        <Frame width="stretch" height="100px" className="gap-[var(--space-md)]">
         <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
@@ -71,6 +84,44 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
           <Paragraph size="xs" color="textColor2" weight="normal">Net Profit</Paragraph>
           <Paragraph size="xxl" color="textColor1" weight="medium">$3500</Paragraph>
         </Card>
+      </Frame>
+      <Frame width="stretch" border padding="lg" height="80px" rounded="md" specificStyles={{
+        // backgroundColor: colors[healthBackground]
+      }}>
+        <Frame height="hug" width="stretch" gap='md'>
+          <Image
+            src="/svgs/pulse.svg"
+            alt='health.svg'
+            width={20}
+            height={20}
+          />
+          <Heading type="h2" size='md'>
+            Business Health
+          </Heading>
+        </Frame>
+      </Frame>
+      <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md">
+        <Frame justify='space-between' className='mb-[var(--space-lg)]'>
+          <Frame height="hug" align="center" width="stretch" gap='md'>
+            <Image
+              src="/svgs/chart.svg"
+              alt='chart.svg'
+              width={20}
+              height={20}
+            />
+            <Heading type="h2" size='md'>
+              Chart
+            </Heading>
+            <Paragraph size='sm'>
+              Expenses • Income • Net Result
+            </Paragraph>
+          </Frame>
+          <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
+            <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
+            <Dropdown name="report" size="sm" options={reportDuration}/>
+          </Frame>
+        </Frame>
+       <Chart1 variant={selectedChart}/>
       </Frame>
     </Frame>
   )

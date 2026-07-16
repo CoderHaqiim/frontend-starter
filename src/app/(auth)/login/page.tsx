@@ -18,7 +18,7 @@ export default function LoginPage() {
   return (
     <Frame width="stretch" height="100vh" justify="center" padding="xs" align="center" className="bg-[var(--color-white]">
         <Frame width="stretch" justify='center' align='center' height="stretch" className="overflow-hidden bg-[var(--color-white)]">
-            <Frame width="400px" height="stretch" rounded="md" direction='column' className="bg-[var(--color-accent1)]">
+            <Frame width="400px" height="stretch" rounded="md" direction='column' className="bg-[var(--color-background1)]">
             </Frame>
             <Frame justify="center" align="center" width="auto" height="stretch" scroll='hidden' padding='lg' className='flex-1' >
                 <Frame width="450px" height="max-content" direction="column" gap="sm">

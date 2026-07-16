@@ -21,12 +21,12 @@ export default function Layout({children}: LayoutProps) {
       <Frame direction="column" height="stretch" className="gap-[0.5px] flex-1 min-w-[0px] overflow-hidden bg-[var(--color-background3)]">
         <Nav/>
         <Frame width="stretch" height="stretch" className="gap-[0.5px]" specificStyles={{
-          overflow:"hidden"
+          overflow:"visible"
         }}>
           <Main padding="lg">
             {children}
           </Main>
-          <RightAside>Hello</RightAside>
+          <RightAside/>
           <Frame height="hug" width="hug" className="bottom-[var(--space-xxl)] right-[var(--space-xxl)]" 
             specificStyles={{ position: "fixed", zIndex:"300"}}>
             <Tooltip position="top" content="add">

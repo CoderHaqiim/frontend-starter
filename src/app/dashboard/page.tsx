@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
       <Frame width="stretch" direction="column" height="hug" className="gap-[var(--space-lg)]"> 
-        <Frame width="s" height="hug" direction="column">
+        <Frame width="stretch" height="hug" direction="column">
           <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
           <Paragraph size="sm">
             Here's what's happening today.
