@@ -15,6 +15,8 @@ import Image from 'next/image'
 import Chart1 from '@/src/components/ui/charts/chart1'
 import Dropdown from '@/src/components/ui/composites/dropdown'
 import Tooltip from '@/src/components/ui/composites/tooltip'
+import Icon from '@/src/components/ui/primitives/icon'
+import Score from '@/src/components/ui/composites/score'
 
 export default function BusinessPage() {
 const [business, setBusiness] = useState<Business>({})
@@ -36,7 +38,7 @@ const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
   setSelectedChart(selectedValue);
 };
 
-const health: HealthType | string = business?.health
+const health: HealthType | string | number = business?.health
 
 const healthMap: Record<string,ColorTypes> = {
   "healthy": "success",
@@ -85,30 +87,23 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
           <Paragraph size="xxl" color="textColor1" weight="medium">$3500</Paragraph>
         </Card>
       </Frame>
-      <Frame width="stretch" border padding="lg" height="80px" rounded="md" specificStyles={{
-        // backgroundColor: colors[healthBackground]
+      <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md" specificStyles={{
+        backgroundColor: colors[healthBackground]
       }}>
-        <Frame height="hug" width="stretch" gap='md'>
-          <Image
-            src="/svgs/pulse.svg"
-            alt='health.svg'
-            width={20}
-            height={20}
-          />
+        <Frame height="hug" width="stretch" align='center' gap='md' className='mb-[var(--space-lg)]'>
+          <Icon name="icon-pulse" color={healthMap[health]} size="lg"/>
           <Heading type="h2" size='md'>
             Business Health
           </Heading>
+        </Frame>
+        <Frame>
+          <Score score={business?.healthScore} color={healthMap[health]}/>
         </Frame>
       </Frame>
       <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md">
         <Frame justify='space-between' className='mb-[var(--space-lg)]'>
           <Frame height="hug" align="center" width="stretch" gap='md'>
-            <Image
-              src="/svgs/chart.svg"
-              alt='chart.svg'
-              width={20}
-              height={20}
-            />
+            <Icon name="icon-chart" size="lg"/>
             <Heading type="h2" size='md'>
               Chart
             </Heading>
