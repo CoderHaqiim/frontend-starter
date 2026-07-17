@@ -114,13 +114,13 @@ export default function Nav() {
   }, [notificationsOpen])
 
   return (
-    <nav className='flex z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
-        <Frame width="stretch" height="stretch" justify="flex-end" align='center' className='bg-[var(--color-white)]' specificStyles={{padding:`0px ${space["lg"]}`}}>
+    <nav className='flex border-b-[1px] border-b-[var(--color-outline)] z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
+        <Frame width="stretch" height="stretch" justify="flex-end" align='center' specificStyles={{padding:`0px ${space["lg"]}`}}>
           <Frame width="hug" height="stretch" specificStyles={{gap:space["md"], height:"100%", alignItems:"center"}}>
             <Searchbar/>
             <div ref={notificationRef} className="relative flex items-center">
               <Tooltip content="notifications" position='bottom'>
-                <Button func={toggleNotifications} size="md" iconName="icon-bell" variant="outline"isIcon>
+                <Button func={toggleNotifications} size="md" iconName="icon-bell" variant="outline" isIcon>
                   <span className={`w-[20px] font-[600] flex items-center justify-center leading-[1px] absolute top-[-8px] rounded-[var(--radius-xxl)] right-[-8px] text-[9px] bg-[var(--color-accent1)] h-[20px] text-[white] border-[2px] border-[white]`}>
                     {notifications.length}
                   </span>
@@ -128,11 +128,12 @@ export default function Nav() {
               </Tooltip>
               {
                 notificationsOpen && (
-                <Frame width="350px" height="auto" gap="xs" rounded="md" padding="sm" direction="column"
-                className='absolute z-[1000] border-[1px] border-[var(--color-outline)] max-h-[360px] top-[120%] right-0 min-h-[80px] bg-[var(--color-white)] '
+                <Frame direction="column" width="350px" height="auto" gap="xs" rounded="md" padding="sm"
+                className='z-[1000] border-[1px] border-[var(--color-outline)] max-h-[360px] top-[120%] right-0 min-h-[80px] bg-[var(--color-white)] '
                   specificStyles={{
                     boxShadow: "0px 1px 5px -1px #000000c4",
                     overflowY: "auto",
+                    position: "absolute"
                   }}>
                   {loadingNotifications && <Paragraph size='sm' className="">Loading notifications...</Paragraph>}
                   {!loadingNotifications && notificationsError && <p className="px-2 py-1 text-sm text-red-500">{notificationsError}</p>}
@@ -148,7 +149,7 @@ export default function Nav() {
               )}
             </div>
             <Tooltip content="light theme" position='bottom'>
-              <Button size="md" iconName="icon-sun" variant="outline" rounded="xxl"isIcon/>
+              <Button size="md" iconName="icon-sun" variant="outline" rounded="xxl" isIcon/>
             </Tooltip>
           </Frame>
         </Frame>

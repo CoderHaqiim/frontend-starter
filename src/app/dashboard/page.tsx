@@ -65,7 +65,7 @@ export default function Home() {
             <Paragraph size="xxl" color="textColor1" weight="medium">$3500</Paragraph>
           </Card>
         </Frame>
-        <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
+        <Frame width="stretch" height="hug" className="bg-[var(--color-white)] gap-[var(--space-md)]">
           <Card width="stretch" height="stretch" padding="lg" rounded="md">
             <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
               <Heading size="md" type="h2">Performance Overview</Heading>
@@ -77,7 +77,7 @@ export default function Home() {
             <Chart1 variant={selectedChart}/>
           </Card>
         </Frame>
-        <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
+        <Frame width="stretch" height="hug" className="bg-[var(--color-white)] gap-[var(--space-md)]">
           <Card width="stretch" height="hug" padding="lg" rounded="md">
             <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
               <Heading size="sm" type="h2">Businesses Overview</Heading>
@@ -86,10 +86,9 @@ export default function Home() {
               </Frame>
             </Frame>
             <Frame width="stretch" height="hug" scroll="hidden" className="gap-[var(--space-lg)]">
-              <BusinessOverviewCard title="Business1"/>
-              <BusinessOverviewCard title="Business2"/>
-              <BusinessOverviewCard title="Business3"/>
-              <BusinessOverviewCard title="Business4"/>
+              {
+                businessesState.map(buisness => <BusinessOverviewCard data={buisness} key={buisness.id}/>)
+              }
             </Frame>
           </Card>
         </Frame>

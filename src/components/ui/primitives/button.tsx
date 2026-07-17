@@ -18,6 +18,7 @@ type ButtonProps = {
     iconColor?: ColorTypes,
     iconPosition?: "left" | "right"
     children?: ReactNode,
+    iconFill?: ColorTypes,
     size?: SizeType,
     width?: FrameSizeType
     specificStyles?: CSSProperties,
@@ -39,6 +40,7 @@ export default function Button({
     iconPosition = "left",
     children,
     size = "md",
+    iconFill,
     specificStyles,
     width = "hug",
     role = "button",
@@ -61,8 +63,8 @@ export default function Button({
             rounded && radius[rounded],
         backgroundColor: 
            variant === "fill"? colors["accent1"]:
-           variant === "ghost"? colors["background1"]
-           :"",
+           variant === "ghost"? colors["background1"]:
+           "",
         color: 
             variant === "fill"? colors["white"]: 
             variant === "outline"? colors["textColor1"]:
@@ -87,9 +89,9 @@ export default function Button({
     const renderContent = () => {
         return (
             <>
-                {iconName && iconPosition === "left" && <Icon name={iconName} color={iconColor ?? (variant === "fill"? "white" : undefined)} size={size} stroke="2"/>}
+                {iconName && iconPosition === "left" && <Icon name={iconName} fill={iconFill && iconFill} color={iconColor ?? (variant === "fill"? "white" : undefined)} size={size} stroke="2"/>}
                 {children}
-                {iconName && iconPosition === "right" && <Icon name={iconName} color={iconColor ?? (variant === "fill"? "white": undefined)}  size={size} stroke="2"/>}
+                {iconName && iconPosition === "right" && <Icon name={iconName} fill={iconFill && iconFill} color={iconColor ?? (variant === "fill"? "white": undefined)}  size={size} stroke="2"/>}
             </>
         )
     }

@@ -115,7 +115,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
 
   return (
     <Frame width="350px" height="hug" justify='center' border align='center' rounded="lg" 
-      className='relative bg-[var(--color-background1)]'
+      className='relative bg-[var(--color-white)]'
       specificStyles={{ 
         border: focused? `1.5px ${colors["accent1"]} solid` : "",
       }}>

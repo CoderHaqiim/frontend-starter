@@ -41,7 +41,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
   const { width, content } = getAsideConfig();
 
   return (
-    <Aside width={width} specificStyles={{...specificStyles}}>
+    <Aside width={width} specificStyles={{borderLeft:`solid 1px ${colors["outline"]}`, ...specificStyles}}>
       <Frame
         width="stretch"
         height="stretch"

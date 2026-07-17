@@ -31,7 +31,8 @@ import {
   MoveUp,
   Pencil,
   HeartPulse,
-  ChartSpline
+  ChartSpline,
+  Star
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -80,7 +81,8 @@ const icons = {
     "icon-circle-arrow-up": CircleArrowUp,
     "icon-pencil" : Pencil,
     "icon-pulse": HeartPulse,
-    "icon-chart":ChartSpline
+    "icon-chart":ChartSpline,
+    "icon-star": Star
 };
 
 export type IconType = keyof typeof icons;

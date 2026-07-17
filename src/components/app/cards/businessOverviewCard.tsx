@@ -8,19 +8,23 @@ import { colors } from '@/src/app/design/colors'
 import { shortenText } from '@/src/utils/shortenText'
 import Paragraph from '../../ui/primitives/paragraph'
 import { fontWeight } from '@/src/app/design/typograhy'
+import { Business } from '@/src/types/types'
 
 type BusinessCardProps = {
-    title: string
-    scaled?: boolean
+    data: Business
 }
 
-export default function BusinessOverviewCard({title, scaled}: BusinessCardProps) {
+export default function BusinessOverviewCard({data}: BusinessCardProps) {
   return (
-    <Card width="320px" padding='lg' rounded='md' height="hug" className={`gap-[var(--space-md)] shrink-0 bg-[var(--color-white)]`}>
+    <Card width="280px" padding='lg' rounded='md' height="hug" specificStyles={{
+        flexShrink: "0"
+    }}>
         {/* Header */}
        <Frame width="sretch" height="hug" className='pb-[var(--space-xs)] items-center justify-between border-b-[var(--color-outline)] border-b-[1px]'>
-            <Heading type='h3' size='sm'>{shortenText(title, 20)}</Heading>
-            <Button size='xs' variant="fill" >View</Button>
+            <Heading type='h3' size='xs'>{shortenText(data.name, 25)}</Heading>
+            <Button size='xs' variant="ghost" specificStyles={{
+                color: colors["accent1"]
+            }} >Open</Button>
        </Frame>
        {/* Health */}
        <Frame width="stretch" height="hug" className='justify-between items-center'>
@@ -28,7 +32,7 @@ export default function BusinessOverviewCard({title, scaled}: BusinessCardProps)
                 <Paragraph size='xs'>Last 7 days</Paragraph>
             </Frame>
             <Frame width="hug" height="hug" rounded='lg' className='bg-[var(--color-success2)]' specificStyles={{padding: `${space["xs"]} ${space["sm"]}`}}>
-                <Paragraph size='xs' color="success" weight="medium">Healthy</Paragraph>
+                <Paragraph size='xs' color="success" weight="medium">{data.health}</Paragraph>
             </Frame>
         </Frame>
         {/* Operational Metrics */}

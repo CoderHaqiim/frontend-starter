@@ -19,7 +19,10 @@ export default function LeftAside() {
     const {userState} = useUserState();
 
   return (
-    <Aside width="280px" className="justify-between items-start" specificStyles={{backgroundColor: colors["background2"]}}>
+    <Aside width="280px" className="justify-between items-start" specificStyles={{
+            backgroundColor: colors["background3"],
+            border: `solid 1px ${colors["outline"]}`
+        }}>
          <Logo/>
         <Frame width="stretch" height="hug" direction="column">
             {

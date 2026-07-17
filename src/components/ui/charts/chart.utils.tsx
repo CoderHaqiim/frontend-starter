@@ -36,6 +36,6 @@ export const useTooltip = () => {
     }
 
 export const useAxis = {
-    x: () => <XAxis dataKey="name" axisLine={{stroke: colors["textColor2"]}}  tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["textColor2"] }}/>,
-    y: () =>  <YAxis width="auto" axisLine={{stroke: colors["textColor2"]}} tick={{ fontWeight: fontWeight["medium"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["textColor2"] }}/>
+    x: () => <XAxis dataKey="name" axisLine={{stroke: colors["outline"]}}  tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["outline"] }}/>,
+    y: () =>  <YAxis width="auto" axisLine={{stroke: colors["outline"]}} tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["outline"] }}/>
 }

@@ -3,11 +3,10 @@
 import React, { CSSProperties, ReactNode } from 'react'
 import Link from 'next/link'
 import Icon, { IconType } from './icon'
-import { useSelectedNavState } from '@/src/store/navState'
 import { elementSizes } from '@/src/app/design/sizes'
-import { colors } from '@/src/app/design/colors'
 import { bodySize } from '@/src/app/design/typograhy'
 import { FrameSizeType, SizeType } from '@/src/types/types'
+import { fontWeight } from '@/src/app/design/typograhy'
 import { usePathname, useParams } from 'next/navigation'
 
 type NavLinkProps = {
@@ -44,7 +43,7 @@ export default function NavLink(props: NavLinkProps) {
         fontSize: staticTextSize.includes(textSize)? bodySize["md"] : bodySize[textSize]
     }
     const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative`
-    const navStyle = `${isSelected? "bg-[var(--color-accent2)] text-[var(--color-textColor1)] px-6 font-[var(--fontWeight-bold)]" : "text-[var(--color-textColor2)] font-[var(--color-fontWeight-medium)] hover:bg-[var(--color-background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--radius-xl)]`
+    const navStyle = `${isSelected? "bg-[var(--color-accent2)] text-[var(--color-textColor1)] px-6 font-[var(--fontWeight-bold)]" : "text-[var(--color-textColor2)] hover:bg-[var(--color-background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--radius-xl)]`
     const icon = (<Icon name={iconName} stroke={isSelected? "2" : "1.5"} color={isSelected? "textColor1" : "textColor2" } size={textSize}/>)
     return (
         <Link

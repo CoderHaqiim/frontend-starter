@@ -53,12 +53,17 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
       <Frame width="stretch" rounded="sm" height="hug" justify='space-between'>
         <Frame direction='column'>
           <Frame align='center' height="hug" width="hug" gap="sm">
-            <Heading size="xl" type="h1">{business?.name ?? "Business name"}</Heading>
+            <Heading size="xl" type="h1" className='leading-[1]'>{business?.name ?? "Business name"}</Heading>
             <Frame height="hug" width="hug" padding='sm' rounded='md' specificStyles={{
               backgroundColor: colors[healthBackground]
             }}>
               <Paragraph weight="medium" size='xs' color={healthMap[health] }>{business?.health}</Paragraph>
             </Frame>
+            <Tooltip content="add to favorite">
+              <Button variant="ghost" iconColor='gold' iconFill='gold' isIcon size="md" iconName='icon-star' specificStyles={{
+                backgroundColor:"transparent"
+              }}/>
+            </Tooltip>
           </Frame>
           <Paragraph size="sm">{business?.industry}</Paragraph>
         </Frame>
@@ -89,21 +94,26 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
       </Frame>
       <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md" specificStyles={{
         backgroundColor: colors[healthBackground]
-      }}>
+        }}>
         <Frame height="hug" width="stretch" align='center' gap='md' className='mb-[var(--space-lg)]'>
-          <Icon name="icon-pulse" color={healthMap[health]} size="lg"/>
           <Heading type="h2" size='md'>
             Business Health
           </Heading>
         </Frame>
         <Frame>
-          <Score score={business?.healthScore} color={healthMap[health]}/>
+          <Score size={100} strokeWidth={5} score={business?.healthScore} color={healthMap[health]}/>
+        </Frame>
+      </Frame>
+      <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md">
+        <Frame height="hug" width="stretch" align='center' gap='md' className='mb-[var(--space-lg)]'>
+          <Heading type="h2" size='md'>
+            Actions
+          </Heading>
         </Frame>
       </Frame>
       <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md">
         <Frame justify='space-between' className='mb-[var(--space-lg)]'>
           <Frame height="hug" align="center" width="stretch" gap='md'>
-            <Icon name="icon-chart" size="lg"/>
             <Heading type="h2" size='md'>
               Chart
             </Heading>

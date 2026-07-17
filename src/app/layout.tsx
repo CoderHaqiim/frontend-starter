@@ -51,7 +51,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Frame
-          direction="column" width="stretch" height="hug" gap="sm" align="flex-end" padding="lg"
+          direction="column" width="stretch" height="100vh" gap="sm" align="flex-end" padding="lg"
           className="z-[5000] top-0 left-0" specificStyles={{ position: "fixed", pointerEvents: "none"}}>
           {/* <Toast variant="success" title="not connected" text="there are a lot of errors in the message here"/>
           <Toast variant="error" title="not connected" text="there are a lot of errors in the message here"/>

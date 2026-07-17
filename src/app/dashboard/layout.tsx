@@ -18,10 +18,10 @@ export default function Layout({children}: LayoutProps) {
   return (
     <Frame width="stretch" height="100vh">
       <LeftAside/>
-      <Frame direction="column" height="stretch" className="gap-[0.5px] flex-1 min-w-[0px] overflow-hidden bg-[var(--color-background3)]">
+      <Frame direction="column" height="stretch" className="flex-1 overflow-hidden bg-[var(--color-background1)]">
         <Nav/>
-        <Frame width="stretch" height="stretch" className="gap-[0.5px]" specificStyles={{
-          overflow:"visible"
+        <Frame width="stretch" specificStyles={{
+          height:"calc(100% - 60px)"
         }}>
           <Main padding="lg">
             {children}

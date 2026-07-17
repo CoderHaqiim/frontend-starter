@@ -19,7 +19,7 @@ export default function SmallBusinessOverview({business}: SmallBusinessOverviewP
     after:w-[calc(100%+18px)] after:h-[calc(100%+18px)] 
     after:rounded-[inherit] hover:after:bg-[var(--color-background2)]
     focus:after:border-[var(--color-accent1)] 
-    focus:after:border-[2px] ${businessId === business.id? "after:bg-[var(--color-background2)]" : ""}`
+    focus:after:border-[2px] ${businessId === business.id? "after:bg-[var(--color-background3)]" : ""}`
 
     
   return (
