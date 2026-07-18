@@ -3,6 +3,8 @@ import { ColorTypes } from "@/src/app/design/colors"
 import { CSSProperties, useEffect } from "react"
 import { colors } from "@/src/app/design/colors"
 import Paragraph from "../primitives/paragraph"
+import { stringToNumber } from "@/src/utils/numberStringCheck"
+import { SizeType } from "@/src/types/types"
 
 type ScoreProps = {
   score: number | string
@@ -10,21 +12,18 @@ type ScoreProps = {
   color?: ColorTypes
   strokeWidth?: number
   specificStyle?: CSSProperties
+  textSize?: SizeType
 }
 
-export default function Score({
+export default function RadialProgress({
   score,
   size = 120,
   strokeWidth = 10,
   specificStyle,
-  color
+  color,
+  textSize
 }: ScoreProps) {
- 
-const convertedScore = Number(score)
-
-const numScore = Number.isFinite(convertedScore) ? convertedScore : 0
-
-  const normalizedScore = Math.min(Math.max(numScore, 0), 100)
+  const normalizedScore = Math.min(Math.max(stringToNumber(score), 0), 100)
 
   const radius = (size - strokeWidth) / 2
   const circumference = 2 * Math.PI * radius
@@ -52,7 +51,7 @@ const numScore = Number.isFinite(convertedScore) ? convertedScore : 0
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="var(--color-white)"
+          stroke="var(--color-background3)"
           strokeWidth={strokeWidth}
         />
 
@@ -71,7 +70,7 @@ const numScore = Number.isFinite(convertedScore) ? convertedScore : 0
         />
       </svg>
 
-      <Paragraph size="lg" weight="semiBold" color={color} className="absolute">
+      <Paragraph size={textSize ?? "lg"} weight="semiBold" color={color} className="absolute">
         {normalizedScore}%
       </Paragraph>
     </div>

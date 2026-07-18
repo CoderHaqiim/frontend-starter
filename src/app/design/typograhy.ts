@@ -24,6 +24,7 @@ const headingSize = {
 
 const fontWeight = {
     "name": "fontWeight",
+    "light": "300",
     "normal": "500",
     "medium": "600",
     "semiBold": "700",

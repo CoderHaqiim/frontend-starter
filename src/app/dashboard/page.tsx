@@ -40,14 +40,14 @@ export default function Home() {
   };
 
   return (
-      <Frame width="stretch" direction="column" height="hug" className="gap-[var(--space-lg)]"> 
-        <Frame width="stretch" height="hug" direction="column">
+      <Frame width="stretch" direction="column" height="hug" gap="lg"> 
+        <Frame width="stretch" gap="xs" height="hug" direction="column">
           <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
-          <Paragraph size="sm">
+          <Paragraph weight="light" size="sm">
             Here's what's happening today.
           </Paragraph>
         </Frame>
-        <Frame width="stretch" height="100px" className="gap-[var(--space-md)]">
+        <Frame width="stretch" height="100px" gap="md">
           <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
             <Paragraph size="xs" color="textColor2" weight="normal">Active Businesses</Paragraph>
             <Paragraph size="xxl" color="textColor1" weight="medium">3</Paragraph>

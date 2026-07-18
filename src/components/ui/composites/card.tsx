@@ -10,6 +10,8 @@ type CardProps = {
     width: FrameSizeType,
     height: FrameSizeType,
     specificStyles?: CSSProperties,
+    justify?: CSSProperties["justifyContent"],
+    align?: CSSProperties["alignItems"]
     className?: string
     scroll?: "hidden" | "visible"
     gap?: SizeType
@@ -24,10 +26,12 @@ export default function Card({
   specificStyles,
   className,
   gap,
-  scroll
+  scroll,
+  justify,
+  align
 }: CardProps) {
   return (
-    <Frame width={width} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" border padding={padding} className={className}
+    <Frame width={width} justify={justify} align={align} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" border padding={padding} className={className}
       specificStyles={{
         ...specificStyles 
         }}>

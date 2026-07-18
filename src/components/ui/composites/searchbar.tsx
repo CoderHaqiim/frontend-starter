@@ -123,7 +123,9 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
             <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search businesses'/>
         </Frame>
         <Tooltip content="search" position='bottom'>
-          <Button variant='ghost' size='md' isIcon iconName='icon-search'/>
+          <Button variant='ghost' size='md' isIcon iconName='icon-search' specificStyles={{
+            backgroundColor: colors["white"]
+          }}/>
         </Tooltip>
         {
           showResults && 

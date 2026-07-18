@@ -30,7 +30,8 @@ export default function Heading({weight, children, size, type, color ="textColor
   const defaultStyle: CSSProperties = {
     fontSize: headingSize[size],
     fontWeight: (weight && fontWeight[weight]) ?? fontWeight[Weight],
-    color: colors[color] ?? colors["textColor1"]
+    color: colors[color] ?? colors["textColor1"],
+    lineHeight: "1"
   }
 
   return(

@@ -43,7 +43,7 @@ export default function NavLink(props: NavLinkProps) {
         fontSize: staticTextSize.includes(textSize)? bodySize["md"] : bodySize[textSize]
     }
     const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative`
-    const navStyle = `${isSelected? "bg-[var(--color-accent2)] text-[var(--color-textColor1)] px-6 font-[var(--fontWeight-bold)]" : "text-[var(--color-textColor2)] hover:bg-[var(--color-background2)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--radius-xl)]`
+    const navStyle = `${isSelected? "bg-[var(--color-accent2)] text-[var(--color-textColor1)] px-6 font-[var(--fontWeight-bold)]" : "text-[var(--color-textColor2)] hover:bg-[var(--color-shadow)] bg-transparent px-4"} origin-center w-full justify-left py-1 gap-4 rounded-[var(--radius-sm)]`
     const icon = (<Icon name={iconName} stroke={isSelected? "2" : "1.5"} color={isSelected? "textColor1" : "textColor2" } size={textSize}/>)
     return (
         <Link

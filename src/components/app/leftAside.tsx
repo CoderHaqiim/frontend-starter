@@ -23,19 +23,23 @@ export default function LeftAside() {
             backgroundColor: colors["background3"],
             border: `solid 1px ${colors["outline"]}`
         }}>
-         <Logo/>
-        <Frame width="stretch" height="hug" direction="column">
-            {
-                navItems.map(item =>
-                    <NavLink key={item.id} href={item.link} size="md" iconName={item.icon} iconPosition="left">
-                        {item.text}
-                    </NavLink>
-                )
-            }
+        <Frame height="70px" width="hug">
+            <Logo/>
         </Frame>
-        <Frame width="stretch" height="hug" direction="column" specificStyles={{ gap: space["md"]}}>
-            <SubscriptionCard/>
-            <ProfileButton/>
+        <Frame width="stretch" justify="space-between" className="flex-1" direction="column">
+            <Frame width="stretch" height="hug" direction="column">
+                {
+                    navItems.map(item =>
+                        <NavLink key={item.id} href={item.link} size="md" iconName={item.icon} iconPosition="left">
+                            {item.text}
+                        </NavLink>
+                    )
+                }
+            </Frame>
+            <Frame width="stretch" height="hug" direction="column" specificStyles={{ gap: space["md"]}}>
+                <SubscriptionCard/>
+                <ProfileButton/>
+            </Frame>
         </Frame>
     </Aside>
   )
