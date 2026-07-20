@@ -14,8 +14,8 @@ export default function TaskManagerCard() {
             <Card padding="lg" rounded="md" width="stretch" height="hug" specificStyles={{
               backgroundColor: colors["white"]
             }}>
-              <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline)] pb-[var(--space-md)]">
-                <Heading type="h2" size="sm">Task Manager</Heading>
+              <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline)] mb-[var(--space-lg)]">
+                <Heading type="h2" size="sm">Tasks & Schedules</Heading>
                 <Frame gap="sm">
                   <Button variant="fill" iconPosition="left" rounded="lg" size="sm" iconName="icon-plus">Add Task</Button>
                   <Tooltip content="expand" position="top">

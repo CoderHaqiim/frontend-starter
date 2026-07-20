@@ -8,6 +8,7 @@ import SmallBusinessCardList from "./smallBusinessCardList";
 import { usePathname } from "next/navigation";
 import { FrameSizeType } from "@/src/types/types";
 import { Children, CSSProperties, ReactNode } from "react";
+import Scheduler from "./cards/schedularCard";
 
 type RightAsideProps = {
   specificStyles?: CSSProperties,
@@ -24,15 +25,21 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
           content: <SmallBusinessCardList />,
         };
 
+      case pathname.startsWith("/dashboard/tasks"):
+        return {
+          width: "400px",
+          content: <Scheduler/>,
+        };
+
       case pathname.startsWith("/dashboard"):
         return {
-          width: "350px",
+          width: "380px",
           content: <TaskManagerCard />,
         };
 
       default:
         return {
-          width: "350px",
+          width: "380px",
           content: <TaskManagerCard />,
         };
     }

@@ -32,7 +32,10 @@ import {
   Pencil,
   HeartPulse,
   ChartSpline,
-  Star
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  CalendarCheck
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -82,7 +85,11 @@ const icons = {
     "icon-pencil" : Pencil,
     "icon-pulse": HeartPulse,
     "icon-chart":ChartSpline,
-    "icon-star": Star
+    "icon-star": Star,
+    "icon-right": ChevronRight,
+    "icon-left": ChevronLeft,
+    "icon-calendar-check": CalendarCheck
+
 };
 
 export type IconType = keyof typeof icons;

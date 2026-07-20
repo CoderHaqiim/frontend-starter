@@ -27,7 +27,7 @@ export default function Layout({children}: LayoutProps) {
             {children}
           </Main>
           <RightAside/>
-          <Frame height="hug" width="hug" className="bottom-[var(--space-xxl)] right-[var(--space-xxl)]" 
+          <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
             specificStyles={{ position: "fixed", zIndex:"300"}}>
             <Tooltip position="top" content="add">
               <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className="shadow-[0_4px_8px_#00000080]"/>

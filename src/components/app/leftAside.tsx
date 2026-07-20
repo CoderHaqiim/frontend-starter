@@ -19,7 +19,7 @@ export default function LeftAside() {
     const {userState} = useUserState();
 
   return (
-    <Aside width="280px" className="justify-between items-start" specificStyles={{
+    <Aside width="260px" className="justify-between items-start" specificStyles={{
             backgroundColor: colors["background3"],
             border: `solid 1px ${colors["outline"]}`
         }}>

@@ -15,6 +15,8 @@ import { Businesses } from "@/src/types/types"
 import { http } from "@/src/http/client"
 import { useBusinessesState } from "@/src/store/businessesState"
 import List from "@/src/components/ui/composites/list"
+import Section from "@/src/components/layout/section"
+import KpiCard from "@/src/components/app/cards/kpiCard"
 import RightAside from "@/src/components/app/rightAside"
 
 export default function Home() {
@@ -24,6 +26,25 @@ export default function Home() {
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
   const businessMetrics = ["profit","revenue","expenses"]
   const {businessesState, setBusinessesState} = useBusinessesState()
+
+  const dashboardKpis = [
+    {
+      title: "Active businesses",
+      value: "3"
+    },
+    {
+      title: "Total Income",
+      value: "$4000"
+    },
+    {
+      title: "Total Expenses",
+      value: "$500"
+    },
+    {
+      title: "Net Profit",
+      value: "$3500"
+    }
+  ]
 
   useEffect(()=>{
     const fetchBusinesses = async() => {
@@ -48,26 +69,14 @@ export default function Home() {
           </Paragraph>
         </Frame>
         <Frame width="stretch" height="100px" gap="md">
-          <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-            <Paragraph size="xs" color="textColor2" weight="normal">Active Businesses</Paragraph>
-            <Paragraph size="xxl" color="textColor1" weight="medium">3</Paragraph>
-          </Card>
-          <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-            <Paragraph size="xs" color="textColor2" weight="normal">Total Income</Paragraph>
-            <Paragraph size="xxl" color="textColor1" weight="medium">$4000</Paragraph>
-          </Card>
-          <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-            <Paragraph size="xs" color="textColor2" weight="normal">Total Expenses</Paragraph>
-            <Paragraph size="xxl" color="textColor1" weight="medium">$500</Paragraph>
-          </Card>
-          <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-            <Paragraph size="xs" color="textColor2" weight="normal">Net Profit</Paragraph>
-            <Paragraph size="xxl" color="textColor1" weight="medium">$3500</Paragraph>
-          </Card>
+          {
+            dashboardKpis.map((item, index) => <KpiCard key={index} title={item.title} value={item.value}/>)
+          }
         </Frame>
-        <Frame width="stretch" height="hug" className="bg-[var(--color-white)] gap-[var(--space-md)]">
-          <Card width="stretch" height="stretch" padding="lg" rounded="md">
-            <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+
+        {/* Performance Overview */}
+        <Section>
+          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
               <Heading size="md" type="h2">Performance Overview</Heading>
               <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
                 <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
@@ -75,25 +84,25 @@ export default function Home() {
               </Frame>
             </Frame>
             <Chart1 variant={selectedChart}/>
-          </Card>
-        </Frame>
-        <Frame width="stretch" height="hug" className="bg-[var(--color-white)] gap-[var(--space-md)]">
-          <Card width="stretch" height="hug" padding="lg" rounded="md">
-            <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-              <Heading size="sm" type="h2">Businesses Overview</Heading>
-              <Frame width="hug" height="hug" gap="sm">
-                <Dropdown name="ranking" size="sm" options={reportDuration}/>
-              </Frame>
+        </Section>
+
+        {/* Business Overview */}
+        <Section>
+          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+            <Heading size="sm" type="h2">Businesses Overview</Heading>
+            <Frame width="hug" height="hug" gap="sm">
+              <Dropdown name="ranking" size="sm" options={reportDuration}/>
             </Frame>
-            <Frame width="stretch" height="hug" scroll="hidden" className="gap-[var(--space-lg)]">
-              {
-                businessesState.map(buisness => <BusinessOverviewCard data={buisness} key={buisness.id}/>)
-              }
-            </Frame>
-          </Card>
-        </Frame>
-        <Frame width="stretch" height="hug" gap="md">
-          <Card width="stretch" height="hug" padding="lg" rounded="md">
+          </Frame>
+          <Frame width="stretch" height="hug" scroll="hidden" className="gap-[var(--space-lg)]">
+            {
+              businessesState.map(buisness => <BusinessOverviewCard data={buisness} key={buisness.id}/>)
+            }
+          </Frame>
+        </Section>
+
+        {/* Performance Ranking */}
+        <Section>
             <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
               <Heading size="sm" type="h2">Performance Ranking</Heading>
               <Frame width="hug" height="hug" gap="sm">
@@ -107,27 +116,25 @@ export default function Home() {
               <MetricsRow data={{name:"Business3"}}/>
               <MetricsRow data={{name:"Business4"}}/>
             </List>
-          </Card>
-        </Frame>
-        <Frame width="stretch" height="hug" className="gap-[var(--space-md)]">
-          <Card width="stretch" height="hug" padding="lg" rounded="md">
-            <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-              <Heading size="sm" type="h2">Latest Transactions</Heading>
-              <Frame width="hug" height="hug" gap="sm">
-                <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
-              </Frame>
+        </Section>
+
+        {/* Latest Transactions */}
+        <Section>
+          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+            <Heading size="sm" type="h2">Latest Transactions</Heading>
+            <Frame width="hug" height="hug" gap="sm">
+              <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
             </Frame>
-            
-            <List height="200px" scroll="hidden">
-              <Transaction/>
-              <Transaction/>
-              <Transaction/>
-              <Transaction/>
-              <Transaction/>
-              <Transaction/>
-            </List>
-          </Card>
-        </Frame>
+          </Frame>
+          <List height="200px" scroll="hidden">
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+          </List>
+        </Section>
       </Frame>
     
   )

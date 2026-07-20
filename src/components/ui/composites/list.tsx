@@ -12,7 +12,7 @@ type ListProps = {
 
 export default function List({scroll, height, width ="stretch", children, specificStyles}:ListProps) {
   return (
-    <Frame width={width} height={height} className="bg-[var(--color-background1)]" rounded="md" border direction="column" scroll={scroll} specificStyles={{gap:"2px", ...specificStyles}}>
+    <Frame width={width} height={height} className="bg-[var(--color-background2)]" rounded="md" border direction="column" scroll={scroll} specificStyles={{gap:"2px", ...specificStyles}}>
         {children}
     </Frame>
   )

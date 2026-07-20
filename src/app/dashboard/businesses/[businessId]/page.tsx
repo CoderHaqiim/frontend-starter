@@ -6,34 +6,55 @@ import Heading from '@/src/components/ui/primitives/heading'
 import Paragraph from '@/src/components/ui/primitives/paragraph'
 import { Business, HealthType } from '@/src/types/types'
 import { ColorTypes } from '@/src/app/design/colors'
-import { colors } from '@/src/app/design/colors'
 import Card from '@/src/components/ui/composites/card'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { http } from '@/src/http/client'
-import Image from 'next/image'
 import Chart1 from '@/src/components/ui/charts/chart1'
 import Dropdown from '@/src/components/ui/composites/dropdown'
 import Tooltip from '@/src/components/ui/composites/tooltip'
-import Icon from '@/src/components/ui/primitives/icon'
 import RadialProgress from '@/src/components/ui/composites/radialProgress'
 import LinearProgress from '@/src/components/ui/composites/linearProgressBar'
 import { stringToNumber } from '@/src/utils/numberStringCheck'
+import KpiCard from '@/src/components/app/cards/kpiCard'
+import Section from '@/src/components/layout/section'
+import List from '@/src/components/ui/composites/list'
+import Transaction from '@/src/components/app/transaction'
+import Insight from '@/src/components/app/insight'
+
+const dashboardKpis = [
+    {
+      title: "Transactions",
+      value: "3"
+    },
+    {
+      title: "Total Income",
+      value: "$4000"
+    },
+    {
+      title: "Total Expenses",
+      value: "$500"
+    },
+    {
+      title: "Net Profit",
+      value: "$3500"
+    }
+  ]
 
 export default function BusinessPage() {
-const [business, setBusiness] = useState<Business>({})
-const {businessId} = useParams()
-const reportDuration = ["This week", "This month", "This year"]
-const chartOptions = ["Line chart", "Bar chart"]
+  const [business, setBusiness] = useState<Business>({})
+  const {businessId} = useParams()
+  const reportDuration = ["This week", "This month", "This year"]
+  const chartOptions = ["Line chart", "Bar chart"]
 
 useEffect(()=>{
-  async function fetchBusiness(){
-    const businessOne = await http<Business>(`/api/businesses/${businessId}`)
-    setBusiness(businessOne)
-  }
-
   fetchBusiness()
 },[businessId])
+
+async function fetchBusiness(){
+  const businessOne = await http<Business>(`/api/businesses/${businessId}`)
+  setBusiness(businessOne)
+}
 
 const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const selectedValue = e.target.value as "Line chart" | "Bar chart";
@@ -63,26 +84,26 @@ const scoreHealthMap = (score:number | string): string => {
 }
 
 const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
+
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
   return (
-    <Frame width="stretch" direction='column' gap="lg" height="stretch"> 
+    <Frame width="stretch" direction='column' gap="lg" height="hug"> 
       <Frame width="stretch" rounded="sm" height="hug" justify='space-between'>
+         {/* Business Info */}
         <Frame direction='column'>
           <Frame align='center' height="hug" width="hug" gap="sm">
             <Heading size="xl" type="h1" className='leading-[1]'>{business?.name ?? "Business name"}</Heading>
-            <Frame height="hug" width="hug" padding='sm' rounded='md' specificStyles={{
-              backgroundColor: colors[healthBackground]
-            }}>
-              <Paragraph weight="medium" size='xs' color={healthMap[health] }>{business?.health}</Paragraph>
-            </Frame>
             <Tooltip content="add to favorite">
               <Button variant="ghost" iconColor='gold' iconFill='gold' isIcon size="md" iconName='icon-star' specificStyles={{
-                backgroundColor:"transparent"
+                height:"max-content",
+                width: "max-content"
               }}/>
             </Tooltip>
           </Frame>
           <Paragraph size="sm">{business?.industry}</Paragraph>
         </Frame>
+
+        {/* Actions */}
         <Frame gap='sm' height="hug" width="hug" className='relative'>
             <Button variant="fill" size="sm" iconName='icon-pencil'>Edit Business</Button>
             <Tooltip content="business settings">
@@ -90,28 +111,21 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
             </Tooltip>
         </Frame>
       </Frame>
-       <Frame width="stretch" height="100px" className="gap-[var(--space-md)]">
-        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color="textColor2" weight="normal">Transactions</Paragraph>
-          <Paragraph size="xxl" color="textColor1" weight="medium">3</Paragraph>
-        </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color="textColor2" weight="normal">Total Income</Paragraph>
-          <Paragraph size="xxl" color="textColor1" weight="medium">$4000</Paragraph>
-        </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color="textColor2" weight="normal">Total Expenses</Paragraph>
-          <Paragraph size="xxl" color="textColor1" weight="medium">$500</Paragraph>
-        </Card>
-        <Card width="stretch" height="stretch" padding="lg" rounded="md" className="bg-[var(--color-white)]">
-          <Paragraph size="xs" color="textColor2" weight="normal">Net Profit</Paragraph>
-          <Paragraph size="xxl" color="textColor1" weight="medium">$3500</Paragraph>
-        </Card>
+
+      {/* KPIS */}
+       <Frame width="stretch" className="gap-[var(--space-md)]">
+        {
+          dashboardKpis.map((item, index) => <KpiCard key={index} title={item.title} value={item.value}/>)
+        }
       </Frame>
+
       <Frame gap="md" width="stretch" height="295px" className='shrink-0'>
-        <Frame width="50%" direction="column" border padding="lg" height="stretch" rounded="md" specificStyles={{ backgroundColor: colors["white"] }}>
+        {/* Business Health */}
+        <Section width="50%" height="stretch">
           <Frame direction='column' gap="xs" height="hug" width="stretch" className='mb-[var(--space-lg)]'>
-            <Heading type="h2" size='md'>Business Health</Heading>
+            <Frame>
+              <Heading type="h2" size='md'>Business Health</Heading>
+            </Frame>
             <Paragraph weight="light" size='sm'>Score and Metrices</Paragraph>
           </Frame>
           <Frame gap='lg'>
@@ -143,16 +157,30 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
               </Frame>
             </Frame>
           </Frame>
-        </Frame>
-        <Frame width="50%" direction="column" border padding="lg" height="stretch" rounded="md" specificStyles={{ backgroundColor: colors["white"] }}>
-            <Frame direction='column' gap="xs" height="hug" width="stretch" className='mb-[var(--space-lg)]'>
+        </Section>
+       
+       {/* Business Insights */}
+        <Section width="50%" height="stretch">
+          <Frame direction='column' gap="xs" height="hug" width="stretch" className='mb-[var(--space-lg)]'>
+            <Frame width="stretch" className='mb-[var(--space-lg)]'>
               <Heading type="h2" size='md'>Business Insights</Heading>
+            </Frame>
+            <List width="stretch" height="220px" scroll="hidden">
+              <Insight text="Profit increased by 12%"/>
+              <Insight text="Profit increased by 12%"/>
+              <Insight text="Profit increased by 12% and bla bla bal"/>
+              <Insight text="Profit increased by 12% and bla bla bal"/>
+              <Insight text="Profit increased by 12% and bla bla bal"/>
+              <Insight text="Profit increased by 12% and bla bla bal"/>
+              <Insight text="Profit increased by 12% and bla bla bal"/>
+            </List>
           </Frame>
-        </Frame>
+        </Section>
       </Frame>
 
-      <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md" className='bg-[var(--color-white)]'>
-        <Frame justify='space-between' className='mb-[var(--space-lg)]'>
+      {/* Chart */}
+      <Section width="stretch">
+        <Frame justify='space-between' align='center' className='mb-[var(--space-lg)]'>
           <Frame height="hug" align="center" width="stretch" gap='lg' >
             <Heading type="h2" size='md'> Chart </Heading>
             <Paragraph size='xs'> Expenses • Income • Net Result </Paragraph>
@@ -162,19 +190,38 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
             <Dropdown name="report" size="sm" options={reportDuration}/>
           </Frame>
         </Frame>
-       <Chart1 variant={selectedChart}/>
-      </Frame>
-
-      <Frame>
-        <Frame width="stretch" direction="column" border padding="lg" height="hug" rounded="md">
-          <Frame height="hug" width="stretch" align='center' gap='md' className='mb-[var(--space-lg)]'>
+        <Chart1 variant={selectedChart}/>
+      </Section>
+      {/* <Section width="stretch" height="stretch">
+        <Frame height="hug" direction='column' width="stretch" gap='md' className='mb-[var(--space-lg)]'>
+          <Frame className='mb-[var(--space-lg)]'>
             <Heading type="h2" size='md'>
-              Actions
+              Business Activities
             </Heading>
           </Frame>
+           <List width="stretch" height="hug">
+            <Frame>Name</Frame>
+            <Frame>Name</Frame>
+            <Frame>Name</Frame>
+            <Frame>Name</Frame>
+          </List>
         </Frame>
-
-      </Frame>
+      </Section> */}
+      <Section width="stretch" height="stretch">
+        <Frame direction="column" height="hug" width="stretch" gap='md' className='mb-[var(--space-lg)]'>
+          <Frame height="hug" width="stretch" className='mb-[var(--space-lg)]'>
+            <Heading type="h2" size='md'>
+              Transactions
+            </Heading>
+          </Frame>
+          <List scroll='hidden' width="stretch" height="200px">
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+            <Transaction/>
+          </List>
+        </Frame>
+      </Section>
     </Frame>
   )
 }

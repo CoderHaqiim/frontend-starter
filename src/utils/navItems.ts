@@ -28,6 +28,12 @@ export const navItems: navItems = [
         link: "/dashboard/transactions"
     },
     {
+        id: "tasks",
+        text: "Tasks & Schedules",
+        icon: "icon-calendar-check",
+        link: "/dashboard/tasks"
+    },
+    {
         id: "journal",
         text: "Journal",
         icon: "icon-notes",
