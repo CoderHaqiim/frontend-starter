@@ -21,7 +21,7 @@ export default function LeftAside() {
   return (
     <Aside width="260px" className="justify-between items-start" specificStyles={{
             backgroundColor: colors["background3"],
-            border: `solid 1px ${colors["outline"]}`
+            border: `solid 1px ${colors["outline1"]}`
         }}>
         <Frame height="70px" width="hug">
             <Logo/>

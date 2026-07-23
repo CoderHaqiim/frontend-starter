@@ -23,6 +23,7 @@ import Card from "../../ui/composites/card"
 import Button from "../../ui/primitives/button"
 import { http } from "@/src/http/client"
 import Tooltip from "../../ui/composites/tooltip"
+import { colors } from "@/src/app/design/colors"
 
 type SchedulerProps = { businessId?: string }
 
@@ -77,7 +78,7 @@ export default function Scheduler({businessId}: SchedulerProps) {
             Scheduler
           </Heading>
         </Frame>
-        <Button iconName="icon-plus" variant="fill" size="sm"
+        <Button iconName="icon-plus" variant="outline" size="sm"
             func={() => {
               setSelectedDate(new Date())
               setShowModal(true)
@@ -121,9 +122,14 @@ export default function Scheduler({businessId}: SchedulerProps) {
               const isToday = isSameDay(day,new Date())
 
             return (
-              <div key={day.toISOString()} onClick={() => { setSelectedDate(day), setShowModal(true)}}
-                className={`group relative min-h-[20px] font-[weight:var(--fontWeight-normal)] cursor-pointer bg-[var(--color-background2)] rounded-[var(--radius-sm)] transition hover:bg-[var(--color-background1)]
-                  ${ !isCurrentMonth ? "text-[var(--color-muted)]" : ""}`}
+              <Button size="md" isIcon variant="outline" key={day.toISOString()} func={() => { setSelectedDate(day), setShowModal(true)}}
+                className={`min-h-[20px] font-[weight:var(--fontWeight-normal)] transition hover:bg-[var(--color-background1)]`}
+                
+                  specificStyles={{
+                    color:  isCurrentMonth? "" : `${colors["background2"]}`,
+                    border: isCurrentMonth? `1px solid ${colors["outline2"]}` : `1px solid ${colors["background2"]}`, 
+                    backgroundColor: isToday? colors["accent2"] : ""
+                }}
               >
 
                 {/* Date */}
@@ -135,8 +141,6 @@ export default function Scheduler({businessId}: SchedulerProps) {
                       justify-center
                       rounded-full
                       text-sm
-
-                      ${ isToday ? "bg-[var(--color-accent2)]" : ""}
                     `}
                   >
                     {format(day, "d")}
@@ -255,7 +259,7 @@ export default function Scheduler({businessId}: SchedulerProps) {
                     </div>
                   </div>
                 )}
-              </div>
+              </Button>
             )
           })}
         </Frame>

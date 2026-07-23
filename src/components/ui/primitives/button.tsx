@@ -53,7 +53,7 @@ export default function Button({
 
     const derivedPadding = !isIcon &&  paddingSizes[size]
     const staticTextSize = ["xl", "lg", "xxl"]
-    const defaultStyles = {
+    const defaultStyles: CSSProperties = {
         width: 
             isIcon? elementSizes[size] :
             width === "hug"? "max-content" : 
@@ -71,11 +71,12 @@ export default function Button({
             variant === "ghost"? colors["textColor1"]:
             "",
         border: 
-            variant === "outline"? `solid 1px ${colors["outline"]}` : "",
+            variant === "outline"? `solid 1px ${colors["outline1"]}` : "",
         height: elementSizes[size] ?? height ,
         fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         justifyContent: justify,
-        cursor: "pointer"
+        cursor: "pointer",
+        pointerEvents:"all"
     }
 
     const hoverStyles = `

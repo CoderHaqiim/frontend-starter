@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import Frame from '../primitives/frame'
 import { CSSProperties } from 'react'
 import { FrameSizeType, SizeType } from '@/src/types/types'
+import { colors } from '@/src/app/design/colors'
 
 type CardProps = {
     children: ReactNode,
@@ -22,7 +23,7 @@ export default function Card({
   width, 
   height, 
   padding, 
-  rounded, 
+  rounded = "md", 
   specificStyles,
   className,
   gap,
@@ -31,9 +32,10 @@ export default function Card({
   align
 }: CardProps) {
   return (
-    <Frame width={width} justify={justify} align={align} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" border padding={padding} className={className}
+    <Frame width={width} justify={justify} align={align} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" border padding={padding} className={`${className}`}
       specificStyles={{
-        ...specificStyles 
+        ...specificStyles, 
+        border: `solid 1px ${colors["outline2"]}`
         }}>
       {children}
     </Frame>

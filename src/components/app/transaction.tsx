@@ -1,14 +1,12 @@
 import Frame from "../ui/primitives/frame"
 import Icon from "../ui/primitives/icon"
 import { colors } from "@/src/app/design/colors"
-import { space } from "@/src/app/design/spacing"
 import Paragraph from "../ui/primitives/paragraph"
-import { fontWeight } from "@/src/app/design/typograhy"
 
 export default function Transaction() {
     const date = new Date().toDateString()
   return (
-    <Frame width="stretch" height="hug" gap="lg" align="center" padding="md" className="bg-[var(--color-white)]">
+    <Frame width="stretch" height="hug" gap="lg" align="center" padding="md">
         <Icon name="icon-circle-arrow-up" size="xxl" fill={colors["success2"]} color="success"/>
         <Frame direction="column" width="stretch" height="hug">
             <Frame width="stretch" height="hug" justify="space-between" align="center">

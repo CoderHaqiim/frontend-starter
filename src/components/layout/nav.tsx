@@ -10,6 +10,8 @@ import { http } from '@/src/http/client'
 import { colors } from '@/src/app/design/colors'
 import Tooltip from '../ui/composites/tooltip'
 import Paragraph from '../ui/primitives/paragraph'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 type Notification = unknown
 
@@ -53,6 +55,8 @@ export default function Nav() {
   const [loadingNotifications, setLoadingNotifications] = useState<boolean>(false)
   const [notificationsError, setNotificationsError] = useState<string>("")
   const notificationRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
+  const router = useRouter()
 
   const toggleNotifications = () => {
     setNotificationsOpen(prev => !prev)
@@ -114,8 +118,16 @@ export default function Nav() {
   }, [notificationsOpen])
 
   return (
-    <nav className='flex border-b-[1px] border-b-[var(--color-outline)] z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
-        <Frame width="stretch" height="stretch" justify="flex-end" align='center' specificStyles={{padding:`0px ${space["lg"]}`}}>
+    <nav className='flex border-b-[1px] border-b-[var(--color-outline1)] z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
+        <Frame width="stretch" height="stretch" justify="space-between" align='center' specificStyles={{padding:`0px ${space["lg"]}`}}>
+          <Frame>
+            {
+              pathname !== "/dashboard" &&
+              <Tooltip content="back" position='bottom'>
+                <Button func={()=> router.back()} variant='outline' isIcon iconName='icon-left' size='md'/>
+              </Tooltip>
+            }
+          </Frame>
           <Frame width="hug" height="stretch" specificStyles={{gap:space["md"], height:"100%", alignItems:"center"}}>
             <Searchbar/>
             <div ref={notificationRef} className="relative flex items-center">
@@ -129,7 +141,7 @@ export default function Nav() {
               {
                 notificationsOpen && (
                 <Frame direction="column" width="350px" height="auto" gap="xs" rounded="md" padding="sm"
-                className='z-[1000] border-[1px] border-[var(--color-outline)] max-h-[360px] top-[120%] right-0 min-h-[80px] bg-[var(--color-white)] '
+                className='z-[1000] border-[1px] border-[var(--color-outline1)] max-h-[360px] top-[120%] right-0 min-h-[80px] bg-[var(--color-white)] '
                   specificStyles={{
                     boxShadow: "0px 1px 5px -1px #000000c4",
                     overflowY: "auto",

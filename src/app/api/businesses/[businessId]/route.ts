@@ -32,6 +32,14 @@ const businesses = [
         startDate: "Mar 22, 2008",
         health:"healthy",
         healthScore: 90
+    },
+     {
+        id: "4",
+        name: "Apic Farms Limited",
+        industry: "Commerce",
+        startDate: "Mar 22, 2008",
+        health:"moderate",
+        healthScore:50
     }
 ]
 

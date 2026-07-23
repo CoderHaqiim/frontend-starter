@@ -5,6 +5,7 @@ import { CSSProperties } from "react"
 import Paragraph from "../primitives/paragraph"
 import { stringToNumber } from "@/src/utils/numberStringCheck"
 import { SizeType } from "@/src/types/types"
+import Frame from "../primitives/frame"
 
 type HorizontalScoreProps = {
   score: number | string
@@ -17,7 +18,7 @@ type HorizontalScoreProps = {
 
 export default function LinearProgress({
   score,
-  color,
+  color = "accent1",
   height = 8,
   specificStyle,
   textSize = "xs",
@@ -29,27 +30,14 @@ export default function LinearProgress({
   )
 
   return (
-    <div
-      className="flex items-center gap-[var(--space-sm)] w-full"
-      style={specificStyle}
-    >
-      <div
-        className="relative overflow-hidden flex-1 rounded-full"
-        style={{
-          height,
-          backgroundColor: "var(--color-background3)",
-        }}
-      >
-        <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{
-            width: `${normalizedScore}%`,
-            backgroundColor: color
-              ? colors[color]
-              : colors["accent1"],
+    <Frame gap="sm" width="stretch" align="center">
+      <Frame rounded="xl" height={height} className="bg-[var(--color-background3)] overflow-hidden flex-1">
+        <Frame width={`${normalizedScore}%`} height="stretch" rounded="md" className="transition-all duration-500"
+          specificStyles={{
+            backgroundColor: colors[color]
           }}
         />
-      </div>
+      </Frame>
 
       {showPercentage && (
         <Paragraph
@@ -60,6 +48,6 @@ export default function LinearProgress({
           {normalizedScore}%
         </Paragraph>
       )}
-    </div>
+    </Frame>
   )
 }

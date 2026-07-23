@@ -35,7 +35,14 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  CalendarCheck
+  CalendarCheck,
+  ArrowUpRight,
+  ArrowRight,
+  Link,
+  MoveRight,
+  TrendingDown,
+  TrendingUp,
+  TrendingUpDownIcon
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -88,7 +95,14 @@ const icons = {
     "icon-star": Star,
     "icon-right": ChevronRight,
     "icon-left": ChevronLeft,
-    "icon-calendar-check": CalendarCheck
+    "icon-calendar-check": CalendarCheck,
+    "icon-arrow-up-right": ArrowUpRight,
+    "icon-arrow-right": ArrowRight,
+    "icon-link": Link,
+    "icon-move-right": MoveRight,
+    "icon-trend-up": TrendingUp,
+    "icon-trend-down": TrendingDown,
+    "icon-trend-up-down": TrendingUpDownIcon
 
 };
 

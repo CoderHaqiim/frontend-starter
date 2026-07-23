@@ -6,6 +6,7 @@ import Heading from '@/src/components/ui/primitives/heading'
 import Paragraph from '@/src/components/ui/primitives/paragraph'
 import { Business, HealthType } from '@/src/types/types'
 import { ColorTypes } from '@/src/app/design/colors'
+import { colors } from '@/src/app/design/colors'
 import Card from '@/src/components/ui/composites/card'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -21,6 +22,8 @@ import Section from '@/src/components/layout/section'
 import List from '@/src/components/ui/composites/list'
 import Transaction from '@/src/components/app/transaction'
 import Insight from '@/src/components/app/insight'
+import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
+import { healthMap } from '@/src/utils/healthMap'
 
 const dashboardKpis = [
     {
@@ -63,28 +66,6 @@ const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
 const health: HealthType | string | number = business?.health
 
-const healthMap: Record<string,ColorTypes> = {
-  "healthy": "success",
-  "moderate": "warning",
-  "critical": "error"
-}
-
-const scoreHealthMap = (score:number | string): string => {
-  let health
-  let newScore = stringToNumber(score)
-  if(newScore < 50 ){
-    health = "critical"
-  }else if(newScore < 75){
-    health = "moderate"
-  }else{
-    health = "healthy"
-  }
-
-  return health
-}
-
-const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
-
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
   return (
     <Frame width="stretch" direction='column' gap="lg" height="hug"> 
@@ -100,7 +81,9 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
               }}/>
             </Tooltip>
           </Frame>
-          <Paragraph size="sm">{business?.industry}</Paragraph>
+          <Paragraph weight="light" size="sm">
+            {business?.industry}
+          </Paragraph>
         </Frame>
 
         {/* Actions */}
@@ -129,31 +112,31 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
             <Paragraph weight="light" size='sm'>Score and Metrices</Paragraph>
           </Frame>
           <Frame gap='lg'>
-            <Card justify="flex-start" padding="md" align='center' width="140px" height="200px" rounded="md" className=" gap-[var(--space-lg)] bg-[var(--color-background1)]">
+            <Card justify="flex-start" padding="lg" align='center' width="160px" height="200px" rounded="md" className=" gap-[var(--space-lg)] bg-[var(--color-background1)]">
               <Heading type="h3" size='xs'>Business score</Heading>
-              <RadialProgress size={120} strokeWidth={8} score={business?.healthScore} color={healthMap[scoreHealthMap(business.healthScore)]}/>
+              <RadialProgress size={120} strokeWidth={5} score={business?.healthScore} color={healthMap[scoreHealthMap(business.healthScore)]}/>
             </Card>
             <Frame justify='space-between' gap="md" direction="column" height="200px" 
               className='flex-1 bg-[var(--color-white)]'>
               <Frame direction="column" justify="space-between" padding="sm" align='flex-start' width="stretch" height="hug" rounded="md" 
                 className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Financial</Heading>
-                <LinearProgress height={5} textSize='sm' score={20} color={healthMap[scoreHealthMap(20)]}/>
+                <LinearProgress height={3} textSize='sm' score={20} color={healthMap[scoreHealthMap(20)]}/>
               </Frame>
               <Frame direction="column" justify="space-between" padding="sm" align='flex-start' width="stretch" height="hug" rounded="md"
                 className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Growth</Heading>
-                <LinearProgress height={5} textSize='sm' score={business?.healthScore} color={healthMap[health]}/>
+                <LinearProgress height={3} textSize='sm' score={business?.healthScore} color={healthMap[health]}/>
               </Frame>
               <Frame direction="column" justify="space-between" padding="sm" align='flex-start' width="stretch" height="hug" rounded="md"
                 className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Stability</Heading>
-                <LinearProgress height={5} textSize='sm' score={20} color={healthMap[health]}/>
+                <LinearProgress height={3} textSize='sm' score={20} color={healthMap[health]}/>
               </Frame>
               <Frame direction="column" justify="space-between" padding="sm" align='flex-start' width="stretch" height="hug" rounded="md"
                 className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Operational</Heading>
-                <LinearProgress height={5} textSize='sm' score={business?.healthScore} color={healthMap[health]}/>
+                <LinearProgress height={3} textSize='sm' score={business?.healthScore} color={healthMap[health]}/>
               </Frame>
             </Frame>
           </Frame>
@@ -165,7 +148,7 @@ const healthBackground: ColorTypes= `${healthMap[health]}2` as ColorTypes
             <Frame width="stretch" className='mb-[var(--space-lg)]'>
               <Heading type="h2" size='md'>Business Insights</Heading>
             </Frame>
-            <List width="stretch" height="220px" scroll="hidden">
+            <List width="stretch" height="220px" scroll="visible">
               <Insight text="Profit increased by 12%"/>
               <Insight text="Profit increased by 12%"/>
               <Insight text="Profit increased by 12% and bla bla bal"/>

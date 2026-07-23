@@ -6,7 +6,7 @@ export type SizeType =  "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
 export type FrameSizeType = "hug" | "stretch" | CSSProperties["height"] | CSSProperties["width"];
 export type FunctionType = (arg?: number | string) => void | Promise<void>
 export type HealthType = "healthy" | "critical" | "moderate"
-export type Business = Record <string, string | HealthType | number >
+export type Business = Record <string, any >
 export type Businesses = Business[]
 
 // types/schedule.ts
@@ -28,4 +28,22 @@ export type Schedule = {
   source: "local" | "google"
   googleEventId?: string
   reminderMinutesBefore?: number
+}
+
+
+export type Priority = "low" | "medium" | "high";
+
+export type Status =
+  | "todo"
+  | "in-progress"
+  | "completed";
+
+export interface Task {
+  id: string;
+  title: string;
+  description?: string;
+  business: string;
+  dueDate: string;
+  priority: Priority;
+  status: Status;
 }

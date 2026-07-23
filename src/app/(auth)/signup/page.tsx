@@ -45,7 +45,7 @@ export default function SignupPage() {
                     </Form>
                     <Frame height={30} justify='center' align="center" width="stretch" >
                         <Paragraph size='sm' color="textColor1" className='justify-center text-center z-[5] bg-[var(--color-white)]' specificStyle={{width: "70px"}}>OR</Paragraph>
-                        <hr className='w-[70%] border-0 bg-[var(--color-outline)] h-[1px] absolute'/>
+                        <hr className='w-[70%] border-0 bg-[var(--color-outline1)] h-[1px] absolute'/>
                     </Frame>
                     <Frame>
                          <Button rounded='xl' variant="outline" size='xl'width="stretch">

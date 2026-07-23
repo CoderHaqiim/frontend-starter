@@ -1,70 +1,79 @@
-import React from 'react'
-import Card from '../../ui/composites/card'
-import Heading from '../../ui/primitives/heading'
-import Frame from '../../ui/primitives/frame'
-import { space } from '@/src/app/design/spacing'
-import Button from '../../ui/primitives/button'
-import { colors } from '@/src/app/design/colors'
-import { shortenText } from '@/src/utils/shortenText'
-import Paragraph from '../../ui/primitives/paragraph'
-import { fontWeight } from '@/src/app/design/typograhy'
-import { Business } from '@/src/types/types'
+"use client"
 
-type BusinessCardProps = {
+import { Business } from "@/src/types/types"
+import { shortenText } from "@/src/utils/shortenText"
+import { scoreHealthMap } from "@/src/utils/scoreHealthMap"
+import Link from "next/link"
+import RadialProgress from "../../ui/composites/radialProgress"
+import Frame from "../../ui/primitives/frame"
+import Card from "../../ui/composites/card"
+import Heading from "../../ui/primitives/heading"
+import Paragraph from "../../ui/primitives/paragraph"
+import { paddingSizes } from "@/src/app/design/sizes"
+import { healthMap } from "@/src/utils/healthMap"
+import { colors } from "@/src/app/design/colors"
+import { generateHealthBackground } from "@/src/utils/healthBackground"
+import Icon from "../../ui/primitives/icon"
+
+type SmallBusinessOverviewProps = {
     data: Business
 }
 
-export default function BusinessOverviewCard({data}: BusinessCardProps) {
-  return (
-    <Card width="280px" padding='lg' rounded='md' height="hug" specificStyles={{
-        flexShrink: "0"
-    }}>
-        {/* Header */}
-       <Frame width="sretch" height="hug" className='pb-[var(--space-xs)] items-center justify-between border-b-[var(--color-outline)] border-b-[1px]'>
-            <Heading type='h3' size='xs'>{shortenText(data.name, 25)}</Heading>
-            <Button size='xs' variant="ghost" specificStyles={{
-                color: colors["accent1"]
-            }} >Open</Button>
-       </Frame>
-       {/* Health */}
-       <Frame width="stretch" height="hug" className='justify-between items-center'>
-            <Frame width="hug">
-                <Paragraph size='xs'>Last 7 days</Paragraph>
-            </Frame>
-            <Frame width="hug" height="hug" rounded='lg' className='bg-[var(--color-success2)]' specificStyles={{padding: `${space["xs"]} ${space["sm"]}`}}>
-                <Paragraph size='xs' color="success" weight="medium">{data.health}</Paragraph>
-            </Frame>
-        </Frame>
-        {/* Operational Metrics */}
-       <Frame direction='column' padding='md'>
-            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
-                <Paragraph color="textColor1" size='sm'>Overdue tasks</Paragraph>
-                <Paragraph color="textColor1" weight="medium" size='sm'>2</Paragraph>
-            </Frame>
-            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
-                <Paragraph color="textColor1" size='sm'>Unpaid Bills</Paragraph>
-                <Paragraph color="textColor1" weight="medium" size='sm'>3</Paragraph>
-            </Frame>
-       </Frame>
-       {/* Financial Metrics */}
-       <Frame width="stretch" direction='column' border padding="md" rounded='md' height="hug" className='border-[var(--color-info)] gap-[var(--space-xs)] bg-[var(--color-background2)]'>
-            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
-                <Paragraph color="textColor1" weight="medium" size='sm'>Total Income</Paragraph>
-                <Paragraph color="textColor1" weight="medium" size='sm'>2</Paragraph>
-            </Frame>
-            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
-                <Paragraph color="textColor1" weight="medium" size='sm'>Expenses</Paragraph>
-                <Paragraph color="textColor1" weight="medium" size='sm'>3</Paragraph>
-            </Frame>
-            <Frame width="stretch"  className='justify-between gap-[var(--space-sm)]'>
-                <Paragraph color="textColor1" weight="medium" size='sm'>Net Result</Paragraph>
-                <Paragraph color="textColor1" weight="medium" size='sm'>3</Paragraph>
-            </Frame>
-            <Frame width="stretch" className='justify-between gap-[var(--space-sm)]'>
-                <Paragraph color="textColor1" weight="bold" size='sm'>Cash Balance</Paragraph>
-                <Paragraph color="textColor1" weight="bold" size='sm'>$5000</Paragraph>
-            </Frame>
-        </Frame>
-    </Card>
-  )
+
+
+export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps) {
+    const healthBackground =  generateHealthBackground(data.health)
+
+    return (
+        <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
+                position: "relative", 
+                flexShrink: 0,
+                 background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 100%)`,
+            }}>
+                {/* Business name and open button */}
+                <Frame width="stretch" justify="space-between" height="hug" align="center">
+                    <Heading type="h3" size="xs">
+                        {shortenText(data?.name, 17)}
+                    </Heading>
+                    <Link href={`/dashboard/businesses/${data.id}`} className={`${paddingSizes["xs"]} flex h-[var(--elementSize-xs)] items-center transition-[0.3s] hover:gap-[var(--space-sm)] rounded-[var(--radius-xs)]`}>
+                        <Paragraph size="xs" weight="bold" color="accent1">View</Paragraph>
+                        <Icon name="icon-move-right" stroke="1.5" color="accent1" size="sm"/>
+                    </Link>
+                </Frame>
+
+                {/* Health score */}
+                <Frame width="stretch" gap="sm" direction="column" align="center">
+                    <RadialProgress color={healthMap[data.health]} score={data.healthScore} size={125} textSize="xxl" strokeWidth={2}/>
+                    <Paragraph weight="semiBold" color={healthMap[data.health]} size="md">{data.health}</Paragraph>
+                </Frame>
+
+                {/* Financial summary */}
+                <Frame width="stretch"  gap="xl" direction="row" justify="center" className="bg-[]">
+                    <Frame direction="column"align="center">
+                        <Frame>
+                            <Paragraph size="xxs"> Income </Paragraph>
+                        </Frame>
+                        <Frame>
+                            <Paragraph color="textColor1" weight="bold" size="sm"> $4000 </Paragraph>
+                        </Frame>
+                    </Frame>
+                    <Frame direction="column"align="center">
+                        <Frame>
+                            <Paragraph size="xxs"> Expenses </Paragraph>
+                        </Frame>
+                        <Frame>
+                            <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
+                        </Frame>
+                    </Frame>
+                    <Frame direction="column"align="center">
+                        <Frame>
+                            <Paragraph size="xxs"> Net Profit </Paragraph>
+                        </Frame>
+                        <Frame>
+                            <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
+                        </Frame>
+                    </Frame>
+                </Frame>
+        </Card>
+    )
 }

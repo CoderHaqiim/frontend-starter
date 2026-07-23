@@ -120,7 +120,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
         border: focused? `1.5px ${colors["accent1"]} solid` : "",
       }}>
         <Frame width="hug" height="hug" className="flex-1">
-            <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search businesses'/>
+            <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search businesses, tasks...'/>
         </Frame>
         <Tooltip content="search" position='bottom'>
           <Button variant='ghost' size='md' isIcon iconName='icon-search' specificStyles={{

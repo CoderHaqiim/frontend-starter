@@ -64,7 +64,7 @@ export default function Chart1({variant}: ChartProps) {
         bottom: 5,
       }}
     >
-      <CartesianGrid strokeDasharray="3 3" stroke={colors["outline"]} />
+      <CartesianGrid strokeDasharray="3 3" stroke={colors["outline1"]} />
       {useAxis.x()}
       {useAxis.y()}
       {useTooltip()}

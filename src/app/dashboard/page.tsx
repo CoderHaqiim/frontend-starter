@@ -3,14 +3,13 @@
 import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
 import { useUserState } from "@/src/store/userState"
-import Card from "@/src/components/ui/composites/card"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import Chart1 from "@/src/components/ui/charts/chart1" 
 import BusinessOverviewCard from "@/src/components/app/cards/businessOverviewCard"
 import MetricsRow from "@/src/components/app/metricsRow"
 import Transaction from "@/src/components/app/transaction"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Businesses } from "@/src/types/types"
 import { http } from "@/src/http/client"
 import { useBusinessesState } from "@/src/store/businessesState"
@@ -18,6 +17,9 @@ import List from "@/src/components/ui/composites/list"
 import Section from "@/src/components/layout/section"
 import KpiCard from "@/src/components/app/cards/kpiCard"
 import RightAside from "@/src/components/app/rightAside"
+import Button from "@/src/components/ui/primitives/button"
+import { shadow2 } from "@/src/app/design/shadows"
+import Tooltip from "@/src/components/ui/composites/tooltip"
 
 export default function Home() {
   const {userState} = useUserState()
@@ -26,6 +28,10 @@ export default function Home() {
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
   const businessMetrics = ["profit","revenue","expenses"]
   const {businessesState, setBusinessesState} = useBusinessesState()
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(false);
+
 
   const dashboardKpis = [
     {
@@ -46,7 +52,17 @@ export default function Home() {
     }
   ]
 
-  useEffect(()=>{
+  const updateSliderButtons = useCallback(() => {
+  const slider = sliderRef.current;
+
+  if (!slider) return;
+
+  const { scrollLeft, scrollWidth, clientWidth } = slider;
+  setShowLeftButton(scrollLeft > 0);
+  setShowRightButton(scrollLeft < scrollWidth - clientWidth - 1);
+}, []);
+
+useEffect(()=>{
     const fetchBusinesses = async() => {
       const businesses = await http<Businesses>("/api/businesses", undefined, {method: "GET"})
       setBusinessesState(businesses)
@@ -55,10 +71,36 @@ export default function Home() {
     fetchBusinesses()
   },[])
 
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    updateSliderButtons();
+    slider.addEventListener("scroll", updateSliderButtons);
+    window.addEventListener("resize", updateSliderButtons);
+    return () => {
+      slider.removeEventListener("scroll", updateSliderButtons);
+      window.removeEventListener("resize", updateSliderButtons);
+    };
+}, [businessesState, updateSliderButtons]);
+
   const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value as "Line chart" | "Bar chart";
     setSelectedChart(selectedValue);
   };
+
+const scrollLeftHandler = () => {
+  sliderRef.current?.scrollBy({
+    left: -266,
+    behavior: "smooth",
+  });
+};
+
+const scrollRightHandler = () => {
+  sliderRef.current?.scrollBy({
+    left: 266,
+    behavior: "smooth",
+  });
+};
 
   return (
       <Frame width="stretch" direction="column" height="hug" gap="lg"> 
@@ -76,25 +118,38 @@ export default function Home() {
 
         {/* Performance Overview */}
         <Section>
-          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+          <Frame width="stretch" align="center" height="hug" justify="space-between" className="mb-[var(--space-md)]">
               <Heading size="md" type="h2">Performance Overview</Heading>
               <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
                 <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
                 <Dropdown name="report" size="sm" options={reportDuration}/>
               </Frame>
-            </Frame>
-            <Chart1 variant={selectedChart}/>
+          </Frame>
+          <Chart1 variant={selectedChart}/>
         </Section>
 
         {/* Business Overview */}
         <Section>
-          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+          <Frame width="stretch" align="center" height="hug" className="justify-between mb-[var(--space-md)]">
             <Heading size="sm" type="h2">Businesses Overview</Heading>
             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
             </Frame>
           </Frame>
-          <Frame width="stretch" height="hug" scroll="hidden" className="gap-[var(--space-lg)]">
+          <Frame width="stretch" align="center" justify="space-between" height="stretch" className=" top-0 left-0 pointer-events-none z-[50]" specificStyles={{ position: "absolute" }}>
+            
+            <Tooltip content="slide right">
+               <Button func={scrollLeftHandler} variant="outline" size="xl" isIcon iconName="icon-left" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
+              display: `${showLeftButton? "flex" : "none"}`
+            }}/>
+            </Tooltip>
+            <Tooltip content="slide left">
+               <Button func={scrollRightHandler} variant="outline" size="xl" isIcon iconName="icon-right" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
+              display: `${showRightButton? "flex" : "none"}`
+            }}/>
+            </Tooltip>
+          </Frame>
+          <Frame ref={sliderRef} width="stretch" height="hug" scroll="hidden" gap="lg">
             {
               businessesState.map(buisness => <BusinessOverviewCard data={buisness} key={buisness.id}/>)
             }
@@ -120,7 +175,7 @@ export default function Home() {
 
         {/* Latest Transactions */}
         <Section>
-          <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
+          <Frame width="stretch" justify="space-between" align="center" height="hug" className="mb-[var(--space-md)]">
             <Heading size="sm" type="h2">Latest Transactions</Heading>
             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>

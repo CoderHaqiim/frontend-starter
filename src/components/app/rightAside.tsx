@@ -27,7 +27,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
 
       case pathname.startsWith("/dashboard/tasks"):
         return {
-          width: "400px",
+          width: "390px",
           content: <Scheduler/>,
         };
 
@@ -48,7 +48,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
   const { width, content } = getAsideConfig();
 
   return (
-    <Aside width={width} specificStyles={{borderLeft:`solid 1px ${colors["outline"]}`, ...specificStyles}}>
+    <Aside width={width} specificStyles={{borderLeft:`solid 1px ${colors["outline1"]}`, ...specificStyles}}>
       <Frame
         width="stretch"
         height="stretch"

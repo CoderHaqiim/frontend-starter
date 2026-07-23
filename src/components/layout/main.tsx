@@ -6,17 +6,17 @@ import { space } from "@/src/app/design/spacing"
 type MainProps = {
     children: ReactNode,
     padding: SizeType,
-    specificStyles?: CSSProperties
+    specificStyles?: CSSProperties,
+    className?: string
 }
 
-export default function Main({children, specificStyles, padding}: MainProps) {
-
+export default function Main({children, className, specificStyles, padding}: MainProps) {
   const defaultStyle:CSSProperties = {
     padding: space[padding]
   }
 
   return (
-    <main className="scrollInvisible flex-1 h-full min-h-0 overflow-y-scroll" 
+    <main className="scrollInvisible max-w-[1000px] min-w-[600px]  flex-1 h-full min-h-0 overflow-y-scroll" 
       style={{
         ...defaultStyle, 
         ...specificStyles

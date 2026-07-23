@@ -125,7 +125,7 @@ export default function Tooltip({
 
   const arrowStyles: Record<TooltipPosition, string> = {
     top: "left-1/2 top-full -translate-x-1/2 -translate-y-[1px] border-x-[6px] border-t-[6px] border-x-transparent border-t-[var(--color-textColor1)]",
-    right: "right-full top-1/2 -translate-y-1/2 border-y-[6px] border-r-[6px] border-y-transparent border-r-[var(--color-textColor1)]",
+    right: "right-full top-1/2 -translate-y-1/2 -translate-x-[-2px] border-y-[6px] border-r-[6px] border-y-transparent border-r-[var(--color-textColor1)]",
     bottom: "bottom-full left-1/2 -translate-x-1/2 border-x-[6px] border-b-[6px] border-x-transparent border-b-[var(--color-textColor1)]",
     left: "left-full top-1/2 -translate-y-1/2 border-y-[6px] border-l-[6px] border-y-transparent border-l-[var(--color-textColor1)]",
   }

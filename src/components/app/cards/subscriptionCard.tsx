@@ -13,10 +13,9 @@ export default function SubscriptionCard() {
         height="hug" 
         padding="lg"
         rounded="md"
-
+        gap="sm"
         specificStyles={{
             backgroundColor: colors["accent2"],
-            gap: space["md"]
         }}>
         <Frame direction="column">
             <Heading size="sm" type="h2">Subscription</Heading>

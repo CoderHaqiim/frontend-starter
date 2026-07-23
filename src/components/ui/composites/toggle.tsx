@@ -26,7 +26,7 @@ export default function Toggle({name, formFunc} : ToggleProps) {
             />
 
             <div
-                className={`transition-all duration-300 flex p-[2px] border-[var(--color-outline)] border-[1.5px] h-max ${
+                className={`transition-all duration-300 flex p-[2px] border-[var(--color-outline1)] border-[1.5px] h-max ${
                     checked ? "justify-end" : "justify-start"
                 } rounded-[var(--radius-xl)] w-[38px] items-center`}
             >

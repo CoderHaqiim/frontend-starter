@@ -4,8 +4,7 @@ import React, { CSSProperties } from "react";
 import Icon from "../primitives/icon";
 import { elementSizes } from "@/src/app/design/sizes";
 import { SizeType } from "@/src/types/types";
-import { fontWeight } from "@/src/app/design/typograhy";
-import { colorVariables } from "@/src/app/design/colors";
+import Frame from "../primitives/frame";
 
 type DropdownOption =
   | string
@@ -46,12 +45,10 @@ export default function Dropdown({
   };
 
   return (
-    <div className="relative flex w-max items-center">
-      <select
-        name="cars"
-        onChange={formFuncHandler}
+    <Frame width="hug" align="center">
+      <select name={name} onChange={formFuncHandler}
         className={`w-max accent-[var(--color-accent2)] font-[var(--fontWeight-normal)] appearance-none rounded-[var(--radius-sm)] pr-[30px] px-[8px] text-[length:var(--bodySize-sm)] text-[color:var(--color-textColor1)] outline-none 
-          ${ border ? "border border-[var(--color-outline)]" : ""} 
+          ${ border ? "border border-[var(--color-outline1)]" : ""} 
           ${outline? "hover:border-[var(--color-accent1)] focus:border-2 focus:border-[var(--color-accent1)]" : " "}`}
         style={{
           height: elementSizes[size],
@@ -72,6 +69,6 @@ export default function Dropdown({
       <div className="pointer-events-none absolute right-[8px] flex items-center">
         <Icon name="icon-chevron-down" size="sm" />
       </div>
-    </div>
+    </Frame>
   );
 }

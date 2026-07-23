@@ -9,6 +9,7 @@ import { space } from "../design/spacing"
 import Button from "@/src/components/ui/primitives/button"
 import PageComponent from "@/src/components/layout/page"
 import Tooltip from "@/src/components/ui/composites/tooltip"
+import { shadow1 } from "@/src/app/design/shadows"
 
 type LayoutProps = {
   children: ReactNode
@@ -20,9 +21,7 @@ export default function Layout({children}: LayoutProps) {
       <LeftAside/>
       <Frame direction="column" height="stretch" className="flex-1 overflow-hidden bg-[var(--color-background1)]">
         <Nav/>
-        <Frame width="stretch" specificStyles={{
-          height:"calc(100% - 60px)"
-        }}>
+        <Frame width="stretch" justify="center" specificStyles={{ height:"calc(100% - 60px)"}}>
           <Main padding="lg">
             {children}
           </Main>
@@ -30,7 +29,7 @@ export default function Layout({children}: LayoutProps) {
           <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
             specificStyles={{ position: "fixed", zIndex:"300"}}>
             <Tooltip position="top" content="add">
-              <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className="shadow-[0_4px_8px_#00000080]"/>
+              <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className={`${shadow1}`}/>
             </Tooltip>
           </Frame>
         </Frame>

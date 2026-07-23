@@ -31,11 +31,11 @@ export default function Heading({weight, children, size, type, color ="textColor
     fontSize: headingSize[size],
     fontWeight: (weight && fontWeight[weight]) ?? fontWeight[Weight],
     color: colors[color] ?? colors["textColor1"],
-    lineHeight: "1"
+    lineHeight: "1",
   }
 
   return(
-    <HeadingTag className={`${className} w-max`} style={{...defaultStyle, ...specificStyles}}>
+    <HeadingTag className={`${className} w-max h-max`} style={{...defaultStyle, ...specificStyles}}>
       {children}
     </HeadingTag>
   )
