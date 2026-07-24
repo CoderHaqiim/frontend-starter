@@ -61,7 +61,7 @@ export default function RadialProgress({
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke={(color && colors[color]) ?? colors["accent1"]}
+          stroke={(color && colors[color]) ?? colors["accent"]}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={circumference}

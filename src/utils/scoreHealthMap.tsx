@@ -13,3 +13,13 @@ export const scoreHealthMap = (score:number | string): string => {
 
   return health
 }
+
+export const priorityColorMap = (priority: "high" | "medium" | "low") => {
+  const color = {
+    "high":"success",
+    "low":"error",
+    "medium":"warning"
+  }
+
+  return (color[priority])
+}

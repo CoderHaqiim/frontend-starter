@@ -8,6 +8,8 @@ import Paragraph from "../../ui/primitives/paragraph"
 import { shortenText } from "@/src/utils/shortenText"
 import Tooltip from "../../ui/composites/tooltip"
 import List from "../../ui/composites/list"
+import Button2 from "../button2"
+
 export default function TaskManagerCard() {
   return (
     
@@ -17,9 +19,9 @@ export default function TaskManagerCard() {
               <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline1)] mb-[var(--space-lg)]">
                 <Heading type="h2" size="sm">Tasks & Schedules</Heading>
                 <Frame gap="sm">
-                  <Button variant="outline" iconPosition="left" rounded="lg" size="sm" iconName="icon-plus">Add Task</Button>
-                  <Tooltip content="expand" position="top">
-                    <Button variant="outline" isIcon size="sm" iconName="icon-expand"/>
+                  <Button variant="outline" iconPosition="left" size="sm" iconName="icon-plus">Add Task</Button>
+                  <Tooltip content="open" position="top">
+                    <Button variant="outline" isIcon size="sm" iconName="icon-open"/>
                   </Tooltip>
                 </Frame>
               </Frame>

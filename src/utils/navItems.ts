@@ -44,5 +44,11 @@ export const navItems: navItems = [
         text: "Settings",
         icon: "icon-settings",
         link: "/dashboard/settings"
+    },
+    {
+        id: "support",
+        text: "Support",
+        icon: "icon-headset",
+        link: "/dashboard/support"
     }
 ]

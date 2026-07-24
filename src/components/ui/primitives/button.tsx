@@ -62,7 +62,7 @@ export default function Button({
         borderRadius: 
             rounded && radius[rounded],
         backgroundColor: 
-           variant === "fill"? colors["accent1"]:
+           variant === "fill"? colors["accent"]:
            variant === "ghost"? colors["background1"]:
            "",
         color: 
@@ -71,7 +71,7 @@ export default function Button({
             variant === "ghost"? colors["textColor1"]:
             "",
         border: 
-            variant === "outline"? `solid 1px ${colors["outline1"]}` : "",
+            variant === "outline"? `solid 1px ${colors["outline2"]}` : "",
         height: elementSizes[size] ?? height ,
         fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         justifyContent: justify,
@@ -83,7 +83,7 @@ export default function Button({
     after:self-center
     after:absolute after:pointer-events-none 
     after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] 
-    after:rounded-[inherit] hover:after:border-[var(--color-accent1)] 
+    after:rounded-[inherit] hover:after:border-[var(--color-accent)] 
     focus:after:border-[var(--color-textColor1)] hover:after:border-[2px] 
     focus:after:border-[2px]`
 

@@ -117,7 +117,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
     <Frame width="350px" height="hug" justify='center' border align='center' rounded="lg" 
       className='relative bg-[var(--color-white)]'
       specificStyles={{ 
-        border: focused? `1.5px ${colors["accent1"]} solid` : "",
+        border: focused? `1.5px ${colors["accent"]} solid` : "",
       }}>
         <Frame width="hug" height="hug" className="flex-1">
             <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search businesses, tasks...'/>

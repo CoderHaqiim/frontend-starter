@@ -5,6 +5,7 @@ import Frame from "../../ui/primitives/frame"
 import { space } from "@/src/app/design/spacing"
 import Paragraph from "../../ui/primitives/paragraph"
 import Heading from "../../ui/primitives/heading"
+import Button2 from "../button2"
 
 export default function SubscriptionCard() {
   return (
@@ -18,12 +19,12 @@ export default function SubscriptionCard() {
             backgroundColor: colors["accent2"],
         }}>
         <Frame direction="column">
-            <Heading size="sm" type="h2">Subscription</Heading>
+            <Heading size="xs" type="h2">Subscription</Heading>
             <Paragraph size="xs">
                 Plan: Free
             </Paragraph>
         </Frame>
-        <Button variant="fill" rounded="lg" size="sm">Manage Subscription</Button>
+        <Button variant="fill" size="sm">Manage Subscription</Button>
     </Card>
   )
 }

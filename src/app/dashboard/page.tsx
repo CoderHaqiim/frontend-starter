@@ -20,6 +20,7 @@ import RightAside from "@/src/components/app/rightAside"
 import Button from "@/src/components/ui/primitives/button"
 import { shadow2 } from "@/src/app/design/shadows"
 import Tooltip from "@/src/components/ui/composites/tooltip"
+import { shadow1 } from "@/src/app/design/shadows"
 
 export default function Home() {
   const {userState} = useUserState()
@@ -190,6 +191,12 @@ const scrollRightHandler = () => {
             <Transaction/>
           </List>
         </Section>
+        <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
+            specificStyles={{ position: "fixed", zIndex:"300"}}>
+            <Tooltip position="top" content="add">
+              <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className={`${shadow1}`}/>
+            </Tooltip>
+        </Frame>
       </Frame>
     
   )

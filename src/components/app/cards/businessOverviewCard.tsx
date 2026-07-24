@@ -36,8 +36,8 @@ export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps
                         {shortenText(data?.name, 17)}
                     </Heading>
                     <Link href={`/dashboard/businesses/${data.id}`} className={`${paddingSizes["xs"]} flex h-[var(--elementSize-xs)] items-center transition-[0.3s] hover:gap-[var(--space-sm)] rounded-[var(--radius-xs)]`}>
-                        <Paragraph size="xs" weight="bold" color="accent1">View</Paragraph>
-                        <Icon name="icon-move-right" stroke="1.5" color="accent1" size="sm"/>
+                        <Paragraph size="xs" weight="bold" color="accent">View</Paragraph>
+                        <Icon name="icon-move-right" stroke="1.5" color="accent" size="sm"/>
                     </Link>
                 </Frame>
 

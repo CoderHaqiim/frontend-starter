@@ -34,9 +34,11 @@ export type Schedule = {
 export type Priority = "low" | "medium" | "high";
 
 export type Status =
-  | "todo"
+  | "pending"
+  | "cancelled"
   | "in-progress"
-  | "completed";
+  | "completed"
+  | "overdue"
 
 export interface Task {
   id: string;

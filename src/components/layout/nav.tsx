@@ -133,7 +133,7 @@ export default function Nav() {
             <div ref={notificationRef} className="relative flex items-center">
               <Tooltip content="notifications" position='bottom'>
                 <Button func={toggleNotifications} size="md" iconName="icon-bell" variant="outline" isIcon>
-                  <span className={`w-[20px] font-[600] flex items-center justify-center leading-[1px] absolute top-[-8px] rounded-[var(--radius-xxl)] right-[-8px] text-[9px] bg-[var(--color-accent1)] h-[20px] text-[white] border-[2px] border-[white]`}>
+                  <span className={`w-[20px] font-[600] flex items-center justify-center leading-[1px] absolute top-[-8px] rounded-[var(--radius-xxl)] right-[-8px] text-[9px] bg-[var(--color-accent)] h-[20px] text-[white] border-[2px] border-[white]`}>
                     {notifications.length}
                   </span>
                 </Button>

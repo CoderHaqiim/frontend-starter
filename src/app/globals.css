@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --color-accent1: "#32064f"
+  --color-accent: "#32064f";
+  --color-textColor1: "#1e1e1e";
 }
 
 body {
@@ -35,7 +36,7 @@ body {
 .scrollVisible::-webkit-scrollbar-thumb{
   width:3px;
   height:3px;
-  background-color:var(--color-accent1);
+  background-color:var(--color-textColor1);
 }
 
 @keyframes shimmer {

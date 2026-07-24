@@ -30,7 +30,7 @@ export default function Toggle({name, formFunc} : ToggleProps) {
                     checked ? "justify-end" : "justify-start"
                 } rounded-[var(--radius-xl)] w-[38px] items-center`}
             >
-                <div className='bg-[var(--color-accent1)] w-[16px] h-[16px] rounded-[var(--radius-xxl)]'></div>
+                <div className='bg-[var(--color-accent)] w-[16px] h-[16px] rounded-[var(--radius-xxl)]'></div>
             </div>
         </label>
   )

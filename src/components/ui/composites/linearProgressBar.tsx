@@ -18,7 +18,7 @@ type HorizontalScoreProps = {
 
 export default function LinearProgress({
   score,
-  color = "accent1",
+  color = "accent",
   height = 8,
   specificStyle,
   textSize = "xs",

@@ -63,7 +63,7 @@ export default function SignupPage() {
                     <Frame width="stretch" height="hug" gap="md" className='mt-[var(--space-lg)]'>
                         <Paragraph size='sm'>Already have an account?</Paragraph>
                          <Link href="/login">
-                            <Paragraph size='sm' weight="normal" color="accent1">Log in</Paragraph>
+                            <Paragraph size='sm' weight="normal" color="accent">Log in</Paragraph>
                         </Link>
                     </Frame>
                 </Frame>

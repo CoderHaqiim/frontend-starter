@@ -38,7 +38,7 @@ export default function Scheduler({businessId}: SchedulerProps) {
 
   // Fetch Schedules
   useEffect(() => {
-    fetchSchedules()
+    // fetchSchedules()
   }, [])
 
   async function fetchSchedules() {

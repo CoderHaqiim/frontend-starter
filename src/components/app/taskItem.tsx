@@ -1,22 +1,42 @@
 import Frame from "../ui/primitives/frame"
 import Paragraph from "../ui/primitives/paragraph"
 import Tooltip from "../ui/composites/tooltip"
+import Button from "../ui/primitives/button"
+import { Task } from "@/src/types/types"
+import Badge from "../ui/composites/badge"
+import { priorityColorMap } from "@/src/utils/priorityColorMap"
+import { statusColorMap } from "@/src/utils/statusColorMap"
+import { ColorTypes } from "@/src/app/design/colors"
 
-export default function TaskItem() {
+
+type TaskItemProp = {
+    task: Task
+}
+
+export default function TaskItem({task}:TaskItemProp) {
+    const priorityColor = priorityColorMap(task.priority) as ColorTypes
+    const statusColor = statusColorMap(task.status) as ColorTypes
+
   return (
-    <Frame padding="md" gap="md">
-        <Tooltip content="mark as done">
-            <input type="checkbox" className="accent-[var(--color-accent2)] bg-[yellow]"/>
-        </Tooltip>
-        <Frame direction="column">
-            <Frame gap="lg">
-                <Paragraph color="textColor1" size="md">
-                    We'll look at this later
-                </Paragraph>
+    <Frame width="stretch" padding="lg" direction="column" gap="sm">
+        <Frame justify="space-between" className="flex-1">
+            <Frame direction="column">
+                <Frame gap="lg">
+                    <Paragraph color="textColor1" size="md">
+                        {task.description}
+                    </Paragraph>
+                </Frame>
+                <Frame>
+                    <Paragraph weight="light" size="xs">{task.business}</Paragraph>
+                </Frame>
             </Frame>
             <Frame>
-                <Paragraph size="xs">Business name</Paragraph>
+                <Button variant="outline" size="sm" iconName="icon-vertival-dots" isIcon/>
             </Frame>
+        </Frame>
+        <Frame gap="sm">
+            <Badge text={task.priority} color={priorityColor} size="xxs"/>
+            <Badge text={task.status} color={statusColor} size="xxs"/>
         </Frame>
     </Frame>
   )

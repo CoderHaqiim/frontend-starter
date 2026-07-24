@@ -49,7 +49,7 @@ export default function Dropdown({
       <select name={name} onChange={formFuncHandler}
         className={`w-max accent-[var(--color-accent2)] font-[var(--fontWeight-normal)] appearance-none rounded-[var(--radius-sm)] pr-[30px] px-[8px] text-[length:var(--bodySize-sm)] text-[color:var(--color-textColor1)] outline-none 
           ${ border ? "border border-[var(--color-outline1)]" : ""} 
-          ${outline? "hover:border-[var(--color-accent1)] focus:border-2 focus:border-[var(--color-accent1)]" : " "}`}
+          ${outline? "hover:border-[var(--color-accent)] focus:border-2 focus:border-[var(--color-accent)]" : " "}`}
         style={{
           height: elementSizes[size],
           ...specificStyle,

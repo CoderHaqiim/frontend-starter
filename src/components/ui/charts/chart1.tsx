@@ -72,11 +72,11 @@ export default function Chart1({variant}: ChartProps) {
       <Line
         type="monotone"
         dataKey="total income"
-        stroke={colors["accent1"]}
+        stroke={colors["accent"]}
         dot={{
-          fill: colors["accent1"],
+          fill: colors["accent"],
         }}
-        activeDot={{ r: 5, stroke: colors["accent1"] }}
+        activeDot={{ r: 5, stroke: colors["accent"] }}
       />
       <Line
         type="monotone"
@@ -114,7 +114,7 @@ export default function Chart1({variant}: ChartProps) {
       {useAxis.y()}
       { useTooltip()}
       {useLegend()}
-      <Bar dataKey="total income" fill={colors["accent1"]} activeBar={{ fill:colors["accent1"]}} radius={[4, 4, 0, 0]} />
+      <Bar dataKey="total income" fill={colors["accent"]} activeBar={{ fill:colors["accent"]}} radius={[4, 4, 0, 0]} />
       <Bar dataKey="expenses" fill= {colors["error"]} activeBar={{ fill:colors["error"] }} radius={[4, 4, 0, 0]} />
       <Bar dataKey="profit" fill={colors["success"]} activeBar={{ fill:colors["success"]}} radius={[4, 4, 0, 0]} />
     </BarChart>

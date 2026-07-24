@@ -24,7 +24,7 @@ export default function TaskLine({task}: TaskLineProps) {
       <Frame justify="space-between" align="center">
         <Frame width="stretch" height="hug" gap="xs">
           <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
-            <Paragraph color="accent1" size="xxs" weight="medium">
+            <Paragraph color="accent" size="xxs" weight="medium">
               high
             </Paragraph>
           </Frame>

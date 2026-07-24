@@ -43,7 +43,7 @@ export default function LoginPage() {
                         <hr className='w-[70%] border-0 bg-[var(--color-outline1)] h-[1px] absolute'/>
                     </Frame>
                     <Frame>
-                         <Button rounded='xl' variant="outline" size='xl'width="stretch" specificStyles={{border:`1px solid ${colors["accent1"]}`}}>
+                         <Button rounded='xl' variant="outline" size='xl'width="stretch" specificStyles={{border:`1px solid ${colors["accent"]}`}}>
                             <Image
                               src="svgs/google-logo.svg"
                               alt="google-logo"
@@ -58,7 +58,7 @@ export default function LoginPage() {
                     <Frame width="stretch" height="hug" gap="md" className='mt-[var(--space-lg)]'>
                         <Paragraph size='sm'>Don't have an account?</Paragraph>
                         <Link href="/signup">
-                            <Paragraph size='sm' weight="normal" color="accent1">Sign up</Paragraph>
+                            <Paragraph size='sm' weight="normal" color="accent">Sign up</Paragraph>
                         </Link>
                     </Frame>
                 </Frame>

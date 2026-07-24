@@ -42,7 +42,10 @@ import {
   MoveRight,
   TrendingDown,
   TrendingUp,
-  TrendingUpDownIcon
+  TrendingUpDownIcon,
+  EllipsisVertical,
+  Headset,
+  SquareArrowOutUpRight
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -102,7 +105,10 @@ const icons = {
     "icon-move-right": MoveRight,
     "icon-trend-up": TrendingUp,
     "icon-trend-down": TrendingDown,
-    "icon-trend-up-down": TrendingUpDownIcon
+    "icon-trend-up-down": TrendingUpDownIcon,
+    "icon-vertival-dots": EllipsisVertical,
+    "icon-headset": Headset,
+    "icon-open": SquareArrowOutUpRight
 
 };
 
