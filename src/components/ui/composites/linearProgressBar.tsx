@@ -31,7 +31,7 @@ export default function LinearProgress({
 
   return (
     <Frame gap="sm" width="stretch" align="center">
-      <Frame rounded="xl" height={height} className="bg-[var(--color-background3)] overflow-hidden flex-1">
+      <Frame rounded="xl" height={height} className={`bg-[${colors["background3"]}] overflow-hidden flex-1`}>
         <Frame width={`${normalizedScore}%`} height="stretch" rounded="md" className="transition-all duration-500"
           specificStyles={{
             backgroundColor: colors[color]

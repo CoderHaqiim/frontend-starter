@@ -49,3 +49,36 @@ export interface Task {
   priority: Priority;
   status: Status;
 }
+
+export type TransactionType = "income" | "expense"
+
+export interface Transaction {
+  id: string;
+  description: string;
+  business: string;
+  date: string;
+  amount: number;
+  type: TransactionType;
+  category: string;
+  status: "completed" | "pending" | "cancelled";
+}
+
+export interface JournalEntry {
+  id: string;
+  title: string;
+  business: string;
+  date: string;
+  summary: string;
+  category: string;
+  status: "draft" | "published" | "archived";
+}
+
+export interface SupportTicket {
+  id: string;
+  subject: string;
+  business: string;
+  date: string;
+  message: string;
+  priority: Priority;
+  status: "open" | "in-progress" | "resolved";
+}

@@ -1,8 +1,10 @@
+"use client"
+
 import React, { ReactNode } from 'react'
 import Frame from '../primitives/frame'
 import { CSSProperties } from 'react'
 import { FrameSizeType, SizeType } from '@/src/types/types'
-import { colors } from '@/src/app/design/colors'
+import { useTheme } from '../../app/themeProvider'
 
 type CardProps = {
     children: ReactNode,
@@ -31,11 +33,13 @@ export default function Card({
   justify,
   align
 }: CardProps) {
+  const {colors} = useTheme()
   return (
     <Frame width={width} justify={justify} align={align} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" border padding={padding} className={`${className}`}
       specificStyles={{
-        ...specificStyles, 
-        border: `solid 1px ${colors["outline2"]}`
+        backgroundColor: colors["white"],
+        border: `solid 1px ${colors["outline2"]}`,
+        ...specificStyles,
         }}>
       {children}
     </Frame>

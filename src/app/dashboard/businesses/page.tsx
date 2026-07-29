@@ -1,12 +1,16 @@
-import React from 'react'
+export const dynamic = "force-dynamic";
+
 import { http } from '@/src/http/client'
 import { redirect } from 'next/navigation'
 import { Business, Businesses} from '@/src/types/types'
 
-const businesses = await http<Businesses>("/api/businesses", undefined, {method: "GET"})
+const fetchBusinesses = async () => {
+  const businesses = await http<Businesses>("/api/businesses", undefined, { method: "GET" })
+  const firstBusinessId = businesses[0].id
+  return firstBusinessId
+}
 
-const firstBusinessId = businesses[0].id
-
-export default function BusinessesPage() {
+export default async function BusinessesPage() {
+  const firstBusinessId = await fetchBusinesses()
   redirect(`/dashboard/businesses/${firstBusinessId}`)
 }

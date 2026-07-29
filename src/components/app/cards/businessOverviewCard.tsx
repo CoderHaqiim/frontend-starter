@@ -11,9 +11,9 @@ import Heading from "../../ui/primitives/heading"
 import Paragraph from "../../ui/primitives/paragraph"
 import { paddingSizes } from "@/src/app/design/sizes"
 import { healthMap } from "@/src/utils/healthMap"
-import { colors } from "@/src/app/design/colors"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
 import Icon from "../../ui/primitives/icon"
+import { useTheme } from "../themeProvider"
 
 type SmallBusinessOverviewProps = {
     data: Business
@@ -22,13 +22,14 @@ type SmallBusinessOverviewProps = {
 
 
 export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps) {
+    const {colors} = useTheme()
     const healthBackground =  generateHealthBackground(data.health)
 
     return (
         <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
                 position: "relative", 
                 flexShrink: 0,
-                 background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 100%)`,
+                background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
             }}>
                 {/* Business name and open button */}
                 <Frame width="stretch" justify="space-between" height="hug" align="center">

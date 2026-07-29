@@ -21,7 +21,7 @@ export default function List({
     <Frame
       width={width}
       height={height}
-      className="bg-[var(--color-white)]"
+      className="bg-[var(--color-background1)]"
       rounded="md"
       border
       direction="column"
@@ -29,7 +29,7 @@ export default function List({
       specificStyles={{ ...specificStyles }}
     >
       {Children.map(children, (child, index) => (
-        <div className={index % 2 === 0 ? "bg-[var(--color-white)]" : "bg-[var(--color-background2)]"}>
+        <div className={index % 2 === 0 ? "bg-[var(--color-background2)]" : "bg-[var(--color-background3)]"}>
           {child}
         </div>
       ))}

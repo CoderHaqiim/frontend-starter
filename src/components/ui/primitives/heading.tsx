@@ -1,8 +1,11 @@
+"use client"
+
 import { fontWeight, FontWeightTypes, headingSize } from "@/src/app/design/typograhy"
 import { CSSProperties } from "react"
 import { SizeType} from "@/src/types/types"
 import { ReactNode } from "react"
-import { colors, ColorTypes } from "@/src/app/design/colors"
+import { ColorTypes, colors} from "@/src/app/design/colors"
+import { useTheme } from "../../app/themeProvider"
 
 type HeadingProps = {
     children: ReactNode
@@ -16,6 +19,7 @@ type HeadingProps = {
 
 export default function Heading({weight, children, size, type, color ="textColor1", className, specificStyles}: HeadingProps){
 
+  const {colors} = useTheme()
   const HeadingTag = type 
 
   const weightType = {
@@ -30,7 +34,7 @@ export default function Heading({weight, children, size, type, color ="textColor
   const defaultStyle: CSSProperties = {
     fontSize: headingSize[size],
     fontWeight: (weight && fontWeight[weight]) ?? fontWeight[Weight],
-    color: colors[color] ?? colors["textColor1"],
+    color: colors[color],
     lineHeight: "1",
   }
 

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react'
 import Frame from '../primitives/frame'
 import Input from '../primitives/input'
 import Button from '../primitives/button'
-import { colors } from '@/src/app/design/colors'
 import { http } from '@/src/http/client'
 import Tooltip from './tooltip'
+import { useTheme } from '../../app/themeProvider'
 
 type SearchResult = unknown
 
@@ -56,6 +56,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
+  const {colors} = useTheme()
   
   const focusInputParent = () => {
     setFocused(prev => !prev)

@@ -1,8 +1,10 @@
+"use client"
 import React, { CSSProperties, ReactNode } from 'react'
 import { SizeType } from '@/src/types/types'
 import { bodySize, FontWeightTypes } from '@/src/app/design/typograhy'
-import { colors, ColorTypes } from '@/src/app/design/colors'
+import { ColorTypes } from '@/src/app/design/colors'
 import { fontWeight } from '@/src/app/design/typograhy'
+import { useTheme } from '../../app/themeProvider'
 
 type ParagraphProps = {
     children?: ReactNode,
@@ -21,6 +23,7 @@ export default function Paragraph({
   weight = "normal",
   color = "textColor2"
 }: ParagraphProps) {
+  const {colors} = useTheme()
   const baseClass = `break-words text-[var(--color-textColor2)] flex`
 
   const defaultStyle: CSSProperties = {

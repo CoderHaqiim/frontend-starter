@@ -23,7 +23,7 @@ import Card from "../../ui/composites/card"
 import Button from "../../ui/primitives/button"
 import { http } from "@/src/http/client"
 import Tooltip from "../../ui/composites/tooltip"
-import { colors } from "@/src/app/design/colors"
+import { useTheme } from "../themeProvider"
 
 type SchedulerProps = { businessId?: string }
 
@@ -35,6 +35,7 @@ export default function Scheduler({businessId}: SchedulerProps) {
   const [loading, setLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const {colors} = useTheme()
 
   // Fetch Schedules
   useEffect(() => {

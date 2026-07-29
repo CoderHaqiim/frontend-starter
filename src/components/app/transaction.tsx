@@ -1,9 +1,11 @@
+"use Client"
 import Frame from "../ui/primitives/frame"
 import Icon from "../ui/primitives/icon"
-import { colors } from "@/src/app/design/colors"
 import Paragraph from "../ui/primitives/paragraph"
+import { useTheme } from "./themeProvider"
 
 export default function Transaction() {
+    const {colors} = useTheme()
     const date = new Date().toDateString()
   return (
     <Frame width="stretch" height="hug" gap="lg" align="center" padding="md">

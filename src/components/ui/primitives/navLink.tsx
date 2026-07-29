@@ -39,7 +39,7 @@ export default function NavLink(props: NavLinkProps) {
     const isSelected = cleanPath === href
 
     const defaultStyles: CSSProperties = {
-        height: `${isSelected? elementSizes["md"] : elementSizes["sm"]}`,
+        height: `${isSelected? elementSizes["lg"] : elementSizes["sm"]}`,
         fontSize: staticTextSize.includes(textSize)? bodySize["md"] : bodySize[textSize]
     }
     const baseStyle = `flex cursor-pointer transition-[0.1s_ease-out] items-center relative`

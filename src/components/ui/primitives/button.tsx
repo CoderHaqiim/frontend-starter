@@ -7,9 +7,10 @@ import { bodySize } from "@/src/app/design/typograhy"
 import { SizeType } from "@/src/types/types"
 import { paddingSizes } from "@/src/app/design/sizes"
 import { FunctionType } from "@/src/types/types"
-import { colors, ColorTypes } from "@/src/app/design/colors"
+import { ColorTypes } from "@/src/app/design/colors"
 import { FrameSizeType } from "@/src/types/types"
 import { radius } from "@/src/app/design/radius"
+import { useTheme } from "../../app/themeProvider"
 
 type ButtonProps = {
     variant: "ghost" | "fill" | "outline",
@@ -51,6 +52,7 @@ export default function Button({
     func
 }: ButtonProps) {
 
+    const {colors} = useTheme()
     const derivedPadding = !isIcon &&  paddingSizes[size]
     const staticTextSize = ["xl", "lg", "xxl"]
     const defaultStyles: CSSProperties = {
@@ -66,7 +68,7 @@ export default function Button({
            variant === "ghost"? colors["background1"]:
            "",
         color: 
-            variant === "fill"? colors["white"]: 
+            variant === "fill"? colors["white"]:
             variant === "outline"? colors["textColor1"]:
             variant === "ghost"? colors["textColor1"]:
             "",
@@ -90,9 +92,9 @@ export default function Button({
     const renderContent = () => {
         return (
             <>
-                {iconName && iconPosition === "left" && <Icon name={iconName} fill={iconFill && iconFill} color={iconColor ?? (variant === "fill"? "white" : undefined)} size={size} stroke="2"/>}
+                {iconName && iconPosition === "left" && <Icon name={iconName} fill={iconFill && colors[iconFill]} color={iconColor ?? (variant === "fill"? "white" : undefined)} size={size} stroke="2"/>}
                 {children}
-                {iconName && iconPosition === "right" && <Icon name={iconName} fill={iconFill && iconFill} color={iconColor ?? (variant === "fill"? "white": undefined)}  size={size} stroke="2"/>}
+                {iconName && iconPosition === "right" && <Icon name={iconName} fill={iconFill && colors[iconFill]} color={iconColor ?? (variant === "fill"? "white": undefined)}  size={size} stroke="2"/>}
             </>
         )
     }

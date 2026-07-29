@@ -1,11 +1,6 @@
-import Frame from '@/src/components/ui/primitives/frame'
-import Heading from '@/src/components/ui/primitives/heading'
-import Main from '@/src/components/layout/main'
+import { redirect } from 'next/navigation'
+import { journalEntries } from '@/src/utils/journalEntries'
 
 export default function Item2() {
-  return (
-    <Frame width="stretch" height="stretch"> 
-      <Heading size="lg" type="h1">Journal</Heading>
-    </Frame>
-  )
+  redirect(`/dashboard/journal/${journalEntries[0].id}`)
 }

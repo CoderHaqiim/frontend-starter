@@ -1,3 +1,5 @@
+"use client"
+
 import { 
   BadgeX,
   BadgeCheck,
@@ -50,8 +52,9 @@ import {
 
 import { LucideProps } from 'lucide-react'
 import { SizeType } from '@/src/types/types'
-import { colors, ColorTypes } from '@/src/app/design/colors'
+import { ColorTypes } from '@/src/app/design/colors'
 import { CSSProperties } from 'react'
+import { useTheme } from '../../app/themeProvider'
 
 
 type IconProps = LucideProps & {
@@ -125,12 +128,13 @@ export type IconType = keyof typeof icons;
 
 export default function Icon({ fill, style, stroke, size, name, color }: IconProps) {
 
+  const {colors} = useTheme()
   const iconSize = size && sizes[size] 
 
   const iconProps = {
     strokeWidth: stroke ?? "1.5",
     size: iconSize ?? "18px",
-    color: (color && colors[color]) ?? colors["textColor1"],
+    color: color ? colors[color] : colors["textColor1"],
     fill: fill ?? "transparent"
   };
 

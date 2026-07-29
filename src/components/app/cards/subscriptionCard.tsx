@@ -1,13 +1,14 @@
+"use client"
+
 import Card from "../../ui/composites/card"
 import Button from "../../ui/primitives/button"
-import { colors } from "@/src/app/design/colors"
 import Frame from "../../ui/primitives/frame"
-import { space } from "@/src/app/design/spacing"
 import Paragraph from "../../ui/primitives/paragraph"
 import Heading from "../../ui/primitives/heading"
-import Button2 from "../button2"
+import { useTheme } from "../themeProvider"
 
 export default function SubscriptionCard() {
+    const {colors} = useTheme()
   return (
     <Card 
         width="stretch" 

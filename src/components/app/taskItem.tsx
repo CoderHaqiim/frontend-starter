@@ -31,7 +31,9 @@ export default function TaskItem({task}:TaskItemProp) {
                 </Frame>
             </Frame>
             <Frame>
-                <Button variant="outline" size="sm" iconName="icon-vertival-dots" isIcon/>
+                <Tooltip content="task menu">
+                    <Button variant="outline" size="sm" iconName="icon-vertival-dots" isIcon/>
+                </Tooltip>
             </Frame>
         </Frame>
         <Frame gap="sm">

@@ -7,11 +7,11 @@ import Button from '../ui/primitives/button'
 import Searchbar from '../ui/composites/searchbar'
 import { space } from '@/src/app/design/spacing'
 import { http } from '@/src/http/client'
-import { colors } from '@/src/app/design/colors'
 import Tooltip from '../ui/composites/tooltip'
 import Paragraph from '../ui/primitives/paragraph'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import { useTheme } from '../app/themeProvider'
 
 type Notification = unknown
 
@@ -57,6 +57,7 @@ export default function Nav() {
   const notificationRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const router = useRouter()
+  const { theme, toggleTheme } = useTheme()
 
   const toggleNotifications = () => {
     setNotificationsOpen(prev => !prev)
@@ -133,7 +134,7 @@ export default function Nav() {
             <div ref={notificationRef} className="relative flex items-center">
               <Tooltip content="notifications" position='bottom'>
                 <Button func={toggleNotifications} size="md" iconName="icon-bell" variant="outline" isIcon>
-                  <span className={`w-[20px] font-[600] flex items-center justify-center leading-[1px] absolute top-[-8px] rounded-[var(--radius-xxl)] right-[-8px] text-[9px] bg-[var(--color-accent)] h-[20px] text-[white] border-[2px] border-[white]`}>
+                  <span className={`w-[20px] z-[500] font-[600] flex items-center justify-center leading-[1px] absolute top-[-8px] rounded-[var(--radius-xxl)] right-[-8px] text-[9px] bg-[var(--color-accent)] h-[20px] text-[white] border-[2px] border-[white]`}>
                     {notifications.length}
                   </span>
                 </Button>
@@ -160,8 +161,8 @@ export default function Nav() {
                 </Frame>
               )}
             </div>
-            <Tooltip content="light theme" position='bottom'>
-              <Button size="md" iconName="icon-sun" variant="outline" rounded="xxl" isIcon/>
+            <Tooltip content={theme === "light" ? "dark theme" : "light theme"} position='bottom'>
+              <Button func={toggleTheme} size="md" iconName={theme === "light" ? "icon-moon" : "icon-sun"} variant="outline" rounded="xxl" isIcon/>
             </Tooltip>
           </Frame>
         </Frame>

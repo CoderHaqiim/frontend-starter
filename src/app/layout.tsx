@@ -13,6 +13,7 @@ import { headingSizeVariables } from "./design/typograhy";
 import { paddingSizesVariables } from "./design/sizes";
 import { elementSizesVariables } from "./design/sizes";
 import Backdrop from "../components/ui/primitives/backdrop";
+import ThemeProvider from "../components/app/themeProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -34,13 +35,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className= "h-full w-full bg-[var(--background2)] antialiased"
+      className="h-full w-full bg-[var(--color-accent)] antialiased"
+      style={{
+        ...colorVariables,
+      }}
     >
       <body
         className={`min-h-full w-full flex flex-col relative ${googleSans.variable}`} 
         style={{
           ...spaceVariables,
-          ...colorVariables,
           ...fontWeightVariables,
           ...radiusVariables,
           ...bodySizeVariables,
@@ -50,18 +53,20 @@ export default function RootLayout({
         }}
         suppressHydrationWarning
       >
-        <Frame
-          direction="column" width="stretch" height="100vh" gap="sm" align="flex-end" padding="lg"
-          className="z-[5000] top-0 left-0" specificStyles={{ position: "fixed", pointerEvents: "none"}}>
-          {/* <Toast variant="success" title="not connected" text="there are a lot of errors in the message here"/>
-          <Toast variant="error" title="not connected" text="there are a lot of errors in the message here"/>
-          <Toast variant="info" title="not connected" text="there are a lot of errors in the message here"/>
-          <Toast variant="warning" title="not connected" text="there are a lot of errors in the message here"/> */}
-        </Frame>
-        <Backdrop>
-          <></>
-        </Backdrop>
-        {children}
+        <ThemeProvider>
+          <Frame
+            direction="column" width="stretch" height="100vh" gap="sm" align="flex-end" padding="lg"
+            className="z-[5000] top-0 left-0" specificStyles={{ position: "fixed", pointerEvents: "none"}}>
+            {/* <Toast variant="success" title="not connected" text="there are a lot of errors in the message here"/>
+            <Toast variant="error" title="not connected" text="there are a lot of errors in the message here"/>
+            <Toast variant="info" title="not connected" text="there are a lot of errors in the message here"/>
+            <Toast variant="warning" title="not connected" text="there are a lot of errors in the message here"/> */}
+          </Frame>
+          <Backdrop>
+            <></>
+          </Backdrop>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
