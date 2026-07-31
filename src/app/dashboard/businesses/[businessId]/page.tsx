@@ -148,7 +148,7 @@ const health: HealthType | string | number = business?.health
             <Frame width="stretch" className='mb-[var(--space-lg)]'>
               <Heading type="h2" size='md'>Business Insights</Heading>
             </Frame>
-            <List width="stretch" height="220px" scroll="visible">
+            <List width="stretch" height="220px" scroll="hidden">
               <Insight text="Profit increased by 12%"/>
               <Insight text="Profit increased by 12%"/>
               <Insight text="Profit increased by 12% and bla bla bal"/>

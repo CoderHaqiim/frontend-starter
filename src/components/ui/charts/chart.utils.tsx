@@ -1,8 +1,11 @@
+"use client"
+
 import { fontWeight } from "@/src/app/design/typograhy"
 import { bodySize } from "@/src/app/design/typograhy"
 import { radius } from "@/src/app/design/radius";
-import { colors } from "@/src/app/design/colors";
 import {XAxis, YAxis,Tooltip, Legend } from 'recharts';
+import { useTheme } from "../../app/themeProvider";
+
 
 export const useLegend = () =>{
         return (
@@ -20,6 +23,7 @@ export const useLegend = () =>{
     }
 
 export const useTooltip = () => {
+    const {colors} = useTheme()
         return (
             <Tooltip
                 cursor={{
@@ -35,7 +39,12 @@ export const useTooltip = () => {
         )
     }
 
-export const useAxis = {
-    x: () => <XAxis dataKey="name" axisLine={{stroke: colors["outline1"]}}  tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["outline1"] }}/>,
-    y: () =>  <YAxis width="auto" axisLine={{stroke: colors["outline1"]}} tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["outline1"] }}/>
+
+export const useAxis =( type: "x" | "y" ) => {
+    const {colors} = useTheme()
+    return(
+        type === "x"?
+        <XAxis dataKey="name" axisLine={{stroke: colors["outline1"]}}  tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["outline1"] }}/>:
+        <YAxis width="auto" axisLine={{stroke: colors["outline1"]}} tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["outline1"] }}/>
+    ) 
 }

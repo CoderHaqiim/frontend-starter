@@ -1,6 +1,7 @@
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { colors } from '@/src/app/design/colors';
-import { useLegend, useTooltip, useAxis } from './chart.utils';
+"use client"
+import { LineChart, Line, BarChart, Bar, CartesianGrid} from 'recharts';
+import { useLegend, useTooltip, useAxis} from './chart.utils';
+import { useTheme } from '../../app/themeProvider';
 
 // #region Sample data
 const data = [
@@ -42,6 +43,8 @@ type ChartProps = {
 // #endregion
 
 export default function Chart1({variant}: ChartProps) {
+    const {colors} = useTheme()
+
     const chartStyle = {
         width: '100%',
         maxWidth: '700px',
@@ -65,8 +68,8 @@ export default function Chart1({variant}: ChartProps) {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" stroke={colors["outline1"]} />
-      {useAxis.x()}
-      {useAxis.y()}
+      {useAxis("x")}
+      {useAxis("y")}
       {useTooltip()}
       {useLegend()}
       <Line
@@ -110,8 +113,8 @@ export default function Chart1({variant}: ChartProps) {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      {useAxis.x()}
-      {useAxis.y()}
+      {useAxis("x")}
+      {useAxis("y")}
       { useTooltip()}
       {useLegend()}
       <Bar dataKey="total income" fill={colors["accent"]} activeBar={{ fill:colors["accent"]}} radius={[4, 4, 0, 0]} />

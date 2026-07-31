@@ -23,13 +23,12 @@ export default function LeftAside() {
   return (
     <Aside width="260px" className="justify-between items-start" specificStyles={{
             backgroundColor: colors["background3"],
-            border: `solid 1px ${colors["outline1"]}`
         }}>
         <Frame height="70px" width="hug">
             <Logo/>
         </Frame>
         <Frame width="stretch" justify="space-between" className="flex-1" direction="column">
-            <Frame width="stretch" gap="xs" height="hug" direction="column">
+            <Frame width="stretch" height="hug" direction="column">
                 {
                     navItems.map(item =>
                         <NavLink key={item.id} href={item.link} size="md" iconName={item.icon} iconPosition="left">
@@ -39,7 +38,7 @@ export default function LeftAside() {
                 }
             </Frame>
             <Frame width="stretch" height="hug" direction="column" specificStyles={{ gap: space["md"]}}>
-                <SubscriptionCard/>
+                {/* <SubscriptionCard/> */}
                 <ProfileButton/>
             </Frame>
         </Frame>

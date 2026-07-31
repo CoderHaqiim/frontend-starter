@@ -1,7 +1,9 @@
+"use client"
+
 import { CSSProperties, ReactNode } from "react"
-import { colors, colorVariables} from "@/src/app/design/colors"
 import { SizeType } from "@/src/types/types"
 import { space } from "@/src/app/design/spacing"
+import { useTheme } from "../app/themeProvider"
 
 type MainProps = {
     children: ReactNode,
@@ -11,8 +13,11 @@ type MainProps = {
 }
 
 export default function Main({children, className, specificStyles, padding}: MainProps) {
+  const {colors} = useTheme()
   const defaultStyle:CSSProperties = {
-    padding: space[padding]
+    padding: space[padding],
+    borderRight: `solid 1px ${colors["outline1"]}`,
+    borderLeft: `solid 1px ${colors["outline1"]}`
   }
 
   return (

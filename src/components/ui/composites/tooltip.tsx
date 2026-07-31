@@ -1,6 +1,5 @@
 "use client"
 
-import { colorVariables } from "@/src/app/design/colors"
 import {
   CSSProperties,
   ReactNode,
@@ -10,6 +9,7 @@ import {
   useState,
 } from "react"
 import { createPortal } from "react-dom"
+import { useTheme } from "../../app/themeProvider"
 
 type TooltipPosition = "top" | "right" | "bottom" | "left"
 
@@ -33,6 +33,7 @@ export default function Tooltip({
   disabled = false,
   specificStyle,
 }: TooltipProps) {
+  const {colors} = useTheme()
   const tooltipId = useId()
   const triggerRef = useRef<HTMLDivElement>(null)
 
@@ -156,7 +157,6 @@ export default function Tooltip({
               top: coordinates.top,
               left: coordinates.left,
               transform: transformStyles[position],
-              ...colorVariables,
               ...specificStyle,
             }}
           >

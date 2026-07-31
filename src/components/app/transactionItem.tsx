@@ -55,10 +55,6 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
           </Tooltip>
         </Frame>
       </Frame>
-      <Frame gap="sm">
-        <Badge text={transaction.category} color={isIncome ? "success" : "error"} size="xxs"/>
-        <Badge text={transaction.status} color={statusColorMap[transaction.status]} size="xxs"/>
-      </Frame>
     </Frame>
   );
 }

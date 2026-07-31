@@ -67,7 +67,6 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
     <Aside 
       width={width} 
       specificStyles={{
-        backgroundColor: colors["background2"],
          ...specificStyles
       }}>
       <Frame

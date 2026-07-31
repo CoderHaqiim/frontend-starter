@@ -34,7 +34,7 @@ const lightColors = {
     "background3": "#e9e9e9",
     "white": "#ffffff",
     "outline2": "#b5b5b5",
-    "outline1": "#d7d7d7",
+    "outline1": "#d3d3d3",
 } as const
 
 const darkColors: ColorsMap = {
@@ -48,12 +48,12 @@ const darkColors: ColorsMap = {
     "muted": "#71767b",
     "muted2": "#16181c",
     "textColor2": "#8b98a5",
-    "background1": "#000000",
-    "background2": "#16181c",
-    "background3": "#202327",
-    "white": "#16181c",
-    "outline2": "#3f4448",
-    "outline1": "#2f3336",
+    "background1": "#050505",
+    "background2": "#0a0a0a",
+    "background3": "#101010",
+    "white": "#010101",
+    "outline2": "#333333",
+    "outline1": "#222222",
 }
 
 const themeColors = {
