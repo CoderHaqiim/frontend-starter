@@ -4,12 +4,7 @@ import Main from "@/src/components/layout/main"
 import LeftAside from "@/src/components/app/leftAside"
 import RightAside from "@/src/components/app/rightAside"
 import { ReactNode } from "react"
-import { colors, colorVariables } from "../design/colors"
-import { space } from "../design/spacing"
-import Button from "@/src/components/ui/primitives/button"
-import PageComponent from "@/src/components/layout/page"
-import Tooltip from "@/src/components/ui/composites/tooltip"
-import { shadow1 } from "@/src/app/design/shadows"
+import Tab from "@/src/components/ui/composites/tab"
 
 type LayoutProps = {
   children: ReactNode
@@ -28,6 +23,7 @@ export default function Layout({children}: LayoutProps) {
           <RightAside/>
         </Frame>
       </Frame>
+      <Tab/>
     </Frame>
   )
 }

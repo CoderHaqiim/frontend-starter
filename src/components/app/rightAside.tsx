@@ -22,7 +22,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
     switch (true) {
       case pathname.startsWith("/dashboard/businesses"):
         return {
-          width: "220px",
+          width: "250px",
           content: <SmallBusinessCardList />,
         };
 
