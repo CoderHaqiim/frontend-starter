@@ -1,7 +1,7 @@
 "use client";
 import Aside from "../layout/aside";
 import LinkComponent from "../ui/primitives/navLink";
-import { navItems } from "@/src/utils/navItems";
+import { financialView } from "@/src/utils/navItems";
 import Frame from "../ui/primitives/frame";
 import { space } from "@/src/app/design/spacing";
 // import { colorVariable } from "@/src/app/design/colors";
@@ -30,7 +30,7 @@ export default function LeftAside() {
         <Frame width="stretch" justify="space-between" className="flex-1" direction="column">
             <Frame width="stretch" height="hug" direction="column">
                 {
-                    navItems.map(item =>
+                    financialView.map(item =>
                         <NavLink key={item.id} href={item.link} size="md" iconName={item.icon} iconPosition="left">
                             {item.text}
                         </NavLink>

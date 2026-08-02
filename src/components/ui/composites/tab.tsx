@@ -1,15 +1,63 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import Frame from "@/src/components/ui/primitives/frame"
-import Button from "@/src/components/ui/primitives/button"
 import { useTheme } from '../../app/themeProvider'
+import Paragraph from "../primitives/paragraph"
 
-const tabs = ["Finance", "Operations", "Sales", "Team"]
+const tabs = [
+    { id: "finance", label: "Finance", href: "#finance" },
+    { id: "operations", label: "Operations", href: "#operations" },
+    { id: "sales", label: "Sales", href: "#sales" },
+    { id: "team", label: "Team", href: "#team" },
+]
 
 export default function Tab() {
     const {colors} = useTheme()
-    const [activeTab, setActiveTab] = useState("Finance")
+    const [activeTab, setActiveTab] = useState(tabs[0].id)
     const [hoveredTab, setHoveredTab] = useState<string | null>(null)
+    const [indicator, setIndicator] = useState({ left: 0, width: 0 })
+    const containerRef = useRef<HTMLDivElement | null>(null)
+    const itemRefs = useRef<Array<HTMLAnchorElement | null>>([])
+
+    useEffect(() => {
+        const activeIndex = tabs.findIndex((tab) => tab.id === activeTab)
+        const activeItem = itemRefs.current[activeIndex]
+        const container = containerRef.current
+
+        if (!activeItem || !container) return
+
+        const containerRect = container.getBoundingClientRect()
+        const itemRect = activeItem.getBoundingClientRect()
+
+        setIndicator({
+            left: itemRect.left - containerRect.left,
+            width: itemRect.width,
+        })
+    }, [activeTab])
+
+    useEffect(() => {
+        const handleResize = () => {
+            const activeIndex = tabs.findIndex((tab) => tab.id === activeTab)
+            const activeItem = itemRefs.current[activeIndex]
+            const container = containerRef.current
+
+            if (!activeItem || !container) return
+
+            const containerRect = container.getBoundingClientRect()
+            const itemRect = activeItem.getBoundingClientRect()
+
+            setIndicator({
+                left: itemRect.left - containerRect.left,
+                width: itemRect.width,
+            })
+        }
+
+        handleResize()
+        window.addEventListener("resize", handleResize)
+
+        return () => window.removeEventListener("resize", handleResize)
+    }, [activeTab])
 
     return (
         <Frame width="stretch" height="hug" align="center" justify="center" specificStyles={{
@@ -18,31 +66,54 @@ export default function Tab() {
             pointerEvents:"none",
             zIndex:500
         }}>
-            <Frame direction="row" border gap="sm" width="hug" padding="md" height="hug" rounded="xl" 
-                className="bg-[var(--color-white)] shadow-[0px_4px_8px_rgba(0,0,0,0.4)]" 
+            <Frame
+                ref={containerRef}
+                direction="row"
+                gap="md"
+                width="hug"
+                padding="md"
+                height="60px"
+                rounded="xl"
+                align="center"
+                className="relative bg-[var(--color-white)] shadow-[0px_4px_8px_rgba(0,0,0,0.5)]"
                 specificStyles={{
-                    border: `solid 1px ${colors["outline2"]}`
-                }}>
-                {tabs.map((tab) => {
-                    const isActive = activeTab === tab
-                    const isHovered = hoveredTab === tab
-                    const backgroundColor = isActive ? colors["accent"] : isHovered ? colors["background3"] : colors["background1"]
+                    border: `solid 1px ${colors["outline2"]}`,
+                }}
+            >
+                <div className="absolute rounded-[var(--radius-lg)] transition-[left,width,background-color] duration-300 ease-out"
+                    style={{
+                        height:"40px",
+                        left: indicator.left,
+                        width: indicator.width,
+                        backgroundColor: colors["accent"],
+                    }}
+                />
+
+                {tabs.map((tab, index) => {
+                    const isActive = activeTab === tab.id
+                    const isHovered = hoveredTab === tab.id
 
                     return (
-                        <div
-                            key={tab}
-                            onMouseEnter={() => setHoveredTab(tab)}
+                        <Link key={tab.id} ref={(node) => {itemRefs.current[index] = node}}
+                            href={tab.href}
+                            onClick={() => setActiveTab(tab.id)}
+                            onMouseEnter={() => setHoveredTab(tab.id)}
                             onMouseLeave={() => setHoveredTab(null)}
+                            className={`flex relative h-[40px] z-10 rounded-[var(--radius-lg)] px-4 py-2 justify-center align-center font-[var(--fontWeight-medium)] transition-colors duration-200 ease-out ${isActive ? "text-[var(--color-white)]" : "text-[var(--color-textColor1)]"} ${!isActive ? "hover:bg-[var(--color-background3)]" : ""}`}
+                            style={{
+                                pointerEvents: "all",
+                                backgroundColor: isActive ? "transparent" : isHovered ? colors["background3"] : "transparent",
+                            }}
                         >
-                            <Button
-                                variant={isActive ? "fill" : "ghost"}
-                                size="lg"
-                                func={() => setActiveTab(tab)}
-                                specificStyles={{ backgroundColor }}
-                            >
-                                {tab}
-                            </Button>
-                        </div>
+                            <Paragraph size="md" weight="medium" color={isActive ? "white" : isHovered ? "accent" : "textColor1"} 
+                            specificStyle={{
+                                lineHeight: "1",
+                                display: "flex",
+                                alignItems: "center"
+                            }}>
+                                {tab.label}
+                            </Paragraph>    
+                        </Link>
                     )
                 })}
             </Frame>

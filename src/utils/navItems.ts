@@ -8,7 +8,7 @@ type navItem = {
 }
 type navItems = navItem[]
 
-export const navItems: navItems = [
+export const financialView: navItems = [
     {
         id: "dashboard",
         text: "Dashboard",
