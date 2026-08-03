@@ -14,11 +14,15 @@ import ProfileButton from "./profileButton";
 import NavLink from "../ui/primitives/navLink";
 import Logo from "./brand/logo";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTheme } from "./themeProvider";
+import { getNavItemsForPath } from "@/src/utils/navItems";
 
 export default function LeftAside() {
     const {userState} = useUserState();
     const {colors} = useTheme()
+    const pathname = usePathname()
+    const navItems = getNavItemsForPath(pathname)
 
   return (
     <Aside width="260px" className="justify-between items-start" specificStyles={{
@@ -30,7 +34,7 @@ export default function LeftAside() {
         <Frame width="stretch" justify="space-between" className="flex-1" direction="column">
             <Frame width="stretch" height="hug" direction="column">
                 {
-                    financialView.map(item =>
+                    navItems.map(item =>
                         <NavLink key={item.id} href={item.link} size="md" iconName={item.icon} iconPosition="left">
                             {item.text}
                         </NavLink>

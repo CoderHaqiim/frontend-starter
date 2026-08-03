@@ -15,7 +15,6 @@ export default function TaskCard({
 }: Props) {
   return (
     <div className="group flex items-start gap-4 rounded-xl border p-4 transition hover:border-black hover:shadow">
-
       <input
         type="checkbox"
         className="mt-1"

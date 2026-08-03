@@ -3,7 +3,7 @@ import Dropdown from "../ui/composites/dropdown";
 
 export default function TaskToolbar() {
     const businessTasks = ["All Businesses", "Business1", "Business2"]
-    const status = ["All", "Completed", "Pending", "On-going", "Ccncelled"]
+    const status = ["All", "Completed", "Pending", "On-going", "Cancelled"]
     const priority = ["high", "medium", "low"]
 
   return (

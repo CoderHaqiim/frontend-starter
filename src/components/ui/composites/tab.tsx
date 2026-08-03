@@ -1,20 +1,23 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import Frame from "@/src/components/ui/primitives/frame"
 import { useTheme } from '../../app/themeProvider'
 import Paragraph from "../primitives/paragraph"
+import { getDashboardViewFromPath } from "@/src/utils/navItems"
 
 const tabs = [
-    { id: "finance", label: "Finance", href: "#finance" },
-    { id: "operations", label: "Operations", href: "#operations" },
-    { id: "sales", label: "Sales", href: "#sales" },
-    { id: "team", label: "Team", href: "#team" },
+    { id: "finance", label: "Finance", href: "/dashboard/finance" },
+    { id: "operations", label: "Operations", href: "/dashboard/operations" },
+    { id: "customers", label: "Customers", href: "/dashboard/customers" },
+    { id: "team", label: "Team", href: "/dashboard/team" },
 ]
 
 export default function Tab() {
     const {colors} = useTheme()
-    const [activeTab, setActiveTab] = useState(tabs[0].id)
+    const pathname = usePathname()
+    const activeTab = getDashboardViewFromPath(pathname)
     const [hoveredTab, setHoveredTab] = useState<string | null>(null)
     const [indicator, setIndicator] = useState({ left: 0, width: 0 })
     const containerRef = useRef<HTMLDivElement | null>(null)
@@ -69,20 +72,20 @@ export default function Tab() {
             <Frame
                 ref={containerRef}
                 direction="row"
-                gap="md"
+                gap="lg"
                 width="hug"
                 padding="md"
-                height="60px"
+                height="65px"
                 rounded="xl"
                 align="center"
-                className="relative bg-[var(--color-white)] shadow-[0px_4px_8px_rgba(0,0,0,0.5)]"
+                className="relative bg-[var(--color-white)] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]"
                 specificStyles={{
-                    border: `solid 1px ${colors["outline2"]}`,
+                    border: `solid 1px ${colors["outline1"]}`,
                 }}
             >
                 <div className="absolute rounded-[var(--radius-lg)] transition-[left,width,background-color] duration-300 ease-out"
                     style={{
-                        height:"40px",
+                        height:"45px",
                         left: indicator.left,
                         width: indicator.width,
                         backgroundColor: colors["accent"],
@@ -96,7 +99,6 @@ export default function Tab() {
                     return (
                         <Link key={tab.id} ref={(node) => {itemRefs.current[index] = node}}
                             href={tab.href}
-                            onClick={() => setActiveTab(tab.id)}
                             onMouseEnter={() => setHoveredTab(tab.id)}
                             onMouseLeave={() => setHoveredTab(null)}
                             className={`flex relative h-[40px] z-10 rounded-[var(--radius-lg)] px-4 py-2 justify-center align-center font-[var(--fontWeight-medium)] transition-colors duration-200 ease-out ${isActive ? "text-[var(--color-white)]" : "text-[var(--color-textColor1)]"} ${!isActive ? "hover:bg-[var(--color-background3)]" : ""}`}
@@ -105,12 +107,12 @@ export default function Tab() {
                                 backgroundColor: isActive ? "transparent" : isHovered ? colors["background3"] : "transparent",
                             }}
                         >
-                            <Paragraph size="md" weight="medium" color={isActive ? "white" : isHovered ? "accent" : "textColor1"} 
-                            specificStyle={{
-                                lineHeight: "1",
-                                display: "flex",
-                                alignItems: "center"
-                            }}>
+                            <Paragraph size="md" weight="normal" color={isActive ? "white" : isHovered ? "accent" : "textColor1"} 
+                                specificStyle={{
+                                    lineHeight: "1",
+                                    display: "flex",
+                                    alignItems: "center"
+                                }}>
                                 {tab.label}
                             </Paragraph>    
                         </Link>
