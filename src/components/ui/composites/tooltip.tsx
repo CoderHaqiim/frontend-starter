@@ -10,6 +10,7 @@ import {
 } from "react"
 import { createPortal } from "react-dom"
 import { useTheme } from "../../app/themeProvider"
+import Paragraph from "../primitives/paragraph"
 
 type TooltipPosition = "top" | "right" | "bottom" | "left"
 
@@ -19,6 +20,7 @@ type TooltipProps = {
   position?: TooltipPosition
   disabled?: boolean
   specificStyle?: CSSProperties
+  width?: "hug" | "stretch"
 }
 
 type Coordinates = {
@@ -29,6 +31,7 @@ type Coordinates = {
 export default function Tooltip({
   children,
   content,
+  width= "hug",
   position = "top",
   disabled = false,
   specificStyle,
@@ -118,7 +121,7 @@ export default function Tooltip({
   }, [isVisible, position])
 
   const transformStyles: Record<TooltipPosition, string> = {
-    top: "translate(-50%, -100%)",
+    top: "translate(-50%, -95%)",
     right: "translate(0, -50%)",
     bottom: "translate(-50%, 0)",
     left: "translate(-100%, -50%)",
@@ -132,42 +135,48 @@ export default function Tooltip({
   }
 
   return (
-    <>
+    <div 
+      style={{
+          width: width === "hug"? "max-content" : "100%"
+        }}>
       <div
         ref={triggerRef}
-        className="inline-flex w-max"
+        className="inline-flex"
         aria-describedby={!disabled ? tooltipId : undefined}
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
         onFocus={showTooltip}
         onBlur={hideTooltip}
+        style={{
+          width: width === "hug"? "max-content" : "100%"
+        }}
       >
         {children}
       </div>
 
-      {mounted &&
-        createPortal(
-          <span
-            id={tooltipId}
-            role="tooltip"
-            className={`pointer-events-none fixed z-[9999] w-max max-w-[220px] rounded-[var(--radius-md)] bg-[var(--color-textColor1)] px-2 py-1 text-center text-[12px] leading-[1.4] text-[var(--color-background1)] shadow-[0px_4px_12px_rgba(0,0,0,0.15)] transition-opacity duration-150 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              top: coordinates.top,
-              left: coordinates.left,
-              transform: transformStyles[position],
-              ...specificStyle,
-            }}
-          >
-            {content}
-
-            <span
-              className={`absolute h-0 w-0 ${arrowStyles[position]}`}
-            />
-          </span>,
-          document.body
-        )}
-    </>
+      {
+        mounted &&
+          createPortal(
+            <span id={tooltipId} role="tooltip"
+              className={`pointer-events-none fixed z-[9999] w-max max-w-[200px] rounded-[var(--radius-md)] bg-[var(--color-textColor1)] p-[var(--space-sm)] text-center leading-[1.4] text-[var(--color-background1)] shadow-[0px_4px_12px_rgba(0,0,0,0.15)] transition-opacity duration-300 
+              ${ isVisible ? "opacity-100" : "opacity-0"}`}
+              style={{
+                top: coordinates.top,
+                left: coordinates.left,
+                transform: transformStyles[position],
+                ...specificStyle,
+              }}>
+              <Paragraph color="background1" size="xxs" weight="light"
+                specificStyle={{
+                  lineHeight:"1.5"
+                }}>{content}</Paragraph>
+              <span
+                className={`absolute h-0 w-0 ${arrowStyles[position]}`}
+              />
+            </span>,
+            document.body
+          )
+        }
+    </div>
   )
 }

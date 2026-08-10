@@ -20,7 +20,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
 
   const getAsideConfig = () => {
     switch (true) {
-      case pathname.startsWith("/dashboard/businesses"):
+      case pathname.startsWith("/dashboard/performance/businesses"):
         return {
           width: "250px",
           content: <SmallBusinessCardList />,
@@ -41,10 +41,10 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
       case pathname.startsWith("/dashboard/transactions"):
         return null;
 
-      case pathname.startsWith("/dashboard"):
+      case pathname.startsWith("/dashboard/performance"):
         return {
-          width: "380px",
-          content: <TaskManagerCard />,
+          width: "280px",
+          content: <JournalAsideList />,
         };
 
       default:

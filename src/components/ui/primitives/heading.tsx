@@ -24,9 +24,9 @@ export default function Heading({weight, children, size, type, color ="textColor
 
   const weightType = {
     "h1" : "semiBold",
-    "h2" : "semiBold",
-    "h3" : "medium",
-    "h4" : "medium"
+    "h2" : "medium",
+    "h3" : "normal",
+    "h4" : "normal"
   } as const
 
   const Weight = weightType[type]
@@ -35,7 +35,7 @@ export default function Heading({weight, children, size, type, color ="textColor
     fontSize: headingSize[size],
     fontWeight: (weight && fontWeight[weight]) ?? fontWeight[Weight],
     color: colors[color],
-    lineHeight: "1",
+    lineHeight: type === "h1"? "1.4" : "1"
   }
 
   return(

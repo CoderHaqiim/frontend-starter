@@ -12,5 +12,5 @@ const fetchBusinesses = async () => {
 
 export default async function BusinessesPage() {
   const firstBusinessId = await fetchBusinesses()
-  redirect(`/dashboard/finance/businesses/${firstBusinessId}`)
+  redirect(`/dashboard/performance/businesses/${firstBusinessId}`)
 }

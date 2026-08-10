@@ -14,7 +14,7 @@ import { useTheme } from "../../app/themeProvider";
 
 type BadgeProps = {
   color: ColorTypes;
-  color2?: ColorTypes;
+  bg?: ColorTypes;
   size?: SizeType;
   iconName?: IconType;
   className?: string;
@@ -24,7 +24,7 @@ type BadgeProps = {
 export default function Badge({
   text,
   color,
-  color2,
+  bg,
   size = "sm",
   iconName,
   className,
@@ -34,10 +34,10 @@ export default function Badge({
   const background = generateLightBackground(color)
 
   return (
-    <Frame align="center" rounded="lg" justify="center" className={`${elementSizes[size]} ${paddingSizes[size]} ${className}`} specificStyles={{
+    <Frame align="center" rounded="lg" height="hug" justify="center" className={`${elementSizes[size]} ${paddingSizes[size]} ${className}`} specificStyles={{
       color: colors[color],
-      backgroundColor: colors[background],
-      border: `solid 3px ${colors[background]}`
+      backgroundColor: (bg && colors[bg]) ?? colors[background],
+      border: `solid 1px ${colors[background]}`
     }}>
       {iconName && <Icon size={size} name={iconName}/>}
       <Paragraph size={size} color={color}>{text}</Paragraph>

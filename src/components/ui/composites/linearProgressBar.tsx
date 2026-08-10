@@ -1,11 +1,12 @@
 "use client"
 
-import { ColorTypes, colors } from "@/src/app/design/colors"
+import { ColorTypes } from "@/src/app/design/colors"
 import { CSSProperties } from "react"
 import Paragraph from "../primitives/paragraph"
 import { stringToNumber } from "@/src/utils/numberStringCheck"
 import { SizeType } from "@/src/types/types"
 import Frame from "../primitives/frame"
+import { useTheme } from "../../app/themeProvider"
 
 type HorizontalScoreProps = {
   score: number | string
@@ -14,16 +15,19 @@ type HorizontalScoreProps = {
   specificStyle?: CSSProperties
   textSize?: SizeType
   showPercentage?: boolean
+  insertedText?: boolean | string
 }
 
 export default function LinearProgress({
   score,
+  insertedText = false,
   color = "accent",
   height = 8,
   specificStyle,
   textSize = "xs",
   showPercentage = true,
 }: HorizontalScoreProps) {
+  const {colors} = useTheme()
   const normalizedScore = Math.min(
     Math.max(stringToNumber(score), 0),
     100
@@ -31,7 +35,7 @@ export default function LinearProgress({
 
   return (
     <Frame gap="sm" width="stretch" align="center">
-      <Frame rounded="xl" height={height} className={`bg-[${colors["background3"]}] overflow-hidden flex-1`}>
+      <Frame rounded="xl" height={height} className={`bg-[var(--color-background3)] overflow-hidden flex-1`}>
         <Frame width={`${normalizedScore}%`} height="stretch" rounded="md" className="transition-all duration-500"
           specificStyles={{
             backgroundColor: colors[color]
@@ -46,6 +50,15 @@ export default function LinearProgress({
           color={color}
         >
           {normalizedScore}%
+        </Paragraph>
+      )}
+      {(!showPercentage && insertedText) && (
+        <Paragraph
+          size={textSize}
+          weight="semiBold"
+          color={color}
+        >
+          {insertedText}
         </Paragraph>
       )}
     </Frame>

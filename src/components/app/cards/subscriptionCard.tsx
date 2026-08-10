@@ -17,7 +17,7 @@ export default function SubscriptionCard() {
         rounded="md"
         gap="sm"
         specificStyles={{
-            backgroundColor: colors["accent2"],
+            backgroundColor: "transparent",
         }}>
         <Frame direction="column">
             <Heading size="xs" type="h2">Subscription</Heading>
@@ -25,7 +25,7 @@ export default function SubscriptionCard() {
                 Plan: Free
             </Paragraph>
         </Frame>
-        <Button variant="fill" size="sm">Manage Subscription</Button>
+        <Button variant="outline" size="sm">Manage Subscription</Button>
     </Card>
   )
 }

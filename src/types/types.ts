@@ -82,3 +82,13 @@ export interface SupportTicket {
   priority: Priority;
   status: "open" | "in-progress" | "resolved";
 }
+
+
+export interface GoalsType {
+    id: string,
+    description: string,
+    category: string,
+    setDate: string, /*change to date*/
+    duration: string,
+    remaining: string
+  },

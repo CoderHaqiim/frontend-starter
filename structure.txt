@@ -1,0 +1,52 @@
+Performance
+-------------------
+Charts
+KPIs
+Reports
+Insights
+
+Operations
+-------------------
+Tasks
+Calendar
+Orders
+Inventory
+
+Customers
+-------------------
+Pipeline
+Customers
+Invoices
+Messages
+
+Team
+-------------------
+Employees
+Attendance
+Payroll
+
+| View               | Left Sidebar (Tools)                                                                                    | Center Workspace                                                                 | Right Sidebar (Context)                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **📈 Performance** | Overview, Portfolio, Businesses, Financials, Reports, Goals, Insights                                   | Dashboards, Charts, KPIs, Business Health, Financial Statements                  | Business Health cards, AI Insights, Top Performing Businesses, Alerts, Upcoming Bills, Cash Position |
+| **⚙️ Operations**  | Dashboard, Tasks, Calendar, Projects, Inventory, Orders, Purchases, Suppliers, Documents, Automations   | Kanban Boards, Calendar, Inventory Tables, Order Management, Workflow Management | Today's Schedule, Urgent Tasks, Low Stock Alerts, Recent Activity, Quick Actions                     |
+| **👥 Customers**   | Dashboard, Customers, Leads, Opportunities, Sales Pipeline, Invoices, Quotes, Payments, Messages        | Customer CRM, Sales Pipeline, Customer Timeline, Contact Profiles                | Customer Activity, Recent Conversations, Deals Closing Soon, Outstanding Invoices, Quick Contact     |
+| **👨‍💼 Team**     | Dashboard, Employees, Attendance, Leave, Payroll, Roles & Permissions, Recruitment, Performance Reviews | Employee Directory, Attendance, Leave Calendar, Payroll, Reviews                 | Team Online, Birthdays, Leave Today, Pending Approvals, Announcements                                
+
+Performance
+├── Overview
+├── Businesses
+├── Reports
+├── Goals
+└── Insights
+
+
+Header (business identity)
+KPIs (how are we doing?)
+Trend chart (are we improving?)
+Business Health (why are we performing this way?)
+Financial Breakdown (where is the money coming from and going?)
+Insights & Recommendations (what should I pay attention to?)
+
+
+
+Profitability = profit margin- 50, profit-trend-30, profit stability-20

@@ -49,7 +49,7 @@ export default function Chart1({variant}: ChartProps) {
         width: '100%',
         maxWidth: '700px',
         height: '100%',
-        maxHeight: '300px',
+        maxHeight: '400px',
         aspectRatio: 1.618,
         outline: "none"
     }

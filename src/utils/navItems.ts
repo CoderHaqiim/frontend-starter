@@ -8,26 +8,27 @@ export type navItem = {
 }
 export type navItems = navItem[]
 
-export type DashboardView = "finance" | "operations" | "customers" | "team"
+export type DashboardView = "performance" | "operations" | "customers" | "team"
 
-export const financialView: navItems = [
+
+export const performanceView: navItems = [
     {
-        id: "fin-dashboard",
-        text: "Dashboard",
+        id: "per-dashboard",
+        text: "Overview",
         icon: "icon-dashboard",
-        link: "/dashboard/finance"
+        link: "/dashboard/performance"
     },
     {
-        id: "fin-businesses",
+        id: "per-businesses",
         text: "Businesses", /*change to real page name*/
         icon: "icon-store",
-        link:"/dashboard/finance/businesses" /*change to real page link*/
+        link:"/dashboard/performance/businesses" /*change to real page link*/
     },
     {
-        id: "transactions",
-        text: "Transactions",
-        icon: "icon-transactions",
-        link: "/dashboard/finance/transactions"
+        id: "goals",
+        text: "Goals",
+        icon: "icon-badge-check",
+        link: "/dashboard/performance/goals"
     },
     {
         id: "settings",
@@ -46,17 +47,23 @@ export const financialView: navItems = [
 export const operationsView: navItems = [
      {
         id: "ops-dashboard",
-        text: "Dashboard",
+        text: "Overview",
         icon: "icon-dashboard",
         link: "/dashboard/operations"
     },
-      {
+    {
+        id: "transactions",
+        text: "Transactions",
+        icon: "icon-transactions",
+        link: "/dashboard/operations/transactions"
+    },
+    {
         id: "tasks",
         text: "Tasks",
         icon: "icon-notes",
         link: "/dashboard/operations/tasks"
     },
-      {
+    {
         id: "schedules",
         text: "Schedules",
         icon: "icon-calendar-check",
@@ -77,11 +84,23 @@ export const operationsView: navItems = [
 ]
 
 export const customersView: navItems = [
-      {
+    {
         id: "cus-dashboard",
-        text: "Dashboard",
+        text: "Overview",
         icon: "icon-dashboard",
         link: "/dashboard/customers"
+    },
+    {
+        id: "address-book",
+        text: "Address book",
+        icon: "icon-address-book",
+        link: "/dashboard/customers/address"
+    },
+    {
+        id: "mailing",
+        text: "Mailing",
+        icon: "icon-mail",
+        link: "/dashboard/customers/address"
     },
     {
         id: "settings",
@@ -100,7 +119,7 @@ export const customersView: navItems = [
 export const teamsView: navItems = [
       {
         id: "team-dashboard",
-        text: "Dashboard",
+        text: "Overview",
         icon: "icon-dashboard",
         link: "/dashboard/team"
     },
@@ -119,7 +138,7 @@ export const teamsView: navItems = [
 ]
 
 export const dashboardViewNavItems: Record<DashboardView, navItems> = {
-    finance: financialView,
+    performance: performanceView,
     operations: operationsView,
     customers: customersView,
     team: teamsView,
@@ -132,7 +151,7 @@ function getStoredDashboardView(): DashboardView | null {
 
     const storedValue = window.sessionStorage.getItem(DASHBOARD_VIEW_STORAGE_KEY)
 
-    if (storedValue === "finance" || storedValue === "operations" || storedValue === "customers" || storedValue === "team") {
+    if (storedValue === "performance" || storedValue === "operations" || storedValue === "customers" || storedValue === "team") {
         return storedValue
     }
 
@@ -146,9 +165,9 @@ function persistDashboardView(view: DashboardView) {
 }
 
 export function getDashboardViewFromPath(pathname: string): DashboardView {
-    if (pathname.startsWith("/dashboard/finance")) {
-        persistDashboardView("finance")
-        return "finance"
+    if (pathname.startsWith("/dashboard/performance")) {
+        persistDashboardView("performance")
+        return "performance"
     }
 
     if (pathname.startsWith("/dashboard/operations")) {
@@ -167,10 +186,10 @@ export function getDashboardViewFromPath(pathname: string): DashboardView {
     }
 
     if (pathname.startsWith("/dashboard/settings") || pathname.startsWith("/dashboard/support")) {
-        return getStoredDashboardView() ?? "finance"
+        return getStoredDashboardView() ?? "performance"
     }
 
-    return getStoredDashboardView() ?? "finance"
+    return getStoredDashboardView() ?? "performance"
 }
 
 export function getNavItemsForPath(pathname: string): navItems {

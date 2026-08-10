@@ -20,7 +20,7 @@ export default function Paragraph({
   size ="md", 
   specificStyle,
   className,
-  weight = "normal",
+  weight = "light",
   color = "textColor2"
 }: ParagraphProps) {
   const {colors} = useTheme()

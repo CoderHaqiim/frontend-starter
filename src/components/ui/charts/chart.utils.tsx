@@ -5,19 +5,21 @@ import { bodySize } from "@/src/app/design/typograhy"
 import { radius } from "@/src/app/design/radius";
 import {XAxis, YAxis,Tooltip, Legend } from 'recharts';
 import { useTheme } from "../../app/themeProvider";
+import {space} from "@/src/app/design/spacing";
 
 
 export const useLegend = () =>{
         return (
             <Legend 
                 wrapperStyle={{
-                    fontSize: bodySize["sm"],
-                    fontWeight: fontWeight["medium"],
+                    fontSize: bodySize["xxs"],
+                    fontWeight: fontWeight["medium"]
                 }}
                 align="left"
                 iconType="square"
                 iconSize={5}
                 fontSize= "8px"
+                verticalAlign="bottom"
             />
         )
     }
@@ -44,7 +46,7 @@ export const useAxis =( type: "x" | "y" ) => {
     const {colors} = useTheme()
     return(
         type === "x"?
-        <XAxis dataKey="name" axisLine={{stroke: colors["outline1"]}}  tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["outline1"] }}/>:
-        <YAxis width="auto" axisLine={{stroke: colors["outline1"]}} tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["outline1"] }}/>
+        <XAxis dataKey="name" axisLine={{stroke: colors["outline1"]}}  tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["sm"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["outline1"] }}/>:
+        <YAxis width="auto" axisLine={{stroke: colors["outline1"]}} tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["sm"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["outline1"] }}/>
     ) 
 }

@@ -11,7 +11,7 @@ export default function Item3() {
           <Heading size="xl" type="h1">Transactions</Heading>
         </Frame>
         <Frame>
-          <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus">New Transaction</Button>
+          <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus">New Transaction</Button>
         </Frame>
       </Frame>
       <TransactionManager/>

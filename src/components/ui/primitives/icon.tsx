@@ -47,7 +47,12 @@ import {
   TrendingUpDownIcon,
   EllipsisVertical,
   Headset,
-  SquareArrowOutUpRight
+  SquareArrowOutUpRight,
+  ChartPie,
+  BookUser,
+  Mail,
+  Info,
+  Clock
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -111,8 +116,12 @@ const icons = {
     "icon-trend-up-down": TrendingUpDownIcon,
     "icon-vertival-dots": EllipsisVertical,
     "icon-headset": Headset,
-    "icon-open": SquareArrowOutUpRight
-
+    "icon-open": SquareArrowOutUpRight,
+    "icon-chart-pie": ChartPie,
+    "icon-address-book": BookUser,
+    "icon-mail": Mail,
+    "icon-info": Info,
+    "icon-clock" : Clock
 };
 
 export type IconType = keyof typeof icons;

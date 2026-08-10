@@ -40,7 +40,7 @@ export default function Home() {
       value: "3"
     },
     {
-      title: "Total Income",
+      title: "Total Revenue",
       value: "$4000"
     },
     {
@@ -50,6 +50,10 @@ export default function Home() {
     {
       title: "Net Profit",
       value: "$3500"
+    },
+    {
+      title: "Cash Balance",
+      value: "$35000"
     }
   ]
 
@@ -111,33 +115,26 @@ const scrollRightHandler = () => {
             Here's what's happening today.
           </Paragraph>
         </Frame>
+
+        {/* Insights */}
+
+
+        {/* KPIs */}
         <Frame width="stretch" height="100px" gap="md">
           {
             dashboardKpis.map((item, index) => <KpiCard key={index} title={item.title} value={item.value}/>)
           }
         </Frame>
 
-        {/* Performance Overview */}
-        <Section>
-          <Frame width="stretch" align="center" height="hug" justify="space-between" className="mb-[var(--space-md)]">
-              <Heading size="md" type="h2">Performance Overview</Heading>
-              <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
-                <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
-                <Dropdown name="report" size="sm" options={reportDuration}/>
-              </Frame>
-          </Frame>
-          <Chart1 variant={selectedChart}/>
-        </Section>
-
         {/* Business Overview */}
         <Section>
           <Frame width="stretch" align="center" height="hug" className="justify-between mb-[var(--space-md)]">
-            <Heading size="sm" type="h2">Businesses Overview</Heading>
+            <Heading size="md" type="h2">Businesses Overview</Heading>
             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
             </Frame>
           </Frame>
-          <Frame width="stretch" align="center" justify="space-between" height="stretch" className=" top-0 left-0 pointer-events-none z-[50]" specificStyles={{ position: "absolute" }}>
+          <Frame width="stretch" align="center" justify="space-between" height="stretch" className="top-0 left-0 z-[50] opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-150" specificStyles={{ position: "absolute" }}>
             
             <Tooltip content="slide right">
                <Button func={scrollLeftHandler} variant="outline" size="xl" isIcon iconName="icon-left" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
@@ -157,10 +154,23 @@ const scrollRightHandler = () => {
           </Frame>
         </Section>
 
+        {/* Performance Overview */}
+        <Section>
+          <Frame width="stretch" align="center" height="hug" justify="space-between" className="mb-[var(--space-md)]">
+              <Heading size="md" type="h2">Performance Overview</Heading>
+              <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
+                <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
+                <Dropdown name="report" size="sm" options={reportDuration}/>
+              </Frame>
+          </Frame>
+          <Chart1 variant={selectedChart}/>
+        </Section>
+
+
         {/* Performance Ranking */}
         <Section>
             <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-              <Heading size="sm" type="h2">Performance Ranking</Heading>
+              <Heading size="md" type="h2">Performance Ranking</Heading>
               <Frame width="hug" height="hug" gap="sm">
                 <Dropdown name="ranking" size="sm" options={businessMetrics}/>
                 <Dropdown name="ranking" size="sm" options={reportDuration}/>
@@ -172,24 +182,6 @@ const scrollRightHandler = () => {
               <MetricsRow data={{name:"Business3"}}/>
               <MetricsRow data={{name:"Business4"}}/>
             </List>
-        </Section>
-
-        {/* Latest Transactions */}
-        <Section>
-          <Frame width="stretch" justify="space-between" align="center" height="hug" className="mb-[var(--space-md)]">
-            <Heading size="sm" type="h2">Latest Transactions</Heading>
-            <Frame width="hug" height="hug" gap="sm">
-              <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
-            </Frame>
-          </Frame>
-          <List height="200px" scroll="hidden">
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-          </List>
         </Section>
         <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
             specificStyles={{ position: "fixed", zIndex:"300"}}>

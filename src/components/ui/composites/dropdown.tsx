@@ -6,6 +6,8 @@ import Icon from "../primitives/icon";
 import { elementSizes } from "@/src/app/design/sizes";
 import { SizeType } from "@/src/types/types";
 import { useTheme } from "../../app/themeProvider";
+import { shadow2 } from "@/src/app/design/shadows";
+import { bodySize, fontWeight } from "@/src/app/design/typograhy";
 
 type DropdownOption =
   string | { label: string; value: string };
@@ -91,25 +93,18 @@ export default function Dropdown({
   }
 
   return (
-    <Frame width="hug" align="center" specificStyles={{
-      zIndex: "50" }}>
+    <Frame width="hug" align="center" className="z-[50]">
       <div ref={wrapperRef} className="relative w-max">
-        <button
-          type="button"
-          disabled={disabled}
-          onClick={() => setOpen((prev) => !prev)}
-          className={`flex items-center justify-between rounded-[var(--radius-sm)] px-2 pr-8
-            ${
-              border? "border border-[var(--color-outline1)]" : ""
-            }
-            ${
-              outline
-                ? "hover:border-[var(--color-accent)] focus:border-2 focus:border-[var(--color-accent)]"
-                : ""
-            }`}
+        <button type="button" disabled={disabled} onClick={() => setOpen((prev) => !prev)}
+          className={`flex items-center justify-between rounded-[var(--radius-sm)] px-2 pr-8 min-w-[100px]
+            ${ border? "border border-[var(--color-outline2)]" : ""}
+            ${ outline ? "hover:border-[var(--color-accent)] focus:border-2 focus:border-[var(--color-accent)]": ""}
+          `}
           style={{
             height: elementSizes[size],
             ...specificStyle,
+            fontSize: bodySize["xs"],
+            fontWeight: fontWeight["medium"]
           }}
         >
           {getOptionLabel(selectedOption)}
@@ -120,31 +115,24 @@ export default function Dropdown({
         </button>
 
         {open && (
-          <Frame border rounded="sm" direction="column" className="left-0 top-[100%] z-50 mt-1 min-w-full overflow-hidden"
+          <Frame border rounded="sm" direction="column" className={`${shadow2} left-0 top-[100%] z-50 bg-[var(--color-white)] mt-1 min-w-full overflow-hidden`}
             specificStyles={{
               position: "absolute"
-            }}
-          >
+          }}>
             {
-            options.map((option) => {
-              const optionValue = getOptionValue(option);
-              return (
-                <button
-                  key={optionValue}
-                  type="button"
-                  onClick={() => selectOption(option)}
-                  className="block w-full px-3 py-2 text-left transition-colors hover:bg-[var(--color-accent2)]"
-                  style={{
-                    backgroundColor:
-                      selectedValue === optionValue
-                        ? colors["accent2"]
-                        : undefined,
-                  }}
-                >
-                  {getOptionLabel(option)}
-                </button>
-              );
-            })}
+              options.map((option) => {
+                const optionValue = getOptionValue(option);
+                return (
+                  <button key={optionValue} type="button" onClick={() => selectOption(option)}
+                    className="block text-[length:var(--bodySize-sm)] w-full px-3 py-2 text-left transition-colors hover:bg-[var(--color-background2)]"
+                    style={{
+                      backgroundColor: selectedValue === optionValue? colors["accent2"]: undefined,
+                  }}>
+                    {optionValue}
+                  </button>
+                );
+              })
+            }
           </Frame>
         )}
       </div>

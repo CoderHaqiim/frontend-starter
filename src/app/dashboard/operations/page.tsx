@@ -117,87 +117,23 @@ const scrollRightHandler = () => {
           }
         </Frame>
 
-        {/* Performance Overview */}
-        <Section>
-          <Frame width="stretch" align="center" height="hug" justify="space-between" className="mb-[var(--space-md)]">
-              <Heading size="md" type="h2">Performance Overview</Heading>
-              <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
-                <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
-                <Dropdown name="report" size="sm" options={reportDuration}/>
-              </Frame>
-          </Frame>
-          <Chart1 variant={selectedChart}/>
-        </Section>
-
-        {/* Business Overview */}
-        <Section>
-          <Frame width="stretch" align="center" height="hug" className="justify-between mb-[var(--space-md)]">
-            <Heading size="sm" type="h2">Businesses Overview</Heading>
-            <Frame width="hug" height="hug" gap="sm">
-              <Dropdown name="ranking" size="sm" options={reportDuration}/>
-            </Frame>
-          </Frame>
-          <Frame width="stretch" align="center" justify="space-between" height="stretch" className=" top-0 left-0 pointer-events-none z-[50]" specificStyles={{ position: "absolute" }}>
-            
-            <Tooltip content="slide right">
-               <Button func={scrollLeftHandler} variant="outline" size="xl" isIcon iconName="icon-left" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
-              display: `${showLeftButton? "flex" : "none"}`
-            }}/>
-            </Tooltip>
-            <Tooltip content="slide left">
-               <Button func={scrollRightHandler} variant="outline" size="xl" isIcon iconName="icon-right" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
-              display: `${showRightButton? "flex" : "none"}`
-            }}/>
-            </Tooltip>
-          </Frame>
-          <Frame ref={sliderRef} width="stretch" height="hug" scroll="hidden" gap="lg">
-            {
-              businessesState.map(buisness => <BusinessOverviewCard data={buisness} key={buisness.id}/>)
-            }
-          </Frame>
-        </Section>
-
-        {/* Performance Ranking */}
-        <Section>
-            <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-              <Heading size="sm" type="h2">Performance Ranking</Heading>
+         {/* Latest Transactions */}
+          <Section>
+            <Frame width="stretch" justify="space-between" align="center" height="hug" className="mb-[var(--space-md)]">
+              <Heading size="sm" type="h2">Latest Transactions</Heading>
               <Frame width="hug" height="hug" gap="sm">
-                <Dropdown name="ranking" size="sm" options={businessMetrics}/>
-                <Dropdown name="ranking" size="sm" options={reportDuration}/>
+                <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
               </Frame>
             </Frame>
-            <List specificStyles={{overflow: "hidden"}}>
-              <MetricsRow data={{name:"Business1"}}/>
-              <MetricsRow data={{name:"Business2"}}/>
-              <MetricsRow data={{name:"Business3"}}/>
-              <MetricsRow data={{name:"Business4"}}/>
-            </List>
-        </Section>
-
-        {/* Latest Transactions */}
-        <Section>
-          <Frame width="stretch" justify="space-between" align="center" height="hug" className="mb-[var(--space-md)]">
-            <Heading size="sm" type="h2">Latest Transactions</Heading>
-            <Frame width="hug" height="hug" gap="sm">
-              <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
-            </Frame>
-          </Frame>
-          <List height="200px" scroll="hidden">
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-            <Transaction/>
-          </List>
-        </Section>
-        <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
-            specificStyles={{ position: "fixed", zIndex:"300"}}>
-            <Tooltip position="top" content="add">
-              <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className={`${shadow1}`}/>
-            </Tooltip>
-        </Frame>
+              <List height="200px" scroll="hidden">
+                <Transaction/>
+                <Transaction/>
+                <Transaction/>
+                <Transaction/>
+                <Transaction/>
+                <Transaction/>
+              </List>
+            </Section>
       </Frame>
-    
   )
 }

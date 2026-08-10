@@ -14,10 +14,14 @@ type MainProps = {
 
 export default function Main({children, className, specificStyles, padding}: MainProps) {
   const {colors} = useTheme()
+
   const defaultStyle:CSSProperties = {
-    padding: space[padding],
+    paddingTop: space[padding],
+    paddingRight: space[padding],
+    paddingBottom: "100px",
+    paddingLeft: space[padding],
     borderRight: `solid 1px ${colors["outline1"]}`,
-    borderLeft: `solid 1px ${colors["outline1"]}`
+    borderLeft: `solid 1px ${colors["outline1"]}`,
   }
 
   return (

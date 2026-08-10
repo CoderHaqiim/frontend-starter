@@ -26,55 +26,53 @@ export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps
     const healthBackground =  generateHealthBackground(data.health)
 
     return (
-        <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
-                position: "relative", 
-                flexShrink: 0,
-                background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
-            }}>
-                {/* Business name and open button */}
-                <Frame width="stretch" justify="space-between" height="hug" align="center">
-                    <Heading type="h3" size="xs">
-                        {shortenText(data?.name, 17)}
-                    </Heading>
-                    <Link href={`/dashboard/businesses/${data.id}`} className={`${paddingSizes["xs"]} flex h-[var(--elementSize-xs)] items-center transition-[0.3s] hover:gap-[var(--space-sm)] rounded-[var(--radius-xs)]`}>
-                        <Paragraph size="xs" weight="bold" color="accent">View</Paragraph>
-                        <Icon name="icon-move-right" stroke="1.5" color="accent" size="sm"/>
-                    </Link>
-                </Frame>
+        <Link href={`/dashboard/performance/businesses/${data.id}`} className="transform transition-transform duration-300 cursor-pointer pointer-events-auto hover:z-20 hover:scale-[0.97]">
+          <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
+                  position: "relative", 
+                  flexShrink: 0,
+                  background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
+              }}>
+                  {/* Business name */}
+                  <Frame width="stretch" justify="space-between" height="hug" align="center">
+                      <Heading type="h3" size="xs">
+                          {shortenText(data?.name, 22)}
+                      </Heading>
+                  </Frame>
 
-                {/* Health score */}
-                <Frame width="stretch" gap="sm" direction="column" align="center">
-                    <RadialProgress color={healthMap[data.health]} score={data.healthScore} size={125} textSize="xxl" strokeWidth={2}/>
-                    <Paragraph weight="semiBold" color={healthMap[data.health]} size="md">{data.health}</Paragraph>
-                </Frame>
+                  {/* Health score */}
+                  <Frame width="stretch" gap="sm" direction="column" align="center">
+                      <RadialProgress color={healthMap[data.health]} score={data.healthScore} size={125} textSize="xxl" strokeWidth={2}/>
+                      <Paragraph weight="semiBold" color={healthMap[data.health]} size="md">{data.health}</Paragraph>
+                  </Frame>
 
-                {/* Financial summary */}
-                <Frame width="stretch"  gap="xl" direction="row" justify="center" className="bg-[]">
-                    <Frame direction="column"align="center">
-                        <Frame>
-                            <Paragraph size="xxs"> Income </Paragraph>
-                        </Frame>
-                        <Frame>
-                            <Paragraph color="textColor1" weight="bold" size="sm"> $4000 </Paragraph>
-                        </Frame>
-                    </Frame>
-                    <Frame direction="column"align="center">
-                        <Frame>
-                            <Paragraph size="xxs"> Expenses </Paragraph>
-                        </Frame>
-                        <Frame>
-                            <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
-                        </Frame>
-                    </Frame>
-                    <Frame direction="column"align="center">
-                        <Frame>
-                            <Paragraph size="xxs"> Net Profit </Paragraph>
-                        </Frame>
-                        <Frame>
-                            <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
-                        </Frame>
-                    </Frame>
-                </Frame>
-        </Card>
+                  {/* Financial summary */}
+                  <Frame width="stretch"  gap="xl" direction="row" justify="center" className="bg-[]">
+                      <Frame direction="column"align="center">
+                          <Frame>
+                              <Paragraph size="xxs"> Income </Paragraph>
+                          </Frame>
+                          <Frame>
+                              <Paragraph color="textColor1" weight="bold" size="sm"> $4000 </Paragraph>
+                          </Frame>
+                      </Frame>
+                      <Frame direction="column"align="center">
+                          <Frame>
+                              <Paragraph size="xxs"> Expenses </Paragraph>
+                          </Frame>
+                          <Frame>
+                              <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
+                          </Frame>
+                      </Frame>
+                      <Frame direction="column"align="center">
+                          <Frame>
+                              <Paragraph size="xxs"> Net Profit </Paragraph>
+                          </Frame>
+                          <Frame>
+                              <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
+                          </Frame>
+                      </Frame>
+                  </Frame>
+          </Card>
+        </Link>
     )
 }

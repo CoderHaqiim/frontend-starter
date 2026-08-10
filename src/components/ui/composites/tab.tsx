@@ -6,9 +6,10 @@ import Frame from "@/src/components/ui/primitives/frame"
 import { useTheme } from '../../app/themeProvider'
 import Paragraph from "../primitives/paragraph"
 import { getDashboardViewFromPath } from "@/src/utils/navItems"
+import { shadow1 } from "@/src/app/design/shadows"
 
 const tabs = [
-    { id: "finance", label: "Finance", href: "/dashboard/finance" },
+    { id: "performance", label: "Performance", href: "/dashboard/performance" },
     { id: "operations", label: "Operations", href: "/dashboard/operations" },
     { id: "customers", label: "Customers", href: "/dashboard/customers" },
     { id: "team", label: "Team", href: "/dashboard/team" },
@@ -74,14 +75,12 @@ export default function Tab() {
                 direction="row"
                 gap="lg"
                 width="hug"
+                border
                 padding="md"
                 height="65px"
                 rounded="xl"
                 align="center"
-                className="relative bg-[var(--color-white)] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]"
-                specificStyles={{
-                    border: `solid 1px ${colors["outline1"]}`,
-                }}
+                className={`relative bg-[var(--color-white)] ${shadow1}`}
             >
                 <div className="absolute rounded-[var(--radius-lg)] transition-[left,width,background-color] duration-300 ease-out"
                     style={{
