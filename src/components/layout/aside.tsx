@@ -10,7 +10,7 @@ type AsideProps = {
 
 export default function Aside({children, width, className, specificStyles}: AsideProps){
   return (
-    <aside className={`h-full flex flex-col p-[var(--space-lg)] ${className}`} 
+    <aside className={`h-full flex flex-col p-[var(--space-xl)] ${className}`} 
       style={{
         width: (width && width) ?? "max-content",
         ...specificStyles 

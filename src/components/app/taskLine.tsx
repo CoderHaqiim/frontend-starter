@@ -7,6 +7,7 @@ import Tooltip from "../ui/composites/tooltip"
 import Paragraph from "../ui/primitives/paragraph"
 import { shortenText } from "@/src/utils/shortenText"
 import Button from "../ui/primitives/button"
+import Badge from "../ui/composites/badge"
 
 type TaskLineProps = {
   task: any
@@ -14,7 +15,7 @@ type TaskLineProps = {
 
 export default function TaskLine({task}: TaskLineProps) {
   return (
-    <Frame width="stretch" gap="xxs" justify="center" height="hug" padding="md" direction="column" 
+    <Frame width="stretch" gap="xxs" justify="center" height="hug" padding="lg" direction="column" 
         className="shrink-0 text-[length:var(--bodySize-sm)]">
       <Frame>
         <Paragraph size="sm" color="textColor1" >
@@ -23,19 +24,8 @@ export default function TaskLine({task}: TaskLineProps) {
       </Frame>
       <Frame justify="space-between" align="center">
         <Frame width="stretch" height="hug" gap="xs">
-          <Frame width="hug" height="hug" className="bg-[var(--color-accent2)]" rounded="lg" specificStyles={{padding: `1px 6px`}}>
-            <Paragraph color="accent" size="xxs" weight="medium">
-              high
-            </Paragraph>
-          </Frame>
-          <Frame width="hug" height="hug" rounded="lg" specificStyles={{
-              backgroundColor: colors["success2"],
-               padding: `1px 6px`
-          }}>
-            <Paragraph color="success" size="xxs" weight="medium">
-              Completed
-            </Paragraph>
-          </Frame>
+          <Badge size="xxs" text="high" color="error"/>
+          <Badge size="xxs" text="completed" color="success"/>
         </Frame>
         <Frame gap="sm">
           <Tooltip content="mark as done" position="top">

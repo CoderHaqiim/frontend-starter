@@ -115,6 +115,7 @@ export default function Button({
             ${className}
             ${derivedPadding}
             ${hoverStyles}
+            whitespace-nowrap
             transition-transform
             duration-100
             ease-out

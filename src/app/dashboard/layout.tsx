@@ -17,7 +17,7 @@ export default function Layout({children}: LayoutProps) {
       <Frame direction="column" height="stretch" className="flex-1 overflow-hidden bg-[var(--color-background1)]">
         <Nav/>
         <Frame width="stretch" justify="center" specificStyles={{ height:"calc(100% - 60px)"}}>
-          <Main padding="lg">
+          <Main>
             {children}
           </Main>
           <RightAside/>

@@ -40,7 +40,7 @@ export default function Badge({
       border: `solid 1px ${colors[background]}`
     }}>
       {iconName && <Icon size={size} name={iconName}/>}
-      <Paragraph size={size} color={color}>{text}</Paragraph>
+      <Paragraph weight="medium" size={size} color={color}>{text}</Paragraph>
     </Frame>
   );
 }

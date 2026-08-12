@@ -25,7 +25,7 @@ export default function LeftAside() {
     const navItems = getNavItemsForPath(pathname)
 
   return (
-    <Aside width="240px" className="justify-between items-start" specificStyles={{
+    <Aside width="260px" className="justify-between items-start" specificStyles={{
             backgroundColor: colors["background3"],
         }}>
         <Frame height="70px" width="hug">

@@ -9,6 +9,14 @@ export type HealthType = "healthy" | "critical" | "moderate"
 export type Business = Record <string, any >
 export type Businesses = Business[]
 
+export interface Customer {
+  id: string
+  name: string
+  address: string
+  phone: string
+  email: string
+}
+
 // types/schedule.ts
 
 export type ScheduleType =
@@ -83,7 +91,6 @@ export interface SupportTicket {
   status: "open" | "in-progress" | "resolved";
 }
 
-
 export interface GoalsType {
     id: string,
     description: string,
@@ -91,4 +98,4 @@ export interface GoalsType {
     setDate: string, /*change to date*/
     duration: string,
     remaining: string
-  },
+  }

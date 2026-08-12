@@ -15,7 +15,7 @@ export default function page() {
             <Heading size="xl" type="h1">Task manager</Heading>
           </Frame>
           <Frame>
-            <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus">New Task</Button>
+            <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus">New Task</Button>
           </Frame>
         </Frame>
         <TaskManager/>

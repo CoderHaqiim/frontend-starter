@@ -4,6 +4,7 @@ import Icon from "../../ui/primitives/icon"
 import { useTheme } from "../../app/themeProvider"
 import { FrameSizeType } from "@/src/types/types"
 import abridgeNumber from "@/src/utils/abridgeNumber"
+import Card from "../../ui/composites/card"
 import Tooltip from "../../ui/composites/tooltip"
 
 type KpiCardProps = {
@@ -23,7 +24,7 @@ export default function KpiCard({title, meaning, value, trend, width = "stretch"
     <Tooltip content={meaning} width="stretch" position="top" specificStyle={{
       display: meaning? "flex" : "none",
     }}>
-        <Frame width={width} direction="column" border height="100px" padding="lg" rounded="md" className="flex-1 bg-[var(--color-white)]">
+        <Card width={width} height="100px" padding="lg" rounded="md" className="flex-1 bg-[var(--color-white)]">
           <Paragraph size="xs" color="textColor2" weight="normal">{title}</Paragraph>
           <Paragraph size="xxl" color="textColor1" weight="medium">{abridgeNumber(value)}</Paragraph>
           {trendIcon && trendColor && (
@@ -34,7 +35,7 @@ export default function KpiCard({title, meaning, value, trend, width = "stretch"
               </Paragraph>
             </Frame>
           )}
-      </Frame>
+      </Card>
     </Tooltip>
     
   )

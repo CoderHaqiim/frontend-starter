@@ -91,17 +91,31 @@ export const customersView: navItems = [
         link: "/dashboard/customers"
     },
     {
-        id: "address-book",
-        text: "Address book",
+        id: "directory",
+        text: "Directory",
         icon: "icon-address-book",
-        link: "/dashboard/customers/address"
+        link: "/dashboard/customers/directory"
     },
     {
         id: "mailing",
         text: "Mailing",
         icon: "icon-mail",
-        link: "/dashboard/customers/address"
+        link: "/dashboard/customers/mailing"
     },
+    {
+        id: "receivables",
+        text: "Receivables",
+        icon: "icon-money",
+        link: "/dashboard/customers/receivables"
+    },
+    {
+        id: "watch",
+        text: "Watchlist",
+        icon: "icon-eye",
+        link: "/dashboard/customers/receivables"
+    },
+
+
     {
         id: "settings",
         text: "Settings",

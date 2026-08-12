@@ -11,7 +11,7 @@ export default function Item2() {
           <Heading size="xl" type="h1">Support</Heading>
         </Frame>
         <Frame>
-          <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus">New Ticket</Button>
+          <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus">New Ticket</Button>
         </Frame>
       </Frame>
       <SupportManager/>

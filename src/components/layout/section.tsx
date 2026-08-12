@@ -13,6 +13,7 @@ type SectionProps = {
   height?: FrameSizeType,
   className?: string,
   specificStyles?: CSSProperties
+  emptyState?: boolean
 }
 
 export default function Section({
@@ -20,10 +21,16 @@ export default function Section({
   width="stretch",
   height="hug",
   className,
+  emptyState= false,
   specificStyles
 }: SectionProps) {
   return (
-    <Frame width={width} border direction='column'  height={height} gap="md" padding="lg" rounded='md' className={`bg-[var(--color-white)] ${className}`} specificStyles={{...specificStyles}}>
+    <Frame width={width} border direction='column'  height={height} gap="md" padding="lg" rounded='md' 
+    className={`bg-[var(--color-white)] ${className}`} 
+    specificStyles={{
+      minHeight: emptyState? "200px" : 0,
+      ...specificStyles
+    }}>
         {children}
     </Frame>
   )

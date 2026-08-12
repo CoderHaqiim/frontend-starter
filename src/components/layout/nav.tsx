@@ -120,7 +120,7 @@ export default function Nav() {
 
   return (
     <nav className='flex border-b-[1px] border-b-[var(--color-outline1)] z-[500] items-center shrink-0 justify-center w-full h-[60px]'>
-        <Frame width="stretch" height="stretch" justify="space-between" align='center' specificStyles={{padding:`0px ${space["lg"]}`}}>
+        <Frame width="stretch" height="stretch" justify="space-between" align='center' specificStyles={{padding:`0px ${space["xl"]}`}}>
           <Frame>
             {
               pathname !== "/dashboard" &&

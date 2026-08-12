@@ -7,7 +7,7 @@ export default function TaskToolbar() {
     const priority = ["high", "medium", "low"]
 
   return (
-    <Frame gap="sm" justify="flex-end" width="stretch" height="hug" className="pb-[var(--space-md)] border-b pb-[var(--space-md) border-[var(--color-outline1)]">
+    <Frame gap="sm" justify="flex-end" width="stretch" height="hug" className="pb-[var(--space-md)] pb-[var(--space-md)]">
       <Dropdown size="sm" name="Business tasks" options={businessTasks} />
       <Dropdown size="sm" name="status" options={status} />
       <Dropdown size="sm" name="Business tasks" options={priority} />

@@ -106,10 +106,7 @@ const scrollRightHandler = () => {
   return (
       <Frame width="stretch" direction="column" height="hug" gap="lg"> 
         <Frame width="stretch" gap="xs" height="hug" direction="column">
-          <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
-          <Paragraph weight="light" size="sm">
-            Here's what's happening today.
-          </Paragraph>
+          <Heading size="xl" type="h1">Team</Heading>
         </Frame>
         <Frame width="stretch" height="100px" gap="md">
           {

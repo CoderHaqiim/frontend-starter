@@ -24,16 +24,16 @@ export default function SmallBusinessOverview({business}: SmallBusinessOverviewP
     const hoverStyles = 
     `after:left-[-8px] after:top-[-8px]
     after:absolute after:pointer-events-none 
-    after:w-[calc(100%+16px)] after:h-[calc(100%+16px)] 
+    after:w-[202px] after:h-[202px]
     after:rounded-[var(--radius-md)] hover:after:bg-[var(--color-background2)]
     ${businessId === business.id? "after:bg-[var(--color-background3)] after:border-[1.5px]  after:border-[var(--color-accent2)]" : ""}`
 
   return (
-    <Link href={`/dashboard/businesses/${business.id}`} className={`relative rounded-[var(--radius-sm)] shrink-0 h-[180px] w-[180px] ${hoverStyles}`}>
+    <Link href={`/dashboard/businesses/${business.id}`} className={`relative w-max rounded-[var(--radius-sm)] shrink-0 h-[180px] w-[180px] ${hoverStyles}`}>
       <Card
-        width="stretch"
-        padding="md"
-        height="stretch"
+        width="185px"
+        padding="lg"
+        height="185px"
         rounded="sm"
         justify="space-between"
         specificStyles={{

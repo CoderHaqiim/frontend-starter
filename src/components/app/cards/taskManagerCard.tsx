@@ -13,9 +13,9 @@ import Button2 from "../button2"
 export default function TaskManagerCard() {
   return (
     
-            <Card padding="lg" rounded="md" width="stretch" height="hug">
+            <Card padding="lg" rounded="md" width="330px" height="hug">
               <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline1)] mb-[var(--space-lg)]">
-                <Heading type="h2" size="sm">Tasks & Schedules</Heading>
+                <Heading type="h2" size="sm">Tasks</Heading>
                 <Frame gap="sm">
                   <Button variant="outline" iconPosition="left" size="sm" iconName="icon-plus">Add Task</Button>
                   <Tooltip content="open" position="top">

@@ -26,7 +26,7 @@ export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps
     const healthBackground =  generateHealthBackground(data.health)
 
     return (
-        <Link href={`/dashboard/performance/businesses/${data.id}`} className="transform transition-transform duration-300 cursor-pointer pointer-events-auto hover:z-20 hover:scale-[0.97]">
+        <Link href={`/dashboard/performance/businesses/${data.id}`} className="transform transition-transform duration-300 cursor-pointer pointer-events-auto scale-[0.98] hover:z-20 hover:scale-[0.95]">
           <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
                   position: "relative", 
                   flexShrink: 0,

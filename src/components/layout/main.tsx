@@ -7,25 +7,24 @@ import { useTheme } from "../app/themeProvider"
 
 type MainProps = {
     children: ReactNode,
-    padding: SizeType,
     specificStyles?: CSSProperties,
     className?: string
 }
 
-export default function Main({children, className, specificStyles, padding}: MainProps) {
+export default function Main({children, className, specificStyles}: MainProps) {
   const {colors} = useTheme()
 
   const defaultStyle:CSSProperties = {
-    paddingTop: space[padding],
-    paddingRight: space[padding],
+    paddingTop: space["xl"],
+    paddingRight: space["xl"],
     paddingBottom: "100px",
-    paddingLeft: space[padding],
+    paddingLeft: space["xl"],
     borderRight: `solid 1px ${colors["outline1"]}`,
     borderLeft: `solid 1px ${colors["outline1"]}`,
   }
 
   return (
-    <main className="scrollInvisible max-w-[1000px] min-w-[600px]  flex-1 h-full min-h-0 overflow-y-scroll" 
+    <main className="scrollInvisible max-w-[1100px] min-w-[600px] flex-1 h-full min-h-0 overflow-y-scroll" 
       style={{
         ...defaultStyle, 
         ...specificStyles

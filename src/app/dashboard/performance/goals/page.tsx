@@ -15,7 +15,7 @@ const goalsCategories = [
   "Revenue", "Profit", "Customer", "Cash Flow", "Operations", "Team"
 ]
 
-const goals: GoalsType[] = [
+export const goals: GoalsType[] = [
   {
     id: "0",
     description: "Make $6000",
@@ -34,6 +34,14 @@ const goals: GoalsType[] = [
   },
   {
     id: "2",
+    description: "Get 50 more customers",
+    category: "customer",
+    setDate: "3/3/2023",
+    duration: "7 days",
+    remaining: "3 days"
+  },
+  {
+    id: "3",
     description: "Get 50 more customers",
     category: "customer",
     setDate: "3/3/2023",
@@ -75,16 +83,22 @@ export default function GoalsPage() {
         </Frame>
       </Section>
       
-      <Section width="stretch">
+      <Section width="stretch" emptyState>
         <Frame width="stretch" direction="column" gap="md">
           <Frame width="stretch" className="mb-[var(--space-sm)]">
             <Heading size="md" type="h2">Current goals</Heading>
           </Frame>
-          <List scroll="hidden">
+          <Frame justify="center" align="center">
             {
-              goals.map(item =><GoalsLine goal={item}/>)
+              !goals || goals.length <= 0? 
+              <Paragraph size="md">Your goals will appear here once you create your first goal.</Paragraph>:
+              <List scroll="hidden">
+                {
+                  goals.map(item =><GoalsLine goal={item}/>)
+                }
+              </List>
             }
-          </List>
+          </Frame>
         </Frame>
       </Section>
     </Frame>

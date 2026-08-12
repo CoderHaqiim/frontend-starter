@@ -58,7 +58,7 @@ export default function TransactionManager() {
 
   return (
     <Section width="stretch" height="hug" className="min-h-[200px]">
-      <Frame gap="sm" justify="flex-end" width="stretch" height="hug" className="pb-[var(--space-md)] border-b border-[var(--color-outline1)]">
+      <Frame gap="sm" justify="flex-end" width="stretch" height="hug" className="pb-[var(--space-md)]">
         <Dropdown size="sm" name="Business" options={businesses} />
         <Dropdown size="sm" name="Status" options={statuses} />
         <Dropdown size="sm" name="Type" options={types} />

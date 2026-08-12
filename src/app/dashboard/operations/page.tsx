@@ -40,16 +40,16 @@ export default function Home() {
       value: "3"
     },
     {
-      title: "Total Income",
-      value: "$4000"
+      title: "Tasks",
+      value: "10"
     },
     {
-      title: "Total Expenses",
-      value: "$500"
+      title: "Schedules",
+      value: "2"
     },
     {
-      title: "Net Profit",
-      value: "$3500"
+      title: "Transactions",
+      value: "30"
     }
   ]
 
@@ -106,10 +106,7 @@ const scrollRightHandler = () => {
   return (
       <Frame width="stretch" direction="column" height="hug" gap="lg"> 
         <Frame width="stretch" gap="xs" height="hug" direction="column">
-          <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
-          <Paragraph weight="light" size="sm">
-            Here's what's happening today.
-          </Paragraph>
+          <Heading size="xl" type="h1">Operations</Heading>
         </Frame>
         <Frame width="stretch" height="100px" gap="md">
           {

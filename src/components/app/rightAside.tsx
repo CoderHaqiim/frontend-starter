@@ -8,7 +8,10 @@ import { usePathname } from "next/navigation";
 import { CSSProperties } from "react";
 import Scheduler from "./cards/schedularCard";
 import JournalAsideList from "./journalAsideList";
-import { useTheme } from "./themeProvider";
+import CustomersDirectory from "./customers/CustomersDirectory";
+import GoalsCard from "./cards/goalsCard";
+import OpenAside from "./openAside";
+import { nullable } from "zod";
 
 type RightAsideProps = {
   specificStyles?: CSSProperties,
@@ -16,42 +19,46 @@ type RightAsideProps = {
 
 export default function RightAside({specificStyles  }: RightAsideProps) {
   const pathname = usePathname();
-  const {colors} = useTheme()
 
   const getAsideConfig = () => {
     switch (true) {
       case pathname.startsWith("/dashboard/performance/businesses"):
         return {
-          width: "250px",
           content: <SmallBusinessCardList />,
         };
 
-      case pathname.startsWith("/dashboard/tasks"):
+      case pathname === "/dashboard/tasks":
         return {
-          width: "390px",
           content: <Scheduler/>,
         };
 
-      case pathname.startsWith("/dashboard/journal"):
+      case pathname === "/dashboard/journal":
         return {
-          width: "320px",
           content: <JournalAsideList />,
         };
 
-      case pathname.startsWith("/dashboard/transactions"):
-        return null;
-
-      case pathname.startsWith("/dashboard/performance"):
+      case pathname === "/dashboard/performance":
         return {
-          width: "280px",
-          content: <JournalAsideList />,
+          content: <GoalsCard/>,
         };
 
-      default:
+      case pathname === "/dashboard/operations":
         return {
-          width: "380px",
           content: <TaskManagerCard />,
         };
+
+      case pathname === "/dashboard/customers":
+        return {
+          content: <CustomersDirectory />,
+        };
+
+      case pathname === "/dashboard/customers/directory":
+        return null
+        
+      default:
+        return {
+          content: <OpenAside/>
+        }
     }
   };
 
@@ -61,16 +68,16 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
     return null;
   }
 
-  const { width, content } = asideConfig;
+  const { content } = asideConfig;
 
   return (
     <Aside 
-      width={width} 
+      width="hug"
       specificStyles={{
          ...specificStyles
       }}>
       <Frame
-        width="stretch"
+        width="hug"
         height="stretch"
         direction="column"
         gap="md"

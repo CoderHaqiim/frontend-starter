@@ -5,8 +5,6 @@ import Frame from '@/src/components/ui/primitives/frame'
 import Heading from '@/src/components/ui/primitives/heading'
 import Paragraph from '@/src/components/ui/primitives/paragraph'
 import { Business, HealthType } from '@/src/types/types'
-import { ColorTypes } from '@/src/app/design/colors'
-import { colors } from '@/src/app/design/colors'
 import Card from '@/src/components/ui/composites/card'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -26,6 +24,7 @@ import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
 import { healthMap } from '@/src/utils/healthMap'
 import { fontWeight } from '@/src/app/design/typograhy'
 import { space } from '@/src/app/design/spacing'
+import { useTheme } from '@/src/components/app/themeProvider'
 
 const businessKpis = [
     {
@@ -65,7 +64,7 @@ const businessKpis = [
       meaning: "This is the number of people your business currently serves."
     },
     {
-      title: "Outstanding Recievables",
+      title: "Recievables",
       value: "$3,500",
       trend: "down",
       meaning: "This is the total amount of money that customers owe your business for products or services they have already received but have not yet paid for."
@@ -79,6 +78,7 @@ const businessKpis = [
   ]
 
 export default function BusinessPage() {
+  const { colors } = useTheme()
   const [business, setBusiness] = useState<Business>({})
   const [kpisExpanded, setKpisExpanded] = useState(false)
   const {businessId} = useParams()

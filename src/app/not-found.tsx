@@ -52,15 +52,15 @@ export default function NotFound() {
 
           <div className="flex justify-center gap-3">
             {socialLinks.map((social) => (
-              <a
+              <Link
                 key={social.name}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium transition hover:bg-gray-100"
+                className="rounded-lg border border-[var(--color-outline2)] px-4 py-2 text-sm font-medium transition hover:bg-gray-100"
               >
                 {social.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

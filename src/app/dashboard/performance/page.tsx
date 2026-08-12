@@ -36,10 +36,6 @@ export default function Home() {
 
   const dashboardKpis = [
     {
-      title: "Active businesses",
-      value: "3"
-    },
-    {
       title: "Total Revenue",
       value: "$4000"
     },
@@ -52,7 +48,7 @@ export default function Home() {
       value: "$3500"
     },
     {
-      title: "Cash Balance",
+      title: "Total Cash Balance",
       value: "$35000"
     }
   ]
