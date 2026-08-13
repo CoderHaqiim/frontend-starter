@@ -1,5 +1,4 @@
 import TableCell from "./tableCell"
-import TableHeaderCell from "./tableHeaderCell"
 import Frame from "../primitives/frame"
 import { FrameSizeType, SizeType } from "@/src/types/types"
 import { ObjectRecordType } from "@/src/types/types"
@@ -26,6 +25,13 @@ export default function TableRow({
 
   return (
     <Frame width="hug" height="hug" className={rowClass}>
+      <TableCell
+        width="56px"
+        size={size}
+        className={`sticky left-0 z-10 ${rowClass}`}
+      >
+        {String(rowIndex + 1)}
+      </TableCell>
       {valuesArray.map((item, index) => (
         <TableCell
           key={index}

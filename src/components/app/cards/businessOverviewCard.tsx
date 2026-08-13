@@ -14,6 +14,7 @@ import { healthMap } from "@/src/utils/healthMap"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
 import Icon from "../../ui/primitives/icon"
 import { useTheme } from "../themeProvider"
+import { shadow3 } from "@/src/app/design/shadows"
 
 type SmallBusinessOverviewProps = {
     data: Business
@@ -26,14 +27,15 @@ export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps
     const healthBackground =  generateHealthBackground(data.health)
 
     return (
-        <Link href={`/dashboard/performance/businesses/${data.id}`} className="transform transition-transform duration-300 cursor-pointer pointer-events-auto scale-[0.98] hover:z-20 hover:scale-[0.95]">
-          <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
-                  position: "relative", 
+        <Link href={`/dashboard/performance/businesses/${data.id}`} className="transform transition-transform duration-300 cursor-pointer pointer-events-auto scale-[0.96] hover:z-20 hover:scale-[0.94]">
+          <Card width="250px" height="300px" padding="lg" justify="space-between" className={`${shadow3}`} specificStyles={{ 
+                  position: "relative",
+                  border: `solid 1px ${colors["outline2"]}`,
                   flexShrink: 0,
                   background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
               }}>
                   {/* Business name */}
-                  <Frame width="stretch" justify="space-between" height="hug" align="center">
+                  <Frame width="stretch" justify="center" height="hug" align="center">
                       <Heading type="h3" size="xs">
                           {shortenText(data?.name, 22)}
                       </Heading>

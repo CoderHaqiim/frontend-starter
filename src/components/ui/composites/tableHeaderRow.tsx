@@ -1,6 +1,7 @@
 import { MouseEvent } from "react"
 import { FrameSizeType, SizeType } from "@/src/types/types"
 import Frame from "../primitives/frame"
+import TableCell from "./tableCell"
 import TableHeaderCell from "./tableHeaderCell"
 
 type TableHeaderProps = {
@@ -12,7 +13,15 @@ type TableHeaderProps = {
 
 export default function TableHeaderRow({data, widths, size, onResizeStart}: TableHeaderProps) {
   return (
-   <Frame width="hug" height="hug">
+   <Frame width="hug" height="hug" className="sticky top-0 z-20">
+        <TableCell
+          isHeader
+          width="56px"
+          size={size}
+          className="sticky left-0 z-30 bg-[var(--color-background3)]"
+        >
+          #
+        </TableCell>
         {
             data.map((item, index) => 
             <TableHeaderCell

@@ -106,29 +106,15 @@ export default function Table({
       rounded="sm"
       direction="column"
       height={height}
-      className="border-[2px] border-[var(--color-outline2)] overflow-hidden"
+      className="border-[1.5px] border-[var(--color-outline1)] overflow-auto"
       specificStyles={{ minHeight: 0 }}
     >
       <Frame
-        width="stretch"
-        height="stretch"
+        width="hug"
+        height="hug"
         direction="column"
-        className="overflow-x-auto overflow-y-hidden"
-        specificStyles={{ minHeight: 0 }}
       >
-        <Frame
-          width="hug"
-          direction="column"
-          height="stretch"
-          specificStyles={{ minHeight: 0 }}
-        >
         <TableHeaderRow widths={cellWidths} size={size} data={headerData} onResizeStart={handleColumnResizeStart}/>
-        <Frame
-          direction="column"
-          height="stretch"
-          scroll="hidden"
-          specificStyles={{ flex: 1, minHeight: 0 }}
-        >
             {
                 data.map((item, index) => (
                   <TableRow
@@ -141,8 +127,6 @@ export default function Table({
                   />
                 ))
             }
-        </Frame>
-        </Frame>
       </Frame>
     </Frame>
   )

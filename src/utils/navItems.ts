@@ -70,6 +70,18 @@ export const operationsView: navItems = [
         link: "/dashboard/operations/schedules"
     },
     {
+        id: "invoices",
+        text: "Invoices",
+        icon: "icon-file-text",
+        link: "/dashboard/operations/invoices"
+    },
+    {
+        id: "uploads",
+        text: "Uploads",
+        icon: "icon-file-upload",
+        link: "/dashboard/operations/uploads"
+    },
+    {
         id: "settings",
         text: "Settings",
         icon: "icon-settings",

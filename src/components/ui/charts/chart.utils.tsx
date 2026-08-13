@@ -46,7 +46,7 @@ export const useAxis =( type: "x" | "y" ) => {
     const {colors} = useTheme()
     return(
         type === "x"?
-        <XAxis dataKey="name" axisLine={{stroke: colors["outline1"]}}  tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["sm"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["outline1"] }}/>:
-        <YAxis width="auto" axisLine={{stroke: colors["outline1"]}} tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["sm"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["outline1"] }}/>
+        <XAxis dataKey="name" axisLine={{stroke: colors["outline1"]}}  tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"]}} tickLine={{ stroke: colors["outline1"] }}/>:
+        <YAxis width="auto" axisLine={{stroke: colors["outline1"]}} tick={{ fontWeight: fontWeight["normal"], fontSize: bodySize["xs"], fill: colors["textColor2"] }} tickLine={{ stroke: colors["outline1"] }}/>
     ) 
 }

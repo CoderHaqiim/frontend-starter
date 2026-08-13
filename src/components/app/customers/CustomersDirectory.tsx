@@ -9,7 +9,7 @@ import { customers } from "./customerData"
 
 export default function CustomersDirectory() {
   return (
-    <Card padding="lg" rounded="md" width="300px" height="hug">
+    <Card padding="lg" rounded="md" width="300px" height="hug" className="border-[1px] border-[var(--color-outline2)]">
       <Frame width="stretch" height="hug" direction="column" gap="md">
         <Frame justify="space-between" align="center" width="stretch">
           <Heading type="h2" size="sm">Top Customers</Heading>
@@ -21,16 +21,12 @@ export default function CustomersDirectory() {
               key={customer.id}
               width="stretch"
               direction="column"
-              padding="sm"
-              gap="xs"
+              padding="md"
+              gap="xxs"
               rounded="sm"
             >
-              <Paragraph size="sm" weight="medium">{customer.name}</Paragraph>
-              <Paragraph size="xs" color="textColor1">{customer.email}</Paragraph>
-              <Frame width="stretch" justify="space-between" align="center">
-                <Paragraph size="xxs" color="textColor1">{customer.phone}</Paragraph>
-                <Paragraph size="xxs" color="textColor1">{customer.address}</Paragraph>
-              </Frame>
+              <Paragraph size="sm" color="textColor1" weight="medium">{customer.name}</Paragraph>
+              <Paragraph size="xs">{customer.email}</Paragraph>
             </Frame>
           ))}
         </List>

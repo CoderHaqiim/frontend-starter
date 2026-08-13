@@ -5,6 +5,9 @@ import LeftAside from "@/src/components/app/leftAside"
 import RightAside from "@/src/components/app/rightAside"
 import { ReactNode } from "react"
 import Tab from "@/src/components/ui/composites/tab"
+import Tooltip from "@/src/components/ui/composites/tooltip"
+import Button from "@/src/components/ui/primitives/button"
+import { shadow1 } from "../design/shadows"
 
 type LayoutProps = {
   children: ReactNode
@@ -24,6 +27,12 @@ export default function Layout({children}: LayoutProps) {
         </Frame>
       </Frame>
       <Tab/>
+      <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
+        specificStyles={{ position: "fixed", zIndex:"300"}}>
+          <Tooltip position="top" content="add">
+            <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className={`${shadow1}`}/>
+          </Tooltip>
+        </Frame>
     </Frame>
   )
 }

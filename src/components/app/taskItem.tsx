@@ -18,7 +18,7 @@ export default function TaskItem({task}:TaskItemProp) {
     const statusColor = statusColorMap(task.status) as ColorTypes
 
   return (
-    <Frame width="stretch" padding="lg" direction="column" gap="sm">
+    <Frame width="stretch" padding="md" direction="column" gap="sm">
         <Frame justify="space-between" className="flex-1">
             <Frame direction="column">
                 <Frame gap="lg">

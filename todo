@@ -1,0 +1,64 @@
+User will have to define excellent profit margin
+Profitability = profit margin- 50, profit-trend-30, profit stability-20
+
+
+
+
+        <!-- <Section width="stretch">
+          <Frame width="stretch" direction="column" gap="md">
+            <Frame width="stretch" justify="space-between" align="center">
+              <Heading size="md" type="h2">Compose Mail</Heading>
+              <Paragraph size="xs" color="textColor1">{selectedGroup?.customerIds.length ?? 0} recipients</Paragraph>
+            </Frame>
+
+            <Frame width="stretch" gap="md">
+              <label className="flex flex-1 flex-col gap-2 text-[length:var(--bodySize-xs)] font-[var(--fontWeight-medium)]">
+                Audience
+                <select
+                  value={selectedGroupId}
+                  onChange={(event) => setSelectedGroupId(event.target.value)}
+                  className="h-9 rounded-[var(--radius-sm)] border border-[var(--color-outline2)] bg-white px-3 outline-none hover:border-[var(--color-accent)]"
+                >
+                  {mailGroups.map((group) => (
+                    <option key={group.id} value={group.id}>{group.name}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-1 flex-col gap-2 text-[length:var(--bodySize-xs)] font-[var(--fontWeight-medium)]">
+                Schedule
+                <input
+                  value={scheduledFor}
+                  onChange={(event) => setScheduledFor(event.target.value)}
+                  type="datetime-local"
+                  className="h-9 rounded-[var(--radius-sm)] border border-[var(--color-outline2)] px-3 outline-none hover:border-[var(--color-accent)]"
+                />
+              </label>
+            </Frame>
+
+            <label className="flex flex-col gap-2 text-[length:var(--bodySize-xs)] font-[var(--fontWeight-medium)]">
+              Subject
+              <input
+                value={subject}
+                onChange={(event) => setSubject(event.target.value)}
+                placeholder="Mail subject"
+                className="h-9 rounded-[var(--radius-sm)] border border-[var(--color-outline2)] px-3 outline-none hover:border-[var(--color-accent)]"
+              />
+            </label>
+
+            <label className="flex flex-col gap-2 text-[length:var(--bodySize-xs)] font-[var(--fontWeight-medium)]">
+              Message
+              <textarea
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                placeholder="Write the mail body"
+                className="min-h-[140px] resize-y rounded-[var(--radius-sm)] border border-[var(--color-outline2)] p-3 outline-none hover:border-[var(--color-accent)]"
+              />
+            </label>
+
+            <Frame width="stretch" justify="flex-end" gap="sm">
+              <Button variant="outline" size="sm" func={() => addMailRecord("Draft")}>Save Draft</Button>
+              <Button variant="outline" size="sm" func={() => addMailRecord("Scheduled")}>Schedule Send</Button>
+              <Button variant="fill" size="sm" func={() => addMailRecord("Sent")}>Send Now</Button>
+            </Frame>
+          </Frame>
+        </Section> -->

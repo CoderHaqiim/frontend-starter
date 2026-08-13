@@ -8,13 +8,13 @@ export type ColorsMap = Record<keyof typeof lightColors, string>
 const staticColors= {
     "name": "color",
     "success": "#02681d",
-    "success2": "#02681d20",
+    "success2": "#02681d15",
     "error": "#e50000",
-    "error2": "#e5000020",
+    "error2": "#e5000015",
     "warning": "#bd8c04",
-    "warning2": "#bd8c0420",
+    "warning2": "#bd8c0415",
     "info": "#0534c0",
-    "info2": "#0534c020",
+    "info2": "#0534c015",
     "gold" : "#bd8c04",
 }
 
@@ -29,7 +29,7 @@ const lightColors = {
     "muted": "#9e9d9d",
     "muted2": "#e7e5e5",
     "textColor2": "#434242",
-    "background1": "#fdfdfd",
+    "background1": "#fcfcfc",
     "background2": "#f3f3f3",
     "background3": "#e4e4e4",
     "white": "#ffffff",

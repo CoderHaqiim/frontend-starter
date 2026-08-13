@@ -124,7 +124,7 @@ export default function Dropdown({
                 const optionValue = getOptionValue(option);
                 return (
                   <button key={optionValue} type="button" onClick={() => selectOption(option)}
-                    className="block text-[length:var(--bodySize-sm)] w-full px-3 py-2 text-left transition-colors hover:bg-[var(--color-background2)]"
+                    className="block text-[length:var(--bodySize-sm)] w-full px-3 py-2 text-left transition-colors hover:bg-[var(--color-background1)]"
                     style={{
                       backgroundColor: selectedValue === optionValue? colors["accent2"]: undefined,
                   }}>

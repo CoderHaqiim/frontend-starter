@@ -1,0 +1,213 @@
+"use client"
+
+import { useMemo, useState } from "react"
+import Frame from "@/src/components/ui/primitives/frame"
+import Heading from "@/src/components/ui/primitives/heading"
+import Paragraph from "@/src/components/ui/primitives/paragraph"
+import Button from "@/src/components/ui/primitives/button"
+import Section from "@/src/components/layout/section"
+import Table from "@/src/components/ui/composites/table"
+import Badge from "@/src/components/ui/composites/badge"
+import Dropdown from "@/src/components/ui/composites/dropdown"
+import { ObjectRecordType } from "@/src/types/types"
+import { customers } from "@/src/components/app/customers/customerData"
+
+type MailStatus = "Sent" | "Draft" | "Scheduled"
+type RecordView = "Sent" | "Drafts" | "Scheduled" | "Mail Groups"
+
+type MailRecord = {
+  id: string
+  subject: string
+  audience: string
+  recipients: string
+  status: MailStatus
+  createdAt: string
+  sentAt: string
+  scheduledFor: string
+}
+
+type MailGroup = {
+  id: string
+  name: string
+  customerIds: string[]
+}
+
+const initialGroups: MailGroup[] = [
+  {
+    id: "group-active",
+    name: "Active Customers",
+    customerIds: customers.filter((customer) => customer.status === "Active").map((customer) => customer.id),
+  },
+  {
+    id: "group-watchlist",
+    name: "Watchlist",
+    customerIds: customers.filter((customer) => customer.status === "Watchlist").map((customer) => customer.id),
+  },
+]
+
+const initialMailRecords: MailRecord[] = [
+  {
+    id: "mail-001",
+    subject: "July account update",
+    audience: "Active Customers",
+    recipients: "7",
+    status: "Sent",
+    createdAt: "2026-07-30",
+    sentAt: "2026-07-30 09:15",
+    scheduledFor: "",
+  },
+  {
+    id: "mail-002",
+    subject: "Outstanding invoice reminder",
+    audience: "Watchlist",
+    recipients: "2",
+    status: "Scheduled",
+    createdAt: "2026-08-10",
+    sentAt: "",
+    scheduledFor: "2026-08-16 10:00",
+  },
+  {
+    id: "mail-003",
+    subject: "New service package announcement",
+    audience: "Active Customers",
+    recipients: "7",
+    status: "Draft",
+    createdAt: "2026-08-12",
+    sentAt: "",
+    scheduledFor: "",
+  },
+]
+
+function todayLabel() {
+  return new Date().toISOString().slice(0, 10)
+}
+
+function toTableData(records: MailRecord[]): ObjectRecordType[] {
+  return records.map((record) => ({
+    Subject: record.subject,
+    Audience: record.audience,
+    Recipients: record.recipients,
+    Status: record.status,
+    Created: record.createdAt,
+    Sent: record.sentAt,
+    "Scheduled for": record.scheduledFor,
+  }))
+}
+
+export default function MailingPage() {
+  const [mailRecords, setMailRecords] = useState<MailRecord[]>(initialMailRecords)
+  const [mailGroups, setMailGroups] = useState<MailGroup[]>(initialGroups)
+  const [subject, setSubject] = useState("")
+  const [message, setMessage] = useState("")
+  const [selectedGroupId, setSelectedGroupId] = useState(initialGroups[0]?.id ?? "")
+  const [scheduledFor, setScheduledFor] = useState("")
+  const [groupName, setGroupName] = useState("")
+  const [selectedCustomerIds, setSelectedCustomerIds] = useState<string[]>([])
+  const [recordView, setRecordView] = useState<RecordView>("Sent")
+
+  const selectedGroup = mailGroups.find((group) => group.id === selectedGroupId) ?? mailGroups[0]
+
+  const sentRecords = useMemo(() => mailRecords.filter((record) => record.status === "Sent"), [mailRecords])
+  const draftRecords = useMemo(() => mailRecords.filter((record) => record.status === "Draft"), [mailRecords])
+  const scheduledRecords = useMemo(() => mailRecords.filter((record) => record.status === "Scheduled"), [mailRecords])
+
+  const groupTableData: ObjectRecordType[] = mailGroups.map((group) => ({
+    Group: group.name,
+    Contacts: String(group.customerIds.length),
+    Emails: group.customerIds
+      .map((customerId) => customers.find((customer) => customer.id === customerId)?.email)
+      .filter(Boolean)
+      .join(", "),
+  }))
+
+  const recordDataMap: Record<RecordView, ObjectRecordType[]> = {
+    Sent: toTableData(sentRecords),
+    Drafts: toTableData(draftRecords),
+    Scheduled: toTableData(scheduledRecords),
+    "Mail Groups": groupTableData,
+  }
+
+  const recordCountMap: Record<RecordView, number> = {
+    Sent: sentRecords.length,
+    Drafts: draftRecords.length,
+    Scheduled: scheduledRecords.length,
+    "Mail Groups": mailGroups.length,
+  }
+
+  function addMailRecord(status: MailStatus) {
+    const trimmedSubject = subject.trim()
+    const nextRecord: MailRecord = {
+      id: `mail-${Date.now()}`,
+      subject: trimmedSubject || "Untitled mail",
+      audience: selectedGroup?.name ?? "No group",
+      recipients: String(selectedGroup?.customerIds.length ?? 0),
+      status,
+      createdAt: todayLabel(),
+      sentAt: status === "Sent" ? new Date().toLocaleString() : "",
+      scheduledFor: status === "Scheduled" ? scheduledFor.replace("T", " ") : "",
+    }
+
+    setMailRecords((records) => [nextRecord, ...records])
+    setSubject("")
+    setMessage("")
+    setScheduledFor("")
+  }
+
+  function toggleCustomer(customerId: string) {
+    setSelectedCustomerIds((customerIds) =>
+      customerIds.includes(customerId)
+        ? customerIds.filter((id) => id !== customerId)
+        : [...customerIds, customerId]
+    )
+  }
+
+  function createGroup() {
+    const trimmedName = groupName.trim()
+
+    if (!trimmedName || selectedCustomerIds.length === 0) {
+      return
+    }
+
+    const nextGroup = {
+      id: `group-${Date.now()}`,
+      name: trimmedName,
+      customerIds: selectedCustomerIds,
+    }
+
+    setMailGroups((groups) => [nextGroup, ...groups])
+    setSelectedGroupId(nextGroup.id)
+    setGroupName("")
+    setSelectedCustomerIds([])
+  }
+
+  return (
+    <Frame width="stretch" direction="column" height="hug" gap="lg">
+      <Frame justify="space-between" width="stretch" height="hug">
+        <Frame width="stretch" gap="xs" height="hug" direction="column">
+          <Heading size="xl" type="h1">Mailing</Heading>
+          <Paragraph weight="light" size="sm">
+            Compose, manage, and send mails to customers.
+          </Paragraph>
+        </Frame>
+        <Button variant="outline" iconPosition="left" iconName="icon-plus" size="sm">Compose Email</Button>
+      </Frame>
+
+      <Section width="stretch">
+        <Frame width="stretch" justify="space-between" align="center">
+          <Frame gap="sm" align="center">
+            <Heading size="md" type="h2">Records</Heading>
+            <Badge color="accent" size="xs" text={String(recordCountMap[recordView])} />
+          </Frame>
+          <Dropdown
+            name="recordView"
+            value={recordView}
+            options={["Sent", "Drafts", "Scheduled"]}
+            size="sm"
+            formFunc={(event) => setRecordView(event.target.value as RecordView)}
+          />
+        </Frame>
+        <Table width="stretch" cellWidth="180px" height="250px" size="xs" data={recordDataMap[recordView]} />
+      </Section>
+    </Frame>
+  )
+}

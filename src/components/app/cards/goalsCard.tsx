@@ -8,9 +8,9 @@ import GoalsItem from "../goalsItem"
 
 export default function GoalsCard() {
   return (
-    <Card padding="lg" height="hug" width="300px">
+    <Card padding="lg" height="hug" width="300px" className="border-[1px] border-[var(--color-outline2)]">
       <Frame className="mb-[var(--space-md)]">
-        <Heading size="sm" type="h2">Upcoming Goals</Heading>
+        <Heading size="md" type="h2">Upcoming Goals</Heading>
       </Frame>
       <Frame>
         {goals && goals.length > 0 ? (

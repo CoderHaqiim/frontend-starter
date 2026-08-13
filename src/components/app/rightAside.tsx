@@ -11,7 +11,7 @@ import JournalAsideList from "./journalAsideList";
 import CustomersDirectory from "./customers/CustomersDirectory";
 import GoalsCard from "./cards/goalsCard";
 import OpenAside from "./openAside";
-import { nullable } from "zod";
+import MailGroupCard from "./cards/mailGroupCard";
 
 type RightAsideProps = {
   specificStyles?: CSSProperties,
@@ -54,7 +54,15 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
 
       case pathname === "/dashboard/customers/directory":
         return null
-        
+
+      case pathname === "/dashboard/operations/transactions":
+        return null
+
+      case pathname === "/dashboard/customers/mailing":
+        return {
+          content: <MailGroupCard />,
+        };
+
       default:
         return {
           content: <OpenAside/>

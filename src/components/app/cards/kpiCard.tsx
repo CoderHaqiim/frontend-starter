@@ -25,8 +25,8 @@ export default function KpiCard({title, meaning, value, trend, width = "stretch"
       display: meaning? "flex" : "none",
     }}>
         <Card width={width} height="100px" padding="lg" rounded="md" className="flex-1 bg-[var(--color-white)]">
-          <Paragraph size="xs" color="textColor2" weight="normal">{title}</Paragraph>
-          <Paragraph size="xxl" color="textColor1" weight="medium">{abridgeNumber(value)}</Paragraph>
+          <Paragraph size="xs" color="textColor2">{title}</Paragraph>
+          <Paragraph size="xxl" color="textColor1" weight="normal">{abridgeNumber(value)}</Paragraph>
           {trendIcon && trendColor && (
             <Frame width="stretch" height="hug" align="center" gap="xs" className="mt-[var(--space-xs)]">
               <Icon name={trendIcon} size="xs" color={trendColor} />

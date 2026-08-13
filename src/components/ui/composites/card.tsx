@@ -36,10 +36,9 @@ export default function Card({
 }: CardProps) {
   const {colors} = useTheme()
   return (
-    <Frame width={width} justify={justify} align={align} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" border padding={padding} className={`${className} ${shadow3}`}
+    <Frame width={width} justify={justify} align={align} border scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" padding={padding} className={`${className}`}
       specificStyles={{
         backgroundColor: colors["white"],
-        border: `solid 1px ${colors["outline1"]}`,
         ...specificStyles,
         }}>
       {children}

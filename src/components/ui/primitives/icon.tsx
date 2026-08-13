@@ -53,7 +53,11 @@ import {
   Mail,
   Info,
   Clock,
-  Banknote
+  Banknote,
+  Receipt,
+  FileText,
+  FileUp,
+  Building
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -123,7 +127,11 @@ const icons = {
     "icon-mail": Mail,
     "icon-info": Info,
     "icon-clock" : Clock,
-    "icon-money" : Banknote
+    "icon-money" : Banknote,
+    "icon-invoice": Receipt,
+    "icon-file-text": FileText,
+    "icon-file-upload": FileUp,
+    "icon-building": Building
 };
 
 export type IconType = keyof typeof icons;

@@ -24,12 +24,12 @@ export default function SmallBusinessOverview({business}: SmallBusinessOverviewP
     const hoverStyles = 
     `after:left-[-8px] after:top-[-8px]
     after:absolute after:pointer-events-none 
-    after:w-[202px] after:h-[202px]
+    after:w-[200px] after:h-[200px]
     after:rounded-[var(--radius-md)] hover:after:bg-[var(--color-background2)]
     ${businessId === business.id? "after:bg-[var(--color-background3)] after:border-[1.5px]  after:border-[var(--color-accent2)]" : ""}`
 
   return (
-    <Link href={`/dashboard/businesses/${business.id}`} className={`relative w-max rounded-[var(--radius-sm)] shrink-0 h-[180px] w-[180px] ${hoverStyles}`}>
+    <Link href={`/dashboard/performance/businesses/${business.id}`} className={`relative w-max rounded-[var(--radius-sm)] shrink-0 h-[180px] w-[180px] ${hoverStyles}`}>
       <Card
         width="185px"
         padding="lg"
@@ -39,12 +39,13 @@ export default function SmallBusinessOverview({business}: SmallBusinessOverviewP
         specificStyles={{
           position: "relative",
           flexShrink: 0,
+          border: `solid 1px ${colors["outline2"]}`,
           background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
         }}
         className="z-[10] cursor-pointer"
       >
-        <Frame width="stretch" justify="space-between" height="hug" align="center">
-          <Heading type="h3" size="xs">
+        <Frame width="stretch" justify="center" height="hug" align="center">
+          <Heading type="h3" size="xxs">
             {shortenText(business?.name, 18)}
           </Heading>
         </Frame>

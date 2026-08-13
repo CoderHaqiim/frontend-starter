@@ -107,37 +107,36 @@ const health: HealthType | string | number = business?.health
       <Frame width="stretch" direction='column' className="z-[45] bg-[var(--color-background1)]">
         <Frame width="stretch" rounded="sm" height="hug" justify='space-between'>
            {/* Business Info */}
-          <Frame direction='column'>
-            <Frame align='center' height="hug" width="hug" gap="sm">
-              <Heading size="xl" type="h1">{business?.name ?? "Business name"}</Heading>
-              <Tooltip content="add to favorite">
-                <Button variant="ghost" iconColor='gold' iconFill='gold' isIcon size="md" iconName='icon-star' specificStyles={{
-                  height:"max-content",
-                  width: "max-content"
-                }}/>
-              </Tooltip>
+          <Frame gap='lg'>
+            <Frame width="50px" justify='center' align='center' height="50px" border rounded="sm" className='text-[white] bg-[green]'>
+              a
             </Frame>
-          <Frame gap="xs" align='center'>
-              <Paragraph weight="light" size="sm">
-                {business?.industry}
-              </Paragraph>
-              <span>•</span>
-              <Paragraph weight="light" size="xxs">
-                est {business?.established}
-              </Paragraph>
-              <span>•</span>
-              <Paragraph weight="light" size="xxs">
-                {business?.state + ", " + business.country}
-              </Paragraph>
+            <Frame direction='column'>
+              <Frame align='center' height="hug" width="hug" gap="sm">
+                <Heading size="xl" type="h1">{business?.name ?? "Business name"}</Heading>
+              </Frame>
+              <Frame gap="xs" align='center'>
+                <Paragraph weight="light" size="sm">
+                  {business?.industry}
+                </Paragraph>
+                <span>•</span>
+                <Paragraph weight="light" size="xxs">
+                  est {business?.established}
+                </Paragraph>
+                <span>•</span>
+                <Paragraph weight="light" size="xxs">
+                  {business?.state + ", " + business.country}
+                </Paragraph>
+              </Frame>
+            </Frame>
+          </Frame>
+      
+          {/* Actions */}
+          <Frame gap='sm' height="hug" width="hug" className='relative'>
+            <Button variant="outline" size="sm" iconName='icon-pencil'>Edit Business</Button>
           </Frame>
         </Frame>
-
-        {/* Actions */}
-        <Frame gap='sm' height="hug" width="hug" className='relative'>
-          <Button variant="outline" size="sm" iconName='icon-pencil'>Edit Business</Button>
-        </Frame>
       </Frame>
-    </Frame>
 
       {/* KPIS */}
       <Frame width="stretch" height="hug" direction="column" className={`${kpisExpanded ? "border bg-[var(--color-background2)] border-[var(--color-outline1)] rounded-md p-[var(--space-lg)]" : "bg-[transparent]"} gap-[var(--space-md)]`} specificStyles={{
@@ -251,21 +250,6 @@ const health: HealthType | string | number = business?.health
         </Frame>
         <Chart1 variant={selectedChart}/>
       </Section>
-      {/* <Section width="stretch" height="stretch">
-        <Frame height="hug" direction='column' width="stretch" gap='md' className='mb-[var(--space-lg)]'>
-          <Frame className='mb-[var(--space-lg)]'>
-            <Heading type="h2" size='md'>
-              Business Activities
-            </Heading>
-          </Frame>
-           <List width="stretch" height="hug">
-            <Frame>Name</Frame>
-            <Frame>Name</Frame>
-            <Frame>Name</Frame>
-            <Frame>Name</Frame>
-          </List>
-        </Frame>
-      </Section> */}
     </Frame>
   )
 }

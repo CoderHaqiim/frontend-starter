@@ -6,7 +6,9 @@ import Paragraph from "@/src/components/ui/primitives/paragraph"
 import Button from "@/src/components/ui/primitives/button"
 import Section from "@/src/components/layout/section"
 import Table from "@/src/components/ui/composites/table"
-import { customerDirectoryTableData } from "@/src/components/app/customers/customerData"
+import { customerDirectoryTableData, quickContactTableData } from "@/src/components/app/customers/customerData"
+import QuickAccessCard from "@/src/components/app/cards/quickAccess"
+import Badge from "@/src/components/ui/composites/badge"
 
 export default function CustomerDirectoryPage() {
   return (
@@ -22,6 +24,18 @@ export default function CustomerDirectoryPage() {
           Add Customer
         </Button>
       </Frame>
+
+      <Section>
+        <Frame gap="sm" align="center" className="mb-[var(--space-sm)]">
+            <Heading type="h2" size="md"> Quick Access</Heading>
+            <Badge color="accent" size="xs" text="5"/>
+        </Frame>
+        <Frame gap="md" scroll="hidden">
+            {quickContactTableData.map((entry, index) => (
+              <QuickAccessCard key={index} entry={entry} />
+            ))}
+        </Frame>
+      </Section>
 
       <Section width="stretch">
         <Frame width="stretch" height="stretch" scroll="hidden">

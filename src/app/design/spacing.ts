@@ -5,7 +5,7 @@ const space = {
     "xxs": "1px",
     "xs": "4px",
     "sm": "6px",
-    "md": "8px",
+    "md": "10px",
     "lg": "16px",
     "xl" : "24px",
     "xxl" : "40px"

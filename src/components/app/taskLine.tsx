@@ -15,11 +15,11 @@ type TaskLineProps = {
 
 export default function TaskLine({task}: TaskLineProps) {
   return (
-    <Frame width="stretch" gap="xxs" justify="center" height="hug" padding="lg" direction="column" 
+    <Frame width="stretch" gap="xxs" justify="center" height="hug" padding="md" direction="column" 
         className="shrink-0 text-[length:var(--bodySize-sm)]">
       <Frame>
-        <Paragraph size="sm" color="textColor1" >
-          {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 30)}
+        <Paragraph size="sm" weight="normal" color="textColor1" >
+          {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 40)}
         </Paragraph>
       </Frame>
       <Frame justify="space-between" align="center">
@@ -29,13 +29,13 @@ export default function TaskLine({task}: TaskLineProps) {
         </Frame>
         <Frame gap="sm">
           <Tooltip content="mark as done" position="top">
-            <Button iconColor="success" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
-              backgroundColor:colors["success2"]
+            <Button iconColor="success" size="xxs" variant="outline" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
+              // backgroundColor:colors["success2"]
             }}/>
           </Tooltip>
           <Tooltip content="delete" position="top">
-            <Button iconColor="error" size="xs" variant="ghost" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
-              backgroundColor:colors["error2"]
+            <Button iconColor="error" size="xxs" variant="outline" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
+              // backgroundColor:colors["error2"]
             }}/>
           </Tooltip>
         </Frame>
