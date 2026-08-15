@@ -25,6 +25,7 @@ import { healthMap } from '@/src/utils/healthMap'
 import { fontWeight } from '@/src/app/design/typograhy'
 import { space } from '@/src/app/design/spacing'
 import { useTheme } from '@/src/components/app/themeProvider'
+import KpiRow from '@/src/components/ui/composites/kpiRow'
 
 const businessKpis = [
     {
@@ -108,7 +109,7 @@ const health: HealthType | string | number = business?.health
         <Frame width="stretch" rounded="sm" height="hug" justify='space-between'>
            {/* Business Info */}
           <Frame gap='lg'>
-            <Frame width="50px" justify='center' align='center' height="50px" border rounded="sm" className='text-[white] bg-[green]'>
+            <Frame width="45px" justify='center' align='center' height="45px" border rounded="sm" className='text-[white] bg-[green]'>
               a
             </Frame>
             <Frame direction='column'>
@@ -139,26 +140,14 @@ const health: HealthType | string | number = business?.health
       </Frame>
 
       {/* KPIS */}
-      <Frame width="stretch" height="hug" direction="column" className={`${kpisExpanded ? "border bg-[var(--color-background2)] border-[var(--color-outline1)] rounded-md p-[var(--space-lg)]" : "bg-[transparent]"} gap-[var(--space-md)]`} specificStyles={{
+      <Frame width="stretch" gap="sm" height="hug" direction="column" className={`${kpisExpanded ? "border bg-[var(--color-background2)] border-[var(--color-outline1)] rounded-md p-[var(--space-lg)]" : "bg-[transparent]"}`} specificStyles={{
         overflow: "hidden",
         transition: "max-height 300ms ease, transform 250ms ease",
         transform: kpisExpanded ? "scale(1)" : "scale(0.995)",
       }}>
-        <Frame width="stretch" direction="row" className="gap-[var(--space-md)]">
-          {
-            businessKpis.slice(0, 4).map((item, index) => (
-              <KpiCard key={index} meaning={item.meaning} title={item.title} value={item.value} trend={item.trend} />
-            ))
-          }
-        </Frame>
+        <KpiRow kpis={businessKpis.slice(0,4)}/>
         {kpisExpanded && (
-          <Frame width="stretch" direction="row" className="gap-[var(--space-md)]">
-            {
-              businessKpis.slice(4).map((item, index) => (
-                <KpiCard key={index + 4} meaning={item.meaning} title={item.title} value={item.value} trend={item.trend} />
-              ))
-            }
-          </Frame>
+          <KpiRow kpis={businessKpis.slice(4)}/>
         )}
         <Frame width="stretch" justify="center">
           <Button variant="ghost" size="xxs" func={() => setKpisExpanded((prev) => !prev)}

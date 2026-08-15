@@ -6,7 +6,7 @@ import TaskManagerCard from "./cards/taskManagerCard";
 import SmallBusinessCardList from "./smallBusinessCardList";
 import { usePathname } from "next/navigation";
 import { CSSProperties } from "react";
-import Scheduler from "./cards/schedularCard";
+import Calendar from "./cards/calendar";
 import JournalAsideList from "./journalAsideList";
 import CustomersDirectory from "./customers/CustomersDirectory";
 import GoalsCard from "./cards/goalsCard";
@@ -25,11 +25,6 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
       case pathname.startsWith("/dashboard/performance/businesses"):
         return {
           content: <SmallBusinessCardList />,
-        };
-
-      case pathname === "/dashboard/tasks":
-        return {
-          content: <Scheduler/>,
         };
 
       case pathname === "/dashboard/journal":
@@ -52,15 +47,19 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
           content: <CustomersDirectory />,
         };
 
+      case pathname === "/dashboard/customers/receivables":
       case pathname === "/dashboard/customers/directory":
-        return null
-
       case pathname === "/dashboard/operations/transactions":
         return null
 
       case pathname === "/dashboard/customers/mailing":
         return {
           content: <MailGroupCard />,
+        };
+
+      case pathname === "/dashboard/operations/schedules":
+        return {
+          content: <Calendar/>,
         };
 
       default:

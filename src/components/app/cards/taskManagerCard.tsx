@@ -15,11 +15,11 @@ export default function TaskManagerCard() {
     
             <Card padding="lg" rounded="md" width="350px" height="hug" className="border-[1px] border-[var(--color-outline2)]">
               <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline1)] mb-[var(--space-lg)]">
-                <Heading type="h2" size="md">Tasks</Heading>
+                <Heading type="h2" size="sm">Tasks</Heading>
                 <Frame gap="sm">
-                  <Button variant="outline" iconPosition="left" size="sm" iconName="icon-plus">Add Task</Button>
+                  <Button variant="outline" iconPosition="left" size="xs" iconName="icon-plus">Add Task</Button>
                   <Tooltip content="open" position="top">
-                    <Button variant="outline" isIcon size="sm" iconName="icon-open"/>
+                    <Button variant="outline" isIcon size="xs" iconName="icon-open"/>
                   </Tooltip>
                 </Frame>
               </Frame>

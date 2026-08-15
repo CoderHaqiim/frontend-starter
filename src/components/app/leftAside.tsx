@@ -43,7 +43,7 @@ export default function LeftAside() {
                             </NavLink>
                         )
                 }
-                <Frame direction="column" width="stretch" height="hug" className="my-[var(--space-md)] border-t-[1px] border-t-[var(--color-outline1)] pt-[var(--space-md)]">
+                <Frame direction="column" width="stretch" height="hug" className="my-[var(--space-md)] border-t-[1px] border-t-[var(--color-outline2)] pt-[var(--space-md)]">
                     {
                         navItems
                             .filter(item => item.id === "settings" || item.id === "support")

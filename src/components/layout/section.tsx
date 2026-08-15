@@ -26,7 +26,7 @@ export default function Section({
 }: SectionProps) {
   return (
     <Frame width={width} direction='column' border height={height} gap="md" padding="lg" rounded='md' 
-    className={`bg-[var(--color-white)] ${className}`} 
+    className={`${className}`} 
     specificStyles={{
       minHeight: emptyState? "200px" : 0,
       ...specificStyles

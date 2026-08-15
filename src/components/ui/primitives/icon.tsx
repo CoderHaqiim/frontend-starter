@@ -57,7 +57,9 @@ import {
   Receipt,
   FileText,
   FileUp,
-  Building
+  Building,
+  MoreHorizontal
+
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -131,7 +133,8 @@ const icons = {
     "icon-invoice": Receipt,
     "icon-file-text": FileText,
     "icon-file-upload": FileUp,
-    "icon-building": Building
+    "icon-building": Building,
+    "icon-more-horizontal": MoreHorizontal
 };
 
 export type IconType = keyof typeof icons;

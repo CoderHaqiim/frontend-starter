@@ -28,13 +28,13 @@ const lightColors = {
     "textColor1": "#1e1e1e",
     "muted": "#9e9d9d",
     "muted2": "#e7e5e5",
-    "textColor2": "#434242",
-    "background1": "#fcfcfc",
+    "textColor2": "#6a6969",
+    "background1": "#fdfdfd",
     "background2": "#f3f3f3",
-    "background3": "#e4e4e4",
+    "background3": "#e6e6e6",
     "white": "#ffffff",
-    "outline2": "#a3a3a3",
-    "outline1": "#d3d3d3",
+    "outline2": "#a1a1a1",
+    "outline1": "#dddddd",
 } as const
 
 const darkColors: ColorsMap = {

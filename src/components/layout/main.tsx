@@ -1,7 +1,6 @@
 "use client"
 
 import { CSSProperties, ReactNode } from "react"
-import { SizeType } from "@/src/types/types"
 import { space } from "@/src/app/design/spacing"
 import { useTheme } from "../app/themeProvider"
 
@@ -15,10 +14,10 @@ export default function Main({children, className, specificStyles}: MainProps) {
   const {colors} = useTheme()
 
   const defaultStyle:CSSProperties = {
-    paddingTop: space["xl"],
-    paddingRight: space["xl"],
+    paddingTop: space["lg"],
+    paddingRight: space["lg"],
     paddingBottom: "100px",
-    paddingLeft: space["xl"],
+    paddingLeft: space["lg"],
     borderRight: `solid 1px ${colors["outline1"]}`,
     borderLeft: `solid 1px ${colors["outline1"]}`,
   }

@@ -97,14 +97,14 @@ export default function Dropdown({
       <div ref={wrapperRef} className="relative w-max">
         <button type="button" disabled={disabled} onClick={() => setOpen((prev) => !prev)}
           className={`flex items-center justify-between rounded-[var(--radius-sm)] px-2 pr-8 min-w-[100px]
-            ${ border? "border border-[var(--color-outline2)]" : ""}
+            ${ border? "border border-[var(--color-outline1)]" : ""}
             ${ outline ? "hover:border-[var(--color-accent)] focus:border-2 focus:border-[var(--color-accent)]": ""}
           `}
           style={{
             height: elementSizes[size],
             ...specificStyle,
             fontSize: bodySize["xs"],
-            fontWeight: fontWeight["medium"]
+            fontWeight: fontWeight["normal"]
           }}
         >
           {getOptionLabel(selectedOption)}

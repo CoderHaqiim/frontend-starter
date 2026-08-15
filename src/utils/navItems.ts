@@ -124,7 +124,7 @@ export const customersView: navItems = [
         id: "watch",
         text: "Watchlist",
         icon: "icon-eye",
-        link: "/dashboard/customers/receivables"
+        link: "/dashboard/customers/watchlist"
     },
 
 

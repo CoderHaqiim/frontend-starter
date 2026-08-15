@@ -21,6 +21,7 @@ import Button from "@/src/components/ui/primitives/button"
 import { shadow2 } from "@/src/app/design/shadows"
 import Tooltip from "@/src/components/ui/composites/tooltip"
 import { shadow1 } from "@/src/app/design/shadows"
+import KpiRow from "@/src/components/ui/composites/kpiRow"
 
 export default function Home() {
   const {userState} = useUserState()
@@ -116,15 +117,11 @@ const scrollRightHandler = () => {
 
 
         {/* KPIs */}
-        <Frame width="stretch" height="100px" gap="md">
-          {
-            dashboardKpis.map((item, index) => <KpiCard key={index} title={item.title} value={item.value}/>)
-          }
-        </Frame>
+        <KpiRow kpis={dashboardKpis}/>
 
         {/* Business Overview */}
         <Section>
-          <Frame width="stretch" align="center" height="hug" className="justify-between mb-[var(--space-md)]">
+          <Frame width="stretch" align="center" height="hug" className="pb-[var(--space-md)] justify-between mb-[var(--space-md)] border-b-[1px] border-b-[var(--color-outline1)]">
             <Heading size="md" type="h2">Businesses Overview</Heading>
             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
@@ -179,12 +176,6 @@ const scrollRightHandler = () => {
               <MetricsRow data={{name:"Business4"}}/>
             </List>
         </Section>
-        <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
-            specificStyles={{ position: "fixed", zIndex:"300"}}>
-            <Tooltip position="top" content="add">
-              <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className={`${shadow1}`}/>
-            </Tooltip>
-        </Frame>
       </Frame>
     
   )

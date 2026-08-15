@@ -21,6 +21,7 @@ import Button from "@/src/components/ui/primitives/button"
 import { shadow2 } from "@/src/app/design/shadows"
 import Tooltip from "@/src/components/ui/composites/tooltip"
 import { shadow1 } from "@/src/app/design/shadows"
+import KpiRow from "@/src/components/ui/composites/kpiRow"
 
 export default function Home() {
   const {userState} = useUserState()
@@ -32,7 +33,6 @@ export default function Home() {
   const sliderRef = useRef<HTMLDivElement>(null)
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(false);
-
 
   const dashboardKpis = [
     {
@@ -108,16 +108,13 @@ const scrollRightHandler = () => {
         <Frame width="stretch" gap="xs" height="hug" direction="column">
           <Heading size="xl" type="h1">Operations</Heading>
         </Frame>
-        <Frame width="stretch" height="100px" gap="md">
-          {
-            dashboardKpis.map((item, index) => <KpiCard key={index} title={item.title} value={item.value}/>)
-          }
-        </Frame>
+        
+        <KpiRow kpis={dashboardKpis}/>
 
          {/* Latest Transactions */}
           <Section>
             <Frame width="stretch" justify="space-between" align="center" height="hug" className="mb-[var(--space-md)]">
-              <Heading size="sm" type="h2">Latest Transactions</Heading>
+              <Heading size="md" type="h2">Latest Transactions</Heading>
               <Frame width="hug" height="hug" gap="sm">
                 <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
               </Frame>

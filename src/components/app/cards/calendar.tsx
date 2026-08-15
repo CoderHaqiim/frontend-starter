@@ -24,12 +24,14 @@ import Button from "../../ui/primitives/button"
 import { http } from "@/src/http/client"
 import Tooltip from "../../ui/composites/tooltip"
 import { useTheme } from "../themeProvider"
+import { fontWeight } from "@/src/app/design/typograhy"
+import { bodySize } from "@/src/app/design/typograhy"
 
-type SchedulerProps = { businessId?: string }
+type CalendarProps = { businessId?: string }
 
 const days = [ "Sun", "Mon", "Tue","Wed","Thu","Fri","Sat"]
 
-export default function Scheduler({businessId}: SchedulerProps) {
+export default function Calendar({businessId}: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [schedules, setSchedules] = useState<Schedule[]>([])
   const [loading, setLoading] = useState(true)
@@ -71,34 +73,26 @@ export default function Scheduler({businessId}: SchedulerProps) {
   }
 
   return (
-    <Card padding="lg" height="hug" className="bg-[var(--color-white)]" width="stretch" rounded="md">
+    <Card padding="lg" height="hug" className="border-[var(--color-outline2)] bg-[var(--color-white)]" width="stretch" rounded="md">
       {/* Header */}
       <Frame align="center" justify="space-between" className="mb-[var(--space-lg)]">
         <Frame direction="column">
           <Heading type="h3" size="sm">
-            Scheduler
+            Calendar
           </Heading>
         </Frame>
-        <Button iconName="icon-plus" variant="outline" size="sm"
-            func={() => {
-              setSelectedDate(new Date())
-              setShowModal(true)
-            }}
-        >
-            Add schedule
-        </Button>
       </Frame>
 
       {/* Controls */}
       <Frame gap="md" align="center" justify="space-between" width="stretch" className="mb-[var(--space-md)]">
         <Tooltip content="previous month">
-          <Button variant="outline" size="sm" isIcon iconName="icon-left" func={() => setCurrentDate( subMonths(currentDate, 1))}/>
+          <Button variant="outline" size="xs" isIcon iconName="icon-left" func={() => setCurrentDate( subMonths(currentDate, 1))}/>
         </Tooltip>
         <Heading size="xxs" type="h4">
           { format(currentDate, "MMMM yyyy") }
         </Heading>
         <Tooltip content="next month">
-          <Button variant="outline" size="sm" isIcon iconName="icon-right" func={() => setCurrentDate( addMonths(currentDate, 1))}/>
+          <Button variant="outline" size="xs" isIcon iconName="icon-right" func={() => setCurrentDate( addMonths(currentDate, 1))}/>
         </Tooltip>
       </Frame>
 
@@ -108,7 +102,7 @@ export default function Scheduler({businessId}: SchedulerProps) {
           {
             days.map((day) => 
             <Frame key={day}>
-              <Paragraph size="xs" className="text-center w-full">{day}</Paragraph>
+              <Paragraph size="xs" weight="normal" color="textColor1" className="text-center w-full">{day}</Paragraph>
             </Frame>
             )
           }
@@ -123,13 +117,16 @@ export default function Scheduler({businessId}: SchedulerProps) {
               const isToday = isSameDay(day,new Date())
 
             return (
-              <Button size="md" isIcon variant="outline" key={day.toISOString()} func={() => { setSelectedDate(day), setShowModal(true)}}
-                className={`min-h-[20px] font-[weight:var(--fontWeight-normal)] transition hover:bg-[var(--color-background1)]`}
+              <Button size="sm" isIcon variant="outline" key={day.toISOString()} func={() => { setSelectedDate(day), setShowModal(true)}}
+                className={`font-[weight:var(--fontWeight-normal)] transition hover:bg-[var(--color-background1)]`}
                 
                   specificStyles={{
-                    color:  isCurrentMonth? "" : `${colors["background2"]}`,
-                    border: isCurrentMonth? `1px solid ${colors["outline2"]}` : `1px solid ${colors["background2"]}`, 
-                    backgroundColor: isToday? colors["accent2"] : ""
+                    borderRadius: `var(--space-sm)`,
+                    color:  isCurrentMonth? colors["textColor2"] : `${colors["background2"]}`,
+                    border: "0px", 
+                    fontSize: bodySize["xs"],
+                    fontWeight:fontWeight["normal"],
+                    backgroundColor: isToday? colors["accent2"] : colors["background1"]
                 }}
               >
 
