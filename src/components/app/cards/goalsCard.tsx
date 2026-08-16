@@ -5,10 +5,11 @@ import Heading from "../../ui/primitives/heading"
 import Card from "../../ui/composites/card"
 import Paragraph from "../../ui/primitives/paragraph"
 import GoalsItem from "../goalsItem"
+import { shadow3 } from "@/src/app/design/shadows"
 
 export default function GoalsCard() {
   return (
-    <Card padding="lg" height="hug" width="300px" className="border-[1px] border-[var(--color-outline2)]">
+    <Card padding="lg" height="hug" width="300px" className={`${shadow3} border-[1px] border-[var(--color-outline2)]`}>
       <Frame className="mb-[var(--space-md)]">
         <Heading size="sm" type="h2">Upcoming Goals</Heading>
       </Frame>

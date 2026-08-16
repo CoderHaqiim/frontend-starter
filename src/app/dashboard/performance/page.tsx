@@ -121,18 +121,18 @@ const scrollRightHandler = () => {
 
         {/* Business Overview */}
         <Section>
-          <Frame width="stretch" align="center" height="hug" className="pb-[var(--space-md)] justify-between mb-[var(--space-md)] border-b-[1px] border-b-[var(--color-outline1)]">
+          <Frame width="stretch" align="center" height="hug" className=" justify-between mb-[var(--space-md)]">
             <Heading size="md" type="h2">Businesses Overview</Heading>
             <Frame width="hug" height="hug" gap="sm">
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
             </Frame>
           </Frame>
+
           <Frame width="stretch" align="center" justify="space-between" height="stretch" className="top-0 left-0 z-[50] opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-150" specificStyles={{ position: "absolute" }}>
-            
             <Tooltip content="slide right">
                <Button func={scrollLeftHandler} variant="outline" size="xl" isIcon iconName="icon-left" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
-              display: `${showLeftButton? "flex" : "none"}`
-            }}/>
+                display: `${showLeftButton? "flex" : "none"}`
+              }}/>
             </Tooltip>
             <Tooltip content="slide left">
                <Button func={scrollRightHandler} variant="outline" size="xl" isIcon iconName="icon-right" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
@@ -140,7 +140,7 @@ const scrollRightHandler = () => {
             }}/>
             </Tooltip>
           </Frame>
-          <Frame ref={sliderRef} width="stretch" height="hug" scroll="hidden" gap="lg">
+          <Frame ref={sliderRef} width="stretch" height="hug" scroll="hidden" gap="sm">
             {
               businessesState.map(buisness => <BusinessOverviewCard data={buisness} key={buisness.id}/>)
             }

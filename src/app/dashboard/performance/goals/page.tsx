@@ -72,7 +72,7 @@ export default function GoalsPage() {
           <Frame className="mb-[var(--space-sm)]">
             <Heading size="md" type="h2">Goals categories</Heading>
           </Frame>
-          <Frame gap="md" align="center">
+          <Frame gap="sm" align="center">
             {
               goalsCategories.map((item, index) => <Badge key={index} size="xs" text={item} color="textColor2" bg="muted2" className="grow-0 p-[var(--space-sm)]"/>)
             }

@@ -164,44 +164,44 @@ const health: HealthType | string | number = business?.health
 
         {/* Business Health */}
         <Section width="stretch" height="stretch">
-          <Frame justify="space-between" gap="xs" height="hug" width="stretch" className='mb-[var(--space-lg)]'>
-            <Frame direction="column" width="stretch" >
+          <Frame justify="space-between" gap="xs" height="hug" width="stretch">
+            <Frame width="stretch" align='center' gap="sm">
               <Heading type="h2" size='md'>Business Health</Heading>
-              <Paragraph weight="light" size='sm'>Score and Metrices</Paragraph>
+              <Paragraph weight="light" size='xs'>Score and Metrices</Paragraph>
             </Frame>
             <Button variant="ghost" isIcon iconName="icon-info"/>
           </Frame>
           <Frame gap='lg'>
-            <Card justify="flex-start" padding="lg" align='center' width="240px" height="240px" rounded="md" className=" gap-[var(--space-xl)] bg-[var(--color-background1)]">
+            <Card justify="flex-start" padding="lg" align='center' width="240px" height="240px" rounded="md" className=" border-[1px] border-[var(--color-outline2)] gap-[var(--space-xl)] bg-[var(--color-background1)]">
               <Heading type="h3" size='xs'>Business score</Heading>
               <RadialProgress size={140} strokeWidth={5} score={business?.healthScore} color={healthMap[scoreHealthMap(business.healthScore)]}/>
             </Card>
-            <Frame justify='space-between' gap="md" direction="column" height="200px" 
-              className='flex-1 bg-[var(--color-white)]'>
+            <Frame justify='space-between' rounded="md" padding="lg" gap="sm" direction="column" height="240px" 
+              className='flex-1 border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]'>
               {/* weight-40 */}
               <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Profitability</Heading>
-                <LinearProgress height={3} textSize='xs' score={20} color={healthMap[scoreHealthMap(20)]}/>
+                <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]}/>
               </Frame>
               {/* weight-25 */}
               <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Cash health</Heading>
-                <LinearProgress height={3} textSize='xs' score={20} color={healthMap[scoreHealthMap(20)]}/>
+                <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]}/>
               </Frame>
               {/* weight-15 */}
               <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Growth</Heading>
-                <LinearProgress height={3} textSize='xs' score={business?.healthScore} color={healthMap[health]}/>
+                <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]}/>
               </Frame>
               {/* weight-10 */}
               <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Stability</Heading>
-                <LinearProgress height={3} textSize='xs' score={20} color={healthMap[health]}/>
+                <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[health]}/>
               </Frame>
               {/* weight-10 */}
               <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
                 <Heading type="h3" size='xxs'>Operational</Heading>
-                <LinearProgress height={3} textSize='xs' score={business?.healthScore} color={healthMap[health]}/>
+                <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]}/>
               </Frame>
             </Frame>
           </Frame>

@@ -5,11 +5,12 @@ import Heading from "@/src/components/ui/primitives/heading"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
 import List from "@/src/components/ui/composites/list"
 import Card from "@/src/components/ui/composites/card"
+import { shadow3 } from "@/src/app/design/shadows"
 import { customers } from "./customerData"
 
 export default function CustomersDirectory() {
   return (
-    <Card padding="lg" rounded="md" width="300px" height="hug" className="border-[1px] border-[var(--color-outline2)]">
+    <Card padding="lg" rounded="md" width="300px" height="hug" className={`${shadow3} border-[1px] border-[var(--color-outline2)]`}>
       <Frame width="stretch" height="hug" direction="column" gap="md">
         <Frame justify="space-between" align="center" width="stretch">
           <Heading type="h2" size="sm">Top Customers</Heading>

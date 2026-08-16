@@ -11,6 +11,7 @@ import { customers } from "@/src/components/app/customers/customerData"
 import { useMailGroupState } from "@/src/store/mailGroupState"
 import List from "../../ui/composites/list"
 import Card from "../../ui/composites/card"
+import { shadow3 } from "@/src/app/design/shadows"
 
 export default function MailGroupCard() {
   const { mailGroups, addMailGroup } = useMailGroupState()
@@ -42,7 +43,7 @@ export default function MailGroupCard() {
   }
 
   return (
-    <Card width="320px" height="hug" padding="lg" className="border-[1px] border-[var(--color-outline2)]">
+    <Card width="320px" height="hug" padding="lg" className={`${shadow3} border-[1px] border-[var(--color-outline2)]`}>
       <Frame width="stretch" direction="column" gap="md">
         <Frame width="stretch" justify="space-between" align="center">
           <Heading size="sm" type="h2">Create Mail Group</Heading>

@@ -26,6 +26,7 @@ import Tooltip from "../../ui/composites/tooltip"
 import { useTheme } from "../themeProvider"
 import { fontWeight } from "@/src/app/design/typograhy"
 import { bodySize } from "@/src/app/design/typograhy"
+import { shadow3 } from "@/src/app/design/shadows"
 
 type CalendarProps = { businessId?: string }
 
@@ -73,7 +74,7 @@ export default function Calendar({businessId}: CalendarProps) {
   }
 
   return (
-    <Card padding="lg" height="hug" className="border-[var(--color-outline2)] bg-[var(--color-white)]" width="stretch" rounded="md">
+    <Card padding="lg" height="hug" className={`${shadow3} border-[var(--color-outline2)] bg-[var(--color-white)]`} width="stretch" rounded="md">
       {/* Header */}
       <Frame align="center" justify="space-between" className="mb-[var(--space-lg)]">
         <Frame direction="column">
@@ -96,13 +97,13 @@ export default function Calendar({businessId}: CalendarProps) {
         </Tooltip>
       </Frame>
 
-      <Frame border rounded="md" padding="md" direction="column" height="hug" width="stretch">
+      <Frame rounded="md" padding="md" direction="column" height="hug" width="stretch" className="border-[1px] border-[var(--color-outline2)]">
         {/* Days of week */}
         <Frame className="grid grid-cols-7">
           {
             days.map((day) => 
             <Frame key={day}>
-              <Paragraph size="xs" weight="normal" color="textColor1" className="text-center w-full">{day}</Paragraph>
+              <Paragraph size="xs" weight="normal" color="textColor2" className="text-center w-full">{day}</Paragraph>
             </Frame>
             )
           }
@@ -122,10 +123,10 @@ export default function Calendar({businessId}: CalendarProps) {
                 
                   specificStyles={{
                     borderRadius: `var(--space-sm)`,
-                    color:  isCurrentMonth? colors["textColor2"] : `${colors["background2"]}`,
+                    color:  isCurrentMonth? colors["textColor1"] : `${colors["background2"]}`,
                     border: "0px", 
-                    fontSize: bodySize["xs"],
-                    fontWeight:fontWeight["normal"],
+                    fontSize: bodySize["xxs"],
+                    fontWeight:fontWeight["light"],
                     backgroundColor: isToday? colors["accent2"] : colors["background1"]
                 }}
               >

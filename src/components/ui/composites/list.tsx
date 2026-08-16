@@ -21,7 +21,7 @@ export default function List({
     <Frame
       width={width}
       height={height}
-      className="bg-[var(--color-background1)]"
+      className="bg-[var(--color-background1)] border-[1px] border-[var(--color-outline2)]"
       rounded="md"
       border
       direction="column"

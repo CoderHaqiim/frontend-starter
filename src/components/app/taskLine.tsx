@@ -18,7 +18,7 @@ export default function TaskLine({task}: TaskLineProps) {
     <Frame width="stretch" gap="xxs" justify="center" height="hug" padding="md" direction="column" 
         className="shrink-0 text-[length:var(--bodySize-sm)]">
       <Frame>
-        <Paragraph size="sm" weight="normal" color="textColor1" >
+        <Paragraph size="sm" color="textColor1" >
           {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 40)}
         </Paragraph>
       </Frame>

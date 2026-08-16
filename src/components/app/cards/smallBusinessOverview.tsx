@@ -11,6 +11,7 @@ import RadialProgress from "../../ui/composites/radialProgress"
 import { useTheme } from "../themeProvider"
 import { healthMap } from "@/src/utils/healthMap"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
+import { shadow3 } from "@/src/app/design/shadows"
 
 type SmallBusinessOverviewProps = {
     business: Business
@@ -42,7 +43,7 @@ export default function SmallBusinessOverview({business}: SmallBusinessOverviewP
           border: `solid 1px ${colors["outline2"]}`,
           background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
         }}
-        className="z-[10] cursor-pointer"
+        className={`${shadow3} z-[10] cursor-pointer`}
       >
         <Frame width="stretch" justify="center" height="hug" align="center">
           <Heading type="h3" size="xxs">

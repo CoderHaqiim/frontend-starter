@@ -2,6 +2,7 @@
 import { LineChart, Line, BarChart, Bar, CartesianGrid} from 'recharts';
 import { useLegend, useTooltip, useAxis} from './chart.utils';
 import { useTheme } from '../../app/themeProvider';
+import Frame from '../primitives/frame';
 
 // #region Sample data
 const data = [
@@ -47,26 +48,30 @@ export default function Chart1({variant}: ChartProps) {
 
     const chartStyle = {
         width: '100%',
-        maxWidth: '700px',
+        maxWidth: 'none',
         height: '100%',
         maxHeight: '400px',
         aspectRatio: 2,
-        outline: "none"
+        outline: "none",
+        backgroundColor: colors["white"],
+        padding: "var(--space-md)",
+        boxSizing: "border-box" as const,
     }
 
   return (
-    variant === "Line chart" ? (
-    <LineChart
-      style={chartStyle}
-      responsive
-      data={data}
-      margin={{
-        top: 5,
-        right: 0,
-        left: 0,
-        bottom: 5,
-      }}
-    >
+    <Frame width="stretch" rounded='md' padding="lg" className=" border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]">
+      {variant === "Line chart" ? (
+      <LineChart
+        style={chartStyle}
+        responsive
+        data={data}
+        margin={{
+          top: 5,
+          right: 0,
+          left: 0,
+          bottom: 5,
+        }}
+      >
       <CartesianGrid strokeDasharray="3 3" stroke={colors["outline1"]} />
       {useAxis("x")}
       {useAxis("y")}
@@ -121,6 +126,7 @@ export default function Chart1({variant}: ChartProps) {
       <Bar dataKey="expenses" fill= {colors["error"]} activeBar={{ fill:colors["error"] }} radius={[4, 4, 0, 0]} />
       <Bar dataKey="profit" fill={colors["success"]} activeBar={{ fill:colors["success"]}} radius={[4, 4, 0, 0]} />
     </BarChart>
-    )
+    )}
+    </Frame>
 )}
     

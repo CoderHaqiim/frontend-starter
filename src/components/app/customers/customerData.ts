@@ -246,6 +246,84 @@ export const customerDirectoryTableData: ObjectRecordType[] = customers.map((cus
   Notes: customer.notes
 }))
 
+export const watchlistTableData: ObjectRecordType[] = [
+  {
+    customer: "Dangote Stores",
+    reason: "Overdue Payment",
+    outstanding: "₦150,000",
+    lastActivity: "Aug 08, 2026",
+    priority: "High",
+    nextAction: "Follow Up",
+  },
+  {
+    customer: "Ade & Sons",
+    reason: "No Recent Activity",
+    outstanding: "₦45,000",
+    lastActivity: "Jul 20, 2026",
+    priority: "Medium",
+    nextAction: "Contact",
+  },
+  {
+    customer: "Ola Ventures",
+    reason: "Payment Follow-up",
+    outstanding: "₦75,000",
+    lastActivity: "Aug 10, 2026",
+    priority: "Medium",
+    nextAction: "Follow Up",
+  },
+  {
+    customer: "Ikeja Supplies",
+    reason: "Overdue Payment",
+    outstanding: "₦50,000",
+    lastActivity: "Aug 04, 2026",
+    priority: "High",
+    nextAction: "Contact",
+  },
+  {
+    customer: "Multilinks Ltd",
+    reason: "High Value Customer",
+    outstanding: "₦0",
+    lastActivity: "Aug 13, 2026",
+    priority: "Low",
+    nextAction: "Review",
+  },
+]
+
+export const watchlistQuickAccessData = [
+  {
+    title: "Overdue",
+    value: "2",
+    description: "Customers needing payment follow-up",
+  },
+  {
+    title: "Follow Up",
+    value: "3",
+    description: "Customers to contact",
+  },
+  {
+    title: "High Value",
+    value: "₦210,000",
+    description: "Outstanding from key customers",
+  },
+  {
+    title: "Inactive",
+    value: "2",
+    description: "Customers with no recent activity",
+  },
+  {
+    title: "At Risk",
+    value: "1",
+    description: "Customer requiring attention",
+  },
+]
+
+export const watchlistKpis = [
+  { id: 'onWatchlist', title: 'On Watchlist', value: '5', meaning: 'Customers needing attention' },
+  { id: 'overdue', title: 'Overdue', value: '2', meaning: 'Customers with overdue balances' },
+  { id: 'followUp', title: 'Follow Up', value: '3', meaning: 'Customers requiring follow-up' },
+  { id: 'outstanding', title: 'Outstanding', value: '₦320,000', meaning: 'Amount owed by watchlist customers' }
+]
+
 export const quickContactTableData: ObjectRecordType[] = customers.map((customer) => ({
   Name: customer.name,
   Company: customer.companyName,

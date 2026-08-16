@@ -73,7 +73,7 @@ export default function Tab() {
             <Frame
                 ref={containerRef}
                 direction="row"
-                gap="lg"
+                gap="md"
                 width="hug"
                 border
                 padding="md"

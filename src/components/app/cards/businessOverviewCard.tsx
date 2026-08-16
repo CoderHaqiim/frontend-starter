@@ -30,7 +30,7 @@ export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps
         <Link href={`/dashboard/performance/businesses/${data.id}`} className="transform transition-transform duration-300 cursor-pointer pointer-events-auto scale-[0.96] hover:z-20 hover:scale-[0.94]">
           <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
                   position: "relative",
-                  border: `solid 1px ${colors["outline1"]}`,
+                  border: `solid 1px ${colors["outline2"]}`,
                   flexShrink: 0,
                   background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
               }}>

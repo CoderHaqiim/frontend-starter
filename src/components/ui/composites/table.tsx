@@ -106,7 +106,7 @@ export default function Table({
       rounded="sm"
       direction="column"
       height={height}
-      className="border-[1.5px] border-[var(--color-outline1)] overflow-auto"
+      className="border-[1.5px] border-[var(--color-outline2)] overflow-auto"
       specificStyles={{ minHeight: 0 }}
     >
       <Frame

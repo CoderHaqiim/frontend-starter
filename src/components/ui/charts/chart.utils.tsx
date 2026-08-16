@@ -8,21 +8,34 @@ import { useTheme } from "../../app/themeProvider";
 import {space} from "@/src/app/design/spacing";
 
 
-export const useLegend = () =>{
-        return (
-            <Legend 
-                wrapperStyle={{
-                    fontSize: bodySize["xxs"],
-                    fontWeight: fontWeight["medium"]
-                }}
-                align="left"
-                iconType="square"
-                iconSize={5}
-                fontSize= "8px"
-                verticalAlign="bottom"
-            />
-        )
-    }
+export const useLegend = () => {
+    const { colors } = useTheme()
+
+    return (
+        <Legend
+            wrapperStyle={{
+                fontSize: bodySize["xxs"],
+                fontWeight: fontWeight["medium"],
+                backgroundColor: colors["background2"],
+                borderRadius: radius["sm"],
+                padding: space["sm"],
+                position: "absolute",
+                left: "16px",
+                bottom: "10px",
+                transform: "translateY(0)",
+                border: "none",
+                boxShadow: "none",
+                width: "fit-content",
+                maxWidth: "none"
+            }}
+            align="left"
+            iconType="square"
+            iconSize={5}
+            fontSize="8px"
+            verticalAlign="bottom"
+        />
+    )
+}
 
 export const useTooltip = () => {
     const {colors} = useTheme()

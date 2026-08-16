@@ -76,12 +76,6 @@ export const operationsView: navItems = [
         link: "/dashboard/operations/invoices"
     },
     {
-        id: "uploads",
-        text: "Uploads",
-        icon: "icon-file-upload",
-        link: "/dashboard/operations/uploads"
-    },
-    {
         id: "settings",
         text: "Settings",
         icon: "icon-settings",
@@ -120,13 +114,6 @@ export const customersView: navItems = [
         icon: "icon-money",
         link: "/dashboard/customers/receivables"
     },
-    {
-        id: "watch",
-        text: "Watchlist",
-        icon: "icon-eye",
-        link: "/dashboard/customers/watchlist"
-    },
-
 
     {
         id: "settings",

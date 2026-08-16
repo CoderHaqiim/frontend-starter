@@ -9,11 +9,12 @@ import { shortenText } from "@/src/utils/shortenText"
 import Tooltip from "../../ui/composites/tooltip"
 import List from "../../ui/composites/list"
 import Button2 from "../button2"
+import { shadow3 } from "@/src/app/design/shadows"
 
 export default function TaskManagerCard() {
   return (
     
-            <Card padding="lg" rounded="md" width="350px" height="hug" className="border-[1px] border-[var(--color-outline2)]">
+            <Card padding="lg" rounded="md" width="350px" height="hug" className={`${shadow3} border-[1px] border-[var(--color-outline2)]`}>
               <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline1)] mb-[var(--space-lg)]">
                 <Heading type="h2" size="sm">Tasks</Heading>
                 <Frame gap="sm">

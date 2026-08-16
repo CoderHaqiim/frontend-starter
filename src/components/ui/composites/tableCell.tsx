@@ -24,7 +24,7 @@ export default function TableCell({
 
     const height = elementSizes[size]
   return (
-    <Frame border width={width} padding="sm" justify="flex-end" align="center" height={height} className={`${className} hover:border-[1px] hover:border-[var(--color-accent)] overflow-scroll`}>
+    <Frame border width={width} padding="sm" justify="flex-end" align="center" height={height} className={`${className} hover:border-[1px] hover:border-[var(--color-accent)] overflow-hidden`}>
         <Paragraph color={isHeader? "textColor1" : "textColor2"} weight={isHeader? "medium" : "light"} size={size}>
             {children}
         </Paragraph>
