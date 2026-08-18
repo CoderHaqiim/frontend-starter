@@ -1,11 +1,11 @@
 "use client"
 
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import Frame from '../primitives/frame'
-import { FrameSizeType, SizeType } from '@/src/types/types'
-import TableRow from './tableRow'
-import TableHeaderRow from './tableHeaderRow'
-import { ObjectRecordType } from '@/src/types/types'
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react"
+import Frame from "../primitives/frame"
+import { FrameSizeType, SizeType } from "@/src/types/types"
+import TableRow from "./tableRow"
+import TableHeaderRow from "./tableHeaderRow"
+import { ObjectRecordType } from "@/src/types/types"
 
 type TableProps = {
     width: FrameSizeType,
@@ -40,6 +40,7 @@ export default function Table({
 
     const headerData: string[] = useMemo(() => {
         const itemSet: Set<string> = new Set()
+
         const getObjectKey = (obj: {}) => {
             return Object.keys(obj)
         }
@@ -49,17 +50,17 @@ export default function Table({
         }
 
         data.forEach(item => {
-            pushToSet(getObjectKey(item ?? " ")) 
+            pushToSet(getObjectKey(item ?? " "))
         })
 
-        const dataArray = [...itemSet]
-        return dataArray
+        return [...itemSet]
     }, [data])
 
     const [columnWidths, setColumnWidths] = useState<number[]>([])
 
     useEffect(() => {
         const defaultWidth = parseColumnWidth(cellWidth)
+
         setColumnWidths((currentWidths) =>
             headerData.map((_, index) => currentWidths[index] ?? defaultWidth)
         )
@@ -80,10 +81,15 @@ export default function Table({
         document.body.style.userSelect = "none"
 
         const handleMouseMove = (moveEvent: globalThis.MouseEvent) => {
-            const nextWidth = Math.max(MIN_COLUMN_WIDTH, startWidth + moveEvent.clientX - startX)
+            const nextWidth = Math.max(
+                MIN_COLUMN_WIDTH,
+                startWidth + moveEvent.clientX - startX
+            )
 
             setColumnWidths((currentWidths) =>
-                currentWidths.map((width, index) => index === columnIndex ? nextWidth : width)
+                currentWidths.map((width, index) =>
+                    index === columnIndex ? nextWidth : width
+                )
             )
         }
 
@@ -98,36 +104,62 @@ export default function Table({
         window.addEventListener("mouseup", handleMouseUp)
     }, [cellWidth, columnWidths])
 
-    const cellWidths = headerData.map((_, index) => `${columnWidths[index] ?? parseColumnWidth(cellWidth)}px`)
+    const cellWidths = headerData.map(
+        (_, index) =>
+            `${columnWidths[index] ?? parseColumnWidth(cellWidth)}px`
+    )
 
-  return (
-    <Frame
-      width={width}
-      rounded="sm"
-      direction="column"
-      height={height}
-      className="border-[1.5px] border-[var(--color-outline2)] overflow-auto"
-      specificStyles={{ minHeight: 0 }}
-    >
-      <Frame
-        width="hug"
-        height="hug"
-        direction="column"
-      >
-        <TableHeaderRow widths={cellWidths} size={size} data={headerData} onResizeStart={handleColumnResizeStart}/>
-            {
-                data.map((item, index) => (
-                  <TableRow
-                    headerData={headerData}
-                    key={index}
-                    rowIndex={index}
-                    size={size}
+    return (
+        <Frame
+            className={`
+                ${width === "stretch" ? "w-full" : ""}
+                ${width === "hug" ? "w-max" : ""}
+                ${height === "stretch" ? "h-full" : ""}
+                ${height === "hug" ? "h-max" : ""}
+                rounded-[var(--radius-sm)]
+                border-[1.5px]
+                border-[var(--color-outline2)]
+                overflow-auto
+            `}
+            specificStyles={{
+                ...(typeof width === "string" &&
+                    width !== "stretch" &&
+                    width !== "hug"
+                    ? { width }
+                    : {}),
+                ...(typeof height === "string" &&
+                    height !== "stretch" &&
+                    height !== "hug"
+                    ? { height }
+                    : {}),
+                ...(typeof width === "number" ? { width } : {}),
+                ...(typeof height === "number" ? { height } : {}),
+                minHeight: 0,
+            }}
+        >
+            <Frame
+                className="w-max h-max flex flex-col"
+            >
+                <TableHeaderRow
                     widths={cellWidths}
-                    data={item}
-                  />
-                ))
-            }
-      </Frame>
-    </Frame>
-  )
+                    size={size}
+                    data={headerData}
+                    onResizeStart={handleColumnResizeStart}
+                />
+
+                {
+                    data.map((item, index) => (
+                        <TableRow
+                            headerData={headerData}
+                            key={index}
+                            rowIndex={index}
+                            size={size}
+                            widths={cellWidths}
+                            data={item}
+                        />
+                    ))
+                }
+            </Frame>
+        </Frame>
+    )
 }

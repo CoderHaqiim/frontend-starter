@@ -83,12 +83,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
       specificStyles={{
          ...specificStyles
       }}>
-      <Frame
-        width="hug"
-        height="stretch"
-        direction="column"
-        gap="md"
-      >
+      <Frame className="w-max h-full h-full flex-col gap-var(--space-md)">
         {content}
       </Frame>
     </Aside>

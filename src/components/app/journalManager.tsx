@@ -15,21 +15,34 @@ export default function JournalManager() {
 
   return (
     <Section width="stretch" height="hug" className="min-h-[200px]">
-      <Frame gap="sm" justify="flex-end" width="stretch" height="hug" className="pb-[var(--space-md)] border-b border-[var(--color-outline1)]">
+      <Frame
+        className="
+          w-full h-max flex
+          gap-[var(--space-sm)]
+          justify-end
+          pb-[var(--space-md)]
+          border-b border-[var(--color-outline1)]
+        "
+      >
         <Dropdown size="sm" name="Business" options={businesses} />
         <Dropdown size="sm" name="Status" options={statuses} />
         <Dropdown size="sm" name="Category" options={categories} />
       </Frame>
-      <Frame width="stretch" height="stretch">
+
+      <Frame className="w-full h-full">
         {journalEntries.length > 0 ? (
           <List width="stretch" height="stretch" scroll="hidden">
             {journalEntries.map((entry) => (
-              <JournalItem key={entry.id} entry={entry}/>
+              <JournalItem key={entry.id} entry={entry} />
             ))}
           </List>
         ) : (
-          <Frame width="stretch" height="stretch" justify="center" align="center">
-            <Paragraph size="md" weight="light" className="text-center w-full h-[100px] flex">
+          <Frame className="w-full h-full flex justify-center items-center">
+            <Paragraph
+              size="md"
+              weight="light"
+              className="text-center w-full h-[100px] flex"
+            >
               When you create journal entries, they appear here.
             </Paragraph>
           </Frame>

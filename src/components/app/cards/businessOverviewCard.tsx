@@ -17,64 +17,91 @@ import { useTheme } from "../themeProvider"
 import { shadow3 } from "@/src/app/design/shadows"
 
 type SmallBusinessOverviewProps = {
-    data: Business
+  data: Business
 }
 
+export default function SmallBusinessOverview({ data }: SmallBusinessOverviewProps) {
+  const { colors } = useTheme()
+  const healthBackground = generateHealthBackground(data.health)
 
+  return (
+    <Link
+      href={`/dashboard/performance/businesses/${data.id}`}
+      className="transform transition-transform duration-300 cursor-pointer pointer-events-auto scale-[0.96] hover:z-20 hover:scale-[0.94]"
+    >
+      <Card
+        width="250px"
+        height="300px"
+        padding="lg"
+        justify="space-between"
+        specificStyles={{
+          position: "relative",
+          border: `solid 1px ${colors["outline2"]}`,
+          flexShrink: 0,
+          background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
+        }}
+      >
+        {/* Business name */}
+        <Frame className="w-full justify-center h-max items-center">
+          <Heading type="h3" size="xs">
+            {shortenText(data?.name, 22)}
+          </Heading>
+        </Frame>
 
-export default function SmallBusinessOverview({data}: SmallBusinessOverviewProps) {
-    const {colors} = useTheme()
-    const healthBackground =  generateHealthBackground(data.health)
+        {/* Health score */}
+        <Frame className="w-full gap-[var(--space-sm)] flex-col items-center">
+          <RadialProgress
+            color={healthMap[data.health]}
+            score={data.healthScore}
+            size={125}
+            textSize="xxl"
+            strokeWidth={2}
+          />
+          <Paragraph
+            weight="semiBold"
+            color={healthMap[data.health]}
+            size="md"
+          >
+            {data.health}
+          </Paragraph>
+        </Frame>
 
-    return (
-        <Link href={`/dashboard/performance/businesses/${data.id}`} className="transform transition-transform duration-300 cursor-pointer pointer-events-auto scale-[0.96] hover:z-20 hover:scale-[0.94]">
-          <Card width="250px" height="300px" padding="lg" justify="space-between" specificStyles={{ 
-                  position: "relative",
-                  border: `solid 1px ${colors["outline2"]}`,
-                  flexShrink: 0,
-                  background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
-              }}>
-                  {/* Business name */}
-                  <Frame width="stretch" justify="center" height="hug" align="center">
-                      <Heading type="h3" size="xs">
-                          {shortenText(data?.name, 22)}
-                      </Heading>
-                  </Frame>
+        {/* Financial summary */}
+        <Frame className="w-full gap-[var(--space-xl)] flex-row justify-center">
+          <Frame className="flex-col items-center">
+            <Frame>
+              <Paragraph size="xxs">Income</Paragraph>
+            </Frame>
+            <Frame>
+              <Paragraph color="textColor1" weight="bold" size="sm">
+                $4000
+              </Paragraph>
+            </Frame>
+          </Frame>
 
-                  {/* Health score */}
-                  <Frame width="stretch" gap="sm" direction="column" align="center">
-                      <RadialProgress color={healthMap[data.health]} score={data.healthScore} size={125} textSize="xxl" strokeWidth={2}/>
-                      <Paragraph weight="semiBold" color={healthMap[data.health]} size="md">{data.health}</Paragraph>
-                  </Frame>
+          <Frame className="flex-col items-center">
+            <Frame>
+              <Paragraph size="xxs">Expenses</Paragraph>
+            </Frame>
+            <Frame>
+              <Paragraph weight="bold" color="textColor1" size="sm">
+                $4000
+              </Paragraph>
+            </Frame>
+          </Frame>
 
-                  {/* Financial summary */}
-                  <Frame width="stretch"  gap="xl" direction="row" justify="center" className="bg-[]">
-                      <Frame direction="column"align="center">
-                          <Frame>
-                              <Paragraph size="xxs"> Income </Paragraph>
-                          </Frame>
-                          <Frame>
-                              <Paragraph color="textColor1" weight="bold" size="sm"> $4000 </Paragraph>
-                          </Frame>
-                      </Frame>
-                      <Frame direction="column"align="center">
-                          <Frame>
-                              <Paragraph size="xxs"> Expenses </Paragraph>
-                          </Frame>
-                          <Frame>
-                              <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
-                          </Frame>
-                      </Frame>
-                      <Frame direction="column"align="center">
-                          <Frame>
-                              <Paragraph size="xxs"> Net Profit </Paragraph>
-                          </Frame>
-                          <Frame>
-                              <Paragraph weight="bold" color="textColor1" size="sm"> $4000 </Paragraph>
-                          </Frame>
-                      </Frame>
-                  </Frame>
-          </Card>
-        </Link>
-    )
+          <Frame className="flex-col items-center">
+            <Frame>
+              <Paragraph size="xxs">Net Profit</Paragraph>
+            </Frame>
+            <Frame>
+              <Paragraph weight="bold" color="textColor1" size="sm">
+                $4000
+              </Paragraph>
+            </Frame>
+          </Frame>
+        </Frame>
+      </Card>
+    </Link>
+  )
 }

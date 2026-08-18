@@ -43,13 +43,19 @@ export default function MailGroupCard() {
   }
 
   return (
-    <Card width="320px" height="hug" padding="lg">
-      <Frame width="stretch" direction="column" gap="md">
-        <Frame width="stretch" justify="space-between" align="center">
-          <Heading size="sm" type="h2">Create Mail Group</Heading>
+    <Card
+      width="320px"
+      height="hug"
+      padding="lg"
+    >
+      <Frame className="flex w-full flex-col gap-[var(--space-md)]">
+        <Frame className="flex w-full items-center justify-between">
+          <Heading size="sm" type="h2">
+            Create Mail Group
+          </Heading>
         </Frame>
 
-        <Frame width="stretch" direction="column" gap="xs">
+        <Frame className="flex w-full flex-col gap-[var(--space-xs)]">
           <input
             value={groupName}
             onChange={(event) => setGroupName(event.target.value)}
@@ -58,19 +64,45 @@ export default function MailGroupCard() {
           />
         </Frame>
 
-        <Frame width="stretch" justify="space-between" align="center">
-          <Paragraph size="sm" weight="normal" color="textColor1">Selected Customers</Paragraph>
-          <Badge color="accent" size="xs" text={String(selectedCustomerIds.length)} />
+        <Frame className="flex w-full items-center justify-between">
+          <Paragraph
+            size="sm"
+            weight="normal"
+            color="textColor1"
+          >
+            Selected Customers
+          </Paragraph>
+
+          <Badge
+            color="accent"
+            size="xs"
+            text={String(selectedCustomerIds.length)}
+          />
         </Frame>
 
-        <Frame width="stretch" height="200px" direction="column" gap="xs" className=" pr-1">
+        <Frame
+          className="flex h-[200px] w-full flex-col gap-[var(--space-xs)] pr-1"
+        >
           <List scroll="hidden">
             {customers.map((customer) => (
-              <Frame key={customer.id} align="center" padding="md" justify="space-between" >
+              <Frame
+                key={customer.id}
+                className="flex items-center justify-between p-[var(--space-md)]"
+              >
                 <span className="min-w-0">
-                  <Paragraph size="xs" weight="medium" color="textColor1">{customer.email}</Paragraph>
-                  <Paragraph size="xxs">{customer.name}</Paragraph>
+                  <Paragraph
+                    size="xs"
+                    weight="medium"
+                    color="textColor1"
+                  >
+                    {customer.email}
+                  </Paragraph>
+
+                  <Paragraph size="xxs">
+                    {customer.name}
+                  </Paragraph>
                 </span>
+
                 <input
                   type="checkbox"
                   checked={selectedCustomerIds.includes(customer.id)}
@@ -80,7 +112,15 @@ export default function MailGroupCard() {
             ))}
           </List>
         </Frame>
-        <Button variant="outline" size="sm" width="stretch" func={createGroup}>Create Group</Button>
+
+        <Button
+          variant="outline"
+          size="sm"
+          width="stretch"
+          func={createGroup}
+        >
+          Create Group
+        </Button>
       </Frame>
     </Card>
   )

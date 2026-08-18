@@ -28,95 +28,96 @@ import { useTheme } from '@/src/components/app/themeProvider'
 import KpiRow from '@/src/components/ui/composites/kpiRow'
 
 const businessKpis = [
-    {
-      title: "Cash Balance",
-      value: "$6500000100",
-      trend: "up",
-      meaning: "Amount of money the business currently has available to use."
-    },
-    {
-      title: "Revenue",
-      value: "$4,000",
-      trend: "up",
-      meaning: "Total money your business makes from selling products or services, before deducting expenses."
-    },
-    {
-      title: "Expenses",
-      value: "$500",
-      trend: "down",
-      meaning: "These are the costs and payments your business incurs to operate, produce or deliver its products/services, and keep the business running."
-    },
-    {
-      title: "Net Profit",
-      value: "$3,500",
-      trend: "up",
-      meaning: "This is the amount of money your business has left after subtracting all of its business expenses from the revenue it generated"
-    },
-    {
-      title: "Net Profit Margin",
-      value: "30%",
-      trend: "up",
-      meaning: "This measures the percentage of revenue that remains as profit after expenses are deducted."
-    },
-    {
-      title: "Customers",
-      value: "30",
-      trend: "down",
-      meaning: "This is the number of people your business currently serves."
-    },
-    {
-      title: "Recievables",
-      value: "$3,500",
-      trend: "down",
-      meaning: "This is the total amount of money that customers owe your business for products or services they have already received but have not yet paid for."
-    },
-    {
-      title: "Cash flow",
-      value: "$40,000",
-      trend: "up",
-      meaning: "Cash flow measures the movement of actual cash into and out of a business over a specific period."
-    }
-  ]
+  {
+    title: "Cash Balance",
+    value: "$6500000100",
+    trend: "up",
+    meaning: "Amount of money the business currently has available to use."
+  },
+  {
+    title: "Revenue",
+    value: "$4,000",
+    trend: "up",
+    meaning: "Total money your business makes from selling products or services, before deducting expenses."
+  },
+  {
+    title: "Expenses",
+    value: "$500",
+    trend: "down",
+    meaning: "These are the costs and payments your business incurs to operate, produce or deliver its products/services, and keep the business running."
+  },
+  {
+    title: "Net Profit",
+    value: "$3,500",
+    trend: "up",
+    meaning: "This is the amount of money your business has left after subtracting all of its business expenses from the revenue it generated"
+  },
+  {
+    title: "Net Profit Margin",
+    value: "30%",
+    trend: "up",
+    meaning: "This measures the percentage of revenue that remains as profit after expenses are deducted."
+  },
+  {
+    title: "Customers",
+    value: "30",
+    trend: "down",
+    meaning: "This is the number of people your business currently serves."
+  },
+  {
+    title: "Recievables",
+    value: "$3,500",
+    trend: "down",
+    meaning: "This is the total amount of money that customers owe your business for products or services they have already received but have not yet paid for."
+  },
+  {
+    title: "Cash flow",
+    value: "$40,000",
+    trend: "up",
+    meaning: "Cash flow measures the movement of actual cash into and out of a business over a specific period."
+  }
+]
 
 export default function BusinessPage() {
   const { colors } = useTheme()
   const [business, setBusiness] = useState<Business>({})
   const [kpisExpanded, setKpisExpanded] = useState(false)
-  const {businessId} = useParams()
+  const { businessId } = useParams()
   const reportDuration = ["This week", "This month", "This year"]
   const chartOptions = ["Line chart", "Bar chart"]
 
-useEffect(()=>{
-  fetchBusiness()
-},[businessId])
+  useEffect(() => {
+    fetchBusiness()
+  }, [businessId])
 
-async function fetchBusiness(){
-  const businessOne = await http<Business>(`/api/businesses/${businessId}`)
-  setBusiness(businessOne)
-}
+  async function fetchBusiness() {
+    const businessOne = await http<Business>(`/api/businesses/${businessId}`)
+    setBusiness(businessOne)
+  }
 
-const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const selectedValue = e.target.value as "Line chart" | "Bar chart";
-  setSelectedChart(selectedValue);
-};
+  const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value as "Line chart" | "Bar chart";
+    setSelectedChart(selectedValue);
+  };
 
-const health: HealthType | string | number = business?.health
+  const health: HealthType | string | number = business?.health
 
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
+
   return (
-    <Frame width="stretch" direction='column' gap="lg" height="hug"> 
-      <Frame width="stretch" direction='column' className="z-[45] bg-[var(--color-background1)]">
-        <Frame width="stretch" rounded="sm" height="hug" justify='space-between'>
-           {/* Business Info */}
-          <Frame gap='lg'>
-            <Frame width="45px" justify='center' align='center' height="45px" border rounded="sm" className='text-[white] bg-[green]'>
+    <Frame className="w-full flex-col gap-[var(--space-lg)] h-max">
+      <Frame className="w-full flex-col z-[45] bg-[var(--color-background1)]">
+        <Frame className="w-full rounded-[var(--radius-sm)] h-max justify-between">
+          {/* Business Info */}
+          <Frame className="gap-[var(--space-lg)]">
+            <Frame className="w-[45px] justify-center items-center h-[45px] border rounded-[var(--radius-sm)] text-[white] bg-[green]">
               a
             </Frame>
-            <Frame direction='column'>
-              <Frame align='center' height="hug" width="hug" gap="sm">
+            <Frame className="flex-col">
+              <Frame className="items-center h-max w-auto gap-[var(--space-sm)]">
                 <Heading size="xl" type="h1">{business?.name ?? "Business name"}</Heading>
               </Frame>
-              <Frame gap="xs" align='center'>
+              <Frame className="gap-[var(--space-xs)] items-center">
                 <Paragraph weight="light" size="sm">
                   {business?.industry}
                 </Paragraph>
@@ -131,115 +132,142 @@ const health: HealthType | string | number = business?.health
               </Frame>
             </Frame>
           </Frame>
-      
+
           {/* Actions */}
-          <Frame gap='sm' height="hug" width="hug" className='relative'>
+          <Frame className="gap-[var(--space-sm)] h-max w-auto relative">
             <Button variant="outline" size="sm" iconName='icon-pencil'>Edit Business</Button>
           </Frame>
         </Frame>
       </Frame>
 
       {/* KPIS */}
-      <Frame width="stretch" gap="sm" height="hug" direction="column" className={`${kpisExpanded ? "border bg-[var(--color-background2)] border-[var(--color-outline1)] rounded-md p-[var(--space-lg)]" : "bg-[transparent]"}`} specificStyles={{
-        overflow: "hidden",
-        transition: "max-height 300ms ease, transform 250ms ease",
-        transform: kpisExpanded ? "scale(1)" : "scale(0.995)",
-      }}>
-        <KpiRow kpis={businessKpis.slice(0,4)}/>
+      <Frame
+        className={`w-full gap-[var(--space-sm)] h-max flex-col ${kpisExpanded ? "border bg-[var(--color-background2)] border-[var(--color-outline1)] rounded-[var(--radius-md)] p-[var(--space-lg)]" : "bg-[transparent]"}`}
+        specificStyles={{
+          overflow: "hidden",
+          transition: "max-height 300ms ease, transform 250ms ease",
+          transform: kpisExpanded ? "scale(1)" : "scale(0.995)",
+        }}
+      >
+        <KpiRow kpis={businessKpis.slice(0, 4)} />
         {kpisExpanded && (
-          <KpiRow kpis={businessKpis.slice(4)}/>
+          <KpiRow kpis={businessKpis.slice(4)} />
         )}
-        <Frame width="stretch" justify="center">
-          <Button variant="ghost" size="xxs" func={() => setKpisExpanded((prev) => !prev)}
+        <Frame className="w-full justify-center">
+          <Button
+            variant="ghost"
+            size="xxs"
+            func={() => setKpisExpanded((prev) => !prev)}
             specificStyles={{
               color: colors["accent"],
               backgroundColor: "transparent",
               fontWeight: fontWeight["semiBold"],
               marginBottom: space["xs"]
-            }}>
+            }}
+          >
             {kpisExpanded ? 'See less KPIs' : 'See more KPIs'}
           </Button>
         </Frame>
       </Frame>
 
-        {/* Business Health */}
-        <Section width="stretch" height="stretch">
-          <Frame justify="space-between" gap="xs" height="hug" width="stretch">
-            <Frame width="stretch" align='center' gap="sm">
-              <Heading type="h2" size='md'>Business Health</Heading>
-              <Paragraph weight="light" size='xs'>Score and Metrices</Paragraph>
-            </Frame>
-            <Button variant="ghost" isIcon iconName="icon-info"/>
+      {/* Business Health */}
+      <Section width="stretch" height="stretch">
+        <Frame className="justify-between gap-[var(--space-xs)] h-max w-full">
+          <Frame className="w-full items-center gap-[var(--space-sm)]">
+            <Heading type="h2" size='md'>Business Health</Heading>
+            <Paragraph weight="light" size='xs'>Score and Metrices</Paragraph>
           </Frame>
-          <Frame gap='lg'>
-            <Card justify="flex-start" padding="lg" align='center' width="240px" height="240px" rounded="md" gap="xl" className="bg-[var(--color-background1)]">
-              <Heading type="h3" size='xs'>Business score</Heading>
-              <RadialProgress size={140} strokeWidth={5} score={business?.healthScore} color={healthMap[scoreHealthMap(business.healthScore)]}/>
-            </Card>
-            <Frame justify='space-between' rounded="md" padding="lg" gap="sm" direction="column" height="240px" 
-              className='flex-1 border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]'>
-              {/* weight-40 */}
-              <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
-                <Heading type="h3" size='xxs'>Profitability</Heading>
-                <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]}/>
-              </Frame>
-              {/* weight-25 */}
-              <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
-                <Heading type="h3" size='xxs'>Cash health</Heading>
-                <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]}/>
-              </Frame>
-              {/* weight-15 */}
-              <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
-                <Heading type="h3" size='xxs'>Growth</Heading>
-                <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]}/>
-              </Frame>
-              {/* weight-10 */}
-              <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
-                <Heading type="h3" size='xxs'>Stability</Heading>
-                <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[health]}/>
-              </Frame>
-              {/* weight-10 */}
-              <Frame direction="column" justify="space-between" padding='sm' align='flex-start' width="stretch" height="hug" rounded="sm" className='bg-[var(--color-background1)]'>
-                <Heading type="h3" size='xxs'>Operational</Heading>
-                <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]}/>
-              </Frame>
+          <Button variant="ghost" isIcon iconName="icon-info" />
+        </Frame>
+
+        <Frame className="gap-[var(--space-lg)]">
+          <Card
+            justify="flex-start"
+            padding="lg"
+            align='center'
+            width="240px"
+            height="240px"
+            rounded="md"
+            gap="xl"
+            className="bg-[var(--color-background1)]"
+          >
+            <Heading type="h3" size='xs'>Business score</Heading>
+            <RadialProgress
+              size={140}
+              strokeWidth={5}
+              score={business?.healthScore}
+              color={healthMap[scoreHealthMap(business.healthScore)]}
+            />
+          </Card>
+
+          <Frame
+            className="justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] gap-[var(--space-sm)] flex-col h-[240px] flex-1 border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]"
+          >
+            {/* weight-40 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Profitability</Heading>
+              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
+            </Frame>
+
+            {/* weight-25 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Cash health</Heading>
+              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
+            </Frame>
+
+            {/* weight-15 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Growth</Heading>
+              <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]} />
+            </Frame>
+
+            {/* weight-10 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Stability</Heading>
+              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[health]} />
+            </Frame>
+
+            {/* weight-10 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Operational</Heading>
+              <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]} />
             </Frame>
           </Frame>
-        </Section>
-       
-       {/* Business Insights */}
-        <Section width="stretch" height="stretch">
-          <Frame direction='column' gap="xs" height="hug" width="stretch" className='mb-[var(--space-lg)]'>
-            <Frame width="stretch" className='mb-[var(--space-lg)]'>
-              <Heading type="h2" size='md'>Business Insights</Heading>
-            </Frame>
-            <List width="stretch" height="220px" scroll="hidden">
-              <Insight text="Profit increased by 12%"/>
-              <Insight text="Profit increased by 12%"/>
-              <Insight text="Profit increased by 12% and bla bla bal"/>
-              <Insight text="Profit increased by 12% and bla bla bal"/>
-              <Insight text="Profit increased by 12% and bla bla bal"/>
-              <Insight text="Profit increased by 12% and bla bla bal"/>
-              <Insight text="Profit increased by 12% and bla bla bal"/>
-            </List>
+        </Frame>
+      </Section>
+
+      {/* Business Insights */}
+      <Section width="stretch" height="stretch">
+        <Frame className="flex-col gap-[var(--space-xs)] h-max w-full mb-[var(--space-lg)]">
+          <Frame className="w-full mb-[var(--space-lg)]">
+            <Heading type="h2" size='md'>Business Insights</Heading>
           </Frame>
-        </Section>
+          <List width="stretch" height="220px" scroll="hidden">
+            <Insight text="Profit increased by 12%" />
+            <Insight text="Profit increased by 12%" />
+            <Insight text="Profit increased by 12% and bla bla bal" />
+            <Insight text="Profit increased by 12% and bla bla bal" />
+            <Insight text="Profit increased by 12% and bla bla bal" />
+            <Insight text="Profit increased by 12% and bla bla bal" />
+            <Insight text="Profit increased by 12% and bla bla bal" />
+          </List>
+        </Frame>
+      </Section>
 
       {/* Chart */}
       <Section width="stretch">
-        <Frame justify='space-between' align='center' className='mb-[var(--space-lg)]'>
-          <Frame height="hug" align="center" width="stretch" gap='lg' >
+        <Frame className="justify-between items-center mb-[var(--space-lg)]">
+          <Frame className="h-max items-center w-full gap-[var(--space-lg)]">
             <Heading type="h2" size='md'> Chart </Heading>
             <Paragraph size='xs'> Expenses • Revenue • Net Profit </Paragraph>
           </Frame>
-          <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
-            <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
-            <Dropdown name="report" size="sm" options={reportDuration}/>
+          <Frame className="w-auto h-max gap-[var(--space-sm)]">
+            <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler} />
+            <Dropdown name="report" size="sm" options={reportDuration} />
           </Frame>
         </Frame>
-        <Chart1 variant={selectedChart}/>
+        <Chart1 variant={selectedChart} />
       </Section>
     </Frame>
   )
 }
-

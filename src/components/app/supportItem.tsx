@@ -20,33 +20,62 @@ export default function SupportItem({ ticket }: SupportItemProps) {
   };
 
   return (
-    <Frame width="stretch" padding="lg" direction="column" gap="sm">
-      <Frame justify="space-between" className="flex-1">
-        <Frame direction="column" gap="xs">
+    <Frame className="flex w-full flex-col gap-[var(--space-sm)] p-[var(--space-lg)]">
+      <Frame className="flex-1 justify-between">
+        <Frame className="flex flex-col gap-[var(--space-xs)]">
           <Paragraph color="textColor1" size="md" weight="medium">
             {ticket.subject}
           </Paragraph>
+
           <Paragraph size="sm">
             {ticket.message}
           </Paragraph>
-          <Frame gap="xs">
-            <Paragraph weight="light" size="xs">{ticket.business}</Paragraph>
-            <Paragraph weight="light" size="xs">-</Paragraph>
-            <Paragraph weight="light" size="xs">{ticket.date}</Paragraph>
+
+          <Frame className="flex gap-[var(--space-xs)]">
+            <Paragraph weight="light" size="xs">
+              {ticket.business}
+            </Paragraph>
+            <Paragraph weight="light" size="xs">
+              -
+            </Paragraph>
+            <Paragraph weight="light" size="xs">
+              {ticket.date}
+            </Paragraph>
           </Frame>
         </Frame>
-        <Frame gap="sm">
+
+        <Frame className="flex gap-[var(--space-sm)]">
           <Tooltip content="open ticket">
-            <Button variant="outline" size="sm" iconName="icon-open" isIcon/>
+            <Button
+              variant="outline"
+              size="sm"
+              iconName="icon-open"
+              isIcon
+            />
           </Tooltip>
+
           <Tooltip content="ticket menu">
-            <Button variant="outline" size="sm" iconName="icon-vertival-dots" isIcon/>
+            <Button
+              variant="outline"
+              size="sm"
+              iconName="icon-vertival-dots"
+              isIcon
+            />
           </Tooltip>
         </Frame>
       </Frame>
-      <Frame gap="sm">
-        <Badge text={ticket.priority} color={priorityColor} size="xxs"/>
-        <Badge text={ticket.status} color={statusColorMap[ticket.status]} size="xxs"/>
+
+      <Frame className="flex gap-[var(--space-sm)]">
+        <Badge
+          text={ticket.priority}
+          color={priorityColor}
+          size="xxs"
+        />
+        <Badge
+          text={ticket.status}
+          color={statusColorMap[ticket.status]}
+          size="xxs"
+        />
       </Frame>
     </Frame>
   );

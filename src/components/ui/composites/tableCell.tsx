@@ -22,9 +22,12 @@ export default function TableCell({
     actionSlot
 }: TableCellProps) {
 
-    const height = elementSizes[size]
   return (
-    <Frame border width={width} padding="sm" justify="flex-end" align="center" height={height} className={`${className} hover:border-[1px] hover:border-[var(--color-accent)] overflow-hidden`}>
+    <Frame border className={`${className} items-center justify-end p-[var(--space-sm)] hover:border-[1px] hover:border-[var(--color-accent)] overflow-hidden`}
+        specificStyles={{
+            width: width,
+            height: elementSizes[size]
+        }}>
         <Paragraph color={isHeader? "textColor1" : "textColor2"} weight={isHeader? "medium" : "light"} size={size}>
             {children}
         </Paragraph>

@@ -1,6 +1,5 @@
 "use client"
 
-import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
 import Button from "@/src/components/ui/primitives/button"
@@ -52,55 +51,78 @@ export const goals: GoalsType[] = [
 
 export default function GoalsPage() {
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <div className="flex w-full h-max flex-col gap-[var(--space-lg)]">
+      <div className="flex w-full h-max justify-between">
+        <div className="flex w-full h-max flex-col gap-[var(--space-xs)]">
           <Heading size="xl" type="h1">Goals</Heading>
           <Paragraph weight="light" size="sm">
             Set and manage your business goals.
           </Paragraph>
-        </Frame>
-        <Frame gap="sm">
-          <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus">
-           Set New Goal
+        </div>
+
+        <div className="flex gap-[var(--space-sm)]">
+          <Button
+            variant="outline"
+            size="sm"
+            iconPosition="left"
+            iconName="icon-plus"
+          >
+            Set New Goal
           </Button>
-        </Frame>
-      </Frame>
+        </div>
+      </div>
 
       <Section width="stretch">
-        <Frame width="stretch" direction="column" gap="md">
-          <Frame className="mb-[var(--space-sm)]">
+        <div className="flex w-full flex-col gap-[var(--space-md)]">
+          <div className="mb-[var(--space-sm)]">
             <Heading size="md" type="h2">Goals categories</Heading>
-          </Frame>
-          <Frame gap="sm" align="center">
-            {
-              goalsCategories.map((item, index) => <Badge key={index} size="xs" text={item} color="textColor2" bg="muted2" className="grow-0 p-[var(--space-sm)]"/>)
-            }
+          </div>
+
+          <div className="flex items-center gap-[var(--space-sm)]">
+            {goalsCategories.map((item, index) => (
+              <Badge
+                key={index}
+                size="xs"
+                text={item}
+                color="textColor2"
+                bg="muted2"
+                className="grow-0 p-[var(--space-sm)]"
+              />
+            ))}
+
             <Tooltip content="Add New Category">
-              <Button isIcon size="sm" variant="outline" iconName="icon-plus"/>
+              <Button
+                isIcon
+                size="sm"
+                variant="outline"
+                iconName="icon-plus"
+              />
             </Tooltip>
-          </Frame>
-        </Frame>
+          </div>
+        </div>
       </Section>
-      
+
       <Section width="stretch" emptyState>
-        <Frame width="stretch" direction="column" gap="md">
-          <Frame width="stretch" className="mb-[var(--space-sm)]">
+        <div className="flex w-full flex-col gap-[var(--space-md)]">
+          <div className="mb-[var(--space-sm)]">
             <Heading size="md" type="h2">Current goals</Heading>
-          </Frame>
-          <Frame justify="center" align="center">
-            {
-              !goals || goals.length <= 0? 
-              <Paragraph size="md">Your goals will appear here once you create your first goal.</Paragraph>:
+          </div>
+
+          <div className="flex items-center justify-center">
+            {!goals || goals.length <= 0 ? (
+              <Paragraph size="md">
+                Your goals will appear here once you create your first goal.
+              </Paragraph>
+            ) : (
               <List scroll="hidden">
-                {
-                  goals.map(item =><GoalsLine goal={item}/>)
-                }
+                {goals.map(item => (
+                  <GoalsLine key={item.id} goal={item} />
+                ))}
               </List>
-            }
-          </Frame>
-        </Frame>
+            )}
+          </div>
+        </div>
       </Section>
-    </Frame>
+    </div>
   )
 }

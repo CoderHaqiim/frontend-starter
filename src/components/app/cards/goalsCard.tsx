@@ -13,6 +13,7 @@ export default function GoalsCard() {
       <Frame className="mb-[var(--space-md)]">
         <Heading size="sm" type="h2">Upcoming Goals</Heading>
       </Frame>
+
       <Frame>
         {goals && goals.length > 0 ? (
           <List scroll="hidden">

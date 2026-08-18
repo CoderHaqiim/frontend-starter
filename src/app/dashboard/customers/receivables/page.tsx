@@ -89,15 +89,12 @@ export default function ReceivablesPage() {
 ]
 
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
+    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
 
       {/* Header */}
-      <Frame justify="space-between" width="stretch" height="hug">
+      <Frame className="justify-between w-full h-max">
         <Frame
-          width="stretch"
-          gap="xs"
-          height="hug"
-          direction="column"
+          className="w-full gap-[var(--space-xs)] h-max flex-col"
         >
           <Heading size="xl" type="h1">
             Receivables
@@ -124,7 +121,7 @@ export default function ReceivablesPage() {
 
       {/* Receivables table */}
       <Section width="stretch">
-        <Frame width="stretch" height="stretch" scroll="hidden">
+        <Frame className="w-full h-full" scroll="hidden">
           <Table width="stretch" cellWidth="180px" height="hug" size="sm" data={receivablesTableData}/>
         </Frame>
       </Section>

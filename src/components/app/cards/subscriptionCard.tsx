@@ -19,7 +19,7 @@ export default function SubscriptionCard() {
         specificStyles={{
             backgroundColor: "transparent",
         }}>
-        <Frame direction="column">
+        <Frame className="flex-col">
             <Heading size="xs" type="h2">Subscription</Heading>
             <Paragraph size="xs">
                 Plan: Free

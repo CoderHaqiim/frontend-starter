@@ -13,7 +13,7 @@ type TableHeaderProps = {
 
 export default function TableHeaderRow({data, widths, size, onResizeStart}: TableHeaderProps) {
   return (
-   <Frame width="hug" height="hug" className="sticky top-0 z-20">
+   <Frame className="w-max h-max sticky top-0 z-20">
         <TableCell
           isHeader
           width="56px"

@@ -8,23 +8,29 @@ import Section from "@/src/components/layout/section"
 
 export default function ReportsPage() {
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="flex w-full flex-col gap-[var(--space-lg)]">
+      <Frame className="flex h-max w-full justify-between">
+        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
           <Heading size="xl" type="h1">Reports</Heading>
           <Paragraph weight="light" size="sm">
             Review business performance metrics and export summaries for your team.
           </Paragraph>
         </Frame>
+
         <Frame>
-          <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus">
+          <Button
+            variant="fill"
+            size="sm"
+            iconPosition="left"
+            iconName="icon-plus"
+          >
             New Report
           </Button>
         </Frame>
       </Frame>
 
       <Section width="stretch">
-        <Frame width="stretch" direction="column" gap="md">
+        <Frame className="flex w-full flex-col gap-[var(--space-md)]">
           <Heading size="md" type="h2">Recent reports</Heading>
           <Paragraph weight="light" size="sm">
             Create a report to capture recent transactions, score trends, and business health insights.

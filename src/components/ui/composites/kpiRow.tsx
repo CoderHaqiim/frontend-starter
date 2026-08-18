@@ -16,7 +16,7 @@ type KpiRowProps = {
 
 export default function KpiRow({kpis}: KpiRowProps) {
   return (
-    <Frame width="stretch" height="100px" gap="md">
+    <Frame className="w-full h-[100px] gap-[var(--space-md)]">
         {
             kpis.map((item, index) => <KpiCard key={ item?.id ?? index} meaning={item?.meaning} title={item?.title} trend={item?.trend} value={item.value}/>)
         }

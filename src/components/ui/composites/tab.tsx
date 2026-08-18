@@ -64,23 +64,30 @@ export default function Tab() {
     }, [activeTab])
 
     return (
-        <Frame width="stretch" height="hug" align="center" justify="center" specificStyles={{
-            position:"fixed",
-            bottom:"5%",
-            pointerEvents:"none",
-            zIndex:500
-        }}>
+        <Frame
+            className="w-full h-max items-center justify-center"
+            specificStyles={{
+                position:"fixed",
+                bottom:"5%",
+                pointerEvents:"none",
+                zIndex:500
+            }}
+        >
             <Frame
                 ref={containerRef}
-                direction="row"
-                gap="md"
-                width="hug"
-                border
-                padding="md"
-                height="65px"
-                rounded="xl"
-                align="center"
-                className={`relative bg-[var(--color-white)] ${shadow1}`}
+                className={`
+                    relative
+                    flex flex-row
+                    gap-[var(--space-md)]
+                    w-max
+                    border
+                    p-[var(--space-md)]
+                    h-[65px]
+                    rounded-[var(--radius-xl)]
+                    items-center
+                    ${shadow1}
+                    bg-[var(--color-white)]
+                `}
             >
                 <div className="absolute rounded-[var(--radius-lg)] transition-[left,width,background-color] duration-300 ease-out"
                     style={{

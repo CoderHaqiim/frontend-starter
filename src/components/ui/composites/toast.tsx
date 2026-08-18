@@ -1,5 +1,5 @@
 import Frame from "../primitives/frame"
-import Icon,{IconType} from "../primitives/icon"
+import Icon, { IconType } from "../primitives/icon"
 import Paragraph from "../primitives/paragraph"
 import Button from "../primitives/button"
 import { colors, ColorTypes } from "@/src/app/design/colors"
@@ -32,14 +32,50 @@ export default function Toast({variant, title, text}: ToastProps) {
   }
 
   return (
-    <Frame width="350px" gap="md" border height="hug" padding="md" rounded="sm" specificStyles={{ ...baseStyle }}>
-        <Button variant="outline" isIcon iconName="icon-x" size="xs" className="right-[var(--space-sm)] top-[var(--space-sm)]" specificStyles={{position:"absolute", backgroundColor:"transparent"}}/>
-        <Icon size="lg" stroke="2" name={iconMap[variant]} color={variant} style={{flexShrink:0}}/>
-        <Frame direction="column" width="80%" className="mt-[var(--space-xs)]">
+    <Frame
+      className="w-[350px] gap-[var(--space-md)] border h-max p-[var(--space-md)] rounded-[var(--radius-sm)] shrink-0"
+      specificStyles={{ ...baseStyle }}
+    >
+        <Button
+          variant="outline"
+          isIcon
+          iconName="icon-x"
+          size="xs"
+          className="right-[var(--space-sm)] top-[var(--space-sm)]"
+          specificStyles={{
+            position:"absolute",
+            backgroundColor:"transparent"
+          }}
+        />
+
+        <Icon
+          size="lg"
+          stroke="2"
+          name={iconMap[variant]}
+          color={variant}
+          style={{flexShrink:0}}
+        />
+
+        <Frame
+          className="flex-col w-[80%] mt-[var(--space-xs)]"
+        >
           {
-            title && <Label weight="medium" size="md" color={variant} text={title } className="w-[90%]"/>
+            title &&
+            <Label
+              weight="medium"
+              size="md"
+              color={variant}
+              text={title}
+              className="w-[90%]"
+            />
           }
-          <Paragraph size="sm" weight="normal" className="leading-[1.5] w-[100%]" specificStyle={{wordBreak:"break-all"}}>
+
+          <Paragraph
+            size="sm"
+            weight="normal"
+            className="leading-[1.5] w-full"
+            specificStyle={{wordBreak:"break-all"}}
+          >
             {text}
           </Paragraph>
         </Frame>

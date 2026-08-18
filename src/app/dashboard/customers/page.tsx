@@ -47,21 +47,21 @@ export default function Home() {
   }, [setBusinessesState])
 
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
+      <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
         <Heading size="xl" type="h1">Customers</Heading>
       </Frame>
-      <Frame width="stretch" height="100px" gap="md">
+      <Frame className="w-full h-[100px] gap-[var(--space-md)]">
         {dashboardKpis.map((item, index) => (
           <KpiCard meaning={item.meaning} key={index} title={item.title} value={item.value} />
         ))}
       </Frame>
       <Section width="stretch">
-        <Frame width="stretch" direction="column" gap="md">
+        <Frame className="w-full flex-col gap-[var(--space-md)]">
           <Frame className="mb-[var(--space-sm)]">
             <Heading size="md" type="h2">Quick Contact</Heading>
           </Frame>
-          <Frame width="stretch" height="stretch" scroll="hidden">
+          <Frame className="w-full h-full" scroll="hidden">
             <Table width="stretch" cellWidth="180px" height="300px" size="sm" data={quickContactTableData}/>
           </Frame>
         </Frame>

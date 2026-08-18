@@ -93,7 +93,7 @@ export default function Dropdown({
   }
 
   return (
-    <Frame width="hug" align="center" className="z-[50]">
+    <Frame className="z-[50] w-max items-center">
       <div ref={wrapperRef} className="relative w-max">
         <button type="button" disabled={disabled} onClick={() => setOpen((prev) => !prev)}
           className={`flex items-center justify-between rounded-[var(--radius-sm)] px-2 pr-8 min-w-[100px]
@@ -115,7 +115,7 @@ export default function Dropdown({
         </button>
 
         {open && (
-          <Frame border rounded="sm" direction="column" className={`${shadow2} left-0 top-[100%] z-50 bg-[var(--color-white)] mt-1 min-w-full overflow-hidden`}
+          <Frame border className={`${shadow2} flex-col rounded-[var(--radius-sm)] left-0 top-[100%] z-50 bg-[var(--color-white)] mt-1 min-w-full overflow-hidden`}
             specificStyles={{
               position: "absolute"
           }}>

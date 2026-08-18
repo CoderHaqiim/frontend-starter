@@ -1,6 +1,6 @@
 import { Children, CSSProperties, ReactNode } from "react";
 import Button from "../ui/primitives/button";
-import { FrameSizeType, SizeType } from "@/src/types/types";
+import { SizeType } from "@/src/types/types";
 import { colors } from "@/src/app/design/colors";
 import { IconType } from "../ui/primitives/icon";
 

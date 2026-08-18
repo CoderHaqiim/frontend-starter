@@ -24,7 +24,7 @@ export default function TableRow({
   const rowClass = rowIndex % 2 === 0 ? "bg-white" : "bg-[var(--color-background1)]"
 
   return (
-    <Frame width="hug" height="hug" className={rowClass}>
+    <Frame className={`${rowClass} w-full h-max`}>
       <TableCell
         width="56px"
         size={size}

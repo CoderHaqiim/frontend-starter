@@ -45,42 +45,28 @@ const schedules = [
 const scheduleStat = [
   {
     title: "Today",
-    value: "2"
+    value: "2",
   },
   {
     title: "Upcoming",
-    value: "8"
+    value: "8",
   },
   {
     title: "Recuring",
-    value: "2"
+    value: "2",
   },
   {
     title: "Overdue",
-    value: "5"
+    value: "5",
   },
 ]
 
 export default function Page() {
   return (
-    <Frame
-      width="stretch"
-      direction="column"
-      height="hug"
-      gap="lg"
-    >
+    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
       {/* Header */}
-      <Frame
-        justify="space-between"
-        width="stretch"
-        height="hug"
-      >
-        <Frame
-          width="stretch"
-          gap="xs"
-          height="hug"
-          direction="column"
-        >
+      <Frame className="justify-between w-full h-max">
+        <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">
             Schedules
           </Heading>
@@ -103,22 +89,23 @@ export default function Page() {
       </Frame>
 
       {/* Summary */}
-      <KpiRow kpis={scheduleStat}/>
+      <KpiRow kpis={scheduleStat} />
 
       {/* Navigation */}
-      <Frame width="stretch" gap="sm">
-        <Button variant="fill" size="sm">Today</Button>
-        <Button variant="outline" size="sm">Upcoming</Button>
-        <Button variant="outline" size="sm">Recurring</Button>
+      <Frame className="w-full gap-[var(--space-sm)]">
+        <Button variant="fill" size="sm">
+          Today
+        </Button>
+        <Button variant="outline" size="sm">
+          Upcoming
+        </Button>
+        <Button variant="outline" size="sm">
+          Recurring
+        </Button>
       </Frame>
 
       {/* Schedule list */}
-      <Frame
-        width="stretch"
-        direction="column"
-        height="hug"
-        gap="sm"
-      >
+      <Frame className="w-full flex-col h-max gap-[var(--space-sm)]">
         {schedules.map((schedule, index) => (
           <ScheduleItem
             key={index}
@@ -146,13 +133,8 @@ function ScheduleItem({
   status: string
 }) {
   return (
-    <Frame
-      width="stretch"
-      justify="space-between"
-      height="hug"
-      gap="md"
-    >
-      <Frame direction="column" gap="xs" height="hug">
+    <Frame className="w-full justify-between h-max gap-[var(--space-md)]">
+      <Frame className="flex-col gap-[var(--space-xs)] h-max">
         <Heading size="md" type="h3">
           {title}
         </Heading>
@@ -162,7 +144,7 @@ function ScheduleItem({
         </Paragraph>
       </Frame>
 
-      <Frame gap="md" height="hug">
+      <Frame className="gap-[var(--space-md)] h-max">
         <Paragraph size="sm">{repeat}</Paragraph>
         <Paragraph size="sm">{reminder}</Paragraph>
         <Paragraph size="sm">{status}</Paragraph>

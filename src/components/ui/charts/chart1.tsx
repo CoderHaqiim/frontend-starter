@@ -59,7 +59,7 @@ export default function Chart1({variant}: ChartProps) {
     }
 
   return (
-    <Frame width="stretch" rounded='md' padding="lg" className=" border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]">
+    <Frame className=" w-full rounded-[var(--radius-md)] p-[var(--space-lg)] border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]">
       {variant === "Line chart" ? (
       <LineChart
         style={chartStyle}

@@ -28,9 +28,9 @@ export default function CustomerDirectoryPage() {
   }
 
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
+      <Frame className="justify-between w-full h-max">
+        <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">Customer Directory</Heading>
           <Paragraph weight="light" size="sm">
             Browse and manage your customer contacts.
@@ -42,11 +42,11 @@ export default function CustomerDirectoryPage() {
       </Frame>
 
       <Section>
-        <Frame gap="sm" align="center" className="mb-[var(--space-sm)]">
+        <Frame className="gap-[var(--space-sm)] items-center mb-[var(--space-sm)]">
             <Heading type="h2" size="md"> Quick Access</Heading>
             <Badge color="accent" size="xs" text="5"/>
         </Frame>
-        <Frame gap="md" scroll="hidden">
+        <Frame className="gap-[var(--space-md)]" scroll="hidden">
             {quickContactTableData.map((entry, index) => (
               <QuickAccessCard key={index} entry={entry} />
             ))}
@@ -54,7 +54,7 @@ export default function CustomerDirectoryPage() {
       </Section>
 
       <Section width="stretch">
-        <Frame width="stretch" height="hug" justify="space-between" align="center" className="mb-[var(--space-sm)]">
+        <Frame className="w-full h-max justify-between items-center mb-[var(--space-sm)]">
           <Heading type="h2" size="md">Customer List</Heading>
           <Dropdown
             name="customerTable"
@@ -65,7 +65,7 @@ export default function CustomerDirectoryPage() {
             formFunc={handleTableChange}
           />
         </Frame>
-        <Frame width="stretch" height="stretch" scroll="hidden">
+        <Frame className="w-full h-full" scroll="hidden">
           <Table width="stretch" cellWidth="180px" height="hug" size="sm" data={filteredTableData} />
         </Frame>
       </Section>

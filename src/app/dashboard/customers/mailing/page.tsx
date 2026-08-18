@@ -181,9 +181,9 @@ export default function MailingPage() {
   }
 
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
+      <Frame className="justify-between w-full h-max">
+        <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">Mailing</Heading>
           <Paragraph weight="light" size="sm">
             Compose, manage, and send mails to customers.
@@ -193,8 +193,8 @@ export default function MailingPage() {
       </Frame>
 
       <Section width="stretch">
-        <Frame width="stretch" justify="space-between" align="center">
-          <Frame gap="sm" align="center">
+        <Frame className="w-full justify-between items-center">
+          <Frame className="gap-[var(--space-sm)] items-center">
             <Heading size="md" type="h2">Records</Heading>
             <Badge color="accent" size="xs" text={String(recordCountMap[recordView])} />
           </Frame>

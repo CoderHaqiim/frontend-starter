@@ -16,7 +16,7 @@ type MetricsRowProps = {
 
 export default function MetricsRow({data}: MetricsRowProps) {
   return (
-    <Frame width="stretch" align="center" padding="lg" height={elementSizes["md"]} className='bg-[var(--color-white)]'>
+    <Frame className='w-full items-center p-[var(--space-lg)] h-[var(--elementSizes-md)] bg-[var(--color-white)]'>
         <Paragraph size="sm" color="textColor1" weight="medium">{shortenText(data.name, 30)}</Paragraph>
     </Frame>
   )

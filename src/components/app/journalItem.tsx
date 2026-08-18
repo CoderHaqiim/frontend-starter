@@ -18,30 +18,43 @@ export default function JournalItem({ entry }: JournalItemProps) {
   };
 
   return (
-    <Frame width="stretch" padding="lg" direction="column" gap="sm">
-      <Frame justify="space-between" className="flex-1">
-        <Frame direction="column" gap="xs">
+    <Frame className="flex w-full flex-col gap-[var(--space-sm)] p-[var(--space-lg)]">
+      <Frame className="flex-1 justify-between">
+        <Frame className="flex flex-col gap-[var(--space-xs)]">
           <Paragraph color="textColor1" size="md" weight="medium">
             {entry.title}
           </Paragraph>
+
           <Paragraph size="sm">
             {entry.summary}
           </Paragraph>
-          <Frame gap="xs">
+
+          <Frame className="flex gap-[var(--space-xs)]">
             <Paragraph weight="light" size="xs">{entry.business}</Paragraph>
             <Paragraph weight="light" size="xs">-</Paragraph>
             <Paragraph weight="light" size="xs">{entry.date}</Paragraph>
           </Frame>
         </Frame>
+
         <Frame>
           <Tooltip content="journal menu">
-            <Button variant="outline" size="sm" iconName="icon-vertival-dots" isIcon/>
+            <Button
+              variant="outline"
+              size="sm"
+              iconName="icon-vertival-dots"
+              isIcon
+            />
           </Tooltip>
         </Frame>
       </Frame>
-      <Frame gap="sm">
-        <Badge text={entry.category} color="info" size="xxs"/>
-        <Badge text={entry.status} color={statusColorMap[entry.status]} size="xxs"/>
+
+      <Frame className="flex gap-[var(--space-sm)]">
+        <Badge text={entry.category} color="info" size="xxs" />
+        <Badge
+          text={entry.status}
+          color={statusColorMap[entry.status]}
+          size="xxs"
+        />
       </Frame>
     </Frame>
   );

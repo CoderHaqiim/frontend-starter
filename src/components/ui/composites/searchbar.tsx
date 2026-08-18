@@ -115,27 +115,70 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
   const showResults = focused && Boolean(searchInput.trim())
 
   return (
-    <Frame width="350px" height="hug" justify='center' border align='center' rounded="lg" 
-      className='relative bg-[var(--color-white)]'
-      specificStyles={{ 
-        border: focused? `1.5px ${colors["accent"]} solid` : "",
-      }}>
-        <Frame width="hug" height="hug" className="flex-1">
-            <Input size='md' formFunc={search} name="search" func={focusInputParent} variant="default" type='text' placeholder='search businesses, tasks...'/>
-        </Frame>
-        <Tooltip content="search" position='bottom'>
-          <Button variant='ghost' size='md' isIcon iconName='icon-search' specificStyles={{
+    <Frame
+      className={`
+        relative
+        w-[350px]
+        h-max
+        justify-center
+        border
+        items-center
+        rounded-[var(--radius-lg)]
+        bg-[var(--color-white)]
+      `}
+      specificStyles={{
+        border: focused ? `1.5px ${colors["accent"]} solid` : "",
+      }}
+    >
+      <Frame
+        className="w-max h-max flex-1"
+      >
+        <Input
+          size='md'
+          formFunc={search}
+          name="search"
+          func={focusInputParent}
+          variant="default"
+          type='text'
+          placeholder='search businesses, tasks...'
+        />
+      </Frame>
+
+      <Tooltip content="search" position='bottom'>
+        <Button
+          variant='ghost'
+          size='md'
+          isIcon
+          iconName='icon-search'
+          specificStyles={{
             backgroundColor: colors["white"]
-          }}/>
-        </Tooltip>
-        {
-          showResults && 
-          <Frame width="stretch" height="auto" rounded="md" padding='md' direction="column" 
-            className=' top-[120%] left-0 gap-[var(--space-sm)] z-[20] min-h-[80px] max-h-[300px] bg-[var(--color-white)]'
-            specificStyles={{
-              position: "absolute",
-              boxShadow:"0px 1px 5px -1px #000000c4",
-            }}>
+          }}
+        />
+      </Tooltip>
+
+      {
+        showResults && 
+        <Frame
+          className="
+            w-full
+            h-auto
+            rounded-[var(--radius-md)]
+            p-[var(--space-md)]
+            flex
+            flex-col
+            top-[120%]
+            left-0
+            gap-[var(--space-sm)]
+            z-[20]
+            min-h-[80px]
+            max-h-[300px]
+            bg-[var(--color-white)]
+          "
+          specificStyles={{
+            position: "absolute",
+            boxShadow:"0px 1px 5px -1px #000000c4",
+          }}
+        >
           {loading && <p className="text-sm text-[#666666]">Searching...</p>}
           {!loading && error && <p className="text-[var(--bodySize-sm)] text-red-500">{error}</p>}
           {!loading && !error && searchResults.length === 0 && <p className="text-[var(--bodySize-sm)] text-[#666666]">No results found</p>}
@@ -144,7 +187,8 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
               {getResultLabel(result)}
             </div>
           ))}
-        </Frame>}
+        </Frame>
+      }
     </Frame>
   )
 }

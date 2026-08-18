@@ -14,31 +14,33 @@ import { space } from '../../design/spacing'
 import { fontWeight } from '../../design/typograhy'
 import Link from 'next/link'
 
-export default function LoginPage() {
+
+
+export default function SignupPage() {
   return (
-    <Frame width="stretch" height="100vh" justify="center" padding="xs" align="center" className="bg-[var(--color-white]">
-        <Frame width="stretch" justify='center' align='center' height="stretch" className="overflow-hidden bg-[var(--color-white)]">
-            <Frame width="400px" height="stretch" rounded="md" direction='column' className="bg-[var(--color-background1)]">
+    <Frame className="w-full h-[100vh] justify-center p-[var(--space-xs)] items-center bg-[var(--color-white]">
+        <Frame className="w-full justify-center items-center h-full overflow-hidden bg-[var(--color-white)]">
+            <Frame className="w-[400px] h-full rounded-[var(--radius-md)] flex-col bg-[var(--color-background1)]">
             </Frame>
-            <Frame justify="center" align="center" width="auto" height="stretch" scroll='hidden' padding='lg' className='flex-1' >
-                <Frame width="450px" height="max-content" direction="column" gap="sm">
-                    <Frame width="stretch" height="hug" className='mb-[var(--space-xl)]'>
+            <Frame justify="center" align="center" width="auto" scroll='hidden' className='flex-1 h-full p-[var(--space-lg)]' >
+                <Frame className="w-[450px] h-[max-content] flex-col gap-[var(--space-sm)]">
+                    <Frame className="w-full h-max mb-[var(--space-xl)]">
                         <Heading size="xxl" type='h1'>Log in to your account</Heading>
                     </Frame>
                     <Form variant="plain" url="/auth/login">
-                        <Frame direction='column' width="stretch" height="stretch">
+                        <Frame className="flex-col w-full h-full">
                             <Label text='Email' size='md'/>
                             <Input outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
                             <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                         </Frame>
-                        <Frame direction='column' width="stretch" height="stretch">
+                        <Frame className="flex-col w-full h-full">
                             <Label text='Password' size='md'/>
                             <Input outline rounded='sm' name="password" variant="password" type='text' size='md' border placeholder='Password'/>
                             <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                         </Frame>
                         <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Log in</Button>  
                     </Form>
-                    <Frame height={30} justify='center' align="center" width="stretch" >
+                    <Frame height={30} className="justify-center items-center w-full" >
                         <Paragraph size='sm' color="textColor1" className='justify-center text-center z-[5] bg-[var(--color-white)]' specificStyle={{width: "70px"}}>OR</Paragraph>
                         <hr className='w-[70%] border-0 bg-[var(--color-outline1)] h-[1px] absolute'/>
                     </Frame>
@@ -55,7 +57,7 @@ export default function LoginPage() {
                             </Paragraph>
                         </Button>  
                     </Frame>
-                    <Frame width="stretch" height="hug" gap="md" className='mt-[var(--space-lg)]'>
+                    <Frame className="w-full h-max gap-[var(--space-md)] mt-[var(--space-lg)]">
                         <Paragraph size='sm'>Don't have an account?</Paragraph>
                         <Link href="/signup">
                             <Paragraph size='sm' weight="normal" color="accent">Sign up</Paragraph>

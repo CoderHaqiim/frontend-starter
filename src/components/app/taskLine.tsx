@@ -15,28 +15,48 @@ type TaskLineProps = {
 
 export default function TaskLine({task}: TaskLineProps) {
   return (
-    <Frame width="stretch" gap="xxs" justify="center" height="hug" padding="md" direction="column" 
-        className="shrink-0 text-[length:var(--bodySize-sm)]">
+    <Frame
+      className="flex w-full shrink-0 flex-col justify-center gap-[var(--space-xxs)] p-[var(--space-md)] text-[length:var(--bodySize-sm)]"
+    >
       <Frame>
-        <Paragraph size="sm" color="textColor1" >
+        <Paragraph size="sm" color="textColor1">
           {shortenText("This is the way I wanted to be o. This is the way I wanted to be", 40)}
         </Paragraph>
       </Frame>
-      <Frame justify="space-between" align="center">
-        <Frame width="stretch" height="hug" gap="xs">
+
+      <Frame className="flex items-center justify-between">
+        <Frame className="flex h-max w-full gap-[var(--space-xs)]">
           <Badge size="xxs" text="high" color="error"/>
           <Badge size="xxs" text="completed" color="success"/>
         </Frame>
-        <Frame gap="sm">
+
+        <Frame className="flex gap-[var(--space-sm)]">
           <Tooltip content="mark as done" position="top">
-            <Button iconColor="success" size="xxs" variant="outline" rounded="xs" isIcon iconName="icon-double-check" specificStyles={{
-              // backgroundColor:colors["success2"]
-            }}/>
+            <Button
+              iconColor="success"
+              size="xxs"
+              variant="outline"
+              rounded="xs"
+              isIcon
+              iconName="icon-double-check"
+              specificStyles={{
+                // backgroundColor:colors["success2"]
+              }}
+            />
           </Tooltip>
+
           <Tooltip content="delete" position="top">
-            <Button iconColor="error" size="xxs" variant="outline" rounded="xs" isIcon iconName="icon-delete" specificStyles={{
-              // backgroundColor:colors["error2"]
-            }}/>
+            <Button
+              iconColor="error"
+              size="xxs"
+              variant="outline"
+              rounded="xs"
+              isIcon
+              iconName="icon-delete"
+              specificStyles={{
+                // backgroundColor:colors["error2"]
+              }}
+            />
           </Tooltip>
         </Frame>
       </Frame>

@@ -50,9 +50,9 @@ const settingsGroups = [
 
 export default function SettingsPage() {
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="flex w-full flex-col gap-[var(--space-lg)]">
+      <Frame className="flex h-max w-full justify-between">
+        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
           <Heading size="xl" type="h1">Settings</Heading>
           <Paragraph weight="light" size="sm">
             Manage your profile, account, app preferences, and business details.
@@ -62,19 +62,18 @@ export default function SettingsPage() {
 
       {settingsGroups.map((group) => (
         <Section key={group.title} width="stretch">
-          <Frame width="stretch" direction="column" gap="md">
+          <Frame className="flex w-full flex-col gap-[var(--space-md)]">
             <Heading size="md" type="h2">{group.title}</Heading>
 
             {group.items.map((item) => (
               <Frame
                 key={item.label}
-                width="stretch"
-                justify="space-between"
-                align="center"
-                className="border-b border-[var(--color-outline1)] pb-[var(--space-md)] last:border-b-0 last:pb-0"
+                className="flex w-full items-center justify-between border-b border-[var(--color-outline1)] pb-[var(--space-md)] last:border-b-0 last:pb-0"
               >
-                <Frame direction="column" gap="xxs" width="stretch">
-                  <Paragraph size="sm" color="textColor1" weight="medium">{item.label}</Paragraph>
+                <Frame className="flex w-full flex-col gap-[var(--space-xxs)]">
+                  <Paragraph size="sm" color="textColor1" weight="medium">
+                    {item.label}
+                  </Paragraph>
                   <Paragraph size="xs">{item.value}</Paragraph>
                 </Frame>
 

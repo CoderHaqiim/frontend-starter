@@ -15,9 +15,9 @@ type LayoutProps = {
 
 export default function Layout({children}: LayoutProps) {
   return (
-    <Frame width="stretch" height="100vh">
+    <Frame className="w-full h-[100vh]">
       <LeftAside/>
-      <Frame direction="column" height="stretch" className="flex-1 overflow-hidden bg-[var(--color-background1)]">
+      <Frame direction="column" height="stretch" className="flex-col h-full flex-1 overflow-hidden bg-[var(--color-background1)]">
         <Nav/>
         <Frame width="stretch" justify="center" specificStyles={{ height:"calc(100% - 60px)"}}>
           <Main>
@@ -27,7 +27,7 @@ export default function Layout({children}: LayoutProps) {
         </Frame>
       </Frame>
       <Tab/>
-      <Frame height="hug" width="hug" className="bottom-[var(--space-xl)] right-[var(--space-xxl)]" 
+      <Frame className="bottom-[var(--space-xl)] right-[var(--space-xxl)] h-max w-max" 
         specificStyles={{ position: "fixed", zIndex:"300"}}>
           <Tooltip position="top" content="add">
             <Button variant="fill" size="xxl" isIcon iconName="icon-plus" iconPosition="left" width="hug" rounded="lg" className={`${shadow1}`}/>
@@ -36,4 +36,3 @@ export default function Layout({children}: LayoutProps) {
     </Frame>
   )
 }
-

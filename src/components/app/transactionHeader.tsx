@@ -5,11 +5,24 @@ import Paragraph from '../ui/primitives/paragraph'
 
 export default function TransactionHeader() {
   return (
-    <Frame width="stretch" height={elementSizes["lg"]} padding='md' className="top-0 z-[10] bg-[var(--color-white)]" specificStyles={{position:"sticky", boxShadow: "0px 2px 5px -5px black"}}>
-        <Frame width={40} height="stretch" justify='center' align="center" className='border-r-[1px] border-r-[var(--color-outline1)]'>
-            <Paragraph size='sm' color="textColor1" weight="medium">S|N</Paragraph>
-        </Frame>
-        <Frame width={300} height="stretch" justify='center' className='border-r-[1px] border-r-[var(--color-outline1)]'>Description</Frame>
+    <Frame
+      className="w-full top-0 z-[10] bg-[var(--color-white)] sticky shadow-[0px_2px_5px_-5px_black]"
+      height={elementSizes["lg"]}
+      padding="md"
+    >
+      <Frame
+        className="w-[40px] h-full flex justify-center items-center border-r-[1px] border-r-[var(--color-outline1)]"
+      >
+        <Paragraph size="sm" color="textColor1" weight="medium">
+          S|N
+        </Paragraph>
+      </Frame>
+
+      <Frame
+        className="w-[300px] h-full flex justify-center border-r-[1px] border-r-[var(--color-outline1)]"
+      >
+        Description
+      </Frame>
     </Frame>
   )
 }

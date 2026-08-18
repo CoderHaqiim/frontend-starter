@@ -27,7 +27,7 @@ const Frame = forwardRef<HTMLDivElement, FrameProp>(
       padding,
       rounded,
       scroll,
-      direction = "row",
+      direction,
       children,
       specificStyles,
       width,

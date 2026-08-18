@@ -34,10 +34,14 @@ export default function LinearProgress({
   )
 
   return (
-    <Frame gap="sm" width="stretch" align="center">
-      <Frame rounded="xl" height={height} className={`bg-[var(--color-background3)] overflow-hidden flex-1`}>
-        <Frame width={`${normalizedScore}%`} height="stretch" rounded="md" className="transition-all duration-500"
+    <Frame className="gap-[var(--space-sm)] w-full items-center">
+      <Frame className={` rounded-[var(--radius-xl)]  bg-[var(--color-background3)] overflow-hidden flex-1`}
+        specificStyles={{
+          height: height
+        }}>
+        <Frame className=" h-full rounded-[var(--radius-md)] transition-all duration-500"
           specificStyles={{
+            width: `${normalizedScore}%`,
             backgroundColor: colors[color]
           }}
         />

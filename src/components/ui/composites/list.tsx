@@ -19,13 +19,18 @@ export default function List({
 }: ListProps) {
   return (
     <Frame
-      width={width}
-      height={height}
-      className="bg-[var(--color-background1)] border-[1px] border-[var(--color-outline2)]"
-      rounded="md"
-      border
-      direction="column"
-      scroll={scroll}
+      className={`
+        ${width === "stretch" ? "w-full" : width === "hug" ? "w-max" : `w-[${width}]`}
+        ${height === "stretch" ? "h-full" : height === "hug" ? "h-max" : height ? `h-[${height}]` : ""}
+        bg-[var(--color-background1)]
+        border-[1px]
+        border-[var(--color-outline2)]
+        rounded-[var(--radius-md)]
+        flex
+        flex-col
+        ${scroll === "hidden" ? "overflow-hidden" : ""}
+        ${scroll === "visible" ? "overflow-visible" : ""}
+      `}
       specificStyles={{ ...specificStyles }}
     >
       {Children.map(children, (child, index) => (

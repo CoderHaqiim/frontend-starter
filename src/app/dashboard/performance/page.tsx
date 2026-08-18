@@ -105,8 +105,8 @@ const scrollRightHandler = () => {
 };
 
   return (
-      <Frame width="stretch" direction="column" height="hug" gap="lg"> 
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+      <Frame className="w-full flex-col h-max gap-[var(--space-lg)]"> 
+        <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">{`Welcome back, ${userState.username}`}</Heading>
           <Paragraph weight="light" size="sm">
             Here's what's happening today.
@@ -121,26 +121,46 @@ const scrollRightHandler = () => {
 
         {/* Business Overview */}
         <Section>
-          <Frame width="stretch" align="center" height="hug" className=" justify-between mb-[var(--space-md)]">
+          <Frame className="w-full items-center h-max justify-between mb-[var(--space-md)]">
             <Heading size="md" type="h2">Businesses Overview</Heading>
-            <Frame width="hug" height="hug" gap="sm">
+            <Frame className="w-auto h-max gap-[var(--space-sm)]">
               <Dropdown name="ranking" size="sm" options={reportDuration}/>
             </Frame>
           </Frame>
 
-          <Frame width="stretch" align="center" justify="space-between" height="stretch" className="top-0 left-0 z-[50] opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-150" specificStyles={{ position: "absolute" }}>
+          <Frame
+            className="w-full items-center justify-between h-full top-0 left-0 z-[50] opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-150"
+            specificStyles={{ position: "absolute" }}
+          >
             <Tooltip content="slide right">
-               <Button func={scrollLeftHandler} variant="outline" size="xl" isIcon iconName="icon-left" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
-                display: `${showLeftButton? "flex" : "none"}`
-              }}/>
+              <Button
+                func={scrollLeftHandler}
+                variant="outline"
+                size="xl"
+                isIcon
+                iconName="icon-left"
+                className={`bg-[var(--color-white)] ${shadow2}`}
+                specificStyles={{
+                  display: `${showLeftButton? "flex" : "none"}`
+                }}
+              />
             </Tooltip>
             <Tooltip content="slide left">
-               <Button func={scrollRightHandler} variant="outline" size="xl" isIcon iconName="icon-right" className={`bg-[var(--color-white)] ${shadow2}`} specificStyles={{
-              display: `${showRightButton? "flex" : "none"}`
-            }}/>
+              <Button
+                func={scrollRightHandler}
+                variant="outline"
+                size="xl"
+                isIcon
+                iconName="icon-right"
+                className={`bg-[var(--color-white)] ${shadow2}`}
+                specificStyles={{
+                  display: `${showRightButton? "flex" : "none"}`
+                }}
+              />
             </Tooltip>
           </Frame>
-          <Frame ref={sliderRef} width="stretch" height="hug" scroll="hidden" gap="sm">
+
+          <Frame ref={sliderRef} className="w-full h-max overflow-hidden gap-[var(--space-sm)]">
             {
               businessesState.map(buisness => <BusinessOverviewCard data={buisness} key={buisness.id}/>)
             }
@@ -149,12 +169,12 @@ const scrollRightHandler = () => {
 
         {/* Performance Overview */}
         <Section>
-          <Frame width="stretch" align="center" height="hug" justify="space-between" className="mb-[var(--space-md)]">
-              <Heading size="md" type="h2">Performance Overview</Heading>
-              <Frame width="hug" height="hug" className="gap-[var(--space-sm)]">
-                <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
-                <Dropdown name="report" size="sm" options={reportDuration}/>
-              </Frame>
+          <Frame className="w-full items-center h-max justify-between mb-[var(--space-md)]">
+            <Heading size="md" type="h2">Performance Overview</Heading>
+            <Frame className="w-auto h-max gap-[var(--space-sm)]">
+              <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler}/>
+              <Dropdown name="report" size="sm" options={reportDuration}/>
+            </Frame>
           </Frame>
           <Chart1 variant={selectedChart}/>
         </Section>
@@ -162,19 +182,19 @@ const scrollRightHandler = () => {
 
         {/* Performance Ranking */}
         <Section>
-            <Frame width="stretch" height="hug" className="justify-between mb-[var(--space-md)]">
-              <Heading size="md" type="h2">Performance Ranking</Heading>
-              <Frame width="hug" height="hug" gap="sm">
-                <Dropdown name="ranking" size="sm" options={businessMetrics}/>
-                <Dropdown name="ranking" size="sm" options={reportDuration}/>
-              </Frame>
+          <Frame className="w-full h-max justify-between mb-[var(--space-md)]">
+            <Heading size="md" type="h2">Performance Ranking</Heading>
+            <Frame className="w-auto h-max gap-[var(--space-sm)]">
+              <Dropdown name="ranking" size="sm" options={businessMetrics}/>
+              <Dropdown name="ranking" size="sm" options={reportDuration}/>
             </Frame>
-            <List specificStyles={{overflow: "hidden"}}>
-              <MetricsRow data={{name:"Business1"}}/>
-              <MetricsRow data={{name:"Business2"}}/>
-              <MetricsRow data={{name:"Business3"}}/>
-              <MetricsRow data={{name:"Business4"}}/>
-            </List>
+          </Frame>
+          <List specificStyles={{overflow: "hidden"}}>
+            <MetricsRow data={{name:"Business1"}}/>
+            <MetricsRow data={{name:"Business2"}}/>
+            <MetricsRow data={{name:"Business3"}}/>
+            <MetricsRow data={{name:"Business4"}}/>
+          </List>
         </Section>
       </Frame>
     

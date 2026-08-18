@@ -8,7 +8,7 @@ type insightProps = {
 
 export default function Insight({text}:insightProps) {
   return (
-    <Frame width="stretch" align="center" height="hug" padding="lg" gap="md">
+    <Frame className="w-full items-center height-max p-[var(--space-lg)] gap-[var(--space-md)]">
         <Icon name="icon-trend-up" stroke="2" size="sm" color="accent" />
         <Paragraph size="sm">{text}</Paragraph>
     </Frame>

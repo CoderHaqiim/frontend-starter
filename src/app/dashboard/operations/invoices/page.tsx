@@ -69,17 +69,21 @@ export default function InvoicesPage() {
       return recentInvoices
     }
 
-    return recentInvoices.filter((invoice) => invoice.status === selectedInvoiceFilter)
+    return recentInvoices.filter(
+      (invoice) => invoice.status === selectedInvoiceFilter
+    )
   }, [selectedInvoiceFilter])
 
-  const handleInvoiceFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleInvoiceFilterChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedInvoiceFilter(event.target.value)
   }
 
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="w-full h-max flex flex-col gap-[var(--space-lg)]">
+      <Frame className="w-full h-max flex justify-between">
+        <Frame className="w-full h-max flex flex-col gap-[var(--space-xs)]">
           <Heading size="xl" type="h1">Invoices</Heading>
           <Paragraph size="sm" weight="light">
             Create, manage and track your invoices.
@@ -87,7 +91,12 @@ export default function InvoicesPage() {
         </Frame>
 
         <Frame>
-          <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus">
+          <Button
+            variant="outline"
+            size="sm"
+            iconPosition="left"
+            iconName="icon-plus"
+          >
             New Invoice
           </Button>
         </Frame>
@@ -97,9 +106,10 @@ export default function InvoicesPage() {
       <KpiRow kpis={invoiceSummaryKpis} />
 
       <Section width="stretch">
-        <Frame width="stretch" direction="column" gap="md" height="hug">
-          <Frame width="stretch" justify="space-between" height="hug" align="center">
+        <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">
+          <Frame className="w-full h-max flex items-center justify-between">
             <Heading size="lg" type="h2">Recent Invoices</Heading>
+
             <Dropdown
               name="invoiceFilter"
               defaultValue="all"
@@ -110,7 +120,7 @@ export default function InvoicesPage() {
             />
           </Frame>
 
-          <Frame width="stretch" height="stretch" scroll="hidden">
+          <Frame className="w-full h-full overflow-hidden">
             <Table
               width="stretch"
               cellWidth="180px"

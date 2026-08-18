@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Logo() {
   return (
-    <Frame width="100px" height="45px" border>
+    <Frame className='w-[100px] h-[45px]' border>
       <Link href='/'>
         <Image
             alt='logo'

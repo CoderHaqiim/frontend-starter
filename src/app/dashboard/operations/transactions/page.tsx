@@ -5,16 +5,25 @@ import TransactionManager from '@/src/components/app/transactionManager'
 
 export default function Item3() {
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="flex w-full flex-col gap-[var(--space-lg)]">
+      <Frame className="flex h-max w-full justify-between">
+        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
           <Heading size="xl" type="h1">Transactions</Heading>
         </Frame>
+
         <Frame>
-          <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus">New Transaction</Button>
+          <Button
+            variant="outline"
+            size="sm"
+            iconPosition="left"
+            iconName="icon-plus"
+          >
+            New Transaction
+          </Button>
         </Frame>
       </Frame>
-      <TransactionManager/>
+
+      <TransactionManager />
     </Frame>
   )
 }

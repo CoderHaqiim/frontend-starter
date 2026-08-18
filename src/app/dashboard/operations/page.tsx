@@ -104,8 +104,8 @@ const scrollRightHandler = () => {
 };
 
   return (
-      <Frame width="stretch" direction="column" height="hug" gap="lg"> 
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+      <Frame className="w-full flex-col h-max gap-[var(--space-lg)]"> 
+        <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">Operations</Heading>
         </Frame>
         
@@ -113,9 +113,9 @@ const scrollRightHandler = () => {
 
          {/* Latest Transactions */}
           <Section>
-            <Frame width="stretch" justify="space-between" align="center" height="hug" className="mb-[var(--space-md)]">
+            <Frame className="w-full justify-between items-center h-max mb-[var(--space-md)]">
               <Heading size="md" type="h2">Latest Transactions</Heading>
-              <Frame width="hug" height="hug" gap="sm">
+              <Frame className="w-max h-max gap-[var(--space-sm)]">
                 <Dropdown name="ranking" size="sm" options={["Business1", "Business2", "Business3"]}/>
               </Frame>
             </Frame>

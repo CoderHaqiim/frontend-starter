@@ -34,7 +34,7 @@ export default function Badge({
   const background = generateLightBackground(color)
 
   return (
-    <Frame align="center" rounded="lg" height="hug" justify="center" className={`${elementSizes[size]} ${paddingSizes[size]} ${className}`} specificStyles={{
+    <Frame className={`items-center rounded-[var(--radius-lg)] h-max justify-center ${elementSizes[size]} ${paddingSizes[size]} ${className}`} specificStyles={{
       color: colors[color],
       backgroundColor: (bg && colors[bg]) ?? colors[background],
       border: `solid 1px ${colors[background]}`

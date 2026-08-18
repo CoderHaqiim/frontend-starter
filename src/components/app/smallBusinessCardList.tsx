@@ -21,7 +21,7 @@ export default function SmallBusinessCardList() {
       },[])
 
   return (
-    <Frame width="200px" height="stretch" scroll="hidden" align="center" direction="column" gap="xl" className="pt-[var(--space-md)]">
+    <Frame scroll="hidden" className="gap-[var(--space-xl)] w-[200px] h-full items-center flex-col pt-[var(--space-md)]">
         {businessesState.map(business => <SmallBusinessOverview business={business} key={business.id}/>)}
     </Frame>
   )

@@ -11,45 +11,51 @@ import Paragraph from "../ui/primitives/paragraph";
 import { useEffect, useState } from "react";
 import { http } from "@/src/http/client";
 
-
 interface Props {
   tasks: Task[];
 }
 
 export default function TaskManager() {
-    const [tasks, setTasks] = useState<Task[]>([])
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-    useEffect(()=>{
-        fetchTasks()
-    },[])
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   const today = tasks.filter((t) => t.dueDate === "Today");
   const tomorrow = tasks.filter((t) => t.dueDate === "Tomorrow");
   const completed = tasks.filter((t) => t.status === "completed");
   const activeCount = today.length + tomorrow.length;
 
-  async function fetchTasks(){
-    const tasks = await http<Task[]>("/api/tasks", undefined, {method: "GET"})
-    setTasks(tasks)
+  async function fetchTasks() {
+    const tasks = await http<Task[]>("/api/tasks", undefined, {
+      method: "GET",
+    });
+    setTasks(tasks);
   }
 
   return (
     <Section width="stretch" height="hug" className="min-h-[200px]">
-      <TaskToolbar/>
-      <Frame width="stretch" height="stretch">
-        {
-            tasks.length > 0? 
-            <List width="stretch" height="stretch" scroll="hidden">
-                {
-                    tasks.map((task, index) => <TaskItem task={task}/>)
-                }
-            </List>:
-            <Frame width="stretch" height="stretch" justify="center" align="center">
-                <Paragraph size="md" weight="light" className=" text-center w-full h-[100px] flex">
-                    When you create tasks, they appear here.
-                </Paragraph>
-            </Frame>
-        }
+      <TaskToolbar />
+
+      <Frame className="w-full h-full">
+        {tasks.length > 0 ? (
+          <List width="stretch" height="stretch" scroll="hidden">
+            {tasks.map((task, index) => (
+              <TaskItem key={index} task={task} />
+            ))}
+          </List>
+        ) : (
+          <Frame className="w-full h-full flex justify-center items-center">
+            <Paragraph
+              size="md"
+              weight="light"
+              className="text-center w-full h-[100px] flex"
+            >
+              When you create tasks, they appear here.
+            </Paragraph>
+          </Frame>
+        )}
       </Frame>
     </Section>
   );

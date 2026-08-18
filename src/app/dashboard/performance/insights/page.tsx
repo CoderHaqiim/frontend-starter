@@ -8,23 +8,29 @@ import Section from "@/src/components/layout/section"
 
 export default function InsightsPage() {
   return (
-    <Frame width="stretch" direction="column" height="hug" gap="lg">
-      <Frame justify="space-between" width="stretch" height="hug">
-        <Frame width="stretch" gap="xs" height="hug" direction="column">
+    <Frame className="flex w-full flex-col gap-[var(--space-lg)]">
+      <Frame className="flex h-max w-full justify-between">
+        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
           <Heading size="xl" type="h1">Insights</Heading>
           <Paragraph weight="light" size="sm">
             Explore actionable business intelligence and performance signals.
           </Paragraph>
         </Frame>
+
         <Frame>
-          <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus">
+          <Button
+            variant="fill"
+            size="sm"
+            iconPosition="left"
+            iconName="icon-plus"
+          >
             New Insight
           </Button>
         </Frame>
       </Frame>
 
       <Section width="stretch">
-        <Frame width="stretch" direction="column" gap="md">
+        <Frame className="flex w-full flex-col gap-[var(--space-md)]">
           <Heading size="md" type="h2">Overview</Heading>
           <Paragraph weight="light" size="sm">
             Insights help you identify trends, opportunities, and risks across your businesses.
