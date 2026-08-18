@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/components/app/brand"  ],
+, "src/components/app/brand", "src/app/dashboard/operations/schedules"  ],
   "exclude": ["node_modules"]
 }

@@ -48,5 +48,5 @@ Financial Breakdown (where is the money coming from and going?)
 Insights & Recommendations (what should I pay attention to?)
 
 
-
+User will have to define excellent profit margin
 Profitability = profit margin- 50, profit-trend-30, profit stability-20

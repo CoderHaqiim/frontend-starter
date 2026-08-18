@@ -17,8 +17,6 @@ export interface Customer {
   email: string
 }
 
-// types/schedule.ts
-
 export type ScheduleType =
   | "task"
   | "meeting"
@@ -99,3 +97,13 @@ export interface GoalsType {
     duration: string,
     remaining: string
   }
+
+  export type Responsive<T> =
+  | T
+  | {
+      base?: T;
+      sm?: T;
+      md?: T;
+      lg?: T;
+      xl?: T;
+    };

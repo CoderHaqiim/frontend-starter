@@ -33,17 +33,11 @@ export default function TaskCard({
         )}
 
         <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-500">
-
           <span>{task.business}</span>
-
           <span>{task.dueDate}</span>
-
-          <span
-            className={`rounded-full px-2 py-1 text-xs ${priorityColor[task.priority]}`}
-          >
+          <span className={`rounded-full px-2 py-1 text-xs ${priorityColor[task.priority]}`}>
             {task.priority}
           </span>
-
         </div>
 
       </div>
