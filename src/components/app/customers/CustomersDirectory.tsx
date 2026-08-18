@@ -10,7 +10,7 @@ import { customers } from "./customerData"
 
 export default function CustomersDirectory() {
   return (
-    <Card padding="lg" rounded="md" width="300px" height="hug" className={`${shadow3} border-[1px] border-[var(--color-outline2)]`}>
+    <Card padding="lg" rounded="md" width="300px" height="hug">
       <Frame width="stretch" height="hug" direction="column" gap="md">
         <Frame justify="space-between" align="center" width="stretch">
           <Heading type="h2" size="sm">Top Customers</Heading>

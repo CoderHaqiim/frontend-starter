@@ -14,7 +14,7 @@ import { shadow3 } from "@/src/app/design/shadows"
 export default function TaskManagerCard() {
   return (
     
-            <Card padding="lg" rounded="md" width="350px" height="hug" className={`${shadow3} border-[1px] border-[var(--color-outline2)]`}>
+            <Card padding="lg" rounded="md" width="350px" height="hug">
               <Frame width="stretch" height="hug" align="center" justify="space-between" className="border-b-[var(--color-outline1)] mb-[var(--space-lg)]">
                 <Heading type="h2" size="sm">Tasks</Heading>
                 <Frame gap="sm">

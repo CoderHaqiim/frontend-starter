@@ -43,7 +43,7 @@ export default function MailGroupCard() {
   }
 
   return (
-    <Card width="320px" height="hug" padding="lg" className={`${shadow3} border-[1px] border-[var(--color-outline2)]`}>
+    <Card width="320px" height="hug" padding="lg">
       <Frame width="stretch" direction="column" gap="md">
         <Frame width="stretch" justify="space-between" align="center">
           <Heading size="sm" type="h2">Create Mail Group</Heading>

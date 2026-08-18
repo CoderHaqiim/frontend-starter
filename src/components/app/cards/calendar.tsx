@@ -74,7 +74,7 @@ export default function Calendar({businessId}: CalendarProps) {
   }
 
   return (
-    <Card padding="lg" height="hug" className={`${shadow3} border-[var(--color-outline2)] bg-[var(--color-white)]`} width="stretch" rounded="md">
+    <Card padding="lg" height="hug" className={`bg-[var(--color-white)]`} width="stretch" rounded="md">
       {/* Header */}
       <Frame align="center" justify="space-between" className="mb-[var(--space-lg)]">
         <Frame direction="column">

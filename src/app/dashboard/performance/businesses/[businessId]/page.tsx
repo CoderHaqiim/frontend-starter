@@ -172,7 +172,7 @@ const health: HealthType | string | number = business?.health
             <Button variant="ghost" isIcon iconName="icon-info"/>
           </Frame>
           <Frame gap='lg'>
-            <Card justify="flex-start" padding="lg" align='center' width="240px" height="240px" rounded="md" className=" border-[1px] border-[var(--color-outline2)] gap-[var(--space-xl)] bg-[var(--color-background1)]">
+            <Card justify="flex-start" padding="lg" align='center' width="240px" height="240px" rounded="md" gap="xl" className="bg-[var(--color-background1)]">
               <Heading type="h3" size='xs'>Business score</Heading>
               <RadialProgress size={140} strokeWidth={5} score={business?.healthScore} color={healthMap[scoreHealthMap(business.healthScore)]}/>
             </Card>

@@ -19,7 +19,7 @@ export default function GoalsLine({goal}: GoalsLineProps) {
 
   return (
     <Frame width="stretch" gap="xs" direction='column' height="hug" padding='lg'>
-        <Frame justify='center' gap="sm" direction="column">
+        <Frame justify='center' gap="xs" direction="column">
             <Frame justify="space-between">
                 <Frame width="200px">
                     <LinearProgress showPercentage={false} insertedText="3 days remaining" color={healthMap[scoreHealthMap(80)]} height={5} score={80}/>
@@ -34,7 +34,7 @@ export default function GoalsLine({goal}: GoalsLineProps) {
                 </Frame>
             </Frame>
             <Frame width="stetch" direction='column' gap="md">
-                <Paragraph weight='normal' size='sm' color="textColor1" specificStyle={{ lineHeight: "1.3"}}>
+                <Paragraph size='sm' color="textColor1" specificStyle={{ lineHeight: "1.3"}}>
                     {goal.description}
                 </Paragraph>
                 <Frame gap='lg' align='center' height="hug">
