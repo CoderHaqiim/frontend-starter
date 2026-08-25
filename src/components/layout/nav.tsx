@@ -9,6 +9,7 @@ import Tooltip from "../ui/composites/tooltip"
 import Paragraph from "../ui/primitives/paragraph"
 import { usePathname, useRouter } from "next/navigation"
 import { useTheme } from "../app/themeProvider"
+import ProfileButton from "../app/profileButton"
 
 type Notification = unknown
 
@@ -142,12 +143,12 @@ export default function Nav() {
           w-full
           h-full
           items-center
-          justify-between
+          justify-end
           px-[var(--space-xl)]
         "
       >
         {/* Back button */}
-        <Frame>
+        {/* <Frame>
           {pathname !== "/dashboard" && (
             <Tooltip content="back" position="bottom">
               <Button
@@ -159,7 +160,7 @@ export default function Nav() {
               />
             </Tooltip>
           )}
-        </Frame>
+        </Frame> */}
 
         {/* Right controls */}
         <Frame
@@ -174,18 +175,9 @@ export default function Nav() {
           <Searchbar />
 
           {/* Notifications */}
-          <div
-            ref={notificationRef}
-            className="relative flex items-center"
-          >
+          <Frame ref={notificationRef} className="relative flex items-center flex-col">
             <Tooltip content="notifications" position="bottom">
-              <Button
-                func={toggleNotifications}
-                size="md"
-                iconName="icon-bell"
-                variant="outline"
-                isIcon
-              >
+              <Button func={toggleNotifications} size="sm" iconName="icon-bell" variant="outline" isIcon> 
                 <span className="
                   absolute
                   top-[-8px]
@@ -213,7 +205,6 @@ export default function Nav() {
             {notificationsOpen && (
               <Frame
                 className="
-                  absolute
                   top-[120%]
                   right-0
                   z-[1000]
@@ -231,6 +222,7 @@ export default function Nav() {
                   p-[var(--space-sm)]
                 "
                 specificStyles={{
+                  position: "absolute",
                   boxShadow: "0px 1px 5px -1px #000000c4",
                 }}
               >
@@ -275,7 +267,7 @@ export default function Nav() {
                   ))}
               </Frame>
             )}
-          </div>
+          </Frame>
 
           {/* Theme */}
           <Tooltip
@@ -284,7 +276,7 @@ export default function Nav() {
           >
             <Button
               func={toggleTheme}
-              size="md"
+              size="sm"
               iconName={
                 theme === "light"
                   ? "icon-moon"

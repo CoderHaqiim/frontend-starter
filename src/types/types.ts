@@ -47,13 +47,21 @@ export type Status =
   | "overdue"
 
 export interface Task {
-  id: string;
+  id: string | number;
   title: string;
   description?: string;
   business: string;
   dueDate: string;
   priority: Priority;
   status: Status;
+}
+
+export type KpiType = {
+  id?: string | number
+  title: string,
+  value: string,
+  trend?: "up" | "down" | string,
+  meaning?: string,
 }
 
 export type TransactionType = "income" | "expense"
@@ -107,3 +115,11 @@ export interface GoalsType {
       lg?: T;
       xl?: T;
     };
+
+  export type kpiObjectProps = {
+    id?: string | number,
+    title: string,
+    value: string,
+    meaning?: string,
+    trend?: "up" | "down" | string
+}

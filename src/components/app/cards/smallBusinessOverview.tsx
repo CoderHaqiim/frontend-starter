@@ -28,7 +28,7 @@ export default function SmallBusinessOverview({
   const hoverStyles = `
     after:left-[-8px] after:top-[-8px]
     after:absolute after:pointer-events-none
-    after:w-[200px] after:h-[200px]
+    after:w-[187px] after:h-[187px]
     after:rounded-[var(--radius-md)]
     hover:after:bg-[var(--color-background2)]
     ${
@@ -40,17 +40,17 @@ export default function SmallBusinessOverview({
 
   return (
     <Link
-      href={`/dashboard/performance/businesses/${business.id}`}
+      href={`/dashboard/businesses/${business.id}/overview`}
       className={`
         relative w-max rounded-[var(--radius-sm)]
-        shrink-0 h-[180px] w-[180px]
+        shrink-0 h-[170px] w-[170px]
         ${hoverStyles}
       `}
     >
       <Card
-        width="185px"
+        width="170px"
         padding="lg"
-        height="185px"
+        height="170px"
         rounded="sm"
         justify="space-between"
         specificStyles={{

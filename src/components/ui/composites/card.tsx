@@ -6,6 +6,8 @@ import { CSSProperties } from 'react'
 import { FrameSizeType, SizeType } from '@/src/types/types'
 import { useTheme } from '../../app/themeProvider'
 import { shadow2 } from '@/src/app/design/shadows'
+import { space } from '@/src/app/design/spacing'
+import { radius } from '@/src/app/design/radius'
 
 type CardProps = {
     children: ReactNode,
@@ -36,8 +38,15 @@ export default function Card({
 }: CardProps) {
   const {colors} = useTheme()
   return (
-    <Frame width={width} border justify={justify} align={align} scroll={scroll} height={height} gap={gap} rounded={rounded} direction="column" padding={padding} className={`border-[1px] border-[var(--color-outline2)] ${className}`}
+    <Frame scroll={scroll} className={`border-[1px] flex-col border-[var(--color-outline1)] ${className}`}
       specificStyles={{
+        width: width,
+        justifyContent: justify,
+        alignItems: align,
+        height: height,
+        gap: gap && space[gap],
+        borderRadius: rounded && radius[rounded],
+        padding: padding && space[padding],
         backgroundColor: colors["white"],
         ...specificStyles,
         }}>

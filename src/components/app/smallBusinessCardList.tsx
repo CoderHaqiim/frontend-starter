@@ -6,6 +6,7 @@ import { useEffect } from "react"
 import { Businesses } from "@/src/types/types"
 import { http } from "@/src/http/client"
 import { useBusinessesState } from "@/src/store/businessesState"
+import Heading from "../ui/primitives/heading"
 
 export default function SmallBusinessCardList() {
 
@@ -21,8 +22,11 @@ export default function SmallBusinessCardList() {
       },[])
 
   return (
-    <Frame scroll="hidden" className="gap-[var(--space-xl)] w-[200px] h-full items-center flex-col pt-[var(--space-md)]">
-        {businessesState.map(business => <SmallBusinessOverview business={business} key={business.id}/>)}
+    <Frame scroll="hidden" className="relative gap-[var(--space-xl)] w-[200px] h-full items-center flex-col">
+      <Frame className="w-full z-[100] sticky border-b-[1.5px] border-b-[var(--color-outline1)] top-0 pb-[var(--space-md)]">
+        <Heading type="h3" size="sm">Select business</Heading>
+      </Frame>
+      {businessesState.map(business => <SmallBusinessOverview business={business} key={business.id}/>)}
     </Frame>
   )
 }

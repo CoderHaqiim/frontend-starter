@@ -1,24 +1,24 @@
+"use client"
+
 import Frame from "../primitives/frame"
 import KpiCard from "../../app/cards/kpiCard"
-import { type } from "os"
-
-type kpiObjectProps = {
-    id?: string | number,
-    title: string,
-    value: string,
-    meaning?: string,
-    trend?: "up" | "down" | string
-}
+import KpiLoader from "../../app/cards/kpiLoader"
+import { kpiObjectProps } from "@/src/types/types"
+import { useState } from "react"
 
 type KpiRowProps = {
-    kpis: kpiObjectProps[]
+    kpis: kpiObjectProps[] | null
+    itemsCount: number,
+    isLoading: boolean
 }
 
-export default function KpiRow({kpis}: KpiRowProps) {
+export default function KpiRow({kpis, isLoading, itemsCount}: KpiRowProps) {
   return (
     <Frame className="w-full h-[100px] gap-[var(--space-md)]">
         {
-            kpis.map((item, index) => <KpiCard key={ item?.id ?? index} meaning={item?.meaning} title={item?.title} trend={item?.trend} value={item.value}/>)
+            isLoading?
+            Array.from({length: itemsCount}).map((item, index) => <KpiLoader key={index}/>): 
+            kpis?.map((item, index) => <KpiCard key={ item?.id ?? index} kpi={item}/>)
         }
     </Frame>
   )

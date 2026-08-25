@@ -66,9 +66,7 @@ export default function RootLayout({
             <Toast variant="warning" title="not connected" text="there are a lot of errors in the message here"/> */}
           </Frame>
 
-          <Backdrop>
-            <></>
-          </Backdrop>
+          <Backdrop/>
 
           {children}
         </ThemeProvider>

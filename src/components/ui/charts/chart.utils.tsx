@@ -45,7 +45,7 @@ export const useTooltip = () => {
                     stroke: 'var(--textColor2)'
                 }}
                 contentStyle={{
-                    backgroundColor: colors["background2"],
+                    backgroundColor: colors["background1"],
                     borderColor:  colors["outline2"],
                     borderRadius: radius["sm"],
                     boxShadow:"0px 2px 3px #00000080"

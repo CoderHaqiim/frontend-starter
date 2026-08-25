@@ -7,39 +7,80 @@ const businesses = [
         industry: "Technology",
         startDate: "Oct 1, 2009",
         health:"healthy",
-        healthScore: 80
+        healthScore: 80,
+        established:2010,
+        country: "Nigeria",
+        state: "Lagos",
+        customers: 1000,
+        income: 1000000,
+        expenses: 2000,
+        netProfit: 2000,
+        status: "active"
     },
     {
         id: "1",
         name: "Dangote Cement Limited",
-        industry: "Technology",
+        industry: "Food and Agriculture",
         startDate: "Oct 1, 2009",
         health:"critical",
-        healthScore: 20
+        healthScore: 20,
+        established:2010,
+        country: "Nigeria",
+        state: "Lagos",
+        customers: 500,
+        income: 1000,
+        expenses: 4000,
+        netProfit: 2000,
+        status: "inactive"
+
     },
     {
         id: "2",
         name: "Microsoft Limited",
-        industry: "Minning",
+        industry: "Technology",
         startDate: "Aug 13, 2009",
         health:"critical",
-        healthScore: 30
+        healthScore: 30,
+        established:2009,
+        country: "United States",
+        state: "Washington D.C",
+        customers: 30,
+        income: 90000,
+        expenses: 2080,
+        netProfit: 700,
+        status: "inactive"
     },
     {
         id: "3",
         name: "Opic Farms Limited",
-        industry: "Commerce",
+        industry: "Food, Agriculture and Commerce",
         startDate: "Mar 22, 2008",
         health:"healthy",
-        healthScore: 90
+        healthScore: 90,
+        established:2020,
+        country: "Nigeria",
+        state: "Lagos",
+        customers: 1360,
+        income: 7600,
+        expenses: 800,
+        netProfit: 800,
+        status: "active"
     },
-    {
+     {
         id: "4",
-        name: "Apic Farms Limited",
+        name: "Alvin stores",
         industry: "Commerce",
         startDate: "Mar 22, 2008",
         health:"moderate",
-        healthScore:50
+        healthScore:50,
+        established:2014,
+        country: "United Kingdom",
+        state: "London",
+        customers: 1000,
+        income: 1000000,
+        expenses: 2000,
+        netProfit: 2000,
+        status: "inactive"
     }
 ]
 

@@ -6,31 +6,36 @@ import { useEffect } from "react"
 import { Businesses } from "@/src/types/types"
 import { http } from "@/src/http/client"
 import { useBusinessesState } from "@/src/store/businessesState"
-import KpiCard from "@/src/components/app/cards/kpiCard"
+import KpiRow from "@/src/components/app/cards/kpiCard"
 import Section from "@/src/components/layout/section"
 import { quickContactTableData } from "@/src/components/app/customers/customerData"
 import Table from "@/src/components/ui/composites/table"
+import { KpiType } from "@/src/types/types"
 
 export default function Home() {
   const { businessesState, setBusinessesState } = useBusinessesState()
 
-  const dashboardKpis = [
+  const dashboardKpis:KpiType[] = [
     {
+      id:0,
       title: "Customers",
       value: "30",
       meaning: "Total number of customers",
     },
     {
+      id:1,
       title: "New Customers",
       value: "5",
       meaning: "Customers gained during this period",
     },
     {
+      id:2,
       title: "Watchlist",
       value: "4",
       meaning: "Customers flagged for attention",
     },
     {
+      id:3,
       title: "Receivables",
       value: "$6500",
       meaning: "Total amount owed to your business",
@@ -52,9 +57,8 @@ export default function Home() {
         <Heading size="xl" type="h1">Customers</Heading>
       </Frame>
       <Frame className="w-full h-[100px] gap-[var(--space-md)]">
-        {dashboardKpis.map((item, index) => (
-          <KpiCard meaning={item.meaning} key={index} title={item.title} value={item.value} />
-        ))}
+        {dashboardKpis.map((item, index) => 
+          <KpiRow key={item?.id} kpi={item}/>)}
       </Frame>
       <Section width="stretch">
         <Frame className="w-full flex-col gap-[var(--space-md)]">

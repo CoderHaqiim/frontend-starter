@@ -19,7 +19,7 @@ export default function Label({weight, color, text, size, specificStyle, classNa
   const defaultStyle: CSSProperties = {
     fontSize: bodySize[size],
     marginBottom: space["xs"],
-    fontWeight: (weight && fontWeight[weight]) ?? fontWeight["normal"],
+    fontWeight: (weight && fontWeight[weight]) ?? fontWeight["medium"],
     color: (color && colors[color]) ?? colors["textColor1"],
   }
 

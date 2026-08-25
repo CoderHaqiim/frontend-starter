@@ -149,9 +149,9 @@ export default function BusinessPage() {
           transform: kpisExpanded ? "scale(1)" : "scale(0.995)",
         }}
       >
-        <KpiRow kpis={businessKpis.slice(0, 4)} />
+        <KpiRow isLoading={false} kpis={businessKpis.slice(0, 4)} itemsCount={4} />
         {kpisExpanded && (
-          <KpiRow kpis={businessKpis.slice(4)} />
+          <KpiRow isLoading={false} kpis={businessKpis.slice(4)} itemsCount={4}/>
         )}
         <Frame className="w-full justify-center">
           <Button
@@ -201,7 +201,7 @@ export default function BusinessPage() {
           </Card>
 
           <Frame
-            className="justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] gap-[var(--space-sm)] flex-col h-[240px] flex-1 border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]"
+            className="justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] gap-[var(--space-sm)] flex-col h-[240px] flex-1 border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]"
           >
             {/* weight-40 */}
             <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
@@ -238,7 +238,7 @@ export default function BusinessPage() {
 
       {/* Business Insights */}
       <Section width="stretch" height="stretch">
-        <Frame className="flex-col gap-[var(--space-xs)] h-max w-full mb-[var(--space-lg)]">
+        <Frame className="flex-col gap-[var(--space-xs)] h-max w-full">
           <Frame className="w-full mb-[var(--space-lg)]">
             <Heading type="h2" size='md'>Business Insights</Heading>
           </Frame>

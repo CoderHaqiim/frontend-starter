@@ -14,41 +14,43 @@ import { space } from '../../design/spacing'
 import { fontWeight } from '../../design/typograhy'
 import Link from 'next/link'
 
+
+
 export default function SignupPage() {
   return (
-    <Frame width="stretch" height="100vh" justify="center" padding="xs" align="center" className="bg-[var(--color-white]">
-        <Frame width="stretch" justify='center' align='center' height="stretch" className="overflow-hidden bg-[var(--color-white)]">
-            <Frame width="400px" height="stretch" rounded="md" direction='column' className="bg-[var(--color-background2)]">
+    <Frame className="w-full h-[100vh] justify-center p-[var(--space-xs)] items-center bg-[var(--color-white]">
+        <Frame className="w-full justify-center items-center h-full overflow-hidden bg-[var(--color-white)]">
+            <Frame className="w-[400px] h-full rounded-[var(--radius-md)] flex-col bg-[var(--color-background1)]">
             </Frame>
-            <Frame justify="center" align="center" width="auto" height="stretch" scroll='hidden' padding='lg' className='flex-1' >
-                <Frame width="450px" height="max-content" direction="column" gap="sm">
-                    <Frame width="stretch" height="hug" className='mb-[var(--space-xl)]'>
-                        <Heading size="xxl" type='h1'>Create new account</Heading>
+            <Frame scroll='hidden' className='w-full justify-center items-center flex-1 h-full p-[var(--space-lg)]' >
+                <Frame className="w-[450px] h-[max-content] flex-col gap-[var(--space-sm)]">
+                    <Frame className="w-full h-max mb-[var(--space-xl)]">
+                        <Heading size="xxl" type='h1'>Create an account</Heading>
                     </Frame>
-                    <Form variant="plain" url="/auth/signup">
-                        <Frame direction='column' width="stretch" height="stretch">
-                            <Label text='Username' size='md'/>
-                            <Input outline name="username" rounded='sm' variant='default' type='text' size='md' border placeholder='Username'/>
-                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
-                        </Frame>
-                        <Frame direction='column' width="stretch" height="stretch">
+                    <Form url="/auth/login">
+                        <Frame className="flex-col w-full h-full">
                             <Label text='Email' size='md'/>
                             <Input outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
                             <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                         </Frame>
-                        <Frame direction='column' width="stretch" height="stretch">
+                        <Frame className="flex-col w-full h-full">
                             <Label text='Password' size='md'/>
                             <Input outline rounded='sm' name="password" variant="password" type='text' size='md' border placeholder='Password'/>
                             <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                         </Frame>
-                        <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Create new account</Button>  
+                        <Frame className="flex-col w-full h-full">
+                            <Label text='Confirm Password' size='md'/>
+                            <Input outline rounded='sm' name="confirm-password" variant="password" type='text' size='md' border placeholder='Password'/>
+                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                        </Frame>
+                        <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Log in</Button>  
                     </Form>
-                    <Frame height={30} justify='center' align="center" width="stretch" >
+                    <Frame className="justify-center h-[30px] items-center w-full" >
                         <Paragraph size='sm' color="textColor1" className='justify-center text-center z-[5] bg-[var(--color-white)]' specificStyle={{width: "70px"}}>OR</Paragraph>
                         <hr className='w-[70%] border-0 bg-[var(--color-outline1)] h-[1px] absolute'/>
                     </Frame>
                     <Frame>
-                         <Button rounded='xl' variant="outline" size='xl'width="stretch">
+                         <Button rounded='xl' variant="outline" size='xl'width="stretch" specificStyles={{border:`1px solid ${colors["accent"]}`}}>
                             <Image
                               src="svgs/google-logo.svg"
                               alt="google-logo"
@@ -60,10 +62,10 @@ export default function SignupPage() {
                             </Paragraph>
                         </Button>  
                     </Frame>
-                    <Frame width="stretch" height="hug" gap="md" className='mt-[var(--space-lg)]'>
+                    <Frame className="w-full h-max gap-[var(--space-md)] mt-[var(--space-lg)]">
                         <Paragraph size='sm'>Already have an account?</Paragraph>
-                         <Link href="/login">
-                            <Paragraph size='sm' weight="normal" color="accent">Log in</Paragraph>
+                        <Link href="/login">
+                            <Paragraph size='sm' weight="normal" color="accent">Login</Paragraph>
                         </Link>
                     </Frame>
                 </Frame>

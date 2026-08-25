@@ -108,7 +108,7 @@ export default function InvoicesPage() {
       <Section width="stretch">
         <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">
           <Frame className="w-full h-max flex items-center justify-between">
-            <Heading size="lg" type="h2">Recent Invoices</Heading>
+            <Heading size="md" type="h2">Recent Invoices</Heading>
 
             <Dropdown
               name="invoiceFilter"

@@ -1,34 +1,28 @@
 import { IconType } from "../components/ui/primitives/icon"
 
 export type navItem = {
-    id: string,
-    text:string,
-    icon :IconType
+    id: string
+    text: string
+    icon: IconType
     link: string
 }
+
 export type navItems = navItem[]
 
-export type DashboardView = "performance" | "operations" | "customers" | "team"
+export type DashboardView = "home" | "business"
 
-
-export const performanceView: navItems = [
+export const HomeView: navItems = [
     {
-        id: "per-dashboard",
-        text: "Overview",
+        id: "home",
+        text: "Home",
         icon: "icon-dashboard",
-        link: "/dashboard/performance"
+        link: "/dashboard"
     },
     {
-        id: "per-businesses",
-        text: "Businesses", /*change to real page name*/
+        id: "businesses",
+        text: "Businesses",
         icon: "icon-store",
-        link:"/dashboard/performance/businesses" /*change to real page link*/
-    },
-    {
-        id: "goals",
-        text: "Goals",
-        icon: "icon-badge-check",
-        link: "/dashboard/performance/goals"
+        link: "/dashboard/businesses"
     },
     {
         id: "settings",
@@ -44,117 +38,57 @@ export const performanceView: navItems = [
     }
 ]
 
-export const operationsView: navItems = [
-     {
-        id: "ops-dashboard",
-        text: "Overview",
-        icon: "icon-dashboard",
-        link: "/dashboard/operations"
-    },
-    {
-        id: "transactions",
-        text: "Transactions",
-        icon: "icon-transactions",
-        link: "/dashboard/operations/transactions"
-    },
-    {
-        id: "tasks",
-        text: "Tasks",
-        icon: "icon-notes",
-        link: "/dashboard/operations/tasks"
-    },
-    {
-        id: "schedules",
-        text: "Schedules",
-        icon: "icon-calendar-check",
-        link: "/dashboard/operations/schedules"
-    },
-    {
-        id: "invoices",
-        text: "Invoices",
-        icon: "icon-file-text",
-        link: "/dashboard/operations/invoices"
-    },
-    {
-        id: "settings",
-        text: "Settings",
-        icon: "icon-settings",
-        link: "/dashboard/settings"
-    },
-    {
-        id: "support",
-        text: "Support",
-        icon: "icon-headset",
-        link: "/dashboard/support"
-    }
-]
-
-export const customersView: navItems = [
-    {
-        id: "cus-dashboard",
-        text: "Overview",
-        icon: "icon-dashboard",
-        link: "/dashboard/customers"
-    },
-    {
-        id: "directory",
-        text: "Directory",
-        icon: "icon-address-book",
-        link: "/dashboard/customers/directory"
-    },
-    {
-        id: "mailing",
-        text: "Mailing",
-        icon: "icon-mail",
-        link: "/dashboard/customers/mailing"
-    },
-    {
-        id: "receivables",
-        text: "Receivables",
-        icon: "icon-money",
-        link: "/dashboard/customers/receivables"
-    },
-
-    {
-        id: "settings",
-        text: "Settings",
-        icon: "icon-settings",
-        link: "/dashboard/settings"
-    },
-    {
-        id: "support",
-        text: "Support",
-        icon: "icon-headset",
-        link: "/dashboard/support"
-    }
-]
-
-export const teamsView: navItems = [
-      {
-        id: "team-dashboard",
-        text: "Overview",
-        icon: "icon-dashboard",
-        link: "/dashboard/team"
-    },
-    {
-        id: "settings",
-        text: "Settings",
-        icon: "icon-settings",
-        link: "/dashboard/settings"
-    },
-    {
-        id: "support",
-        text: "Support",
-        icon: "icon-headset",
-        link: "/dashboard/support"
-    }
-]
-
-export const dashboardViewNavItems: Record<DashboardView, navItems> = {
-    performance: performanceView,
-    operations: operationsView,
-    customers: customersView,
-    team: teamsView,
+export function getBusinessView(businessId: string): navItems {
+    return [
+        {
+            id: "bus-overview",
+            text: "Overview",
+            icon: "icon-dashboard",
+            link: `/dashboard/businesses/${businessId}/overview`
+        },
+        {
+            id: "tasks",
+            text: "Tasks",
+            icon: "icon-double-check",
+            link: `/dashboard/businesses/${businessId}/tasks`
+        },
+        {
+            id: "inventory",
+            text: "Inventory",
+            icon: "icon-pile",
+            link: `/dashboard/businesses/${businessId}/inventory`
+        },
+        {
+            id: "invoice",
+            text: "Invoices",
+            icon: "icon-invoice",
+            link: `/dashboard/businesses/${businessId}/invoices`
+        },
+        {
+            id: "goals",
+            text: "Goals",
+            icon: "icon-badge-check",
+            link: `/dashboard/businesses/${businessId}/goals`
+        },
+        {
+            id: "customers",
+            text: "Customers",
+            icon: "icon-users-round",
+            link: `/dashboard/businesses/${businessId}/customers`
+        },
+        {
+            id: "settings",
+            text: "Settings",
+            icon: "icon-settings",
+            link: "/dashboard/settings"
+        },
+        {
+            id: "support",
+            text: "Support",
+            icon: "icon-headset",
+            link: "/dashboard/support"
+        }
+    ]
 }
 
 const DASHBOARD_VIEW_STORAGE_KEY = "dashboard-view"
@@ -162,9 +96,11 @@ const DASHBOARD_VIEW_STORAGE_KEY = "dashboard-view"
 function getStoredDashboardView(): DashboardView | null {
     if (typeof window === "undefined") return null
 
-    const storedValue = window.sessionStorage.getItem(DASHBOARD_VIEW_STORAGE_KEY)
+    const storedValue = window.sessionStorage.getItem(
+        DASHBOARD_VIEW_STORAGE_KEY
+    )
 
-    if (storedValue === "performance" || storedValue === "operations" || storedValue === "customers" || storedValue === "team") {
+    if (storedValue === "home" || storedValue === "business") {
         return storedValue
     }
 
@@ -174,37 +110,55 @@ function getStoredDashboardView(): DashboardView | null {
 function persistDashboardView(view: DashboardView) {
     if (typeof window === "undefined") return
 
-    window.sessionStorage.setItem(DASHBOARD_VIEW_STORAGE_KEY, view)
+    window.sessionStorage.setItem(
+        DASHBOARD_VIEW_STORAGE_KEY,
+        view
+    )
 }
 
-export function getDashboardViewFromPath(pathname: string): DashboardView {
-    if (pathname.startsWith("/dashboard/performance")) {
-        persistDashboardView("performance")
-        return "performance"
-    }
+export function getBusinessIdFromPath(pathname: string): string | null {
+    const match = pathname.match(
+        /^\/dashboard\/businesses\/([^/]+)/
+    )
 
-    if (pathname.startsWith("/dashboard/operations")) {
-        persistDashboardView("operations")
-        return "operations"
-    }
-
-    if (pathname.startsWith("/dashboard/customers")) {
-        persistDashboardView("customers")
-        return "customers"
-    }
-
-    if (pathname.startsWith("/dashboard/team") || pathname.startsWith("/dashboard/teams")) {
-        persistDashboardView("team")
-        return "team"
-    }
-
-    if (pathname.startsWith("/dashboard/settings") || pathname.startsWith("/dashboard/support")) {
-        return getStoredDashboardView() ?? "performance"
-    }
-
-    return getStoredDashboardView() ?? "performance"
+    return match?.[1] ?? null
 }
 
-export function getNavItemsForPath(pathname: string): navItems {
-    return dashboardViewNavItems[getDashboardViewFromPath(pathname)]
+export function getDashboardViewFromPath(
+    pathname: string
+): DashboardView {
+    // A specific business:
+    // /dashboard/businesses/:id
+    // /dashboard/businesses/:id/tasks
+    // /dashboard/businesses/:id/inventory
+    if (pathname.startsWith("/dashboard/businesses/")) {
+        persistDashboardView("business")
+        return "business"
+    }
+
+    // Global dashboard pages
+    if (pathname.startsWith("/dashboard")) {
+        persistDashboardView("home")
+        return "home"
+    }
+
+    return getStoredDashboardView() ?? "home"
+}
+
+export function getNavItemsForPath(
+    pathname: string
+): navItems {
+    const view = getDashboardViewFromPath(pathname)
+
+    if (view === "business") {
+        const businessId = getBusinessIdFromPath(pathname)
+
+        if (!businessId) {
+            return HomeView
+        }
+
+        return getBusinessView(businessId)
+    }
+
+    return HomeView
 }

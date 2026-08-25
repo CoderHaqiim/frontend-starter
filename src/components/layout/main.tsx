@@ -14,12 +14,7 @@ export default function Main({children, className, specificStyles}: MainProps) {
   const {colors} = useTheme()
 
   const defaultStyle:CSSProperties = {
-    paddingTop: space["lg"],
-    paddingRight: space["lg"],
-    paddingBottom: "100px",
-    paddingLeft: space["lg"],
-    borderRight: `solid 1px ${colors["outline1"]}`,
-    borderLeft: `solid 1px ${colors["outline1"]}`,
+    padding: space["lg"]
   }
 
   return (

@@ -5,7 +5,7 @@ const elementSizes = {
     "name": "elementSize",
     "xxs": "24px",
     "xs": "28px",
-    "sm": "32px",
+    "sm": "36px",
     "md": "40px",
     "lg": "44px",
     "xl": "48px",

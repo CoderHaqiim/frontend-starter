@@ -33,6 +33,20 @@ body {
   display: none;
 }
 
+.cardhead{
+  margin-bottom: "var(--space-lg)";
+}
+
+
+.no-hover-effect:hover::after
+ {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+  content: none !important;
+}
+
 .scrollVisible::-webkit-scrollbar-thumb{
   width:3px;
   height:3px;

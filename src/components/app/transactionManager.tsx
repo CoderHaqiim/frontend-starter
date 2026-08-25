@@ -58,12 +58,12 @@ export default function TransactionManager() {
 
   return (
     <Section width="stretch" height="hug" className="min-h-[200px]">
-      <Frame gap="sm" justify="flex-end" width="stretch" height="hug" className="pb-[var(--space-md)]">
+      <Frame className="w-full h-max justify-end gap-[var(--space-sm)] pb-[var(--space-md)]">
         <Dropdown size="sm" name="Business" options={businesses} />
         <Dropdown size="sm" name="Status" options={statuses} />
         <Dropdown size="sm" name="Type" options={types} />
       </Frame>
-      <Frame width="stretch" height="stretch">
+      <Frame className="w-full h-full">
         {transactions.length > 0 ? (
           <List width="stretch" height="stretch" scroll="hidden">
             {transactions.map((transaction) => (
@@ -71,7 +71,7 @@ export default function TransactionManager() {
             ))}
           </List>
         ) : (
-          <Frame width="stretch" height="stretch" justify="center" align="center">
+          <Frame className="w-full h-full jusityf-center items-center ">
             <Paragraph size="md" weight="light" className="text-center w-full h-[100px] flex">
               When you create transactions, they appear here.
             </Paragraph>

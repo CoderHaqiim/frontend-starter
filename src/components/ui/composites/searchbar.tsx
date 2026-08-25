@@ -118,23 +118,22 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
     <Frame
       className={`
         relative
-        w-[350px]
+        w-[290px]
         h-max
         justify-center
-        border
         items-center
         rounded-[var(--radius-lg)]
         bg-[var(--color-white)]
       `}
       specificStyles={{
-        border: focused ? `1.5px ${colors["accent"]} solid` : "",
+        border: focused ? `1.5px ${colors["accent"]} solid` : `1px solid ${colors["outline1"]}`,
       }}
     >
       <Frame
         className="w-max h-max flex-1"
       >
         <Input
-          size='md'
+          size='sm'
           formFunc={search}
           name="search"
           func={focusInputParent}
@@ -147,7 +146,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
       <Tooltip content="search" position='bottom'>
         <Button
           variant='ghost'
-          size='md'
+          size='sm'
           isIcon
           iconName='icon-search'
           specificStyles={{

@@ -50,7 +50,7 @@ export default function Chart1({variant}: ChartProps) {
         width: '100%',
         maxWidth: 'none',
         height: '100%',
-        maxHeight: '400px',
+        maxHeight: '800px',
         aspectRatio: 2,
         outline: "none",
         backgroundColor: colors["white"],
@@ -59,7 +59,7 @@ export default function Chart1({variant}: ChartProps) {
     }
 
   return (
-    <Frame className=" w-full rounded-[var(--radius-md)] p-[var(--space-lg)] border-[1px] border-[var(--color-outline2)] bg-[var(--color-white)]">
+    <Frame className=" w-full rounded-[var(--radius-md)] p-[var(--space-lg)] border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]">
       {variant === "Line chart" ? (
       <LineChart
         style={chartStyle}

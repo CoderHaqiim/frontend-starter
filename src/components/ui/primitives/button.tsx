@@ -30,6 +30,7 @@ type ButtonProps = {
     isIcon?: boolean
     className?: string
     height?: CSSProperties
+    showFocusRing?: boolean
 }
 
 export default function Button({
@@ -49,6 +50,7 @@ export default function Button({
     justify = "center",
     className,
     height,
+    showFocusRing = true,
     func
 }: ButtonProps) {
 
@@ -65,7 +67,8 @@ export default function Button({
             rounded && radius[rounded],
         backgroundColor: 
            variant === "fill"? colors["accent"]:
-           variant === "ghost"? colors["background1"]:
+           variant === "ghost"? "transparent":
+           variant === "outline"? colors["background1"]:
            "",
         color: 
             variant === "fill"? colors["white"]:
@@ -114,7 +117,7 @@ export default function Button({
     className={`
             ${className}
             ${derivedPadding}
-            ${hoverStyles}
+            ${showFocusRing ? hoverStyles : ""}
             whitespace-nowrap
             transition-transform
             duration-100

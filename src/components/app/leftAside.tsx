@@ -19,7 +19,7 @@ export default function LeftAside() {
   return (
     <Aside
       width="260px"
-      className="items-start justify-between"
+      className="items-start border-r border-r-[var(--color-outline1)] justify-between"
       specificStyles={{
         backgroundColor: colors["background3"],
       }}
@@ -31,7 +31,7 @@ export default function LeftAside() {
       <Frame className="flex w-full flex-1 flex-col justify-between">
         <Frame className="flex h-max w-full flex-col">
           {navItems
-            .filter((item) => item.id !== "settings" && item.id !== "support")
+            .filter((item)=> item.id !== "settings" && item.id !== "support")
             .map((item) => (
               <NavLink
                 key={item.id}
@@ -43,27 +43,25 @@ export default function LeftAside() {
                 {item.text}
               </NavLink>
             ))}
-
-          <Frame className="my-[var(--space-md)] flex h-max w-full flex-col border-t border-t-[var(--color-outline2)] pt-[var(--space-md)]">
-            {navItems
-              .filter((item) => item.id === "settings" || item.id === "support")
-              .map((item) => (
-                <NavLink
-                  key={item.id}
-                  href={item.link}
-                  size="md"
-                  iconName={item.icon}
-                  iconPosition="left"
-                >
-                  {item.text}
-                </NavLink>
-              ))}
-          </Frame>
         </Frame>
-
-        <Frame className="flex h-max w-full flex-col gap-[var(--space-md)]">
-          <ProfileButton />
+        <Frame className="flex h-max w-full flex-col border-t-[1px] border-t-[var(--color-outline2)] pt-[var(--space-md)] mb-[var(--space-lg)]">
+          {navItems
+            .filter((item)=> item.id == "settings" || item.id == "support")
+            .map((item) => (
+              <NavLink
+                key={item.id}
+                href={item.link}
+                size="md"
+                iconName={item.icon}
+                iconPosition="left"
+              >
+                {item.text}
+              </NavLink>
+            ))}
         </Frame>
+      </Frame>
+      <Frame className="flex w-full h-max flex-col gap-[var(--space-md)]">
+        <ProfileButton/>
       </Frame>
     </Aside>
   );

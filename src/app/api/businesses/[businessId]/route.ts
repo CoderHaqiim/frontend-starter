@@ -10,7 +10,11 @@ const businesses = [
         healthScore: 80,
         established:2010,
         country: "Nigeria",
-        state: "Lagos"
+        state: "Lagos",
+        customers: 1000,
+        income: 1000000,
+        expenses: 2000,
+        netProfit: 2000,
     },
     {
         id: "1",
@@ -21,7 +25,11 @@ const businesses = [
         healthScore: 20,
         established:2010,
         country: "Nigeria",
-        state: "Lagos"
+        state: "Lagos",
+        customers: 500,
+        income: 1000,
+        expenses: 4000,
+        netProfit: 2000,
     },
     {
         id: "2",
@@ -32,7 +40,11 @@ const businesses = [
         healthScore: 30,
         established:2009,
         country: "United States",
-        state: "Washington D.C"
+        state: "Washington D.C",
+        customers: 30,
+        income: 90000,
+        expenses: 2080,
+        netProfit: 700,
     },
     {
         id: "3",
@@ -43,7 +55,11 @@ const businesses = [
         healthScore: 90,
         established:2020,
         country: "Nigeria",
-        state: "Lagos"
+        state: "Lagos",
+        customers: 1360,
+        income: 7600,
+        expenses: 800,
+        netProfit: 800,
     },
      {
         id: "4",
@@ -54,7 +70,11 @@ const businesses = [
         healthScore:50,
         established:2014,
         country: "United Kingdom",
-        state: "London"
+        state: "London",
+        customers: 1000,
+        income: 1000000,
+        expenses: 2000,
+        netProfit: 2000,
     }
 ]
 

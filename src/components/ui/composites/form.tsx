@@ -7,11 +7,10 @@ import { space } from '@/src/app/design/spacing'
 
 type FormProps = {
     children: ReactNode,
-    url: string,
-    variant: "plain" | "card"
+    url: string
 }
 
-export default function Form({children, variant, url}: FormProps) {
+export default function Form({children, url}: FormProps) {
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     const dataHolder: FormObjectTypes = {}
@@ -21,18 +20,16 @@ export default function Form({children, variant, url}: FormProps) {
       dataHolder[key] = value
     })
 
+    console.log(dataHolder, url)
     http(url, dataHolder, {
       method: "POST",
     })
   }
 
-  const cardFormStyle = `border-[1px] p-8 gap-[var(--space-md)] w-full bg-[var(--color-background1)] rounded-[var(--radius-xl)] h-max flex flex-col items-center justify-center border-[var(--color-outline1)]`
-  const plainFormStyle = `gap-[var(--space-lg)] w-full h-max flex flex-col items-center justify-center`
-
-  const styles = variant === "plain"? plainFormStyle : cardFormStyle;
+  const cardFormStyle = `gap-[var(--space-lg)] w-full h-max flex flex-col items-center justify-center`
 
   return (
-    <form onSubmit={(e) =>{handleSubmit(e)}} className={styles}>
+    <form onSubmit={(e) =>{handleSubmit(e)}} className={cardFormStyle}>
         {children}
     </form>
   )

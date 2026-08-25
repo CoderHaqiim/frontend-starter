@@ -23,10 +23,10 @@ export default function Heading({weight, children, size, type, color ="textColor
   const HeadingTag = type 
 
   const weightType = {
-    "h1" : "semiBold",
+    "h1" : "medium",
     "h2" : "medium",
     "h3" : "medium",
-    "h4" : "normal"
+    "h4" : "medium"
   } as const
 
   const Weight = weightType[type]

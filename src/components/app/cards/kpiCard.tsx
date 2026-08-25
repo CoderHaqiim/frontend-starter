@@ -1,3 +1,4 @@
+"use client"
 import Frame from "../../ui/primitives/frame"
 import Paragraph from "../../ui/primitives/paragraph"
 import Icon from "../../ui/primitives/icon"
@@ -6,81 +7,68 @@ import { FrameSizeType } from "@/src/types/types"
 import abridgeNumber from "@/src/utils/abridgeNumber"
 import Card from "../../ui/composites/card"
 import Tooltip from "../../ui/composites/tooltip"
+import Button from "../../ui/primitives/button"
+import Spinner from "../../ui/composites/spinner"
+import { KpiType } from "@/src/types/types"
+
 
 type KpiCardProps = {
-  title: string,
-  value: string,
-  trend?: "up" | "down" | string,
-  width?: FrameSizeType,
-  meaning?: string
+  kpi: KpiType
+  width?: FrameSizeType
 }
 
+
 export default function KpiCard({
-  title,
-  meaning,
-  value,
-  trend,
-  width = "stretch"
+  kpi,
+  width = "100%",
 }: KpiCardProps) {
-  const { colors } = useTheme()
 
   const trendIcon =
-    trend === "up"
+    kpi?.trend === "up"
       ? "icon-trend-up"
-      : trend === "down"
+      : kpi?.trend === "down"
         ? "icon-trend-down"
         : undefined
 
   const trendColor =
-    trend === "up"
+    kpi?.trend === "up"
       ? "success"
-      : trend === "down"
+      : kpi?.trend === "down"
         ? "error"
         : undefined
 
   return (
-    <Tooltip
-      content={meaning}
-      width="stretch"
-      position="top"
-      specificStyle={{
-        display: meaning ? "flex" : "none",
-      }}
-    >
-      <Card
-        width={width}
-        height="100px"
-        padding="lg"
-        rounded="md"
-        className="flex-1 bg-[var(--color-white)]"
-      >
-        <Paragraph size="xs" color="textColor2">
-          {title}
-        </Paragraph>
+
+      <Card width={width} height="100px" padding="lg" rounded="md" className="flex-1 bg-[var(--color-white)]">
+        <Frame className="justify-between w-full">
+          <Paragraph size="xs" weight="normal" color="textColor2">
+            {kpi.title}
+          </Paragraph>
+          <Frame 
+            specificStyles={{ position: "absolute", right: "-10px", top: "-10px"}}>
+              <Tooltip content={kpi.meaning} width="stretch" position="top"
+                specificStyle={{
+                  display: kpi.meaning ? "flex" : "none",
+                }}
+              >
+                <Button className="no-hover-effect" isIcon variant="ghost" size="sm" iconName="icon-info"/>
+              </Tooltip>
+          </Frame>
+        </Frame>
 
         <Paragraph size="xxl" color="textColor1" weight="medium">
-          {abridgeNumber(value)}
+          {abridgeNumber(kpi.value)}
         </Paragraph>
 
-        {trendIcon && trendColor && (
-          <Frame
-            className="
-              w-full
-              h-max
-              flex
-              items-center
-              gap-[var(--space-xs)]
-              mt-[var(--space-xs)]
-            "
-          >
+        {
+          trendIcon && trendColor && (
+          <Frame className=" w-full h-max flex items-center gap-[var(--space-xs)] mt-[var(--space-xs)]">
             <Icon name={trendIcon} size="xs" color={trendColor} />
-
             <Paragraph size="xxs" color={trendColor} weight="normal">
-              {trend === "up" ? "Trending up" : "Trending down"}
+              {kpi.trend === "up" ? "Trending up" : "Trending down"}
             </Paragraph>
           </Frame>
         )}
       </Card>
-    </Tooltip>
-  )
+      )
 }

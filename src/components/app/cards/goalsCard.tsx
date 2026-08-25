@@ -10,7 +10,7 @@ import { shadow3 } from "@/src/app/design/shadows"
 export default function GoalsCard() {
   return (
     <Card padding="lg" height="hug" width="300px">
-      <Frame className="mb-[var(--space-md)]">
+      <Frame className=".cardhead mb-[var(--space-md)]">
         <Heading size="sm" type="h2">Upcoming Goals</Heading>
       </Frame>
 

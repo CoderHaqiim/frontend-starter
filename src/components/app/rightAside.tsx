@@ -12,6 +12,7 @@ import CustomersDirectory from "./customers/CustomersDirectory";
 import GoalsCard from "./cards/goalsCard";
 import OpenAside from "./openAside";
 import MailGroupCard from "./cards/mailGroupCard";
+import { useTheme } from "./themeProvider";
 
 type RightAsideProps = {
   specificStyles?: CSSProperties,
@@ -19,53 +20,22 @@ type RightAsideProps = {
 
 export default function RightAside({specificStyles  }: RightAsideProps) {
   const pathname = usePathname();
+  const {colors} = useTheme()
 
   const getAsideConfig = () => {
     switch (true) {
-      case pathname.startsWith("/dashboard/performance/businesses"):
+      case pathname === "/dashboard":
         return {
-          content: <SmallBusinessCardList />,
+          content: <TaskManagerCard/>,
         };
 
-      case pathname === "/dashboard/journal":
+      case pathname.startsWith("/dashboard/businesses"):
         return {
-          content: <JournalAsideList />,
-        };
-
-      case pathname === "/dashboard/performance":
-        return {
-          content: <GoalsCard/>,
-        };
-
-      case pathname === "/dashboard/operations":
-        return {
-          content: <TaskManagerCard />,
-        };
-
-      case pathname === "/dashboard/customers":
-        return {
-          content: <CustomersDirectory />,
-        };
-
-      case pathname === "/dashboard/customers/receivables":
-      case pathname === "/dashboard/customers/directory":
-      case pathname === "/dashboard/operations/transactions":
-        return null
-
-      case pathname === "/dashboard/customers/mailing":
-        return {
-          content: <MailGroupCard />,
-        };
-
-      case pathname === "/dashboard/operations/schedules":
-        return {
-          content: <Calendar/>,
+          content: <SmallBusinessCardList/>,
         };
 
       default:
-        return {
-          content: <OpenAside/>
-        }
+        return null
     }
   };
 
@@ -81,7 +51,8 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
     <Aside 
       width="hug"
       specificStyles={{
-         ...specificStyles
+         ...specificStyles,
+        //  backgroundColor: colors["background2"]
       }}>
       <Frame className="w-max h-full h-full flex-col gap-var(--space-md)">
         {content}

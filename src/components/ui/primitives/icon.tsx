@@ -58,8 +58,9 @@ import {
   FileText,
   FileUp,
   Building,
-  MoreHorizontal
-
+  MoreHorizontal,
+  CirclePile,
+  UsersRound
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -134,7 +135,9 @@ const icons = {
     "icon-file-text": FileText,
     "icon-file-upload": FileUp,
     "icon-building": Building,
-    "icon-more-horizontal": MoreHorizontal
+    "icon-more-horizontal": MoreHorizontal,
+    "icon-pile": CirclePile,
+    "icon-users-round": UsersRound
 };
 
 export type IconType = keyof typeof icons;

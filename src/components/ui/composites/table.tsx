@@ -117,7 +117,7 @@ export default function Table({
                 ${height === "stretch" ? "h-full" : ""}
                 ${height === "hug" ? "h-max" : ""}
                 rounded-[var(--radius-sm)]
-                border-[1.5px]
+                border-[1px]
                 border-[var(--color-outline2)]
                 overflow-auto
             `}

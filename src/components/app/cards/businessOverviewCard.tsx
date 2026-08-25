@@ -9,96 +9,131 @@ import Frame from "../../ui/primitives/frame"
 import Card from "../../ui/composites/card"
 import Heading from "../../ui/primitives/heading"
 import Paragraph from "../../ui/primitives/paragraph"
-import { paddingSizes } from "@/src/app/design/sizes"
 import { healthMap } from "@/src/utils/healthMap"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
-import Icon from "../../ui/primitives/icon"
 import { useTheme } from "../themeProvider"
-import { shadow3 } from "@/src/app/design/shadows"
 
-type SmallBusinessOverviewProps = {
+type BusinessOverviewProps = {
   data: Business
 }
 
-export default function SmallBusinessOverview({ data }: SmallBusinessOverviewProps) {
+const avatarColors = [
+  "#97bdfd",
+  "#6ce175",
+  "#df28ec",
+  "#efb98d",
+  "#a28cc2",
+  "#1b707b",
+  "#afd65a",
+  "#d67179",
+]
+
+const getBusinessInitial = (name: string) => {
+  return name?.trim()?.charAt(0)?.toUpperCase() || "?"
+}
+
+const getBusinessColor = () => {
+  const index = Math.floor(Math.random() * avatarColors.length)
+
+  return avatarColors[index]
+}
+
+export default function BusinessOverview({ data }: BusinessOverviewProps) {
   const { colors } = useTheme()
   const healthBackground = generateHealthBackground(data.health)
 
+  const businessInitial = getBusinessInitial(data.name)
+  const businessColor = getBusinessColor()
+
   return (
     <Link
-      href={`/dashboard/performance/businesses/${data.id}`}
-      className="transform transition-transform duration-300 cursor-pointer pointer-events-auto scale-[0.96] hover:z-20 hover:scale-[0.94]"
+      href={`/dashboard/businesses/${data.id}/overview`}
+      className="transform transition-transform duration-300 cursor-pointer pointer-events-auto hover:z-20 hover:scale-[0.96]"
     >
-      <Card
-        width="250px"
-        height="300px"
-        padding="lg"
-        justify="space-between"
+      <Card width="289px" height="max-content" justify="space-between" padding="lg" gap="md"
         specificStyles={{
           position: "relative",
-          border: `solid 1px ${colors["outline2"]}`,
+          border: `solid 1px ${colors["outline1"]}`,
           flexShrink: 0,
-          background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
+          background: colors["white"],
         }}
       >
         {/* Business name */}
-        <Frame className="w-full justify-center h-max items-center">
-          <Heading type="h3" size="xs">
-            {shortenText(data?.name, 22)}
-          </Heading>
+        <Frame className="w-full gap-[var(--space-md)] h-max items-center">
+          <Frame
+            className="w-[var(--elementSize-md)] h-[var(--elementSize-md)] rounded-[var(--radius-sm)] items-center justify-center"
+            specificStyles={{
+              backgroundColor: businessColor,
+            }}
+          >
+            <Paragraph size="sm" weight="semiBold" color="textColor1">
+              {businessInitial}
+            </Paragraph>
+          </Frame>
+
+          <Frame className="flex-col gap-[var(--space-xxs)]">
+            <Heading type="h3" size="sm">
+              {shortenText(data?.name, 22)}
+            </Heading>
+
+            <Paragraph size="xs">
+              {data?.industry}
+            </Paragraph>
+          </Frame>
         </Frame>
 
         {/* Health score */}
-        <Frame className="w-full gap-[var(--space-sm)] flex-col items-center">
-          <RadialProgress
-            color={healthMap[data.health]}
-            score={data.healthScore}
-            size={125}
-            textSize="xxl"
-            strokeWidth={2}
-          />
-          <Paragraph
-            weight="semiBold"
-            color={healthMap[data.health]}
-            size="md"
-          >
-            {data.health}
-          </Paragraph>
+        <Frame
+          className="w-full border border-[var(--color-outline1)] rounded-[var(--radius-sm)] p-[var(--space-md)] gap-[var(--space-lg)] items-center"
+          specificStyles={{
+            backgroundColor: colors[healthBackground],
+          }}
+        >
+          <RadialProgress color={healthMap[data.health]} score={data.healthScore} size={50} textSize="xs" strokeWidth={2}/>
+
+          <Frame className="flex-col gap-[var(--space-xxs)]">
+            <Paragraph size="xs" className="leading-[1]">
+              Health score
+            </Paragraph>
+
+            <Paragraph weight="medium" color={healthMap[data.health]} size="md" className="leading-[1]">
+              {data.health}
+            </Paragraph>
+          </Frame>
         </Frame>
 
         {/* Financial summary */}
-        <Frame className="w-full gap-[var(--space-xl)] flex-row justify-center">
-          <Frame className="flex-col items-center">
-            <Frame>
-              <Paragraph size="xxs">Income</Paragraph>
-            </Frame>
-            <Frame>
-              <Paragraph color="textColor1" weight="bold" size="sm">
-                $4000
-              </Paragraph>
-            </Frame>
+        <Frame className="w-full grid grid-cols-2 gap-[var(--space-sm)]">
+          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
+            <Paragraph size="xs">Income</Paragraph>
+
+            <Paragraph color="textColor1" weight="semiBold" size="md">
+              { "$" + data.income}
+            </Paragraph>
           </Frame>
 
-          <Frame className="flex-col items-center">
-            <Frame>
-              <Paragraph size="xxs">Expenses</Paragraph>
-            </Frame>
-            <Frame>
-              <Paragraph weight="bold" color="textColor1" size="sm">
-                $4000
-              </Paragraph>
-            </Frame>
+          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
+            <Paragraph size="xs">Customers</Paragraph>
+
+            <Paragraph color="textColor1" weight="semiBold" size="md">
+              {data.customers}
+            </Paragraph>
           </Frame>
 
-          <Frame className="flex-col items-center">
-            <Frame>
-              <Paragraph size="xxs">Net Profit</Paragraph>
-            </Frame>
-            <Frame>
-              <Paragraph weight="bold" color="textColor1" size="sm">
-                $4000
-              </Paragraph>
-            </Frame>
+          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
+            <Paragraph size="xs">Expenses</Paragraph>
+
+            <Paragraph color="textColor1" weight="semiBold" size="md">
+              { "$" + data.expenses}
+            </Paragraph>
+          </Frame>
+
+          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
+            <Paragraph size="xs">Net Profit</Paragraph>
+
+            <Paragraph color="textColor1" weight="semiBold" size="md" >
+              { "$" + data.netProfit}
+            </Paragraph>
           </Frame>
         </Frame>
       </Card>
