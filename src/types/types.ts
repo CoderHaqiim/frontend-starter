@@ -6,6 +6,15 @@ export type SizeType =  "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
 export type FrameSizeType = "hug" | "stretch" | CSSProperties["height"] | CSSProperties["width"];
 export type FunctionType = (arg?: number | string) => void | Promise<void>
 export type HealthType = "healthy" | "critical" | "moderate"
+export type Duration = "weekly" |"monthly" |"annual"
+
+export interface BusinessHealth {
+  businessId: string
+  period: Duration
+  health: HealthType
+  healthScore: number
+}
+
 export interface Business {
   id: string
   name: string
@@ -16,8 +25,8 @@ export interface Business {
   country: string
   state: string
   customers: number
-  health: HealthType
-  healthScore: number
+  health?: HealthType
+  healthScore?: number
 }
 export type Businesses = Business[]
 
@@ -177,5 +186,4 @@ export type ChartResponse = {
   }
 }
 
-export type Duration = "weekly" |"monthly" |"annual"
 

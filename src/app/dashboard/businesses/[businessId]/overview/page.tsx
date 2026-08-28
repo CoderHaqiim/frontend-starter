@@ -4,7 +4,7 @@ import Button from '@/src/components/ui/primitives/button'
 import Frame from '@/src/components/ui/primitives/frame'
 import Heading from '@/src/components/ui/primitives/heading'
 import Paragraph from '@/src/components/ui/primitives/paragraph'
-import { Business, BusinessKpiResponse, Duration, kpiObjectProps } from '@/src/types/types'
+import { Business, BusinessHealth, BusinessKpiResponse, Duration, kpiObjectProps } from '@/src/types/types'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { http } from '@/src/http/client'
@@ -27,7 +27,7 @@ import ChartSection from '@/src/components/app/chartSection'
 
 export default function BusinessPage() {
   const { colors } = useTheme()
-  const [summaryPeriod, setSummaryPeriod] = useState<Duration>("monthly")
+  const [summaryPeriod, setSummaryPeriod] = useState<Duration>("weekly")
   const [business, setBusiness] = useState<Business | null>(null)
   const [businessKpisResponse, setBusinessKpisResponse] = useState<BusinessKpiResponse | null>(null)
   const [kpisExpanded, setKpisExpanded] = useState(false)
@@ -35,15 +35,21 @@ export default function BusinessPage() {
   const reportDuration = ["weekly", "monthly", "annual"]
   const chartOptions = ["Line chart", "Bar chart"]
   const {openChart} = useExtendedChart()
+  const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
   useEffect(() => {
     async function fetchBusiness() {
-      const [business, kpis] = await Promise.all([
+      const [business, health, kpis] = await Promise.all([
         http<Business>(`/api/businesses/${businessId}`),
+        http<BusinessHealth>(`/api/businesses/${businessId}/health?period=${summaryPeriod}`),
         http<BusinessKpiResponse>(`/api/businesses/${businessId}/kpis?period=${summaryPeriod}`),
       ])
 
-      setBusiness(business)
+      setBusiness({
+        ...business,
+        health: health.health,
+        healthScore: health.healthScore,
+      })
       setBusinessKpisResponse(kpis)
     }
 
@@ -61,6 +67,11 @@ export default function BusinessPage() {
     const selectedValue = e.target.value as "Line chart" | "Bar chart";
     setSelectedChart(selectedValue);
   };
+
+  const editBusiness = () => {
+    setBackdropOpen(true)
+    setBackdropContent("edit-business-form")
+  }
 
   const financials = businessKpisResponse?.financials
   const currency = business?.currency ?? "NGN"
@@ -128,7 +139,7 @@ export default function BusinessPage() {
 
           {/* Actions */}
           <Frame className="gap-[var(--space-sm)] h-max w-auto relative">
-            <Button variant="outline" size="sm" iconName='icon-pencil'>Edit Business</Button>
+            <Button variant="outline" size="sm" iconName='icon-pencil' func={editBusiness}>Edit Business</Button>
           </Frame>
         </Frame>
       </Frame>

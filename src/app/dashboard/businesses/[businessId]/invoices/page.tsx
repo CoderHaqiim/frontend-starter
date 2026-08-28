@@ -9,6 +9,7 @@ import Table from "@/src/components/ui/composites/table"
 import KpiRow from "@/src/components/ui/composites/kpiRow"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import { useMemo, useState } from "react"
+import { useBackdropState } from "@/src/store/backdropState"
 
 const invoiceSummaryKpis = [
   { id: "total", title: "Total Invoices", value: "24", meaning: "All created invoices" },
@@ -63,6 +64,7 @@ const recentInvoices = [
 
 export default function InvoicesPage() {
   const [selectedInvoiceFilter, setSelectedInvoiceFilter] = useState("all")
+  const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
   const filteredInvoices = useMemo(() => {
     if (selectedInvoiceFilter === "all") {
@@ -78,6 +80,11 @@ export default function InvoicesPage() {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedInvoiceFilter(event.target.value)
+  }
+
+  const createInvoice = () => {
+    setBackdropOpen(true)
+    setBackdropContent("create-invoice-form")
   }
 
   return (
@@ -96,6 +103,7 @@ export default function InvoicesPage() {
             size="sm"
             iconPosition="left"
             iconName="icon-plus"
+            func={createInvoice}
           >
             New Invoice
           </Button>

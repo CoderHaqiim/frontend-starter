@@ -10,6 +10,7 @@ import Table from "@/src/components/ui/composites/table"
 import KpiRow from "@/src/components/ui/composites/kpiRow"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import { ObjectRecordType } from "@/src/types/types"
+import { useBackdropState } from "@/src/store/backdropState"
 
 const inventoryKpis = [
   { id: "items", title: "Total items", value: "128", meaning: "Items currently tracked" },
@@ -28,6 +29,7 @@ const inventoryItems:ObjectRecordType[] = [
 
 export default function InventoryPage() {
   const [selectedInventoryFilter, setSelectedInventoryFilter] = useState("all")
+  const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
   const filteredItems = useMemo(() => {
     if (selectedInventoryFilter === "all") return inventoryItems
@@ -41,6 +43,11 @@ export default function InventoryPage() {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedInventoryFilter(event.target.value)
+  }
+
+  const createInventoryItem = () => {
+    setBackdropOpen(true)
+    setBackdropContent("create-inventory-item-form")
   }
 
   return (
@@ -59,6 +66,7 @@ export default function InventoryPage() {
             size="sm"
             iconPosition="left"
             iconName="icon-plus"
+            func={createInventoryItem}
           >
             Add inventory item
           </Button>

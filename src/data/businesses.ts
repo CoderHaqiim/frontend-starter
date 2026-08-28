@@ -11,8 +11,6 @@ export const businesses: Businesses = [
     country: "United Kingdom",
     state: "London",
     customers: 1000,
-    health: "healthy",
-    healthScore: 80,
   },
   {
     id: "1",
@@ -24,8 +22,6 @@ export const businesses: Businesses = [
     country: "Nigeria",
     state: "Lagos",
     customers: 500,
-    health: "critical",
-    healthScore: 20,
   },
   {
     id: "2",
@@ -37,8 +33,6 @@ export const businesses: Businesses = [
     country: "Nigeria",
     state: "Lagos",
     customers: 750,
-    health: "critical",
-    healthScore: 30,
   },
   {
     id: "3",
@@ -50,8 +44,6 @@ export const businesses: Businesses = [
     country: "United States",
     state: "New york",
     customers: 1360,
-    health: "healthy",
-    healthScore: 90,
   },
   {
     id: "4",
@@ -63,7 +55,5 @@ export const businesses: Businesses = [
     country: "Nigeria",
     state: "Lagos",
     customers: 1000,
-    health: "moderate",
-    healthScore: 50,
   },
 ]

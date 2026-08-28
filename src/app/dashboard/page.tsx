@@ -8,7 +8,7 @@ import Dropdown from "@/src/components/ui/composites/dropdown"
 import BusinessOverviewCard from "@/src/components/app/cards/businessOverviewCard"
 import MetricsRow from "@/src/components/app/metricsRow"
 import { useState, useEffect, useRef, useMemo } from "react"
-import { Businesses, BusinessKpiResponse, kpiObjectProps, RankingMetric } from "@/src/types/types"
+import { Businesses, BusinessHealth, BusinessKpiResponse, kpiObjectProps, RankingMetric } from "@/src/types/types"
 import { http } from "@/src/http/client"
 import { useBusinessesState } from "@/src/store/businessesState"
 import List from "@/src/components/ui/composites/list"
@@ -29,10 +29,13 @@ export default function Home() {
   const businessFilterArray = ["all", "healthy", "moderate", "critical"]
   const [rankSelector, setRankSelector] = useState<RankingMetric>("netProfit")
   const { businessesState, setBusinessesState } = useBusinessesState()
-  const [businessFilter, setBusinessFilter] = useState<Businesses>([])
+  const [businessFilter, setBusinessFilter] = useState("all")
   const [dashboardKpis, setDashboardKpis] = useState<kpiObjectProps[] | null>(null)
-  const [businessKpis, setBusinessKpis] = useState<Record<string, BusinessKpiResponse>>({})
+  const [businessHealth, setBusinessHealth] = useState<Record<string, BusinessHealth>>({})
+  const [businessSummaryKpis, setBusinessSummaryKpis] = useState<Record<string, BusinessKpiResponse>>({})
+  const [businessRankingKpis, setBusinessRankingKpis] = useState<Record<string, BusinessKpiResponse>>({})
   const [summaryPeriod, setSummaryPeriod] = useState<Duration>("weekly")
+  const [rankingPeriod, setRankingPeriod] = useState<Duration>("weekly")
   const sliderRef = useRef<HTMLDivElement>(null)
   const { setBackdropContent,setBackdropOpen } = useBackdropState()
 
@@ -41,26 +44,31 @@ export default function Home() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [businesses, kpis] = await Promise.all(
+        const [businesses, kpis, health] = await Promise.all(
           [
             http<Businesses>( "/api/businesses", undefined,{method: "GET"}),
-            http<BusinessKpiResponse>(`/api/kpis?period=${summaryPeriod}`, undefined, {method: "GET"})
+            http<BusinessKpiResponse>(`/api/kpis?period=${summaryPeriod}`, undefined, {method: "GET"}),
+            http<BusinessHealth[]>(`/api/businesses/health?period=${summaryPeriod}`, undefined, {method: "GET"})
           ]
         )
 
-        const businessKpiList = await Promise.all( 
+        const businessSummaryKpiList = await Promise.all( 
           businesses.map(business =>
             http<BusinessKpiResponse>(`/api/businesses/${business.id}/kpis?period=${summaryPeriod}`, undefined, { method: "GET" })
           )
         )
 
         setBusinessesState(businesses)
-        setBusinessFilter(businesses)
         setDashboardKpis(kpiResponseToCards(kpis, "NGN"))
-
-        setBusinessKpis(
+        setBusinessHealth(
           Object.fromEntries(
-            businessKpiList.map(kpi => [kpi.businessId, kpi])
+            health.map(item => [item.businessId, item])
+          )
+        )
+
+        setBusinessSummaryKpis(
+          Object.fromEntries(
+            businessSummaryKpiList.map(kpi => [kpi.businessId, kpi])
           )
         )
       } catch (error) {
@@ -73,12 +81,52 @@ export default function Home() {
     fetchDashboardData()
   }, [setBusinessesState, summaryPeriod])
 
+  useEffect(() => {
+    const fetchRankingData = async () => {
+      try {
+        const businesses = businessesState.length > 0
+          ? businessesState
+          : await http<Businesses>( "/api/businesses", undefined,{method: "GET"})
+
+        if (businessesState.length === 0) {
+          setBusinessesState(businesses)
+        }
+
+        const businessRankingKpiList = await Promise.all( 
+          businesses.map(business =>
+            http<BusinessKpiResponse>(`/api/businesses/${business.id}/kpis?period=${rankingPeriod}`, undefined, { method: "GET" })
+          )
+        )
+
+        setBusinessRankingKpis(
+          Object.fromEntries(
+            businessRankingKpiList.map(kpi => [kpi.businessId, kpi])
+          )
+        )
+      } catch (error) {
+        console.error(
+          "Failed to fetch ranking data:", error
+        )
+      }
+    }
+
+    fetchRankingData()
+  }, [businessesState, rankingPeriod, setBusinessesState])
+
+  const filteredBusinesses = useMemo(() => {
+    if (businessFilter === "all") {
+      return businessesState
+    }
+
+    return businessesState.filter(item => businessHealth[item.id]?.health === businessFilter)
+  }, [businessesState, businessFilter, businessHealth])
+
    //rank business
   const rankedBusinesses = useMemo(() => {
     return [...businessesState]
       .sort((a, b) => {
-        const aFinancials = businessKpis[a.id]?.financials
-        const bFinancials = businessKpis[b.id]?.financials
+        const aFinancials = businessRankingKpis[a.id]?.financials
+        const bFinancials = businessRankingKpis[b.id]?.financials
 
         return (bFinancials?.[rankSelector].value ?? 0) - (aFinancials?.[rankSelector].value ?? 0)
       })
@@ -86,21 +134,17 @@ export default function Home() {
         id: business.id,
         rank: index + 1,
         name: business.name,
-        value: businessKpis[business.id]?.financials[rankSelector].value ?? 0,
+        value: businessRankingKpis[business.id]?.financials[rankSelector].value ?? 0,
         currency: business.currency,
         metric: rankSelector
       }))
-  }, [businessesState, businessKpis, rankSelector])
+  }, [businessesState, businessRankingKpis, rankSelector])
 
   //Business filter
   const filterBusinesses = ( e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
 
-    if (selectedValue !== "all") {
-      setBusinessFilter(businessesState.filter(item => item.industry === selectedValue))
-    } else {
-      setBusinessFilter(businessesState)
-    }
+    setBusinessFilter(selectedValue)
   }
 
  //Change ranking metric
@@ -112,6 +156,11 @@ export default function Home() {
   const selectSummaryPeriod = ( e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value as Duration
     setSummaryPeriod(selectedValue)
+  }
+
+  const selectRankingPeriod = ( e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value as Duration
+    setRankingPeriod(selectedValue)
   }
 
  //Scroll business slider left
@@ -175,13 +224,14 @@ export default function Home() {
             <Heading size="md" type="h2">
               My Businesses
             </Heading>
-            <Badge color="accent" size="xs" text={String(businessFilter.length )}/>
+            <Badge color="accent" size="xs" text={String(filteredBusinesses.length )}/>
           </Frame>
 
           <Frame className="w-auto h-max gap-[var(--space-sm)]">
             <Dropdown
               formFunc={filterBusinesses}
               name="active filter"
+              value={businessFilter}
               width="120px"
               size="sm"
               options={businessFilterArray}
@@ -192,8 +242,8 @@ export default function Home() {
         <Frame ref={sliderRef} className="w-full h-max overflow-hidden flex gap-[var(--space-md)]">
           {
             businessesState.length > 0 ? (
-              businessFilter.map( business =>
-                <BusinessOverviewCard data={business} kpis={businessKpis[business.id]} key={business.id}/>
+              filteredBusinesses.map( business =>
+                <BusinessOverviewCard data={business} health={businessHealth[business.id]} kpis={businessSummaryKpis[business.id]} key={business.id}/>
               )
             ) : (
               Array.from({ length: 3 }).map( (_, index) => ( <BusinessOverviewLoader key={index}/>))
@@ -220,6 +270,7 @@ export default function Home() {
             <Dropdown formFunc={selectRankingMetric} name="ranking" size="sm" options={rankingMetrics}/>
 
             <Dropdown
+              formFunc={selectRankingPeriod}
               name="rankingDuration"
               size="sm"
               options={reportDuration}

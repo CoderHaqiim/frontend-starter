@@ -10,12 +10,15 @@ import KpiRow from "@/src/components/app/cards/kpiCard"
 import Section from "@/src/components/layout/section"
 import { quickContactTableData } from "@/src/components/app/customers/customerData"
 import Table from "@/src/components/ui/composites/table"
-import { KpiType } from "@/src/types/types"
+import { kpiObjectProps } from "@/src/types/types"
+import Button from "@/src/components/ui/primitives/button"
+import { useBackdropState } from "@/src/store/backdropState"
 
 export default function Home() {
   const { businessesState, setBusinessesState } = useBusinessesState()
+  const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
-  const dashboardKpis:KpiType[] = [
+  const dashboardKpis:kpiObjectProps[] = [
     {
       id:0,
       title: "Customers",
@@ -51,10 +54,20 @@ export default function Home() {
     fetchBusinesses()
   }, [setBusinessesState])
 
+  const createCustomer = () => {
+    setBackdropOpen(true)
+    setBackdropContent("create-customer-form")
+  }
+
   return (
     <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
-      <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
-        <Heading size="xl" type="h1">Customers</Heading>
+      <Frame className="w-full gap-[var(--space-xs)] justify-between h-max">
+        <Frame>
+          <Heading size="xl" type="h1">Customers</Heading>
+        </Frame>
+        <Frame>
+            <Button variant="outline" iconName="icon-plus" size="sm" func={createCustomer}> Add Customer </Button>
+        </Frame>
       </Frame>
       <Frame className="w-full h-[100px] gap-[var(--space-md)]">
         {dashboardKpis.map((item, index) => 

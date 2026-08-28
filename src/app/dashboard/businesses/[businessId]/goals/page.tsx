@@ -1,5 +1,7 @@
 "use client"
 
+"use client"
+
 import Heading from "@/src/components/ui/primitives/heading"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
 import Button from "@/src/components/ui/primitives/button"
@@ -9,6 +11,7 @@ import Tooltip from "@/src/components/ui/composites/tooltip"
 import List from "@/src/components/ui/composites/list"
 import GoalsLine from "@/src/components/app/goalsLine"
 import { GoalsType } from "@/src/types/types"
+import { useBackdropState } from "@/src/store/backdropState"
 
 const goalsCategories = [
   "Revenue", "Profit", "Customer", "Cash Flow", "Operations", "Team"
@@ -50,6 +53,13 @@ export const goals: GoalsType[] = [
 ]
 
 export default function GoalsPage() {
+  const { setBackdropContent, setBackdropOpen } = useBackdropState()
+
+  const createGoal = () => {
+    setBackdropOpen(true)
+    setBackdropContent("create-goal-form")
+  }
+
   return (
     <div className="flex w-full h-max flex-col gap-[var(--space-lg)]">
       <div className="flex w-full h-max justify-between">
@@ -66,6 +76,7 @@ export default function GoalsPage() {
             size="sm"
             iconPosition="left"
             iconName="icon-plus"
+            func={createGoal}
           >
             Set New Goal
           </Button>

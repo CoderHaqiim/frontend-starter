@@ -4,8 +4,16 @@ import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
 import TaskManager from "@/src/components/app/taskManager"
 import Button from "@/src/components/ui/primitives/button"
+import { useBackdropState } from "@/src/store/backdropState"
 
-export default function page() {
+export default function Page() {
+  const { setBackdropContent, setBackdropOpen } = useBackdropState()
+
+  const createTask = () => {
+    setBackdropOpen(true)
+    setBackdropContent("create-task-form")
+  }
+
   return (
     <Frame className="flex w-full flex-col gap-[var(--space-lg)]">
       <Frame className="flex h-max w-full justify-between">
@@ -19,6 +27,7 @@ export default function page() {
             size="sm"
             iconPosition="left"
             iconName="icon-plus"
+            func={createTask}
           >
             New Task
           </Button>

@@ -5,6 +5,11 @@ import Frame from "./frame"
 import { useBackdropState } from "@/src/store/backdropState"
 import CreateBusinessForm from "../../app/forms/createBusiness"
 import CreateTaskForm from "../../app/forms/createTask"
+import EditBusinessForm from "../../app/forms/editBusiness"
+import CreateInventoryItemForm from "../../app/forms/createInventoryItem"
+import CreateInvoiceForm from "../../app/forms/createInvoice"
+import CreateGoalForm from "../../app/forms/createGoal"
+import CreateCustomerForm from "../../app/forms/createCustomer"
 
 type BackdropProps = {
     children?: ReactNode,
@@ -21,6 +26,11 @@ export default function Backdrop({children}: BackdropProps) {
     switch(backdropContent){
       case "create-business-form": return <CreateBusinessForm/> 
       case "create-task-form": return <CreateTaskForm/> 
+      case "edit-business-form": return <EditBusinessForm/> 
+      case "create-inventory-item-form": return <CreateInventoryItemForm/> 
+      case "create-invoice-form": return <CreateInvoiceForm/> 
+      case "create-goal-form": return <CreateGoalForm/> 
+      case "create-customer-form": return <CreateCustomerForm/> 
       default: return null 
     }
   }

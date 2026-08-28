@@ -1,6 +1,6 @@
 "use client"
 
-import { Business, BusinessKpiResponse } from "@/src/types/types"
+import { Business, BusinessHealth, BusinessKpiResponse } from "@/src/types/types"
 import { shortenText } from "@/src/utils/shortenText"
 import Link from "next/link"
 import RadialProgress from "../../ui/composites/radialProgress"
@@ -16,6 +16,7 @@ import { getCurrencySymbol } from "@/src/utils/currencySymbol"
 
 type BusinessOverviewProps = {
   data: Business
+  health?: BusinessHealth
   kpis?: BusinessKpiResponse
 }
 
@@ -40,9 +41,13 @@ const getBusinessColor = () => {
   return avatarColors[index]
 }
 
-export default function BusinessOverview({ data, kpis }: BusinessOverviewProps) {
+export default function BusinessOverview({ data, health, kpis }: BusinessOverviewProps) {
   const { colors } = useTheme()
-  const healthBackground = generateHealthBackground(data.health)
+  const businessHealth = {
+    health: health?.health ?? data.health ?? "healthy",
+    healthScore: health?.healthScore ?? data.healthScore ?? 0,
+  }
+  const healthBackground = generateHealthBackground(businessHealth.health)
 
   const businessInitial = getBusinessInitial(data.name)
   const businessColor = getBusinessColor()
@@ -94,15 +99,15 @@ export default function BusinessOverview({ data, kpis }: BusinessOverviewProps) 
             backgroundColor: colors[healthBackground],
           }}
         >
-          <RadialProgress color={healthMap[data.health]} score={data.healthScore} size={50} textSize="xs" strokeWidth={2}/>
+          <RadialProgress color={healthMap[businessHealth.health]} score={businessHealth.healthScore} size={50} textSize="xs" strokeWidth={2}/>
 
           <Frame className="flex-col gap-[var(--space-xxs)]">
             <Paragraph size="xs" className="leading-[1]">
               Health score
             </Paragraph>
 
-            <Paragraph weight="medium" color={healthMap[data.health]} size="md" className="leading-[1]">
-              {data.health}
+            <Paragraph weight="medium" color={healthMap[businessHealth.health]} size="md" className="leading-[1]">
+              {businessHealth.health}
             </Paragraph>
           </Frame>
         </Frame>
