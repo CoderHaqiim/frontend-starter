@@ -8,7 +8,7 @@ import Frame from "../ui/primitives/frame";
 import Icon from "../ui/primitives/icon";
 import Paragraph from "../ui/primitives/paragraph";
 import Tooltip from "../ui/composites/tooltip";
-import { useTheme } from "./themeProvider";
+import { useTheme } from "../providers/themeProvider";
 
 type TransactionItemProps = {
   transaction: Transaction;

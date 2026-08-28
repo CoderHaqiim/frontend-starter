@@ -8,11 +8,7 @@ import Heading from "../../ui/primitives/heading"
 import Paragraph from "../../ui/primitives/paragraph"
 import Card from "../../ui/composites/card"
 import Frame from "../../ui/primitives/frame"
-import RadialProgress from "../../ui/composites/radialProgress"
-import { useTheme } from "../themeProvider"
-import { healthMap } from "@/src/utils/healthMap"
-import { generateHealthBackground } from "@/src/utils/healthBackground"
-import { shadow3 } from "@/src/app/design/shadows"
+import { useTheme } from "../../providers/themeProvider"
 
 type SmallBusinessOverviewProps = {
   business: Business
@@ -23,7 +19,6 @@ export default function SmallBusinessOverview({
 }: SmallBusinessOverviewProps) {
   const { businessId } = useParams()
   const { colors } = useTheme()
-  const healthBackground = generateHealthBackground(business.health)
 
   const hoverStyles = `
     after:left-[-8px] after:top-[-8px]
@@ -57,7 +52,7 @@ export default function SmallBusinessOverview({
           position: "relative",
           flexShrink: 0,
           border: `solid 1px ${colors["outline2"]}`,
-          background: `linear-gradient(${colors["white"]} 0%, ${colors["white"]} 70%, ${colors[healthBackground]} 90%)`,
+          background: colors["white"],
         }}
         className="z-[10] cursor-pointer"
       >
@@ -78,20 +73,11 @@ export default function SmallBusinessOverview({
             justify-center
           "
         >
-          <RadialProgress
-            color={healthMap[business.health]}
-            score={business.healthScore}
-            size={82}
-            textSize="sm"
-            strokeWidth={2}
-          />
-
-          <Paragraph
-            weight="semiBold"
-            color={healthMap[business.health]}
-            size="xs"
-          >
-            {business.health}
+          <Paragraph weight="semiBold" color="textColor1" size="md">
+            {business.customers}
+          </Paragraph>
+          <Paragraph weight="light" color="textColor2" size="xs">
+            customers
           </Paragraph>
         </Frame>
       </Card>

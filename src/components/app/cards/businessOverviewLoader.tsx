@@ -1,6 +1,6 @@
 import Card from '../../ui/composites/card'
 import Spinner from '../../ui/composites/spinner'
-import { useTheme } from '../themeProvider'
+import { useTheme } from '../../providers/themeProvider'
 
 export default function BusinessOverviewLoader() {
     const {colors} = useTheme()

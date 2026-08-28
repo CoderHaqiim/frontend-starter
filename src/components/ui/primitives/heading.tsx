@@ -5,7 +5,7 @@ import { CSSProperties } from "react"
 import { SizeType} from "@/src/types/types"
 import { ReactNode } from "react"
 import { ColorTypes, colors} from "@/src/app/design/colors"
-import { useTheme } from "../../app/themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 
 type HeadingProps = {
     children: ReactNode

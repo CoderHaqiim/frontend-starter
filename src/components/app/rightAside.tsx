@@ -12,7 +12,7 @@ import CustomersDirectory from "./customers/CustomersDirectory";
 import GoalsCard from "./cards/goalsCard";
 import OpenAside from "./openAside";
 import MailGroupCard from "./cards/mailGroupCard";
-import { useTheme } from "./themeProvider";
+import { useTheme } from "../providers/themeProvider";
 
 type RightAsideProps = {
   specificStyles?: CSSProperties,

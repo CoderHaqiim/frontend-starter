@@ -2,7 +2,7 @@ import { elementSizes } from "@/src/app/design/sizes"
 import Image from "next/image"
 import Frame from "../primitives/frame"
 import { FrameSizeType, SizeType } from "@/src/types/types"
-import { useTheme } from "../../app/themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 
 type AvatarProps = {
   size: SizeType

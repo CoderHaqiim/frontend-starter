@@ -1,8 +1,9 @@
-export default function abridgeNumber(input: string): string {
-  if (!input || typeof input !== "string") return String(input)
+export default function abridgeNumber(input: string | number): string {
+  if (!input || (typeof input !== "string" && typeof input !== "number")) return String(input)
 
+  const newInput = String(input)
   const sepRegex = /\s*(?:-|–|—|to)\s*/i
-  const parts = input.split(sepRegex)
+  const parts = newInput.split(sepRegex)
 
   const formatPart = (part: string) => {
     let s = part.trim()

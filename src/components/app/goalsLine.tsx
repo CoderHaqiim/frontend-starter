@@ -1,6 +1,6 @@
 "use client"
 
-import { useTheme } from './themeProvider'
+import { useTheme } from '../providers/themeProvider'
 import Frame from '../ui/primitives/frame'
 import { GoalsType } from '@/src/types/types'
 import Paragraph from '../ui/primitives/paragraph'

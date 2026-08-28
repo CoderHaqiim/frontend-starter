@@ -12,7 +12,7 @@ import { headingSizeVariables } from "./design/typograhy";
 import { paddingSizesVariables } from "./design/sizes";
 import { elementSizesVariables } from "./design/sizes";
 import Backdrop from "../components/ui/primitives/backdrop";
-import ThemeProvider from "../components/app/themeProvider";
+import ThemeProvider from "../components/providers/themeProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",

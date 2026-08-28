@@ -7,7 +7,7 @@ import NavLink from "../ui/primitives/navLink";
 import Logo from "./brand/logo";
 import { useUserState } from "@/src/store/userState";
 import { usePathname } from "next/navigation";
-import { useTheme } from "./themeProvider";
+import { useTheme } from "../providers/themeProvider";
 import { getNavItemsForPath } from "@/src/utils/navItems";
 
 export default function LeftAside() {
@@ -28,8 +28,8 @@ export default function LeftAside() {
         <Logo />
       </Frame>
 
-      <Frame className="flex w-full flex-1 flex-col justify-between">
-        <Frame className="flex h-max w-full flex-col">
+      <Frame className="flex w-full flex-1 flex-col">
+        <Frame className="flex h-max w-full flex-col pb-[var(--space-md)]">
           {navItems
             .filter((item)=> item.id !== "settings" && item.id !== "support")
             .map((item) => (

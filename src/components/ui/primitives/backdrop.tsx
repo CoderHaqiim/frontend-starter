@@ -1,24 +1,27 @@
 "use client"
 
-import { ReactNode } from "react"
+import { ReactNode, isValidElement } from "react"
 import Frame from "./frame"
 import { useBackdropState } from "@/src/store/backdropState"
 import CreateBusinessForm from "../../app/forms/createBusiness"
 import CreateTaskForm from "../../app/forms/createTask"
-import TaskManagerCard from "../../app/cards/taskManagerCard"
 
 type BackdropProps = {
-    children: ReactNode,
+    children?: ReactNode,
 }
 
-export default function Backdrop() {
-  const {backdropOpen, setBackdropContent, setBackdropOpen, backdropContent} = useBackdropState()
+export default function Backdrop({children}: BackdropProps) {
+  const {backdropOpen, backdropContent} = useBackdropState()
 
   const selectBackdropContent = ()=> {
+    if (isValidElement(backdropContent)) {
+      return backdropContent
+    }
+
     switch(backdropContent){
       case "create-business-form": return <CreateBusinessForm/> 
       case "create-task-form": return <CreateTaskForm/> 
-      default: return <CreateBusinessForm/> 
+      default: return null 
     }
   }
 
@@ -28,7 +31,7 @@ export default function Backdrop() {
             display: backdropOpen? "flex" : "none",
             position: "fixed"
         }}>
-         {selectBackdropContent()}
+         {children ?? selectBackdropContent()}
     </Frame>
   )
 }

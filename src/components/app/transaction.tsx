@@ -3,7 +3,7 @@
 import Frame from "../ui/primitives/frame"
 import Icon from "../ui/primitives/icon"
 import Paragraph from "../ui/primitives/paragraph"
-import { useTheme } from "./themeProvider"
+import { useTheme } from "../providers/themeProvider"
 
 export default function Transaction() {
     const { colors } = useTheme()

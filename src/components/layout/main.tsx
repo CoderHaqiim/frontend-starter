@@ -2,7 +2,7 @@
 
 import { CSSProperties, ReactNode } from "react"
 import { space } from "@/src/app/design/spacing"
-import { useTheme } from "../app/themeProvider"
+import { useTheme } from "../providers/themeProvider"
 
 type MainProps = {
     children: ReactNode,

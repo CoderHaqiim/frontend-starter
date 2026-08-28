@@ -1,8 +1,7 @@
 "use client"
 
-import { Business } from "@/src/types/types"
+import { Business, BusinessKpiResponse } from "@/src/types/types"
 import { shortenText } from "@/src/utils/shortenText"
-import { scoreHealthMap } from "@/src/utils/scoreHealthMap"
 import Link from "next/link"
 import RadialProgress from "../../ui/composites/radialProgress"
 import Frame from "../../ui/primitives/frame"
@@ -11,10 +10,13 @@ import Heading from "../../ui/primitives/heading"
 import Paragraph from "../../ui/primitives/paragraph"
 import { healthMap } from "@/src/utils/healthMap"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
-import { useTheme } from "../themeProvider"
+import { useTheme } from "../../providers/themeProvider"
+import abridgeNumber from "@/src/utils/abridgeNumber"
+import { getCurrencySymbol } from "@/src/utils/currencySymbol"
 
 type BusinessOverviewProps = {
   data: Business
+  kpis?: BusinessKpiResponse
 }
 
 const avatarColors = [
@@ -38,12 +40,15 @@ const getBusinessColor = () => {
   return avatarColors[index]
 }
 
-export default function BusinessOverview({ data }: BusinessOverviewProps) {
+export default function BusinessOverview({ data, kpis }: BusinessOverviewProps) {
   const { colors } = useTheme()
   const healthBackground = generateHealthBackground(data.health)
 
   const businessInitial = getBusinessInitial(data.name)
   const businessColor = getBusinessColor()
+  const currencySymbol = getCurrencySymbol(data.currency)
+  const formatAmount = (amount: number) => `${currencySymbol} ${abridgeNumber(amount)}`
+  const financials = kpis?.financials
 
   return (
     <Link
@@ -105,17 +110,17 @@ export default function BusinessOverview({ data }: BusinessOverviewProps) {
         {/* Financial summary */}
         <Frame className="w-full grid grid-cols-2 gap-[var(--space-sm)]">
           <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
-            <Paragraph size="xs">Income</Paragraph>
+            <Paragraph size="xs">Revenue</Paragraph>
 
-            <Paragraph color="textColor1" weight="semiBold" size="md">
-              { "$" + data.income}
+            <Paragraph color="textColor1" weight="medium" size="sm">
+              {formatAmount(financials?.revenue.value ?? 0)}
             </Paragraph>
           </Frame>
 
           <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
             <Paragraph size="xs">Customers</Paragraph>
 
-            <Paragraph color="textColor1" weight="semiBold" size="md">
+            <Paragraph color="textColor1" weight="medium" size="sm">
               {data.customers}
             </Paragraph>
           </Frame>
@@ -123,16 +128,16 @@ export default function BusinessOverview({ data }: BusinessOverviewProps) {
           <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
             <Paragraph size="xs">Expenses</Paragraph>
 
-            <Paragraph color="textColor1" weight="semiBold" size="md">
-              { "$" + data.expenses}
+            <Paragraph color="textColor1" weight="medium" size="sm">
+              {formatAmount(financials?.expenses.value ?? 0)}
             </Paragraph>
           </Frame>
 
           <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
             <Paragraph size="xs">Net Profit</Paragraph>
 
-            <Paragraph color="textColor1" weight="semiBold" size="md" >
-              { "$" + data.netProfit}
+            <Paragraph color="textColor1" weight="medium" size="sm" >
+              {formatAmount(financials?.netProfit.value ?? 0)}
             </Paragraph>
           </Frame>
         </Frame>

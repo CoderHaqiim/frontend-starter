@@ -2,18 +2,18 @@
 import Frame from "../../ui/primitives/frame"
 import Paragraph from "../../ui/primitives/paragraph"
 import Icon from "../../ui/primitives/icon"
-import { useTheme } from "../../app/themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 import { FrameSizeType } from "@/src/types/types"
 import abridgeNumber from "@/src/utils/abridgeNumber"
 import Card from "../../ui/composites/card"
 import Tooltip from "../../ui/composites/tooltip"
 import Button from "../../ui/primitives/button"
 import Spinner from "../../ui/composites/spinner"
-import { KpiType } from "@/src/types/types"
+import { kpiObjectProps } from "@/src/types/types"
 
 
 type KpiCardProps = {
-  kpi: KpiType
+  kpi: kpiObjectProps
   width?: FrameSizeType
 }
 
@@ -56,7 +56,7 @@ export default function KpiCard({
           </Frame>
         </Frame>
 
-        <Paragraph size="xxl" color="textColor1" weight="medium">
+        <Paragraph size="lg" color="textColor1" weight="medium">
           {abridgeNumber(kpi.value)}
         </Paragraph>
 
@@ -65,7 +65,7 @@ export default function KpiCard({
           <Frame className=" w-full h-max flex items-center gap-[var(--space-xs)] mt-[var(--space-xs)]">
             <Icon name={trendIcon} size="xs" color={trendColor} />
             <Paragraph size="xxs" color={trendColor} weight="normal">
-              {kpi.trend === "up" ? "Trending up" : "Trending down"}
+              {kpi.trend === "up" ? `increased by ${kpi.change}%` : `decreased by ${kpi.change}%`}
             </Paragraph>
           </Frame>
         )}

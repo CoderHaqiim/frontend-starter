@@ -3,7 +3,7 @@
 import { CSSProperties, ReactNode } from "react";
 import { radius } from "@/src/app/design/radius";
 import { SizeType } from "@/src/types/types";
-import { useTheme } from "../../app/themeProvider";
+import { useTheme } from "../../providers/themeProvider";
 
 type SkeletonProps = {
   width?: string;

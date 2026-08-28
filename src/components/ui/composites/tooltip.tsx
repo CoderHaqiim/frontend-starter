@@ -9,7 +9,7 @@ import {
   useState,
 } from "react"
 import { createPortal } from "react-dom"
-import { useTheme } from "../../app/themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 import Paragraph from "../primitives/paragraph"
 
 type TooltipPosition = "top" | "right" | "bottom" | "left"

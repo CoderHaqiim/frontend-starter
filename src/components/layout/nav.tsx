@@ -8,7 +8,7 @@ import { http } from "@/src/http/client"
 import Tooltip from "../ui/composites/tooltip"
 import Paragraph from "../ui/primitives/paragraph"
 import { usePathname, useRouter } from "next/navigation"
-import { useTheme } from "../app/themeProvider"
+import { useTheme } from "../providers/themeProvider"
 import ProfileButton from "../app/profileButton"
 
 type Notification = unknown

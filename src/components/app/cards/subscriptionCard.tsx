@@ -5,7 +5,7 @@ import Button from "../../ui/primitives/button"
 import Frame from "../../ui/primitives/frame"
 import Paragraph from "../../ui/primitives/paragraph"
 import Heading from "../../ui/primitives/heading"
-import { useTheme } from "../themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 
 export default function SubscriptionCard() {
     const {colors} = useTheme()

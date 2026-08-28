@@ -5,7 +5,7 @@ import Frame from "../primitives/frame"
 import Icon from "../primitives/icon"
 import { elementSizes } from "@/src/app/design/sizes"
 import { SizeType } from "@/src/types/types"
-import { useTheme } from "../../app/themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 import { shadow2 } from "@/src/app/design/shadows"
 import { bodySize, fontWeight } from "@/src/app/design/typograhy"
 

@@ -34,8 +34,8 @@ export default function TaskManagerCard() {
     <Card
       padding="lg"
       rounded="md"
-      width="335px"
-      height="100%"
+      width="330px"
+      height="max-content"
     >
       <Frame className=" flex w-full h-max mb-[var(--space-lg)] items-center justify-between">
         <Frame>
@@ -86,7 +86,7 @@ export default function TaskManagerCard() {
 
       <List width="stretch" scroll="hidden" className="flex-1">
         {
-          tasks?.map((task, index) => <TaskLine task={task} key={task.id}/>)
+          tasks?.slice(0,4). map((task, index) => <TaskLine task={task} key={task.id}/>)
         }
       </List>
     </Card>

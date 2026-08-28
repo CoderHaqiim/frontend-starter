@@ -3,7 +3,7 @@ import Frame from '../ui/primitives/frame'
 import Heading from '../ui/primitives/heading'
 import Dropdown from '../ui/composites/dropdown'
 import { ReactNode } from 'react'
-import { useTheme } from '../app/themeProvider'
+import { useTheme } from '../providers/themeProvider'
 import { FrameSizeType } from '@/src/types/types'
 import { CSSProperties } from 'react'
 

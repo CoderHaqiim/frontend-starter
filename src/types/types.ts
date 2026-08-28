@@ -6,8 +6,38 @@ export type SizeType =  "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
 export type FrameSizeType = "hug" | "stretch" | CSSProperties["height"] | CSSProperties["width"];
 export type FunctionType = (arg?: number | string) => void | Promise<void>
 export type HealthType = "healthy" | "critical" | "moderate"
-export type Business = Record <string, any >
+export interface Business {
+  id: string
+  name: string
+  description?: string
+  industry?: string
+  currency: string
+  established: number
+  country: string
+  state: string
+  customers: number
+  health: HealthType
+  healthScore: number
+}
 export type Businesses = Business[]
+
+export type KpiDirection = "up" | "down"
+
+export type KpiMetric = {
+  value: number
+  change: number
+  direction: KpiDirection
+}
+
+export type BusinessKpiResponse = {
+  businessId: string
+  financials: {
+    revenue: KpiMetric
+    expenses: KpiMetric
+    netProfit: KpiMetric
+    cashBalance: KpiMetric
+  }
+}
 
 export interface Customer {
   id: string
@@ -54,14 +84,6 @@ export interface Task {
   dueDate: string;
   priority: Priority;
   status: Status;
-}
-
-export type KpiType = {
-  id?: string | number
-  title: string,
-  value: string,
-  trend?: "up" | "down" | string,
-  meaning?: string,
 }
 
 export type TransactionType = "income" | "expense"
@@ -122,4 +144,38 @@ export interface GoalsType {
     value: string,
     meaning?: string,
     trend?: "up" | "down" | string
+    change?: number
 }
+
+export type ChartPoint = {
+  date: string
+  income: number
+  expenses: number
+  profit: number
+}
+
+export type chartTypes = "Line chart" | "Bar chart"
+
+export type RankingMetric = "netProfit" | "revenue"
+
+export interface BusinessStats {
+  id: string
+  rank: number
+  name: string
+  value: number
+  currency: string
+  metric: RankingMetric
+}
+
+export type ChartPeriod = "7d" | "30d" | "12m"
+
+export type ChartResponse = {
+  success: boolean
+  data: {
+    period: ChartPeriod
+    points: ChartPoint[]
+  }
+}
+
+export type Duration = "weekly" |"monthly" |"annual"
+

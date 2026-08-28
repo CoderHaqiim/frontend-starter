@@ -4,95 +4,57 @@ import Button from '@/src/components/ui/primitives/button'
 import Frame from '@/src/components/ui/primitives/frame'
 import Heading from '@/src/components/ui/primitives/heading'
 import Paragraph from '@/src/components/ui/primitives/paragraph'
-import { Business, HealthType } from '@/src/types/types'
-import Card from '@/src/components/ui/composites/card'
+import { Business, BusinessKpiResponse, Duration, kpiObjectProps } from '@/src/types/types'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { http } from '@/src/http/client'
 import Chart1 from '@/src/components/ui/charts/chart1'
 import Dropdown from '@/src/components/ui/composites/dropdown'
-import Tooltip from '@/src/components/ui/composites/tooltip'
-import RadialProgress from '@/src/components/ui/composites/radialProgress'
-import LinearProgress from '@/src/components/ui/composites/linearProgressBar'
-import { stringToNumber } from '@/src/utils/numberStringCheck'
-import KpiCard from '@/src/components/app/cards/kpiCard'
 import Section from '@/src/components/layout/section'
 import List from '@/src/components/ui/composites/list'
-import Transaction from '@/src/components/app/transaction'
 import Insight from '@/src/components/app/insight'
-import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
-import { healthMap } from '@/src/utils/healthMap'
 import { fontWeight } from '@/src/app/design/typograhy'
 import { space } from '@/src/app/design/spacing'
-import { useTheme } from '@/src/components/app/themeProvider'
+import { useTheme } from '@/src/components/providers/themeProvider'
 import KpiRow from '@/src/components/ui/composites/kpiRow'
-
-const businessKpis = [
-  {
-    title: "Cash Balance",
-    value: "$6500000100",
-    trend: "up",
-    meaning: "Amount of money the business currently has available to use."
-  },
-  {
-    title: "Revenue",
-    value: "$4,000",
-    trend: "up",
-    meaning: "Total money your business makes from selling products or services, before deducting expenses."
-  },
-  {
-    title: "Expenses",
-    value: "$500",
-    trend: "down",
-    meaning: "These are the costs and payments your business incurs to operate, produce or deliver its products/services, and keep the business running."
-  },
-  {
-    title: "Net Profit",
-    value: "$3,500",
-    trend: "up",
-    meaning: "This is the amount of money your business has left after subtracting all of its business expenses from the revenue it generated"
-  },
-  {
-    title: "Net Profit Margin",
-    value: "30%",
-    trend: "up",
-    meaning: "This measures the percentage of revenue that remains as profit after expenses are deducted."
-  },
-  {
-    title: "Customers",
-    value: "30",
-    trend: "down",
-    meaning: "This is the number of people your business currently serves."
-  },
-  {
-    title: "Recievables",
-    value: "$3,500",
-    trend: "down",
-    meaning: "This is the total amount of money that customers owe your business for products or services they have already received but have not yet paid for."
-  },
-  {
-    title: "Cash flow",
-    value: "$40,000",
-    trend: "up",
-    meaning: "Cash flow measures the movement of actual cash into and out of a business over a specific period."
-  }
-]
+import abridgeNumber from '@/src/utils/abridgeNumber'
+import { kpiResponseToCards } from '@/src/utils/kpiResponseToCards'
+import { useBackdropState } from '@/src/store/backdropState'
+import Tooltip from '@/src/components/ui/composites/tooltip'
+import { getCurrencySymbol } from '@/src/utils/currencySymbol'
+import useExtendedChart from '@/src/hooks/extendChart'
+import ChartSection from '@/src/components/app/chartSection'
 
 export default function BusinessPage() {
   const { colors } = useTheme()
-  const [business, setBusiness] = useState<Business>({})
+  const [summaryPeriod, setSummaryPeriod] = useState<Duration>("monthly")
+  const [business, setBusiness] = useState<Business | null>(null)
+  const [businessKpisResponse, setBusinessKpisResponse] = useState<BusinessKpiResponse | null>(null)
   const [kpisExpanded, setKpisExpanded] = useState(false)
   const { businessId } = useParams()
-  const reportDuration = ["This week", "This month", "This year"]
+  const reportDuration = ["weekly", "monthly", "annual"]
   const chartOptions = ["Line chart", "Bar chart"]
+  const {openChart} = useExtendedChart()
 
   useEffect(() => {
-    fetchBusiness()
-  }, [businessId])
+    async function fetchBusiness() {
+      const [business, kpis] = await Promise.all([
+        http<Business>(`/api/businesses/${businessId}`),
+        http<BusinessKpiResponse>(`/api/businesses/${businessId}/kpis?period=${summaryPeriod}`),
+      ])
 
-  async function fetchBusiness() {
-    const businessOne = await http<Business>(`/api/businesses/${businessId}`)
-    setBusiness(businessOne)
+      setBusiness(business)
+      setBusinessKpisResponse(kpis)
+    }
+
+    fetchBusiness()
+  }, [businessId, summaryPeriod])
+
+   // Change duration
+  const reportChangeHandler = ( e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value as Duration
+
+    setSummaryPeriod(value)
   }
 
   const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -100,7 +62,38 @@ export default function BusinessPage() {
     setSelectedChart(selectedValue);
   };
 
-  const health: HealthType | string | number = business?.health
+  const financials = businessKpisResponse?.financials
+  const currency = business?.currency ?? "NGN"
+  const currencySymbol = getCurrencySymbol(currency)
+  const formatAmount = (amount = 0) => `${currencySymbol} ${abridgeNumber(amount)}`
+  const profitMargin = financials?.revenue.value ? Math.round((financials.netProfit.value / financials.revenue.value) * 100) : 0
+  
+  const businessKpis: kpiObjectProps[] = [...kpiResponseToCards(businessKpisResponse, currency),
+    {
+      title: "Net Profit Margin",
+      value: `${profitMargin}%`,
+      trend: profitMargin >= 20 ? "up" : "down",
+      meaning: "This measures the percentage of revenue that remains as profit after expenses are deducted."
+    },
+    {
+      title: "Customers",
+      value: String(business?.customers ?? 0),
+      trend: "up",
+      meaning: "This is the number of people your business currently serves."
+    },
+    {
+      title: "Recievables",
+      value: formatAmount((financials?.revenue.value ?? 0) * 0.18),
+      trend: "down",
+      meaning: "This is the total amount of money that customers owe your business for products or services they have already received but have not yet paid for."
+    },
+    {
+      title: "Cash flow",
+      value: formatAmount((financials?.revenue.value ?? 0) - (financials?.expenses.value ?? 0)),
+      trend: financials && financials.revenue.value >= financials.expenses.value ? "up" : "down",
+      meaning: "Cash flow measures the movement of actual cash into and out of a business over a specific period."
+    }
+  ]
 
   const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
 
@@ -127,7 +120,7 @@ export default function BusinessPage() {
                 </Paragraph>
                 <span>•</span>
                 <Paragraph weight="light" size="xxs">
-                  {business?.state + ", " + business.country}
+                  {business ? `${business.state}, ${business.country}` : ""}
                 </Paragraph>
               </Frame>
             </Frame>
@@ -149,6 +142,9 @@ export default function BusinessPage() {
           transform: kpisExpanded ? "scale(1)" : "scale(0.995)",
         }}
       >
+        <Frame className="w-full justify-end">
+          <Dropdown formFunc={reportChangeHandler} name="summaryPeriod" width="max-content" size="xs" options={reportDuration}/>
+        </Frame>
         <KpiRow isLoading={false} kpis={businessKpis.slice(0, 4)} itemsCount={4} />
         {kpisExpanded && (
           <KpiRow isLoading={false} kpis={businessKpis.slice(4)} itemsCount={4}/>
@@ -170,72 +166,6 @@ export default function BusinessPage() {
         </Frame>
       </Frame>
 
-      {/* Business Health */}
-      <Section width="stretch" height="stretch">
-        <Frame className="justify-between gap-[var(--space-xs)] h-max w-full">
-          <Frame className="w-full items-center gap-[var(--space-sm)]">
-            <Heading type="h2" size='md'>Business Health</Heading>
-            <Paragraph weight="light" size='xs'>Score and Metrices</Paragraph>
-          </Frame>
-          <Button variant="ghost" isIcon iconName="icon-info" />
-        </Frame>
-
-        <Frame className="gap-[var(--space-lg)]">
-          <Card
-            justify="flex-start"
-            padding="lg"
-            align='center'
-            width="240px"
-            height="240px"
-            rounded="md"
-            gap="xl"
-            className="bg-[var(--color-background1)]"
-          >
-            <Heading type="h3" size='xs'>Business score</Heading>
-            <RadialProgress
-              size={140}
-              strokeWidth={5}
-              score={business?.healthScore}
-              color={healthMap[scoreHealthMap(business.healthScore)]}
-            />
-          </Card>
-
-          <Frame
-            className="justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] gap-[var(--space-sm)] flex-col h-[240px] flex-1 border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]"
-          >
-            {/* weight-40 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Profitability</Heading>
-              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
-            </Frame>
-
-            {/* weight-25 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Cash health</Heading>
-              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
-            </Frame>
-
-            {/* weight-15 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Growth</Heading>
-              <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]} />
-            </Frame>
-
-            {/* weight-10 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Stability</Heading>
-              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[health]} />
-            </Frame>
-
-            {/* weight-10 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Operational</Heading>
-              <LinearProgress height={3} textSize='xxs' score={business?.healthScore} color={healthMap[health]} />
-            </Frame>
-          </Frame>
-        </Frame>
-      </Section>
-
       {/* Business Insights */}
       <Section width="stretch" height="stretch">
         <Frame className="flex-col gap-[var(--space-xs)] h-max w-full">
@@ -255,19 +185,7 @@ export default function BusinessPage() {
       </Section>
 
       {/* Chart */}
-      <Section width="stretch">
-        <Frame className="justify-between items-center mb-[var(--space-lg)]">
-          <Frame className="h-max items-center w-full gap-[var(--space-lg)]">
-            <Heading type="h2" size='md'> Chart </Heading>
-            <Paragraph size='xs'> Expenses • Revenue • Net Profit </Paragraph>
-          </Frame>
-          <Frame className="w-auto h-max gap-[var(--space-sm)]">
-            <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler} />
-            <Dropdown name="report" size="sm" options={reportDuration} />
-          </Frame>
-        </Frame>
-        <Chart1 variant={selectedChart} />
-      </Section>
+      <ChartSection chartUrl="/api/dashboard/financialTrends" />
     </Frame>
   )
 }

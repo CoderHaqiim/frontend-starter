@@ -5,7 +5,7 @@ import Input from '../primitives/input'
 import Button from '../primitives/button'
 import { http } from '@/src/http/client'
 import Tooltip from './tooltip'
-import { useTheme } from '../../app/themeProvider'
+import { useTheme } from '../../providers/themeProvider'
 
 type SearchResult = unknown
 

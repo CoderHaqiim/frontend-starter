@@ -6,7 +6,7 @@ import Paragraph from "../primitives/paragraph"
 import { stringToNumber } from "@/src/utils/numberStringCheck"
 import { SizeType } from "@/src/types/types"
 import Frame from "../primitives/frame"
-import { useTheme } from "../../app/themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 
 type HorizontalScoreProps = {
   score: number | string

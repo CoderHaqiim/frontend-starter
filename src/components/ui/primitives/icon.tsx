@@ -67,7 +67,7 @@ import { LucideProps } from 'lucide-react'
 import { SizeType } from '@/src/types/types'
 import { ColorTypes } from '@/src/app/design/colors'
 import { CSSProperties } from 'react'
-import { useTheme } from '../../app/themeProvider'
+import { useTheme } from '../../providers/themeProvider'
 
 
 type IconProps = LucideProps & {

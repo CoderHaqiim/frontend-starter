@@ -10,7 +10,7 @@ import { FunctionType } from "@/src/types/types"
 import { ColorTypes } from "@/src/app/design/colors"
 import { FrameSizeType } from "@/src/types/types"
 import { radius } from "@/src/app/design/radius"
-import { useTheme } from "../../app/themeProvider"
+import { useTheme } from "../../providers/themeProvider"
 
 type ButtonProps = {
     variant: "ghost" | "fill" | "outline",
@@ -122,6 +122,7 @@ export default function Button({
             transition-transform
             duration-100
             ease-out
+            shrink-0
             active:scale-92
             justify-center items-center relative flex font-[var(--fontWeight-medium)]
         `}

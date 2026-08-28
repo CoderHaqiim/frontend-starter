@@ -10,7 +10,7 @@ import { ColorTypes } from "@/src/app/design/colors";
 import { generateLightBackground } from "@/src/utils/healthBackground";
 import { paddingSizes } from "@/src/app/design/sizes";
 import Paragraph from "../primitives/paragraph";
-import { useTheme } from "../../app/themeProvider";
+import { useTheme } from "../../providers/themeProvider";
 
 type BadgeProps = {
   color: ColorTypes;

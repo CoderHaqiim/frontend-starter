@@ -4,7 +4,7 @@ import { SizeType } from '@/src/types/types'
 import { bodySize, FontWeightTypes } from '@/src/app/design/typograhy'
 import { ColorTypes } from '@/src/app/design/colors'
 import { fontWeight } from '@/src/app/design/typograhy'
-import { useTheme } from '../../app/themeProvider'
+import { useTheme } from '../../providers/themeProvider'
 
 type ParagraphProps = {
     children?: ReactNode,
