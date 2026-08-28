@@ -73,12 +73,12 @@ export default function ChartSection({ chartUrl }: ChartSectionProps) {
           <Dropdown name="chart" size="sm" options={chartOptions} formFunc={chartChangeHandler} />
           <Dropdown name="report" size="sm" options={reportDuration} formFunc={reportChangeHandler} />
           <Tooltip content="expand chart">
-            <Button func={() => openChart(chartData, selectedChart)} size="sm" variant="outline" isIcon iconName="icon-expand" />
+            <Button func={() => openChart(chartData, selectedChart, selectedPeriod)} size="sm" variant="outline" isIcon iconName="icon-expand" />
           </Tooltip>
         </Frame>
       </Frame>
 
-      <Chart1 height="auto" fixedRatio variant={selectedChart} data={chartData} isLoading={isChartLoading} />
+      <Chart1 height="auto" fixedRatio variant={selectedChart} data={chartData} isLoading={isChartLoading} selectedPeriod={selectedPeriod} />
     </Section>
   )
 }

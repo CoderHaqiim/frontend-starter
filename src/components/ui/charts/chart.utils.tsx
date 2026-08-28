@@ -5,6 +5,7 @@ import { radius } from "@/src/app/design/radius"
 import { XAxis, YAxis, Tooltip, Legend } from "recharts"
 import { useTheme } from "../../providers/themeProvider"
 import { space } from "@/src/app/design/spacing"
+import { ChartPeriod } from "@/src/types/types"
 
 export const LegendComponent = () => {
   const { colors } = useTheme()
@@ -53,12 +54,24 @@ export const TooltipComponent = () => {
   )
 }
 
-export function XAxisComponent() {
-  const { colors } = useTheme()
+type XAxisComponentProps = {
+  selectedPeriod: ChartPeriod
+}
 
+export function XAxisComponent({ selectedPeriod }: XAxisComponentProps) {
+  const { colors } = useTheme()
+  const intervalMap: Record<ChartPeriod, number> = {
+    "7d": 0,
+    "30d": 4,
+    "12m": 1,
+  }
+
+ 
   return (
     <XAxis
       dataKey="date"
+      angle={0}
+      interval={intervalMap[selectedPeriod]}
       axisLine={{
         stroke: colors["outline1"],
       }}

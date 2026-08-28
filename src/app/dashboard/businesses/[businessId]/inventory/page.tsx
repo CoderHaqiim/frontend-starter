@@ -83,6 +83,7 @@ export default function InventoryPage() {
             <Dropdown
               name="inventoryFilter"
               defaultValue="all"
+              width="110px"
               value={selectedInventoryFilter}
               options={["all", "in-stock", "low-stock", "out-of-stock"]}
               size="sm"

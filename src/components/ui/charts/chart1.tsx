@@ -2,12 +2,12 @@
 
 import { LineChart, Line, BarChart, Bar, CartesianGrid } from "recharts"
 import { XAxisComponent, YAxisComponent, LegendComponent, TooltipComponent } from "./chart.utils"
-
-import { ChartPoint } from "@/src/types/types"
+import { ChartPeriod, ChartPoint } from "@/src/types/types"
 import { useTheme } from "../../providers/themeProvider"
 import Frame from "../primitives/frame"
 import Spinner from "../composites/spinner"
 import { CSSProperties } from "react"
+import { useState } from "react"
 
 type ChartProps = {
   variant: "Line chart" | "Bar chart"
@@ -15,6 +15,7 @@ type ChartProps = {
   isLoading: boolean
   height: CSSProperties["height"]
   fixedRatio: boolean
+  selectedPeriod: ChartPeriod
 }
 
 export default function Chart1({
@@ -22,9 +23,19 @@ export default function Chart1({
   isLoading,
   data,
   fixedRatio,
+  selectedPeriod,
   height = "none"
 }: ChartProps) {
+  const  [downloadOpen, setDownloadOpen] = useState<boolean>(false)
   const { colors } = useTheme()
+
+  const openDownloadDialogue = () => {
+    setDownloadOpen(true)
+  }
+
+  const closeDownloadDialogue = () => {
+    setDownloadOpen(false)
+  }
 
   const chartStyle = {
     width: "100%",
@@ -60,7 +71,7 @@ export default function Chart1({
             stroke={colors["outline1"]}
           />
 
-          <XAxisComponent />
+          <XAxisComponent selectedPeriod={selectedPeriod} />
           <YAxisComponent />
           <TooltipComponent />
           <LegendComponent />
@@ -121,7 +132,7 @@ export default function Chart1({
             stroke={colors["outline1"]}
           />
 
-          <XAxisComponent />
+          <XAxisComponent selectedPeriod={selectedPeriod} />
           <YAxisComponent />
           <TooltipComponent />
           <LegendComponent />

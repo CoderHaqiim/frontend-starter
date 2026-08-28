@@ -60,7 +60,8 @@ import {
   Building,
   MoreHorizontal,
   CirclePile,
-  UsersRound
+  UsersRound,
+  Download
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -137,7 +138,8 @@ const icons = {
     "icon-building": Building,
     "icon-more-horizontal": MoreHorizontal,
     "icon-pile": CirclePile,
-    "icon-users-round": UsersRound
+    "icon-users-round": UsersRound,
+    "icon-download": Download
 };
 
 export type IconType = keyof typeof icons;

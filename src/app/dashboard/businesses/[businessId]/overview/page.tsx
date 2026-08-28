@@ -24,6 +24,11 @@ import Tooltip from '@/src/components/ui/composites/tooltip'
 import { getCurrencySymbol } from '@/src/utils/currencySymbol'
 import useExtendedChart from '@/src/hooks/extendChart'
 import ChartSection from '@/src/components/app/chartSection'
+import Card from '@/src/components/ui/composites/card'
+import LinearProgress from '@/src/components/ui/composites/linearProgressBar'
+import RadialProgress from '@/src/components/ui/composites/radialProgress'
+import { healthMap } from '@/src/utils/healthMap'
+import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
 
 export default function BusinessPage() {
   const { colors } = useTheme()
@@ -33,8 +38,7 @@ export default function BusinessPage() {
   const [kpisExpanded, setKpisExpanded] = useState(false)
   const { businessId } = useParams()
   const reportDuration = ["weekly", "monthly", "annual"]
-  const chartOptions = ["Line chart", "Bar chart"]
-  const {openChart} = useExtendedChart()
+
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
   useEffect(() => {
@@ -63,11 +67,6 @@ export default function BusinessPage() {
     setSummaryPeriod(value)
   }
 
-  const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value as "Line chart" | "Bar chart";
-    setSelectedChart(selectedValue);
-  };
-
   const editBusiness = () => {
     setBackdropOpen(true)
     setBackdropContent("edit-business-form")
@@ -78,6 +77,8 @@ export default function BusinessPage() {
   const currencySymbol = getCurrencySymbol(currency)
   const formatAmount = (amount = 0) => `${currencySymbol} ${abridgeNumber(amount)}`
   const profitMargin = financials?.revenue.value ? Math.round((financials.netProfit.value / financials.revenue.value) * 100) : 0
+  const businessHealth = business?.health ?? "healthy"
+  const businessHealthScore = business?.healthScore ?? 0
   
   const businessKpis: kpiObjectProps[] = [...kpiResponseToCards(businessKpisResponse, currency),
     {
@@ -153,13 +154,15 @@ export default function BusinessPage() {
           transform: kpisExpanded ? "scale(1)" : "scale(0.995)",
         }}
       >
-        <Frame className="w-full justify-end">
-          <Dropdown formFunc={reportChangeHandler} name="summaryPeriod" width="max-content" size="xs" options={reportDuration}/>
+        <Frame className=' flex-col gap-[var(--space-md)]'>
+          <Frame className="w-full justify-end">
+            <Dropdown formFunc={reportChangeHandler} name="summaryPeriod" width="max-content" size="xs" options={reportDuration}/>
+          </Frame>
+          <KpiRow isLoading={false} kpis={businessKpis.slice(0, 4)} itemsCount={4} />
+          {kpisExpanded && (
+            <KpiRow isLoading={false} kpis={businessKpis.slice(4)} itemsCount={4}/>
+          )}
         </Frame>
-        <KpiRow isLoading={false} kpis={businessKpis.slice(0, 4)} itemsCount={4} />
-        {kpisExpanded && (
-          <KpiRow isLoading={false} kpis={businessKpis.slice(4)} itemsCount={4}/>
-        )}
         <Frame className="w-full justify-center">
           <Button
             variant="ghost"
@@ -177,6 +180,77 @@ export default function BusinessPage() {
         </Frame>
       </Frame>
 
+
+      {/* Business Health */}
+      <Section width="stretch" height="stretch">
+        <Frame className="justify-between gap-[var(--space-xs)] h-max w-full">
+          <Frame className="w-full items-center gap-[var(--space-sm)]">
+            <Heading type="h2" size='md'>Business Health</Heading>
+            <Paragraph weight="light" size='xs'>Score and Metrices</Paragraph>
+          </Frame>
+          <Button variant="ghost" isIcon iconName="icon-info" />
+        </Frame>
+
+        <Frame className="gap-[var(--space-lg)]">
+          <Card
+            justify="flex-start"
+            padding="lg"
+            align='center'
+            width="240px"
+            height="240px"
+            rounded="md"
+            gap="xl"
+            className="bg-[var(--color-background1)]"
+          >
+            <Heading type="h3" size='xs'>Business score</Heading>
+            <RadialProgress
+              size={140}
+              strokeWidth={5}
+              score={businessHealthScore}
+              color={healthMap[businessHealth]}
+            />
+          </Card>
+
+          <Frame
+            className="justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] gap-[var(--space-sm)] flex-col h-[240px] flex-1 border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]"
+          >
+            {/* weight-40 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Profitability</Heading>
+              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
+            </Frame>
+
+            {/* weight-25 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Cash health</Heading>
+              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
+            </Frame>
+
+            {/* weight-15 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Growth</Heading>
+              <LinearProgress height={3} textSize='xxs' score={businessHealthScore} color={healthMap[businessHealth]} />
+            </Frame>
+
+            {/* weight-10 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Stability</Heading>
+              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[businessHealth]} />
+            </Frame>
+
+            {/* weight-10 */}
+            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
+              <Heading type="h3" size='xxs'>Operational</Heading>
+              <LinearProgress height={3} textSize='xxs' score={businessHealthScore} color={healthMap[businessHealth]} />
+            </Frame>
+          </Frame>
+        </Frame>
+      </Section>
+
+
+
+
+
       {/* Business Insights */}
       <Section width="stretch" height="stretch">
         <Frame className="flex-col gap-[var(--space-xs)] h-max w-full">
@@ -186,9 +260,6 @@ export default function BusinessPage() {
           <List width="stretch" height="220px" scroll="hidden">
             <Insight text="Profit increased by 12%" />
             <Insight text="Profit increased by 12%" />
-            <Insight text="Profit increased by 12% and bla bla bal" />
-            <Insight text="Profit increased by 12% and bla bla bal" />
-            <Insight text="Profit increased by 12% and bla bla bal" />
             <Insight text="Profit increased by 12% and bla bla bal" />
             <Insight text="Profit increased by 12% and bla bla bal" />
           </List>

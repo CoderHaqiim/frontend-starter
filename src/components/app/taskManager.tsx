@@ -10,6 +10,7 @@ import TaskItem from "./taskItem";
 import Paragraph from "../ui/primitives/paragraph";
 import { useEffect, useState } from "react";
 import { http } from "@/src/http/client";
+import Dropdown from "../ui/composites/dropdown";
 
 interface Props {
   tasks: Task[];
@@ -27,6 +28,10 @@ export default function TaskManager() {
   const completed = tasks.filter((t) => t.status === "completed");
   const activeCount = today.length + tomorrow.length;
 
+  const businessTasks = ["All Businesses", "Business1", "Business2"]
+  const status = ["All", "Completed", "Pending", "On-going", "Cancelled"]
+  const priority = ["high", "medium", "low"]
+
   async function fetchTasks() {
     const tasks = await http<Task[]>("/api/tasks", undefined, {
       method: "GET",
@@ -36,7 +41,11 @@ export default function TaskManager() {
 
   return (
     <Section width="stretch" height="hug" className="min-h-[200px]">
-      <TaskToolbar />
+      <Frame className="justify-end pb-[var(--space-md)] gap-[var(--space-sm)] w-full h-max">
+        <Dropdown width="max-content" size="sm" name="Business tasks" options={businessTasks} />
+        <Dropdown width="max-content" size="sm" name="status" options={status} />
+        <Dropdown width="max-content" size="sm" name="Business tasks" options={priority} />
+      </Frame>
 
       <Frame className="w-full h-full">
         {tasks.length > 0 ? (

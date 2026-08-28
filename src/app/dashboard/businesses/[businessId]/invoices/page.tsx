@@ -120,6 +120,7 @@ export default function InvoicesPage() {
 
             <Dropdown
               name="invoiceFilter"
+              width="max-content"
               defaultValue="all"
               value={selectedInvoiceFilter}
               options={["all", "paid", "pending", "overdue"]}

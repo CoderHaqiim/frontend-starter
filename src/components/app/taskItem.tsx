@@ -17,11 +17,11 @@ export default function TaskItem({ task }: TaskItemProp) {
   const statusColor = statusColorMap(task.status) as ColorTypes
 
   return (
-    <Frame className="w-full p-[var(--space-md)] flex-col gap-[var(--space-sm)]">
+    <Frame className="w-full p-[var(--space-lg)] flex-col gap-[var(--space-sm)]">
       <Frame className="justify-between flex-1">
         <Frame className="flex-col">
-          <Frame className="gap-[var(--space-lg)]">
-            <Paragraph color="textColor1" size="md">
+          <Frame>
+            <Paragraph color="textColor1" weight="normal" size="md">
               {task.description}
             </Paragraph>
           </Frame>
@@ -35,12 +35,10 @@ export default function TaskItem({ task }: TaskItemProp) {
 
         <Frame>
           <Tooltip content="task menu">
-            <Button
-              variant="outline"
-              size="sm"
-              iconName="icon-vertival-dots"
-              isIcon
-            />
+            <Button variant="outline" size="sm" iconName="icon-vertival-dots" isIcon specificStyles={{
+              border:"0",
+              backgroundColor: `var(--color-white)`
+            }}/>
           </Tooltip>
         </Frame>
       </Frame>
