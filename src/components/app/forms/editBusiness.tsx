@@ -6,8 +6,8 @@ import Card from "../../ui/composites/card"
 import Input from "../../ui/primitives/input"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
-import Button from "../../ui/primitives/button"
 import Dropdown from "../../ui/composites/dropdown"
+import CloseButton from "../../ui/primitives/closeButton"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function EditBusinessForm() {
@@ -25,20 +25,20 @@ export default function EditBusinessForm() {
           Edit Business
         </Heading>
         <Frame>
-          <Button size="sm" variant="outline" func={closeEditBusinessForm} isIcon iconName="icon-x"/>
+          <CloseButton func={closeEditBusinessForm} />
         </Frame>
       </Frame>
 
       <Form url="/edit-business">
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
-            <Label text="Business Name" size="sm" />
-            <Input rounded="sm" placeholder="What is your business name?" outline border type="text" name="businessName" variant="default" />
+            <Label text="Business Name" size="xs" />
+            <Input size="sm" rounded="sm" placeholder="What is your business name?" outline border type="text" name="businessName" variant="default" />
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Country" size="sm" />
+              <Label text="Country" size="xs" />
               <Dropdown
                 name="country"
                 size="sm"
@@ -55,14 +55,14 @@ export default function EditBusinessForm() {
               />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="State / Province" size="sm" />
-              <Input rounded="sm" placeholder="State / Province" outline border type="text" name="state" variant="default" />
+              <Label text="State / Province" size="xs" />
+              <Input size="sm" rounded="sm" placeholder="State / Province" outline border type="text" name="state" variant="default" />
             </Frame>
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Industry" size="sm" />
+              <Label text="Industry" size="xs" />
               <Dropdown
                 name="industry"
                 size="sm"
@@ -79,7 +79,7 @@ export default function EditBusinessForm() {
               />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Currency" size="sm" />
+              <Label text="Currency" size="xs" />
               <Dropdown
                 name="currency"
                 size="sm"
@@ -95,7 +95,7 @@ export default function EditBusinessForm() {
           </Frame>
 
           <Frame className="w-full flex-col">
-            <Label text="Description" size="sm" />
+            <Label text="Description" size="xs" />
             <textarea
               className="w-full placeholder-[var(--color-outline1)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="What does this business do?"

@@ -6,8 +6,8 @@ import Card from "../../ui/composites/card"
 import Input from "../../ui/primitives/input"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
-import Button from "../../ui/primitives/button"
 import Dropdown from "../../ui/composites/dropdown"
+import CloseButton from "../../ui/primitives/closeButton"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function CreateInventoryItemForm() {
@@ -25,24 +25,24 @@ export default function CreateInventoryItemForm() {
           Add Inventory Item
         </Heading>
         <Frame>
-          <Button size="sm" variant="outline" func={closeCreateInventoryItemForm} isIcon iconName="icon-x"/>
+          <CloseButton func={closeCreateInventoryItemForm} />
         </Frame>
       </Frame>
 
       <Form url="/add-inventory-item">
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
-            <Label text="Item Name" size="sm" />
-            <Input rounded="sm" placeholder="Item name" outline border type="text" name="itemName" variant="default" />
+            <Label text="Item Name" size="xs" />
+            <Input size="sm" rounded="sm" placeholder="Item name" outline border type="text" name="itemName" variant="default" />
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="SKU" size="sm" />
-              <Input rounded="sm" placeholder="SKU" outline border type="text" name="sku" variant="default" />
+              <Label text="SKU" size="xs" />
+              <Input size="sm" rounded="sm" placeholder="SKU" outline border type="text" name="sku" variant="default" />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Category" size="sm" />
+              <Label text="Category" size="xs" />
               <Dropdown
                 name="category"
                 size="sm"
@@ -60,12 +60,12 @@ export default function CreateInventoryItemForm() {
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Stock" size="sm" />
-              <Input rounded="sm" outline border type="number" name="stock" variant="default" />
+              <Label text="Stock" size="xs" />
+              <Input size="sm" rounded="sm" outline border type="number" name="stock" variant="default" />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Reorder Level" size="sm" />
-              <Input rounded="sm" outline border type="number" name="reorderLevel" variant="default" />
+              <Label text="Reorder Level" size="xs" />
+              <Input size="sm" rounded="sm" outline border type="number" name="reorderLevel" variant="default" />
             </Frame>
           </Frame>
 

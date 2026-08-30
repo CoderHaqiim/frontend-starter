@@ -6,8 +6,8 @@ import Card from "../../ui/composites/card"
 import Input from "../../ui/primitives/input"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
-import Button from "../../ui/primitives/button"
 import Dropdown from "../../ui/composites/dropdown"
+import CloseButton from "../../ui/primitives/closeButton"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function CreateInvoiceForm() {
@@ -25,35 +25,35 @@ export default function CreateInvoiceForm() {
           New Invoice
         </Heading>
         <Frame>
-          <Button size="sm" variant="outline" func={closeCreateInvoiceForm} isIcon iconName="icon-x"/>
+          <CloseButton func={closeCreateInvoiceForm} />
         </Frame>
       </Frame>
 
       <Form url="/create-invoice">
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
-            <Label text="Customer" size="sm" />
-            <Input rounded="sm" placeholder="Customer name" outline border type="text" name="customer" variant="default" />
+            <Label text="Customer" size="xs" />
+            <Input size="sm" rounded="sm" placeholder="Customer name" outline border type="text" name="customer" variant="default" />
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Issue Date" size="sm" />
-              <Input rounded="sm" outline border type="date" name="issueDate" variant="default" />
+              <Label text="Issue Date" size="xs" />
+              <Input size="sm" rounded="sm" outline border type="date" name="issueDate" variant="default" />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Due Date" size="sm" />
-              <Input rounded="sm" outline border type="date" name="dueDate" variant="default" />
+              <Label text="Due Date" size="xs" />
+              <Input size="sm" rounded="sm" outline border type="date" name="dueDate" variant="default" />
             </Frame>
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Amount" size="sm" />
-              <Input rounded="sm" placeholder="0.00" outline border type="number" name="amount" variant="default" />
+              <Label text="Amount" size="xs" />
+              <Input size="sm" rounded="sm" placeholder="0.00" outline border type="number" name="amount" variant="default" />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Status" size="sm" />
+              <Label text="Status" size="xs" />
               <Dropdown
                 name="status"
                 size="sm"
@@ -69,7 +69,7 @@ export default function CreateInvoiceForm() {
           </Frame>
 
           <Frame className="w-full flex-col">
-            <Label text="Notes" size="sm" />
+            <Label text="Notes" size="xs" />
             <textarea
               className="w-full resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="Add invoice notes..."

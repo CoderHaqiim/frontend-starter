@@ -15,7 +15,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 4,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 90000,
           change: 13,
           direction: "up",
@@ -40,7 +40,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 12,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: -450000,
           change: 7,
           direction: "down",
@@ -65,7 +65,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 3,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 650000,
           change: 8,
           direction: "up",
@@ -90,7 +90,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 4,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 880000,
           change: 12,
           direction: "up",
@@ -115,7 +115,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 3,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 70000,
           change: 2,
           direction: "up",
@@ -142,7 +142,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 8,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 350000,
           change: 15,
           direction: "up",
@@ -167,7 +167,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 18,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: -1700000,
           change: 11,
           direction: "down",
@@ -192,7 +192,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 5,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 2500000,
           change: 10,
           direction: "up",
@@ -217,7 +217,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 6,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 3500000,
           change: 16,
           direction: "up",
@@ -242,7 +242,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 5,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 280000,
           change: 3,
           direction: "up",
@@ -269,7 +269,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 10,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 4200000,
           change: 22,
           direction: "up",
@@ -294,7 +294,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 20,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: -20400000,
           change: 14,
           direction: "down",
@@ -319,7 +319,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 9,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 30000000,
           change: 17,
           direction: "up",
@@ -344,7 +344,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 11,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 42000000,
           change: 24,
           direction: "up",
@@ -369,7 +369,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
           change: 8,
           direction: "up",
         },
-        netProfit: {
+        profit: {
           value: 3360000,
           change: 6,
           direction: "up",
@@ -390,7 +390,7 @@ export const getGeneralKpis = (period: Duration = "monthly") => businessKpiSumma
   (totals, business) => {
     totals.financials.revenue.value += business.financials.revenue.value
     totals.financials.expenses.value += business.financials.expenses.value
-    totals.financials.netProfit.value += business.financials.netProfit.value
+    totals.financials.profit.value += business.financials.profit.value
     totals.financials.cashBalance.value += business.financials.cashBalance.value
 
     return totals
@@ -408,7 +408,7 @@ export const getGeneralKpis = (period: Duration = "monthly") => businessKpiSumma
         change: 8,
         direction: "up",
       },
-      netProfit: {
+      profit: {
         value: 0,
         change: 15,
         direction: "up",

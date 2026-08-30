@@ -78,7 +78,7 @@ export default function Input({
                 <Button 
                     func={toggleText} 
                     variant="ghost" 
-                    size={size ?? "md"} iconName={showText? "icon-eye-off" : "icon-eye"}
+                    size={"xs"} iconName={showText? "icon-eye-off" : "icon-eye"}
                     specificStyles={{
                         backgroundColor:"transparent",
                         position:"absolute", 

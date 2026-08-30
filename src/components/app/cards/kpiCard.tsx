@@ -41,17 +41,17 @@ export default function KpiCard({
 
       <Card width={width} height="100px" padding="lg" rounded="md" className="flex-1 bg-[var(--color-white)]">
         <Frame className="justify-between w-full">
-          <Paragraph size="xs" weight="normal" color="textColor2">
+          <Paragraph size="xs" weight="medium" color="textColor2">
             {kpi.title}
           </Paragraph>
           <Frame 
-            specificStyles={{ position: "absolute", right: "-10px", top: "-10px"}}>
+            specificStyles={{ position: "absolute", right: "-5px", top: "-5px"}}>
               <Tooltip content={kpi.meaning} width="stretch" position="top"
                 specificStyle={{
                   display: kpi.meaning ? "flex" : "none",
                 }}
               >
-                <Button className="no-hover-effect" isIcon variant="ghost" size="sm" iconName="icon-info"/>
+                <Icon size="sm" name="icon-info"/>
               </Tooltip>
           </Frame>
         </Frame>

@@ -1,6 +1,10 @@
 "use client"
 
-import { Business, BusinessHealth, BusinessKpiResponse } from "@/src/types/types"
+import {
+  Business,
+  BusinessHealth,
+  BusinessKpiResponse,
+} from "@/src/types/types"
 import { shortenText } from "@/src/utils/shortenText"
 import Link from "next/link"
 import RadialProgress from "../../ui/composites/radialProgress"
@@ -18,6 +22,7 @@ type BusinessOverviewProps = {
   data: Business
   health?: BusinessHealth
   kpis?: BusinessKpiResponse
+  index: number
 }
 
 const avatarColors = [
@@ -35,32 +40,47 @@ const getBusinessInitial = (name: string) => {
   return name?.trim()?.charAt(0)?.toUpperCase() || "?"
 }
 
-const getBusinessColor = () => {
-  const index = Math.floor(Math.random() * avatarColors.length)
-
-  return avatarColors[index]
+const getBusinessColor = (index: number) => {
+  return avatarColors[index % avatarColors.length]
 }
 
-export default function BusinessOverview({ data, health, kpis }: BusinessOverviewProps) {
+export default function BusinessOverview({
+  data,
+  health,
+  kpis,
+  index,
+}: BusinessOverviewProps) {
   const { colors } = useTheme()
+
   const businessHealth = {
     health: health?.health ?? data.health ?? "healthy",
     healthScore: health?.healthScore ?? data.healthScore ?? 0,
   }
-  const healthBackground = generateHealthBackground(businessHealth.health)
+
+  const healthBackground = generateHealthBackground(
+    businessHealth.health
+  )
 
   const businessInitial = getBusinessInitial(data.name)
-  const businessColor = getBusinessColor()
+  const businessColor = getBusinessColor(index)
   const currencySymbol = getCurrencySymbol(data.currency)
-  const formatAmount = (amount: number) => `${currencySymbol} ${abridgeNumber(amount)}`
+
+  const formatAmount = (amount: number) =>
+    `${currencySymbol} ${abridgeNumber(amount)}`
+
   const financials = kpis?.financials
 
   return (
     <Link
       href={`/dashboard/businesses/${data.id}/overview`}
-      className="transform transition-transform duration-300 cursor-pointer pointer-events-auto hover:z-20 hover:scale-[0.96]"
+      className="transform cursor-pointer pointer-events-auto transition-transform duration-300 hover:z-20 hover:scale-[0.96]"
     >
-      <Card width="289px" height="max-content" justify="space-between" padding="lg" gap="md"
+      <Card
+        width="300px"
+        height="max-content"
+        justify="space-between"
+        padding="lg"
+        gap="lg"
         specificStyles={{
           position: "relative",
           border: `solid 1px ${colors["outline1"]}`,
@@ -69,14 +89,18 @@ export default function BusinessOverview({ data, health, kpis }: BusinessOvervie
         }}
       >
         {/* Business name */}
-        <Frame className="w-full gap-[var(--space-md)] h-max items-center">
+        <Frame className="w-full h-max items-center gap-[var(--space-md)]">
           <Frame
-            className="w-[var(--elementSize-md)] h-[var(--elementSize-md)] rounded-[var(--radius-sm)] items-center justify-center"
+            className="w-[var(--elementSize-md)] h-[var(--elementSize-md)] items-center justify-center rounded-[var(--radius-sm)]"
             specificStyles={{
               backgroundColor: businessColor,
             }}
           >
-            <Paragraph size="sm" weight="semiBold" color="textColor1">
+            <Paragraph
+              size="sm"
+              weight="semiBold"
+              color="textColor1"
+            >
               {businessInitial}
             </Paragraph>
           </Frame>
@@ -94,55 +118,96 @@ export default function BusinessOverview({ data, health, kpis }: BusinessOvervie
 
         {/* Health score */}
         <Frame
-          className="w-full border border-[var(--color-outline1)] rounded-[var(--radius-sm)] p-[var(--space-md)] gap-[var(--space-lg)] items-center"
+          className="w-full items-center gap-[var(--space-lg)] rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-md)]"
           specificStyles={{
             backgroundColor: colors[healthBackground],
           }}
         >
-          <RadialProgress color={healthMap[businessHealth.health]} score={businessHealth.healthScore} size={50} textSize="xs" strokeWidth={2}/>
+          <RadialProgress
+            color={healthMap[businessHealth.health]}
+            score={businessHealth.healthScore}
+            size={50}
+            textSize="xs"
+            strokeWidth={2}
+          />
 
           <Frame className="flex-col gap-[var(--space-xxs)]">
             <Paragraph size="xs" className="leading-[1]">
               Health score
             </Paragraph>
 
-            <Paragraph weight="medium" color={healthMap[businessHealth.health]} size="md" className="leading-[1]">
+            <Paragraph
+              weight="medium"
+              color={healthMap[businessHealth.health]}
+              size="md"
+              className="leading-[1]"
+            >
               {businessHealth.health}
             </Paragraph>
           </Frame>
         </Frame>
 
         {/* Financial summary */}
-        <Frame className="w-full grid grid-cols-2 gap-[var(--space-sm)]">
-          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
-            <Paragraph size="xs">Revenue</Paragraph>
+        <Frame className="grid w-full grid-cols-2 gap-[var(--space-sm)]">
+          <Frame className="flex-col rounded-[var(--radius-sm)] bg-[var(--color-background1)] p-[var(--space-sm)]">
+            <Paragraph size="xs">
+              Revenue
+            </Paragraph>
 
-            <Paragraph color="textColor1" weight="medium" size="sm">
-              {formatAmount(financials?.revenue.value ?? 0)}
+            <Paragraph
+              color="textColor1"
+              weight="medium"
+              size="sm"
+            >
+              {formatAmount(
+                financials?.revenue.value ?? 0
+              )}
             </Paragraph>
           </Frame>
 
-          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
-            <Paragraph size="xs">Customers</Paragraph>
+          <Frame className="flex-col rounded-[var(--radius-sm)] bg-[var(--color-background1)] p-[var(--space-sm)]">
+            <Paragraph size="xs">
+              Customers
+            </Paragraph>
 
-            <Paragraph color="textColor1" weight="medium" size="sm">
+            <Paragraph
+              color="textColor1"
+              weight="medium"
+              size="sm"
+            >
               {data.customers}
             </Paragraph>
           </Frame>
 
-          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
-            <Paragraph size="xs">Expenses</Paragraph>
+          <Frame className="flex-col rounded-[var(--radius-sm)] bg-[var(--color-background1)] p-[var(--space-sm)]">
+            <Paragraph size="xs">
+              Expenses
+            </Paragraph>
 
-            <Paragraph color="textColor1" weight="medium" size="sm">
-              {formatAmount(financials?.expenses.value ?? 0)}
+            <Paragraph
+              color="textColor1"
+              weight="medium"
+              size="sm"
+            >
+              {formatAmount(
+                financials?.expenses.value ?? 0
+              )}
             </Paragraph>
           </Frame>
 
-          <Frame className="flex-col bg-[var(--color-background1)] p-[var(--space-sm)] rounded-[var(--radius-sm)]">
-            <Paragraph size="xs">Net Profit</Paragraph>
+          <Frame className="flex-col rounded-[var(--radius-sm)] bg-[var(--color-background1)] p-[var(--space-sm)]">
+            <Paragraph size="xs">
+              Profit
+            </Paragraph>
 
-            <Paragraph color="textColor1" weight="medium" size="sm" >
-              {formatAmount(financials?.netProfit.value ?? 0)}
+            <Paragraph
+              color="textColor1"
+              weight="medium"
+              size="sm"
+            >
+              {formatAmount(
+                financials?.profit.value ?? 0
+              )}
             </Paragraph>
           </Frame>
         </Frame>

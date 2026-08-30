@@ -8,6 +8,7 @@ import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
 import Button from "../../ui/primitives/button"
 import Dropdown from "../../ui/composites/dropdown"
+import CloseButton from "../../ui/primitives/closeButton"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function CreateCustomerForm() {
@@ -25,31 +26,31 @@ export default function CreateCustomerForm() {
           Add Customer
         </Heading>
         <Frame>
-          <Button size="sm" variant="outline" func={closeCreateCustomerForm} isIcon iconName="icon-x"/>
+          <CloseButton func={closeCreateCustomerForm} />
         </Frame>
       </Frame>
 
       <Form url="/add-customer">
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
-            <Label text="Customer Name" size="sm" />
-            <Input rounded="sm" placeholder="Customer name" outline border type="text" name="name" variant="default" />
+            <Label text="Customer Name" size="xs" />
+            <Input size="sm" rounded="sm" placeholder="Customer name" outline border type="text" name="name" variant="default" />
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Email" size="sm" />
-              <Input rounded="sm" placeholder="Email address" outline border type="email" name="email" variant="default" />
+              <Label text="Email" size="xs" />
+              <Input size="sm" rounded="sm" placeholder="Email address" outline border type="email" name="email" variant="default" />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Phone" size="sm" />
-              <Input rounded="sm" placeholder="Phone number" outline border type="tel" name="phone" variant="default" />
+              <Label text="Phone" size="xs" />
+              <Input size="sm" rounded="sm" placeholder="Phone number" outline border type="tel" name="phone" variant="default" />
             </Frame>
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Status" size="sm" />
+              <Label text="Status" size="xs" />
               <Dropdown
                 name="status"
                 size="sm"
@@ -62,13 +63,13 @@ export default function CreateCustomerForm() {
               />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Receivables" size="sm" />
-              <Input rounded="sm" placeholder="0.00" outline border type="number" name="receivables" variant="default" />
+              <Label text="Receivables" size="xs" />
+              <Input size="sm" rounded="sm" placeholder="0.00" outline border type="number" name="receivables" variant="default" />
             </Frame>
           </Frame>
 
           <Frame className="w-full flex-col">
-            <Label text="Address" size="sm" />
+            <Label text="Address" size="xs" />
             <textarea
               className="w-full resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="Customer address"

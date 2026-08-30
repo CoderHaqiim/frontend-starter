@@ -21,13 +21,14 @@ import BusinessOverviewLoader from "@/src/components/app/cards/businessOverviewL
 import { kpiResponseToCards } from "@/src/utils/kpiResponseToCards"
 import ChartSection from "@/src/components/app/chartSection"
 import { Duration } from "@/src/types/types"
+import CreateBusinessForm from "@/src/components/app/forms/createBusiness"
 
 export default function Home() {
   const { userState } = useUserState()
   const reportDuration = ["weekly", "monthly", "annual"]
-  const rankingMetrics: RankingMetric[] = ["netProfit",  "revenue"]
+  const rankingMetrics: RankingMetric[] = ["profit",  "revenue"]
   const businessFilterArray = ["all", "healthy", "moderate", "critical"]
-  const [rankSelector, setRankSelector] = useState<RankingMetric>("netProfit")
+  const [rankSelector, setRankSelector] = useState<RankingMetric>("profit")
   const { businessesState, setBusinessesState } = useBusinessesState()
   const [businessFilter, setBusinessFilter] = useState("all")
   const [dashboardKpis, setDashboardKpis] = useState<kpiObjectProps[] | null>(null)
@@ -182,7 +183,7 @@ export default function Home() {
  //create business
   const createBusiness = () => {
     setBackdropOpen(true)
-    setBackdropContent( "create-business-form" )
+    setBackdropContent( <CreateBusinessForm/> )
   }
 
   return (
@@ -242,8 +243,8 @@ export default function Home() {
         <Frame ref={sliderRef} className="w-full h-max overflow-hidden flex gap-[var(--space-md)]">
           {
             businessesState.length > 0 ? (
-              filteredBusinesses.map( business =>
-                <BusinessOverviewCard data={business} health={businessHealth[business.id]} kpis={businessSummaryKpis[business.id]} key={business.id}/>
+              filteredBusinesses.map( (business, index) =>
+                <BusinessOverviewCard data={business} index={index} health={businessHealth[business.id]} kpis={businessSummaryKpis[business.id]} key={business.id}/>
               )
             ) : (
               Array.from({ length: 3 }).map( (_, index) => ( <BusinessOverviewLoader key={index}/>))

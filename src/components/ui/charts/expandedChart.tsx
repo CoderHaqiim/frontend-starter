@@ -3,13 +3,14 @@ import Frame from '../primitives/frame'
 import { ChartPeriod, ChartPoint, chartTypes, FunctionType} from '@/src/types/types'
 import Button from '../primitives/button'
 import Chart1 from './chart1'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Tooltip from '../composites/tooltip'
 import { toPng } from 'html-to-image'
 import jsPDF from 'jspdf'
 import Card from '../composites/card'
 import { shadow3 } from '@/src/app/design/shadows'
 import Heading from '../primitives/heading'
+import CloseButton from '../primitives/closeButton'
 
 
 type ExpandedChartProps = {
@@ -20,7 +21,28 @@ type ExpandedChartProps = {
 
 export default function ExpandedChart({chartData, selectedChart, selectedPeriod}: ExpandedChartProps) {
     const [downloadOpen, setDownloadOpen] = useState<boolean>(false)
+    const dialogRef = useRef<HTMLDivElement>(null)
+    const triggerRef = useRef<HTMLDivElement>(null)
     const {setBackdropOpen, setBackdropContent} = useBackdropState()
+
+    useEffect(() => {
+        if (!downloadOpen) return
+
+        const handlePointerDown = (event: MouseEvent) => {
+            const target = event.target
+
+            if (target instanceof Node && (triggerRef.current?.contains(target) || dialogRef.current?.contains(target))) {
+                return
+            }
+
+            setDownloadOpen(false)
+        }
+
+        document.addEventListener('mousedown', handlePointerDown)
+
+        return () => document.removeEventListener('mousedown', handlePointerDown)
+    }, [downloadOpen])
+
     const openDownloadDialogue = () => {
         setDownloadOpen(true)
     }
@@ -109,18 +131,21 @@ export default function ExpandedChart({chartData, selectedChart, selectedPeriod}
     <Frame className="w-[85vw] max-w-[900px] max-h-[650px] h-max flex-col gap-[var(--space-md)] rounded-[var(--radius-md)] bg-[var(--color-background2)] p-[var(--space-lg)]">
         <Frame className="w-max gap-[var(--space-sm)] items-end flex-col top-0 right-[-50px] justify-end" specificStyles={{ position: "absolute" }}>
             <Tooltip content="Close Chart" position="bottom">
-                <Button size="sm" variant="outline" isIcon iconName="icon-x" func={closeExpandedChart}/>
+                <CloseButton func={closeExpandedChart} size="sm" />
             </Tooltip>
-            <Frame className='flex-col'>
+            <div ref={triggerRef} className='relative flex flex-col'>
                 <Tooltip content="Download Chart">
                     <Button size="sm" variant="outline" isIcon iconName="icon-download" func={openDownloadDialogue}/>
                 </Tooltip>
-                 <Frame className={`${downloadOpen? "flex": "hidden"} top-[120%] z-[10] right-[0] `} specificStyles={{
-                    position: 'absolute'
-                 }}>
+                 <div
+                    ref={dialogRef}
+                    className={`${downloadOpen ? "flex" : "hidden"} top-[120%] z-[10] right-[0]`}
+                    style={{ position: 'absolute' }}
+                    onMouseLeave={closeDownloadDialogue}
+                 >
                     <DownloadDialogue downloadPDF={downloadPDF} downloadPNG={downloadPNG}/>
-                </Frame>
-            </Frame>
+                </div>
+            </div>
         </Frame>
         <Frame ref={chartRef} className='flex-col gap-[var(--space-md)]'>
             <Heading size='sm' type='h1'>

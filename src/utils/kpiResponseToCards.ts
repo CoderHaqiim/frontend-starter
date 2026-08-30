@@ -27,9 +27,9 @@ export function kpiResponseToCards(
     },
     {
       title: "Net Profit",
-      value: `${currencySymbol} ${kpis.financials.netProfit.value}`,
-      trend: kpis.financials.netProfit.direction,
-      change: kpis.financials.netProfit.change,
+      value: `${currencySymbol} ${kpis.financials.profit.value}`,
+      trend: kpis.financials.profit.direction,
+      change: kpis.financials.profit.change,
       meaning: "Money left after subtracting business expenses from revenue.",
     },
     {

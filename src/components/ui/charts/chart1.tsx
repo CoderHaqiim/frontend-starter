@@ -26,16 +26,8 @@ export default function Chart1({
   selectedPeriod,
   height = "none"
 }: ChartProps) {
-  const  [downloadOpen, setDownloadOpen] = useState<boolean>(false)
   const { colors } = useTheme()
 
-  const openDownloadDialogue = () => {
-    setDownloadOpen(true)
-  }
-
-  const closeDownloadDialogue = () => {
-    setDownloadOpen(false)
-  }
 
   const chartStyle = {
     width: "100%",

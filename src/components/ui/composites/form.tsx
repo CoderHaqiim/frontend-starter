@@ -21,9 +21,7 @@ export default function Form({children, url}: FormProps) {
     })
 
     console.log(dataHolder, url)
-    http(url, dataHolder, {
-      method: "POST",
-    })
+    http(url, dataHolder, { method: "POST"})
   }
 
   const cardFormStyle = `gap-[var(--space-lg)] w-full h-max flex flex-col items-center justify-center`

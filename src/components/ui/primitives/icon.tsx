@@ -76,6 +76,7 @@ type IconProps = LucideProps & {
     name: IconType,
     color?: ColorTypes
     style?: CSSProperties
+    buttonVariant?: "ghost" | "outline" | "fill"
 }
 
 const icons = {
@@ -152,11 +153,20 @@ export type IconType = keyof typeof icons;
     "xl" : 28,
     "xxl": 32
   }
+  const sizes2= {
+    "xxs" : 16,
+    "xs" : 18,
+    "sm" : 22,
+    "md" : 26,
+    "lg" : 30,
+    "xl" : 34,
+    "xxl": 38
+  }
 
-export default function Icon({ fill, style, stroke, size, name, color }: IconProps) {
+export default function Icon({ buttonVariant, fill, style, stroke, size, name, color }: IconProps) {
 
   const {colors} = useTheme()
-  const iconSize = size && sizes[size] 
+  const iconSize = size && (buttonVariant === "ghost" ? sizes2[size]: sizes[size]) 
 
   const iconProps = {
     strokeWidth: stroke ?? "1.5",

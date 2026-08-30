@@ -76,7 +76,7 @@ export default function BusinessPage() {
   const currency = business?.currency ?? "NGN"
   const currencySymbol = getCurrencySymbol(currency)
   const formatAmount = (amount = 0) => `${currencySymbol} ${abridgeNumber(amount)}`
-  const profitMargin = financials?.revenue.value ? Math.round((financials.netProfit.value / financials.revenue.value) * 100) : 0
+  const profitMargin = financials?.revenue.value ? Math.round((financials.profit.value / financials.revenue.value) * 100) : 0
   const businessHealth = business?.health ?? "healthy"
   const businessHealthScore = business?.healthScore ?? 0
   

@@ -6,8 +6,8 @@ import Card from "../../ui/composites/card"
 import Input from "../../ui/primitives/input"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
-import Button from "../../ui/primitives/button"
 import Dropdown from "../../ui/composites/dropdown"
+import CloseButton from "../../ui/primitives/closeButton"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function CreateGoalForm() {
@@ -25,20 +25,20 @@ export default function CreateGoalForm() {
           Set New Goal
         </Heading>
         <Frame>
-          <Button size="sm" variant="outline" func={closeCreateGoalForm} isIcon iconName="icon-x"/>
+          <CloseButton func={closeCreateGoalForm} />
         </Frame>
       </Frame>
 
       <Form url="/create-goal">
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
-            <Label text="Goal" size="sm" />
-            <Input rounded="sm" placeholder="What do you want to achieve?" outline border type="text" name="goal" variant="default" />
+            <Label text="Goal" size="xs" />
+            <Input size="sm" rounded="sm" placeholder="What do you want to achieve?" outline border type="text" name="goal" variant="default" />
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Category" size="sm" />
+              <Label text="Category" size="xs" />
               <Dropdown
                 name="category"
                 size="sm"
@@ -54,13 +54,13 @@ export default function CreateGoalForm() {
               />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Target Date" size="sm" />
-              <Input rounded="sm" outline border type="date" name="targetDate" variant="default" />
+              <Label text="Target Date" size="xs" />
+              <Input size="sm" rounded="sm" outline border type="date" name="targetDate" variant="default" />
             </Frame>
           </Frame>
 
           <Frame className="w-full flex-col">
-            <Label text="Description" size="sm" />
+            <Label text="Description" size="xs" />
             <textarea
               className="w-full resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="Add goal details..."

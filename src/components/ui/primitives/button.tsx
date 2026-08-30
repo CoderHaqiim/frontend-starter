@@ -95,9 +95,9 @@ export default function Button({
     const renderContent = () => {
         return (
             <>
-                {iconName && iconPosition === "left" && <Icon name={iconName} fill={iconFill && colors[iconFill]} color={iconColor ?? (variant === "fill"? "white" : undefined)} size={size} stroke="2"/>}
+                {iconName && iconPosition === "left" && <Icon buttonVariant={variant} name={iconName} fill={iconFill && colors[iconFill]} color={iconColor ?? (variant === "fill"? "white" : undefined)} size={size} stroke="2"/>}
                 {children}
-                {iconName && iconPosition === "right" && <Icon name={iconName} fill={iconFill && colors[iconFill]} color={iconColor ?? (variant === "fill"? "white": undefined)}  size={size} stroke="2"/>}
+                {iconName && iconPosition === "right" && <Icon buttonVariant={variant} name={iconName} fill={iconFill && colors[iconFill]} color={iconColor ?? (variant === "fill"? "white": undefined)}  size={size} stroke="2"/>}
             </>
         )
     }

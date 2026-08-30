@@ -43,7 +43,7 @@ export type BusinessKpiResponse = {
   financials: {
     revenue: KpiMetric
     expenses: KpiMetric
-    netProfit: KpiMetric
+    profit: KpiMetric
     cashBalance: KpiMetric
   }
 }
@@ -62,17 +62,36 @@ export type ScheduleType =
   | "reminder"
   | "event"
 
+export type ScheduleStatus =
+  | "scheduled"
+  | "cancelled"
+  | "completed"
+  | "in-progress"
+
+export type ScheduleRecurrenceFrequency =
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "yearly"
+
 export type Schedule = {
   id: string
+  businessId: string
   title: string
   description?: string
-  startDate: string
-  endDate?: string
   type: ScheduleType
-  completed: boolean
-  source: "local" | "google"
-  googleEventId?: string
-  reminderMinutesBefore?: number
+  status: ScheduleStatus
+  startAt: string
+  endAt?: string
+  allDay: boolean
+  location?: string
+  customerId?: string
+  recurrence: {
+    enabled: boolean
+    frequency?: ScheduleRecurrenceFrequency
+  }
+  createdAt: string
+  updatedAt: string
 }
 
 
@@ -165,7 +184,7 @@ export type ChartPoint = {
 
 export type chartTypes = "Line chart" | "Bar chart"
 
-export type RankingMetric = "netProfit" | "revenue"
+export type RankingMetric = "profit" | "revenue"
 
 export interface BusinessStats {
   id: string

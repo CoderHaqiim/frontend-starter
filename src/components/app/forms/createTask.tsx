@@ -8,6 +8,7 @@ import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
 import Button from "../../ui/primitives/button"
 import Dropdown from "../../ui/composites/dropdown"
+import CloseButton from "../../ui/primitives/closeButton"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function CreateTaskForm() {
@@ -26,13 +27,7 @@ export default function CreateTaskForm() {
         </Heading>
 
         <Frame>
-          <Button
-            size="sm"
-            variant="outline"
-            func={closeCreateTaskForm}
-            isIcon
-            iconName="icon-x"
-          />
+          <CloseButton func={closeCreateTaskForm} />
         </Frame>
       </Frame>
 
@@ -41,9 +36,10 @@ export default function CreateTaskForm() {
 
           {/* Task Title */}
           <Frame className="w-full flex-col">
-            <Label text="Task Title" size="sm" />
+            <Label text="Task Title" size="xs" />
 
             <Input
+              size="sm"
               rounded="sm"
               placeholder="What needs to be done?"
               outline
@@ -57,9 +53,10 @@ export default function CreateTaskForm() {
           {/* Due Date + Priority */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Due Date" size="sm" />
+              <Label text="Due Date" size="xs" />
 
               <Input
+                size="sm"
                 rounded="sm"
                 outline
                 border
@@ -70,7 +67,7 @@ export default function CreateTaskForm() {
             </Frame>
 
             <Frame className="w-1/2 flex-col">
-              <Label text="Priority" size="sm" />
+              <Label text="Priority" size="xs" />
 
               <Dropdown
                 name="priority"
@@ -89,7 +86,7 @@ export default function CreateTaskForm() {
           {/* Status + Assignee */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Status" size="sm" />
+              <Label text="Status" size="xs" />
 
               <Dropdown
                 name="status"
@@ -104,7 +101,7 @@ export default function CreateTaskForm() {
             </Frame>
 
             <Frame className="w-1/2 flex-col">
-              <Label text="Assignee" size="sm" />
+              <Label text="Assignee" size="xs" />
 
               <Dropdown
                 name="assignee"
@@ -120,7 +117,7 @@ export default function CreateTaskForm() {
 
           {/* Description */}
           <Frame className="w-full flex-col">
-            <Label text="Description" size="sm" />
+            <Label text="Description" size="xs" />
 
             <textarea
               className="w-full resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"

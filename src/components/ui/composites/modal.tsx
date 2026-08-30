@@ -1,10 +1,10 @@
 "use client"
 
 import React, { ReactNode, useState } from 'react'
-import Button from '../primitives/button'
 import Backdrop from '../primitives/backdrop'
 import Card from "./card"
 import Heading from '../primitives/heading'
+import CloseButton from '../primitives/closeButton'
 import { colors } from '@/src/app/design/colors'
 import { FrameSizeType, SizeType } from '@/src/types/types'
 import { useModalState } from '@/src/store/modalState'
@@ -37,7 +37,7 @@ export default function Modal({ width="500px", height="300px", children, title, 
             display: selectedModal === id ? "flex" : "none"
           }}
         >
-          <Button func={closeModal} variant="ghost" size="md" isIcon iconName="icon-x"/>
+          <CloseButton func={closeModal} size="md" />
           {title && <Heading type='h2' size='lg'>{title}</Heading>}
           {children}
         </Card>
