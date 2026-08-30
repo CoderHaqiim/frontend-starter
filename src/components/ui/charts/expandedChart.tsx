@@ -131,7 +131,7 @@ export default function ExpandedChart({chartData, selectedChart, selectedPeriod}
     <Frame className="w-[85vw] max-w-[900px] max-h-[650px] h-max flex-col gap-[var(--space-md)] rounded-[var(--radius-md)] bg-[var(--color-background2)] p-[var(--space-lg)]">
         <Frame className="w-max gap-[var(--space-sm)] items-end flex-col top-0 right-[-50px] justify-end" specificStyles={{ position: "absolute" }}>
             <Tooltip content="Close Chart" position="bottom">
-                <CloseButton func={closeExpandedChart} size="sm" />
+                <Button variant="outline" isIcon iconName='icon-x' func={closeExpandedChart} size="sm" />
             </Tooltip>
             <div ref={triggerRef} className='relative flex flex-col'>
                 <Tooltip content="Download Chart">
