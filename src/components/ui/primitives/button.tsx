@@ -84,13 +84,7 @@ export default function Button({
         pointerEvents:"all"
     }
 
-    const hoverStyles = `
-    after:self-center
-    after:absolute after:pointer-events-none 
-    after:w-[calc(100%+8px)] after:h-[calc(100%+8px)] 
-    after:rounded-[inherit] hover:after:border-[var(--color-accent)] 
-    focus:after:border-[var(--color-textColor1)] hover:after:border-[2px] 
-    focus:after:border-[2px]`
+    const hoverStyles = ""
 
     const renderContent = () => {
         return (

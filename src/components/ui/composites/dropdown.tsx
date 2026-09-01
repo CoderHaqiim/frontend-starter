@@ -9,9 +9,7 @@ import { useTheme } from "../../providers/themeProvider"
 import { shadow2 } from "@/src/app/design/shadows"
 import { bodySize, fontWeight } from "@/src/app/design/typograhy"
 
-type DropdownOption =
-  | string
-  | { label: string; value: string }
+type DropdownOption = string | { label: string | undefined; value: string | undefined }
 
 type DropdownProps = {
   name: string
@@ -51,11 +49,11 @@ export default function Dropdown({
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   function getOptionLabel(option: DropdownOption) {
-    return typeof option === "string" ? option : option.label
+    return typeof option === "string" ? option : option?.label
   }
 
   function getOptionValue(option: DropdownOption) {
-    return typeof option === "string" ? option : option.value
+    return typeof option === "string" ? option : option?.value
   }
 
   useEffect(() => {

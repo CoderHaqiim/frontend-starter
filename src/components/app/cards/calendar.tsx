@@ -233,129 +233,94 @@ export default function Calendar({
               const isToday =
                 isSameDay(day, new Date())
 
-              return (
-                <Button
-                  size="xs"
-                  isIcon
-                  variant="outline"
-                  key={format(
-                    day,
-                    "yyyy-MM-dd"
-                  )}
-                  func={() =>
-                    openScheduleModal(day)
-                  }
-                  className="group transition hover:bg-[var(--color-background1)]"
-                  specificStyles={{
-                    position: "relative",
-                    borderRadius:
-                      "var(--space-sm)",
-                    color: isToday
-                      ? colors["accent"]
-                      : isCurrentMonth
-                        ? colors["textColor1"]
-                        : colors["background3"],
-                    border: isCurrentMonth
-                      ? `solid 1px ${colors["outline1"]}`
-                      : "0px",
-                    fontWeight:
-                      fontWeight["normal"],
-                    backgroundColor: isToday
-                      ? colors["accent2"]
-                      : isCurrentMonth
-                        ? colors["background1"]
-                        : colors["white"],
-                  }}
-                >
-                  {/* Schedule indicator */}
-                  {daySchedules.length > 0 && (
-                    <span className="absolute top-[3px] right-[3px] h-[4px] w-[4px] rounded-[var(--radius-lg)] bg-[var(--color-accent)]" />
-                  )}
-
-                  <span className="flex justify-between">
-                    <span>
-                      {format(day, "d")}
+              const tooltipContent = daySchedules.length > 0 ? (
+                <Frame className="w-64 text-left flex-col">
+                  <Frame className="mb-2 flex-col">
+                    <span className="text-[length:var(--bodySize-xs)]">
+                      {format(day, "EEEE, MMMM d")}
                     </span>
-                  </span>
+                    <span className=" text-[length:var(--bodySize-xxs)] text-[var(--color-background1)]/80">
+                      {daySchedules.length} activities
+                    </span>
+                  </Frame>
 
-                  {/* Schedule previews */}
-                  {daySchedules.length > 0 && (
-                    <div className="mt-3 hidden space-y-1 group-hover:block">
-                      {daySchedules
-                        .slice(0, 2)
-                        .map((schedule) => (
-                          <div
-                            key={schedule.id}
-                            className={`truncate rounded-md px-2 py-1 text-xs ${
-                              schedule.type ===
-                              "meeting"
-                                ? "bg-purple-100 text-purple-700"
-                                : schedule.type ===
-                                  "task"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : schedule.type ===
-                                    "reminder"
-                                    ? "bg-yellow-100 text-yellow-700"
-                                    : "bg-green-100 text-green-700"
-                            }`}
-                          >
+                  <div className="space-y-2">
+                    {daySchedules.map((schedule) => (
+                      <div key={schedule.id} className="border-b flex flex-col gap-[var(--space-sm)] border-white/10 pb-2 last:border-0 last:pb-0">
+                        <div className="flex flex-col">
+                          <p className="text-[length:var(--bodySize-sm)] leading-[1.5] font-[var(--fontWeight-medium)] text-[var(--color-background1)]">
                             {schedule.title}
-                          </div>
-                        ))}
-                    </div>
-                  )}
-
-                  {/* Schedule details */}
-                  {daySchedules.length > 0 && (
-                    <div className="pointer-events-none absolute left-1/2 top-full z-50 hidden w-64 -translate-x-1/2 rounded-xl border bg-white p-4 shadow-xl group-hover:block">
-                      <div className="mb-3">
-                        <p className="text-sm font-semibold">
-                          {format(
-                            day,
-                            "EEEE, MMMM d"
-                          )}
-                        </p>
-
-                        <p className="text-xs text-gray-500">
-                          {daySchedules.length}{" "}
-                          activities
-                        </p>
-                      </div>
-
-                      <div className="space-y-3">
-                        {daySchedules.map(
-                          (schedule) => (
-                            <div
-                              key={schedule.id}
-                              className="border-b pb-2 last:border-0"
-                            >
-                              <p className="text-sm font-medium">
-                                {schedule.title}
-                              </p>
-
-                              <p className="text-xs text-gray-500">
-                                {format(
-                                  new Date(
-                                    schedule.startAt
-                                  ),
-                                  "h:mm a"
-                                )}
-                              </p>
-
-                              {schedule.description && (
-                                <Paragraph size="xs">
-                                  {
-                                    schedule.description
-                                  }
-                                </Paragraph>
-                              )}
-                            </div>
-                          )
+                          </p>
+                          <p className="text-[length:var(--bodySize-xs)] leading-[1] font-[var(--fontWeight-medium)] text-[var(--color-background1)]">
+                            {format(new Date(schedule.startAt), "h:mm a")}
+                          </p>
+                        </div>
+                        {
+                          schedule.description && (
+                          <p className="text-[length:var(--bodySize-xxs)] text-[var(--color-background1)]/80">
+                            {schedule.description}
+                          </p>
                         )}
                       </div>
-                    </div>
-                  )}
-                </Button>
+                    ))}
+                  </div>
+                </Frame>
+              ) : null
+
+              const isInteractive = isCurrentMonth
+
+              return (
+                <Tooltip
+                  key={format(day, "yyyy-MM-dd")}
+                  content={tooltipContent}
+                  position="top"
+                  disabled={daySchedules.length === 0 || !isInteractive}
+                  specificStyle={{
+                    width: "180px",
+                    padding: "var(--space-md)",
+                    borderRadius: "var(--radius-md)",
+                  }}
+                >
+                  <Button
+                    size="xs"
+                    isIcon
+                    variant="outline"
+                    func={isInteractive ? () => openScheduleModal(day) : undefined}
+                    className={`transition ${isInteractive ? "hover:bg-[var(--color-background1)]" : "cursor-default"}`}
+                    specificStyles={{
+                      position: "relative",
+                      borderRadius:
+                        "var(--space-sm)",
+                      color: isToday
+                        ? colors["accent"]
+                        : isCurrentMonth
+                          ? colors["textColor1"]
+                          : colors["background3"],
+                      border: isCurrentMonth
+                        ? `solid 1px ${colors["outline1"]}`
+                        : "0px",
+                      fontWeight:
+                        fontWeight["normal"],
+                      backgroundColor: isToday
+                        ? colors["accent2"]
+                        : isCurrentMonth
+                          ? colors["background1"]
+                          : colors["white"],
+                      pointerEvents: isInteractive ? "auto" : "none",
+                    }}
+                  >
+                    {/* Schedule indicator */}
+                    {isCurrentMonth && daySchedules.length > 0 && (
+                      <span className="absolute top-[3px] right-[3px] h-[4px] w-[4px] rounded-[var(--radius-lg)] bg-[var(--color-accent)]" />
+                    )}
+
+                    <span className="flex justify-between">
+                      <span>
+                        {format(day, "d")}
+                      </span>
+                    </span>
+                  </Button>
+                </Tooltip>
               )
             })}
           </Frame>

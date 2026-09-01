@@ -167,7 +167,7 @@ export default function Home() {
  //Scroll business slider left
   const scrollLeftHandler = () => {
     sliderRef.current?.scrollBy({
-      left: -298,
+      left: -310,
       behavior: "smooth",
     })
   }
@@ -175,7 +175,7 @@ export default function Home() {
   //Scroll business slider right
   const scrollRightHandler = () => {
     sliderRef.current?.scrollBy({
-      left: 298,
+      left: 310,
       behavior: "smooth",
     })
   }
@@ -206,7 +206,7 @@ export default function Home() {
         </Frame>
       </Frame>
 
-      <Frame className="w-full h-max gap-[var(--space-md)] flex-col">
+      <Section>
         <Frame className="w-full justify-end">
           <Dropdown formFunc={selectSummaryPeriod} name="summaryPeriod" width="max-content" size="xs" options={reportDuration}/>
         </Frame>
@@ -215,7 +215,7 @@ export default function Home() {
           <KpiRow kpis={dashboardKpis} isLoading={false} itemsCount={4}/>: 
           <KpiRow kpis={dashboardKpis} isLoading={true} itemsCount={4}/>
         }
-      </Frame>
+      </Section>
 
 
       {/* Business Overview */}

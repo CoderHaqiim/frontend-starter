@@ -61,7 +61,9 @@ import {
   MoreHorizontal,
   CirclePile,
   UsersRound,
-  Download
+  Download,
+  Play,
+  ArrowLeftRight
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -140,7 +142,9 @@ const icons = {
     "icon-more-horizontal": MoreHorizontal,
     "icon-pile": CirclePile,
     "icon-users-round": UsersRound,
-    "icon-download": Download
+    "icon-download": Download,
+    "icon-play" : Play,
+    "icon-change": ArrowLeftRight
 };
 
 export type IconType = keyof typeof icons;

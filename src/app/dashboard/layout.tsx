@@ -8,6 +8,7 @@ import { ReactNode } from "react"
 import Tooltip from "@/src/components/ui/composites/tooltip"
 import Button from "@/src/components/ui/primitives/button"
 import { shadow1 } from "../design/shadows"
+import SmartNavigation from "@/src/components/ui/composites/smartNavigation"
 
 type LayoutProps = {
   children: ReactNode
@@ -19,6 +20,7 @@ export default function Layout({children}: LayoutProps) {
       <LeftAside/>
       <Frame  className="h=full flex-col h-full flex-1 overflow-hidden bg-[var(--color-background1)]">
         <Nav/>
+        {/* <SmartNavigation/> */}
         <Frame className="w-full justify-center" specificStyles={{ height:"calc(100% - 60px)"}}>
           <Main>
             {children}

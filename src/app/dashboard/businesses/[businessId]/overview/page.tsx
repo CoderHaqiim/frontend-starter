@@ -4,7 +4,8 @@ import Button from '@/src/components/ui/primitives/button'
 import Frame from '@/src/components/ui/primitives/frame'
 import Heading from '@/src/components/ui/primitives/heading'
 import Paragraph from '@/src/components/ui/primitives/paragraph'
-import { Business, BusinessHealth, BusinessKpiResponse, Duration, kpiObjectProps } from '@/src/types/types'
+import Link from 'next/link'
+import { Business, Businesses, BusinessHealth, BusinessKpiResponse, Duration, kpiObjectProps } from '@/src/types/types'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { http } from '@/src/http/client'
@@ -29,17 +30,33 @@ import LinearProgress from '@/src/components/ui/composites/linearProgressBar'
 import RadialProgress from '@/src/components/ui/composites/radialProgress'
 import { healthMap } from '@/src/utils/healthMap'
 import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
+import Icon from '@/src/components/ui/primitives/icon'
+import { useBusinessesState } from '@/src/store/businessesState'
+import { shortenText } from '@/src/utils/shortenText'
 
 export default function BusinessPage() {
   const { colors } = useTheme()
+  const { businessesState, setBusinessesState } = useBusinessesState()
   const [summaryPeriod, setSummaryPeriod] = useState<Duration>("weekly")
   const [business, setBusiness] = useState<Business | null>(null)
   const [businessKpisResponse, setBusinessKpisResponse] = useState<BusinessKpiResponse | null>(null)
   const [kpisExpanded, setKpisExpanded] = useState(false)
+  const [isBusinessMenuOpen, setIsBusinessMenuOpen] = useState(false)
   const { businessId } = useParams()
   const reportDuration = ["weekly", "monthly", "annual"]
 
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      if (businessesState.length > 0) return
+
+      const businesses = await http<Businesses>("/api/businesses", undefined, { method: "GET" })
+      setBusinessesState(businesses)
+    }
+
+    fetchBusinesses()
+  }, [businessesState.length, setBusinessesState])
 
   useEffect(() => {
     async function fetchBusiness() {
@@ -107,7 +124,7 @@ export default function BusinessPage() {
     }
   ]
 
-  const [selectedChart, setSelectedChart] = useState<"Line chart" | "Bar chart">("Line chart")
+  const isBusinessDataLoading = !business || !businessKpisResponse
 
   return (
     <Frame className="w-full flex-col gap-[var(--space-lg)] h-max">
@@ -118,9 +135,49 @@ export default function BusinessPage() {
             <Frame className="w-[45px] justify-center items-center h-[45px] border rounded-[var(--radius-sm)] text-[white] bg-[green]">
               a
             </Frame>
-            <Frame className="flex-col">
-              <Frame className="items-center h-max w-auto gap-[var(--space-sm)]">
-                <Heading size="xl" type="h1">{business?.name ?? "Business name"}</Heading>
+            <Frame className="flex-col gap-[var(--space-xxs)]">
+              <Frame className="items-center h-max w-auto gap-[var(--space-md)]">
+                <Heading size="xl" type="h1">
+                  { shortenText(business?.name ?? "", 30) ?? "Business name" }
+                </Heading>
+                <Frame className="relative">
+                  <Button
+                    func={() => setIsBusinessMenuOpen((prev) => !prev)}
+                    variant="outline"
+                    iconPosition='right'
+                    iconColor='accent'
+                    size="xxs"
+                    iconName='icon-change'
+                    rounded="xs"
+                    specificStyles={{
+                      color: colors["accent"],
+                      fontWeight: `var(--fontWeight-bold)`
+                    }}
+                  >
+                    Switch Business
+                  </Button>
+
+                  {isBusinessMenuOpen && (
+                    <Frame className="left-0 top-[calc(100%+8px)] z-[60] flex-col min-w-[200px] max-h-[180px] overflow-y-auto border border-[var(--color-outline2)] rounded-[var(--radius-sm)] bg-[var(--color-white)] shadow-[0_8px_20px_rgba(0,0,0,0.08)]" specificStyles={{
+                      position: "absolute"
+                    }}>
+                      {businessesState.map((item) => (
+                        <Link
+                          key={item.id}
+                          href={`/dashboard/businesses/${item.id}/overview`}
+                          onClick={() => setIsBusinessMenuOpen(false)}
+                          className="block w-full px-3 py-2 text-left text-[length:var(--bodySize-xs)] transition-colors hover:bg-[var(--color-background1)]"
+                          style={{
+                            backgroundColor: businessId === item.id ? colors["accent2"] : undefined,
+                            color: businessId === item.id ? colors["accent"] : "var(--color-text1)",
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </Frame>
+                  )}
+                </Frame>
               </Frame>
               <Frame className="gap-[var(--space-xs)] items-center">
                 <Paragraph weight="light" size="sm">
@@ -146,8 +203,8 @@ export default function BusinessPage() {
       </Frame>
 
       {/* KPIS */}
-      <Frame
-        className={`w-full gap-[var(--space-sm)] h-max flex-col ${kpisExpanded ? "border bg-[var(--color-background2)] border-[var(--color-outline1)] rounded-[var(--radius-md)] p-[var(--space-lg)]" : "bg-[transparent]"}`}
+      <Section
+        className={`w-full gap-[var(--space-sm)] h-max flex-col`}
         specificStyles={{
           overflow: "hidden",
           transition: "max-height 300ms ease, transform 250ms ease",
@@ -158,9 +215,9 @@ export default function BusinessPage() {
           <Frame className="w-full justify-end">
             <Dropdown formFunc={reportChangeHandler} name="summaryPeriod" width="max-content" size="xs" options={reportDuration}/>
           </Frame>
-          <KpiRow isLoading={false} kpis={businessKpis.slice(0, 4)} itemsCount={4} />
+          <KpiRow isLoading={isBusinessDataLoading} kpis={businessKpis.slice(0, 4)} itemsCount={4} />
           {kpisExpanded && (
-            <KpiRow isLoading={false} kpis={businessKpis.slice(4)} itemsCount={4}/>
+            <KpiRow isLoading={isBusinessDataLoading} kpis={businessKpis.slice(4)} itemsCount={4}/>
           )}
         </Frame>
         <Frame className="w-full justify-center">
@@ -178,7 +235,7 @@ export default function BusinessPage() {
             {kpisExpanded ? 'See less KPIs' : 'See more KPIs'}
           </Button>
         </Frame>
-      </Frame>
+      </Section>
 
 
       {/* Business Health */}
@@ -246,10 +303,6 @@ export default function BusinessPage() {
           </Frame>
         </Frame>
       </Section>
-
-
-
-
 
       {/* Business Insights */}
       <Section width="stretch" height="stretch">

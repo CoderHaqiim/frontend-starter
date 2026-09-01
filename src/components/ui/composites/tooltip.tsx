@@ -10,7 +10,7 @@ import {
 } from "react"
 import { createPortal } from "react-dom"
 import { useTheme } from "../../providers/themeProvider"
-import Paragraph from "../primitives/paragraph"
+import Frame from "../primitives/frame"
 
 type TooltipPosition = "top" | "right" | "bottom" | "left"
 
@@ -166,10 +166,16 @@ export default function Tooltip({
                 transform: transformStyles[position],
                 ...specificStyle,
               }}>
-              <Paragraph color="background1" size="xxs" weight="light"
-                specificStyle={{
-                  lineHeight:"1.5"
-                }}>{content}</Paragraph>
+              <Frame
+                specificStyles={{
+                  lineHeight: "1.5",
+                  color: "var(--color-background1)",
+                  fontSize: "10px",
+                  fontWeight: 300,
+                }}
+              >
+                {content}
+              </Frame>
               <span
                 className={`absolute h-0 w-0 ${arrowStyles[position]}`}
               />
