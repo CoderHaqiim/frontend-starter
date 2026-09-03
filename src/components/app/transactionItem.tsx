@@ -1,14 +1,10 @@
 "use client"
 
 import { Transaction } from "@/src/types/types";
-import { ColorTypes } from "@/src/app/design/colors";
-import Badge from "../ui/composites/badge";
-import Button from "../ui/primitives/button";
+import { useTheme } from "../providers/themeProvider";
 import Frame from "../ui/primitives/frame";
 import Icon from "../ui/primitives/icon";
 import Paragraph from "../ui/primitives/paragraph";
-import Tooltip from "../ui/composites/tooltip";
-import { useTheme } from "../providers/themeProvider";
 
 type TransactionItemProps = {
   transaction: Transaction;
@@ -53,7 +49,7 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
               {amount}
             </Paragraph>
 
-            <Paragraph size="xs">
+            <Paragraph size="xxs">
               {transaction.date}
             </Paragraph>
           </Frame>

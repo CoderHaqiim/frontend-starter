@@ -1,6 +1,6 @@
-import Frame from "../primitives/frame";
-import { CSSProperties, ReactNode, Children } from "react";
 import { FrameSizeType } from "@/src/types/types";
+import { Children, CSSProperties, ReactNode } from "react";
+import Frame from "../primitives/frame";
 
 type ListProps = {
   scroll?: "hidden" | "visible";
@@ -28,7 +28,7 @@ export default function List({
         border-[1px]
         border-[var(--color-outline1)]
         gap-[var(--space-xxs)]
-        rounded-[var(--radius-sm)]
+        rounded-[var(--radius-md)]
         flex
         flex-col
         ${scroll === "hidden" ? "overflow-y-scroll" : ""}

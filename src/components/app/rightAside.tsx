@@ -1,11 +1,11 @@
 "use client";
 
-import Aside from "../layout/aside";
-import Frame from "../ui/primitives/frame";
-import TaskManagerCard from "./cards/taskManagerCard";
 import { usePathname } from "next/navigation";
 import { CSSProperties, useState } from "react";
+import Aside from "../layout/aside";
+import Frame from "../ui/primitives/frame";
 import Calendar from "./cards/calendar";
+import TaskManagerCard from "./cards/taskManagerCard";
 
 type RightAsideProps = {
   specificStyles?: CSSProperties,
@@ -67,6 +67,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
       width="hug"
       specificStyles={{
          ...specificStyles,
+        paddingLeft: 0,
         //  backgroundColor: colors["background2"]
       }}>
       <Frame className="w-max h-full h-full flex-col gap-var(--space-md)">

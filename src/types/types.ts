@@ -123,7 +123,9 @@ export interface Task {
 export interface Transaction {
   id: string;
   businessId: string;
+  customer: string;
   type: "income" | "expense";
+  status: "completed" | "cancelled" | "pending";
   amount: number;
   description: string;
   category: string;
