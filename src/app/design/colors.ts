@@ -23,7 +23,7 @@ const lightColors = {
     "accent": "#3b155c",
     "accent-lt-1":" #2dc55b",
     "accent-lt-2": "#5c153c",
-    "accent2": "#3b155c28",
+    "accent2": "#3b155c35",
     "shadow":"#00000009",
     "textColor1": "#1e1e1e",
     "muted": "#9e9d9d",

@@ -13,6 +13,12 @@ export interface BusinessHealth {
   period: Duration
   health: HealthType
   healthScore: number
+  metrics: {
+    operational: number
+    growth: number
+    stability: number
+    profitability: number
+  }
 }
 
 export interface Business {
@@ -114,17 +120,16 @@ export interface Task {
   status: Status;
 }
 
-export type TransactionType = "income" | "expense"
-
 export interface Transaction {
   id: string;
-  description: string;
-  business: string;
-  date: string;
+  businessId: string;
+  type: "income" | "expense";
   amount: number;
-  type: TransactionType;
+  description: string;
   category: string;
-  status: "completed" | "pending" | "cancelled";
+  date: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface JournalEntry {

@@ -28,7 +28,6 @@ export default function TaskManager() {
   const completed = tasks.filter((t) => t.status === "completed");
   const activeCount = today.length + tomorrow.length;
 
-  const businessTasks = ["All Businesses", "Business1", "Business2"]
   const status = ["All", "Completed", "Pending", "On-going", "Cancelled"]
   const priority = ["high", "medium", "low"]
 
@@ -42,7 +41,6 @@ export default function TaskManager() {
   return (
     <Section width="stretch" height="hug" className="min-h-[200px]">
       <Frame className="justify-end pb-[var(--space-md)] gap-[var(--space-sm)] w-full h-max">
-        <Dropdown width="max-content" size="sm" name="Business tasks" options={businessTasks} />
         <Dropdown width="max-content" size="sm" name="status" options={status} />
         <Dropdown width="max-content" size="sm" name="Business tasks" options={priority} />
       </Frame>

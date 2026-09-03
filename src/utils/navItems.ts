@@ -65,10 +65,10 @@ export function getBusinessView(businessId: string): navItems {
             link: `/dashboard/businesses/${businessId}/invoices`
         },
         {
-            id: "goals",
-            text: "Goals",
-            icon: "icon-badge-check",
-            link: `/dashboard/businesses/${businessId}/goals`
+            id: "transactions",
+            text: "Transactions",
+            icon: "icon-transactions",
+            link: `/dashboard/businesses/${businessId}/transactions`
         },
         {
             id: "customers",

@@ -21,14 +21,13 @@ export default function TableRow({
 }: TableRowProps) {
 
   const valuesArray = headerData.map(key => data[key] ?? "")
-  const rowClass = rowIndex % 2 === 0 ? "bg-white" : "bg-[var(--color-background1)]"
 
   return (
-    <Frame className={`${rowClass} w-full h-max`}>
+    <Frame className={`bg-[var(--color-white)] w-full h-max`}>
       <TableCell
         width="56px"
         size={size}
-        className={`sticky left-0 z-10 ${rowClass}`}
+        className={`sticky left-0 z-10 bg-[var(--color-white)]`}
       >
         {String(rowIndex + 1)}
       </TableCell>

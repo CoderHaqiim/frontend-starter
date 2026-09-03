@@ -123,6 +123,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
         justify-center
         items-center
         rounded-[var(--radius-lg)]
+        px-[var(--space-sm)]
         bg-[var(--color-white)]
       `}
       specificStyles={{
@@ -146,7 +147,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
       <Tooltip content="search" position='bottom'>
         <Button
           variant='ghost'
-          size='sm'
+          size='xs'
           isIcon
           iconName='icon-search'
           specificStyles={{

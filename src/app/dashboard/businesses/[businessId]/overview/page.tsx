@@ -9,7 +9,6 @@ import { Business, Businesses, BusinessHealth, BusinessKpiResponse, Duration, kp
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { http } from '@/src/http/client'
-import Chart1 from '@/src/components/ui/charts/chart1'
 import Dropdown from '@/src/components/ui/composites/dropdown'
 import Section from '@/src/components/layout/section'
 import List from '@/src/components/ui/composites/list'
@@ -21,25 +20,26 @@ import KpiRow from '@/src/components/ui/composites/kpiRow'
 import abridgeNumber from '@/src/utils/abridgeNumber'
 import { kpiResponseToCards } from '@/src/utils/kpiResponseToCards'
 import { useBackdropState } from '@/src/store/backdropState'
-import Tooltip from '@/src/components/ui/composites/tooltip'
 import { getCurrencySymbol } from '@/src/utils/currencySymbol'
-import useExtendedChart from '@/src/hooks/extendChart'
 import ChartSection from '@/src/components/app/chartSection'
 import Card from '@/src/components/ui/composites/card'
-import LinearProgress from '@/src/components/ui/composites/linearProgressBar'
 import RadialProgress from '@/src/components/ui/composites/radialProgress'
 import { healthMap } from '@/src/utils/healthMap'
-import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
-import Icon from '@/src/components/ui/primitives/icon'
 import { useBusinessesState } from '@/src/store/businessesState'
 import { shortenText } from '@/src/utils/shortenText'
+import HealthProgressMetric from '@/src/components/app/healthProgressMetric'
+import { businessHealthMetrics } from '@/src/utils/businessHealthMetrics'
+import { Transaction } from '@/src/types/types'
+import TransactionItem from '@/src/components/app/transactionItem'
 
 export default function BusinessPage() {
   const { colors } = useTheme()
   const { businessesState, setBusinessesState } = useBusinessesState()
   const [summaryPeriod, setSummaryPeriod] = useState<Duration>("weekly")
   const [business, setBusiness] = useState<Business | null>(null)
+  const [businessHealthResponse, setBusinessHealthResponse] = useState<BusinessHealth | null>(null)
   const [businessKpisResponse, setBusinessKpisResponse] = useState<BusinessKpiResponse | null>(null)
+  const [transactions, setTransactions] = useState<Transaction[]>([])
   const [kpisExpanded, setKpisExpanded] = useState(false)
   const [isBusinessMenuOpen, setIsBusinessMenuOpen] = useState(false)
   const { businessId } = useParams()
@@ -71,11 +71,18 @@ export default function BusinessPage() {
         health: health.health,
         healthScore: health.healthScore,
       })
+      setBusinessHealthResponse(health)
       setBusinessKpisResponse(kpis)
     }
 
     fetchBusiness()
   }, [businessId, summaryPeriod])
+
+  useEffect(() => {
+    http<Transaction[]>(`/api/businesses/${businessId}/transactions?limit=5`)
+      .then(setTransactions)
+      .catch(() => setTransactions([]))
+  }, [businessId])
 
    // Change duration
   const reportChangeHandler = ( e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -196,8 +203,8 @@ export default function BusinessPage() {
           </Frame>
 
           {/* Actions */}
-          <Frame className="gap-[var(--space-sm)] h-max w-auto relative">
-            <Button variant="outline" size="sm" iconName='icon-pencil' func={editBusiness}>Edit Business</Button>
+          <Frame className="gap-[var(--space-sm)] h-max w-max shrink-0 relative">
+            <Button variant="outline" size="sm" width="max-content" iconName='icon-pencil' func={editBusiness}>Edit Business</Button>
           </Frame>
         </Frame>
       </Frame>
@@ -243,71 +250,37 @@ export default function BusinessPage() {
         <Frame className="justify-between gap-[var(--space-xs)] h-max w-full">
           <Frame className="w-full items-center gap-[var(--space-sm)]">
             <Heading type="h2" size='md'>Business Health</Heading>
-            <Paragraph weight="light" size='xs'>Score and Metrices</Paragraph>
+            <span>•</span>
+            <Paragraph weight="light" size='xs'>Score and Metrics</Paragraph>
           </Frame>
-          <Button variant="ghost" isIcon iconName="icon-info" />
         </Frame>
 
-        <Frame className="gap-[var(--space-lg)]">
-          <Card
-            justify="flex-start"
-            padding="lg"
-            align='center'
-            width="240px"
-            height="240px"
-            rounded="md"
-            gap="xl"
-            className="bg-[var(--color-background1)]"
-          >
+        <Frame className="gap-[var(--space-md)] h-[250px]">
+          <Card gap="lg" padding="lg" width="max-content" height="100%" rounded="md" className="bg-[var(--color-background1)]">
             <Heading type="h3" size='xs'>Business score</Heading>
-            <RadialProgress
-              size={140}
-              strokeWidth={5}
-              score={businessHealthScore}
-              color={healthMap[businessHealth]}
-            />
+            <RadialProgress size={150} strokeWidth={4} score={businessHealthScore} color={healthMap[businessHealth]}/>
           </Card>
 
-          <Frame
-            className="justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] gap-[var(--space-sm)] flex-col h-[240px] flex-1 border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]"
-          >
-            {/* weight-40 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Profitability</Heading>
-              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
-            </Frame>
-
-            {/* weight-25 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Cash health</Heading>
-              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[scoreHealthMap(20)]} />
-            </Frame>
-
-            {/* weight-15 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Growth</Heading>
-              <LinearProgress height={3} textSize='xxs' score={businessHealthScore} color={healthMap[businessHealth]} />
-            </Frame>
-
-            {/* weight-10 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Stability</Heading>
-              <LinearProgress height={3} textSize='xxs' score={20} color={healthMap[businessHealth]} />
-            </Frame>
-
-            {/* weight-10 */}
-            <Frame className="flex-col justify-between p-[var(--space-sm)] items-start w-full h-max rounded-[var(--radius-sm)] bg-[var(--color-background1)]">
-              <Heading type="h3" size='xxs'>Operational</Heading>
-              <LinearProgress height={3} textSize='xxs' score={businessHealthScore} color={healthMap[businessHealth]} />
-            </Frame>
+          <Frame className=" justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] flex-col h-full flex-1 border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]">
+            {
+              businessHealthMetrics.map((item, index)=> (
+                <HealthProgressMetric
+                  item={{ ...item, value: businessHealthResponse?.metrics[item.key] ?? 0 }}
+                  key={index}
+                />
+              ))
+            }
           </Frame>
         </Frame>
       </Section>
 
-      {/* Business Insights */}
+       {/* Chart */}
+      <ChartSection chartUrl="/api/dashboard/financialTrends" />
+
+      {/* Business Insights
       <Section width="stretch" height="stretch">
-        <Frame className="flex-col gap-[var(--space-xs)] h-max w-full">
-          <Frame className="w-full mb-[var(--space-lg)]">
+        <Frame className="flex-col gap-[var(--space-md)] h-max w-full">
+          <Frame className="w-full">
             <Heading type="h2" size='md'>Business Insights</Heading>
           </Frame>
           <List width="stretch" height="220px" scroll="hidden">
@@ -317,10 +290,31 @@ export default function BusinessPage() {
             <Insight text="Profit increased by 12% and bla bla bal" />
           </List>
         </Frame>
+      </Section> */}
+
+      <Section>
+          <Frame className="justify-between gap-[var(--space-xs)] h-max w-full">
+            <Frame className="w-full items-center gap-[var(--space-sm)]">
+              <Heading type="h2" size='md'>Recent Transactions</Heading>
+            </Frame>
+          </Frame>
+          <Frame>
+            {transactions.length > 0 ? (
+              <List width="stretch" height="stretch" scroll="hidden">
+                {transactions.map((transaction) => (
+                  <TransactionItem key={transaction.id} transaction={transaction}/>
+                ))}
+              </List>
+            ) : (
+              <Frame className="w-full h-full jusityf-center items-center ">
+                <Paragraph size="md" weight="light" className="text-center w-full h-[100px] flex">
+                  When you create transactions, they appear here.
+                </Paragraph>
+              </Frame>
+            )}
+          </Frame>
       </Section>
 
-      {/* Chart */}
-      <ChartSection chartUrl="/api/dashboard/financialTrends" />
     </Frame>
   )
 }

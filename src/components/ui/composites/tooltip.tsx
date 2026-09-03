@@ -9,7 +9,6 @@ import {
   useState,
 } from "react"
 import { createPortal } from "react-dom"
-import { useTheme } from "../../providers/themeProvider"
 import Frame from "../primitives/frame"
 
 type TooltipPosition = "top" | "right" | "bottom" | "left"
@@ -31,12 +30,11 @@ type Coordinates = {
 export default function Tooltip({
   children,
   content,
-  width= "hug",
+  width = "hug",
   position = "top",
   disabled = false,
   specificStyle,
 }: TooltipProps) {
-  const {colors} = useTheme()
   const tooltipId = useId()
   const triggerRef = useRef<HTMLDivElement>(null)
 
@@ -102,15 +100,9 @@ export default function Tooltip({
   useEffect(() => {
     if (!isVisible) return
 
-    const handleScroll = () => {
-      updatePosition()
-    }
+    const handleScroll = () => updatePosition()
+    const handleResize = () => updatePosition()
 
-    const handleResize = () => {
-      updatePosition()
-    }
-
-    // Capture scroll events from nested scrollable containers
     window.addEventListener("scroll", handleScroll, true)
     window.addEventListener("resize", handleResize)
 
@@ -129,60 +121,63 @@ export default function Tooltip({
 
   const arrowStyles: Record<TooltipPosition, string> = {
     top: "left-1/2 top-full -translate-x-1/2 -translate-y-[1px] border-x-[6px] border-t-[6px] border-x-transparent border-t-[var(--color-textColor1)]",
-    right: "right-full top-1/2 -translate-y-1/2 -translate-x-[-2px] border-y-[6px] border-r-[6px] border-y-transparent border-r-[var(--color-textColor1)]",
-    bottom: "bottom-full left-1/2 -translate-x-1/2 border-x-[6px] border-b-[6px] border-x-transparent border-b-[var(--color-textColor1)]",
-    left: "left-full top-1/2 -translate-y-1/2 border-y-[6px] border-l-[6px] border-y-transparent border-l-[var(--color-textColor1)]",
+    right:
+      "right-full top-1/2 -translate-y-1/2 -translate-x-[-2px] border-y-[6px] border-r-[6px] border-y-transparent border-r-[var(--color-textColor1)]",
+    bottom:
+      "bottom-full left-1/2 -translate-x-1/2 border-x-[6px] border-b-[6px] border-x-transparent border-b-[var(--color-textColor1)]",
+    left:
+      "left-full top-1/2 -translate-y-1/2 border-y-[6px] border-l-[6px] border-y-transparent border-l-[var(--color-textColor1)]",
   }
 
   return (
-    <div 
-      style={{
-          width: width === "hug"? "max-content" : "100%"
-        }}>
+    <>
       <div
         ref={triggerRef}
-        className="inline-flex"
+        className={width === "hug" ? "inline-flex" : "flex"}
+        style={{
+          width: width === "hug" ? "max-content" : "100%",
+        }}
         aria-describedby={!disabled ? tooltipId : undefined}
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
         onFocus={showTooltip}
         onBlur={hideTooltip}
-        style={{
-          width: width === "hug"? "max-content" : "100%"
-        }}
       >
         {children}
       </div>
 
-      {
-        mounted &&
-          createPortal(
-            <span id={tooltipId} role="tooltip"
-              className={`pointer-events-none fixed z-[9999] w-max max-w-[200px] rounded-[var(--radius-md)] bg-[var(--color-textColor1)] p-[var(--space-sm)] text-center leading-[1.4] text-[var(--color-background1)] shadow-[0px_4px_12px_rgba(0,0,0,0.15)] transition-opacity duration-300 
-              ${ isVisible ? "opacity-100" : "opacity-0"}`}
-              style={{
-                top: coordinates.top,
-                left: coordinates.left,
-                transform: transformStyles[position],
-                ...specificStyle,
-              }}>
-              <Frame
-                specificStyles={{
-                  lineHeight: "1.5",
-                  color: "var(--color-background1)",
-                  fontSize: "10px",
-                  fontWeight: 300,
-                }}
-              >
-                {content}
-              </Frame>
-              <span
-                className={`absolute h-0 w-0 ${arrowStyles[position]}`}
-              />
-            </span>,
-            document.body
-          )
-        }
-    </div>
+      {mounted &&
+        createPortal(
+          <span
+            id={tooltipId}
+            role="tooltip"
+            className={`pointer-events-none fixed z-[9999] w-max max-w-[200px] rounded-[var(--radius-md)] bg-[var(--color-textColor1)] p-[var(--space-sm)] text-center leading-[1.4] text-[var(--color-background1)] shadow-[0px_4px_12px_rgba(0,0,0,0.15)] transition-opacity duration-300 ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              top: coordinates.top,
+              left: coordinates.left,
+              transform: transformStyles[position],
+              ...specificStyle,
+            }}
+          >
+            <Frame
+              specificStyles={{
+                lineHeight: "1.5",
+                color: "var(--color-background1)",
+                fontSize: "10px",
+                fontWeight: 300,
+              }}
+            >
+              {content}
+            </Frame>
+
+            <span
+              className={`absolute h-0 w-0 ${arrowStyles[position]}`}
+            />
+          </span>,
+          document.body
+        )}
+    </>
   )
 }

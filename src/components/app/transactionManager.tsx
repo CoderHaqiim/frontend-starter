@@ -7,51 +7,13 @@ import List from "../ui/composites/list";
 import Paragraph from "../ui/primitives/paragraph";
 import Section from "../layout/section";
 import TransactionItem from "./transactionItem";
+import TransactionLine from "./transactionLine";
 
-const transactions: Transaction[] = [
-  {
-    id: "trn-001",
-    description: "Client invoice payment",
-    business: "Business1",
-    date: "Jul 27, 2026",
-    amount: 4000,
-    type: "income",
-    category: "Sales",
-    status: "completed",
-  },
-  {
-    id: "trn-002",
-    description: "Office internet subscription",
-    business: "Business2",
-    date: "Jul 25, 2026",
-    amount: 180,
-    type: "expense",
-    category: "Utilities",
-    status: "completed",
-  },
-  {
-    id: "trn-003",
-    description: "Supplier deposit",
-    business: "Business1",
-    date: "Jul 23, 2026",
-    amount: 1250,
-    type: "expense",
-    category: "Inventory",
-    status: "pending",
-  },
-  {
-    id: "trn-004",
-    description: "Consulting retainer",
-    business: "Business3",
-    date: "Jul 20, 2026",
-    amount: 2200,
-    type: "income",
-    category: "Services",
-    status: "completed",
-  },
-];
+type TransactionManagerProps = {
+  transactions: Transaction[]
+}
 
-export default function TransactionManager() {
+export default function TransactionManager({ transactions = [] }: Partial<TransactionManagerProps>) {
   const businesses = ["All Businesses", "Business1", "Business2", "Business3"];
   const statuses = ["All", "Completed", "Pending", "Cancelled"];
   const types = ["All", "Income", "Expense"];
@@ -67,7 +29,7 @@ export default function TransactionManager() {
         {transactions.length > 0 ? (
           <List width="stretch" height="stretch" scroll="hidden">
             {transactions.map((transaction) => (
-              <TransactionItem key={transaction.id} transaction={transaction}/>
+              <TransactionLine key={transaction.id} transaction={transaction}/>
             ))}
           </List>
         ) : (

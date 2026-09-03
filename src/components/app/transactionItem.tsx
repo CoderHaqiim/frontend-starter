@@ -18,11 +18,6 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
   const { colors } = useTheme()
   const isIncome = transaction.type === "income";
   const amount = `${isIncome ? "+" : "-"}$${transaction.amount.toLocaleString()}`;
-  const statusColorMap: Record<Transaction["status"], ColorTypes> = {
-    completed: "success",
-    pending: "warning",
-    cancelled: "muted",
-  };
 
   return (
     <Frame className="w-full p-[var(--space-lg)] flex-col gap-[var(--space-sm)]">
@@ -30,19 +25,19 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
         <Frame className="gap-[var(--space-md)] items-center">
           <Icon
             name={isIncome ? "icon-circle-arrow-up" : "icon-circle-arrow-down"}
-            size="xxl"
+            size="lg"
             fill={isIncome ? colors["success2"] : colors["error2"]}
             color={isIncome ? "success" : "error"}
           />
 
           <Frame className="flex-col">
-            <Paragraph color="textColor1" size="md">
+            <Paragraph color="textColor1" size="sm">
               {transaction.description}
             </Paragraph>
 
             <Frame>
               <Paragraph weight="light" size="xs">
-                {transaction.business}
+                {transaction.category}
               </Paragraph>
             </Frame>
           </Frame>
@@ -53,7 +48,7 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
             <Paragraph
               weight="medium"
               color={isIncome ? "success" : "error"}
-              size="md"
+              size="sm"
             >
               {amount}
             </Paragraph>
@@ -62,15 +57,6 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
               {transaction.date}
             </Paragraph>
           </Frame>
-
-          <Tooltip content="transaction menu">
-            <Button
-              variant="outline"
-              size="sm"
-              iconName="icon-vertival-dots"
-              isIcon
-            />
-          </Tooltip>
         </Frame>
       </Frame>
     </Frame>

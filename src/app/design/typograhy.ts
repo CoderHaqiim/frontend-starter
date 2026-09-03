@@ -15,11 +15,11 @@ const headingSize = {
   "name": "headingSize",
   "xxs": "12px",
   "xs": " 14px", 
-  "sm": "16px",   // 17.6px
-  "md": "20px",   // 19.2px
-  "lg": "22px",  // 21.6px
-  "xl": "24px",   // 24px
-  "xxl": "30px", // 28px
+  "sm": "16px",   
+  "md": "18px",   
+  "lg": "20px", 
+  "xl": "24px",   
+  "xxl": "30px", 
 } as const
 
 const fontWeight = {

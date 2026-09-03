@@ -137,32 +137,24 @@ export default function Nav() {
       border-b-[var(--color-outline1)]
       z-[500]
     ">
-      <Frame
-        className="
-          flex
-          w-full
-          h-full
-          items-center
-          justify-end
-          px-[var(--space-xl)]
-        "
-      >
+      <Frame className=" flex w-full h-full items-center justify-between px-[var(--space-lg)]">
         {/* Back button */}
-        {/* <Frame>
-          {pathname !== "/dashboard" && (
+        <Frame>
+          {pathname.startsWith("/dashboard/businesses")  && (
             <Tooltip content="back" position="bottom">
-              <Button
-                func={() => router.back()}
-                variant="outline"
-                isIcon
-                iconName="icon-left"
-                size="md"
-              />
+              <Button func={() => router.push("/dashboard")} iconColor="accent" variant="outline" iconName="icon-left" size="xs"
+                specificStyles={{
+                  border: `solid 1px var(--color-outline1)`,
+                  color:`var(--color-accent)`,
+                  fontWeight: `var(--fontWeight-semiBold)`
+                }}>
+                Home
+              </Button>
             </Tooltip>
           )}
-        </Frame> */}
+        </Frame>
 
-        {/* Right controls */}
+         {/* Right controls */}
         <Frame
           className="
             flex

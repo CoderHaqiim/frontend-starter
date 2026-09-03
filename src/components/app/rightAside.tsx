@@ -33,7 +33,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
           ),
         };
 
-      case pathname.startsWith("/dashboard/businesses"):
+      case pathname.startsWith("/dashboard/businesses/") && pathname.endsWith("/overview"):
         return {
           content: (
             <Frame className="w-max h-full flex-col gap-[var(--space-md)]">

@@ -25,7 +25,7 @@ export default function ProfileCard() {
   return (
     <Card width="100%" height="max-content" padding="lg" gap="md" className={`${profileOpen? "flex" : "hidden"} ${shadow3}`}>
 
-      <Button variant="ghost" func={closeProfile} size="sm" className="z-[200] right-[var(--space-sm)] top-[var(--space-sm)]" isIcon iconName="icon-x" 
+      <Button variant="ghost" func={closeProfile} size="xs" className="z-[200] right-[var(--space-sm)] top-[var(--space-sm)]" isIcon iconName="icon-x" 
         specificStyles={{
         position: "absolute"
       }}/>

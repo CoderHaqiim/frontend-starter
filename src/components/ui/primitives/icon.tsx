@@ -63,7 +63,8 @@ import {
   UsersRound,
   Download,
   Play,
-  ArrowLeftRight
+  ArrowLeftRight,
+  Copy
 } from 'lucide-react'
 
 import { LucideProps } from 'lucide-react'
@@ -144,7 +145,8 @@ const icons = {
     "icon-users-round": UsersRound,
     "icon-download": Download,
     "icon-play" : Play,
-    "icon-change": ArrowLeftRight
+    "icon-change": ArrowLeftRight,
+    "icon-coppy": Copy
 };
 
 export type IconType = keyof typeof icons;

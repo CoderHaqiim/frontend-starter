@@ -28,7 +28,7 @@ export default function List({
         border-[1px]
         border-[var(--color-outline1)]
         gap-[var(--space-xxs)]
-        rounded-[var(--radius-md)]
+        rounded-[var(--radius-sm)]
         flex
         flex-col
         ${scroll === "hidden" ? "overflow-y-scroll" : ""}

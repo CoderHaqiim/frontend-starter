@@ -8,6 +8,7 @@ import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
 import Dropdown from "../../ui/composites/dropdown"
 import CloseButton from "../../ui/primitives/closeButton"
+import Button from "../../ui/primitives/button"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function EditBusinessForm() {
