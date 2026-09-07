@@ -1,5 +1,4 @@
 import { generateVariable } from "@/src/utils/generateVariable"
-import { space } from "./spacing"
 
 const elementSizes = {
     "name": "elementSize",
@@ -14,7 +13,7 @@ const elementSizes = {
 
 const paddingSizes = {
     "name": "paddingSize",
-    "xxs": "px-[4px] gap-[var(--space-sm)]",
+    "xxs": "px-[4px] gap-[var(--space-xs)]",
     "xs": "px-[8px] gap-[var(--space-sm)]",
     "sm": "px-[12px] gap-[var(--space-sm)]",
     "md": "px-[16px] gap-[var(--space-md)]",
@@ -27,8 +26,6 @@ const elementSizesVariables = generateVariable(elementSizes, elementSizes.name)
 const paddingSizesVariables = generateVariable(paddingSizes, paddingSizes.name) 
 
 export {
-    elementSizes,
-    paddingSizes,
-    elementSizesVariables,
-    paddingSizesVariables
+    elementSizes, elementSizesVariables, paddingSizes, paddingSizesVariables
 }
+

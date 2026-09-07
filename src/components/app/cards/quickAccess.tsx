@@ -1,10 +1,11 @@
+"use client"
+
+import { ObjectRecordType } from "@/src/types/types"
+import { shortenText } from "@/src/utils/shortenText"
 import { useMemo } from "react"
 import Card from "../../ui/composites/card"
 import Frame from "../../ui/primitives/frame"
 import Paragraph from "../../ui/primitives/paragraph"
-import { shortenText } from "@/src/utils/shortenText"
-import { ObjectRecordType } from "@/src/types/types"
-import Icon from "../../ui/primitives/icon"
 
 type QuickAccessProps = {
     entry?: ObjectRecordType
@@ -29,22 +30,22 @@ export default function QuickAccessCard({ entry }: QuickAccessProps) {
 
     return (
         <Card
-            width="250px"
-            height="80px"
-            gap="md"
+            width="200px"
+            height="max-content"
+            gap="sm"
             padding="lg"
             rounded="md"
-            className="shrink-0 border-[1px] border-[var(--color-outline2)]"
+            className="shrink-0 min-h-[80px] border-[1px] border-[var(--color-outline2)]"
         >
             <Frame className="flex items-start gap-[var(--space-md)]">
                 <Frame
-                    className="flex h-[30px] w-[30px] items-center justify-center rounded-[50%]"
+                    className="flex shrink-0 h-[30px] w-[30px] items-center justify-center rounded-[50%]"
                     specificStyles={{
                         background: avatarBg,
                     }}
                 >
                     <Paragraph
-                        size="xs"
+                        size="sm"
                         weight="semiBold"
                         specificStyle={{
                             color: avatarColor,
@@ -56,27 +57,18 @@ export default function QuickAccessCard({ entry }: QuickAccessProps) {
                 </Frame>
 
                 <Frame className="flex flex-col gap-[var(--space-md)]">
-                    <Frame className="flex flex-col gap-[var(--space-xxs)]">
-                        <Paragraph
-                            size="sm"
-                            weight="normal"
-                            color="textColor1"
-                            specificStyle={{ lineHeight: "1" }}
-                        >
+                    <Frame className="flex flex-col gap-[var(--space-xs)]">
+                        <Paragraph size="sm" weight="medium" color="textColor1" specificStyle={{ lineHeight: "1" }}>
                             {shortenText(name, 25)}
                         </Paragraph>
-
-                        <Paragraph
-                            size="xs"
-                            specificStyle={{ lineHeight: "1" }}
-                        >
+                        <Paragraph size="xxs" specificStyle={{ lineHeight: "1" }}>
                             {email}
                         </Paragraph>
                     </Frame>
 
                     <Frame className="flex items-center gap-[var(--space-sm)]">
                         <Paragraph
-                            size="xxs"
+                            size="xs"
                             weight="normal"
                             color="textColor1"
                             specificStyle={{ lineHeight: "1" }}

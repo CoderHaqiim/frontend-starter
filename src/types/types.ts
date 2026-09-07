@@ -24,6 +24,7 @@ export interface BusinessHealth {
 export interface Business {
   id: string
   name: string
+  logo?: string
   description?: string
   industry?: string
   currency: string
@@ -62,23 +63,11 @@ export interface Customer {
   email: string
 }
 
-export type ScheduleType =
-  | "task"
-  | "meeting"
-  | "reminder"
-  | "event"
+export type ScheduleType = "task" | "meeting" | "reminder" | "event"
 
-export type ScheduleStatus =
-  | "scheduled"
-  | "cancelled"
-  | "completed"
-  | "in-progress"
+export type ScheduleStatus = "scheduled" | "cancelled" | "completed" | "in-progress"
 
-export type ScheduleRecurrenceFrequency =
-  | "daily"
-  | "weekly"
-  | "monthly"
-  | "yearly"
+export type ScheduleRecurrenceFrequency = "daily" | "weekly" | "monthly" | "yearly"
 
 export type Schedule = {
   id: string
@@ -100,24 +89,21 @@ export type Schedule = {
   updatedAt: string
 }
 
-
 export type Priority = "low" | "medium" | "high";
-
-export type Status =
-  | "pending"
-  | "cancelled"
-  | "in-progress"
-  | "completed"
-  | "overdue"
+export type TaskStatus = "pending" | "in-progress" | "completed" | "overdue"
 
 export interface Task {
   id: string | number;
   title: string;
   description?: string;
-  business: string;
+  business?: string;
+  assignee?: {
+    name: string;
+    avatar?: string;
+  };
   dueDate: string;
   priority: Priority;
-  status: Status;
+  status: TaskStatus;
 }
 
 export interface Transaction {

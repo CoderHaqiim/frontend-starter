@@ -1,15 +1,14 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import Frame from "../ui/primitives/frame"
-import Button from "../ui/primitives/button"
-import Searchbar from "../ui/composites/searchbar"
 import { http } from "@/src/http/client"
-import Tooltip from "../ui/composites/tooltip"
-import Paragraph from "../ui/primitives/paragraph"
 import { usePathname, useRouter } from "next/navigation"
+import { useEffect, useRef, useState } from "react"
 import { useTheme } from "../providers/themeProvider"
-import ProfileButton from "../app/profileButton"
+import Searchbar from "../ui/composites/searchbar"
+import Tooltip from "../ui/composites/tooltip"
+import Button from "../ui/primitives/button"
+import Frame from "../ui/primitives/frame"
+import Paragraph from "../ui/primitives/paragraph"
 
 type Notification = unknown
 
@@ -140,8 +139,8 @@ export default function Nav() {
       <Frame className=" flex w-full h-full items-center justify-between px-[var(--space-lg)]">
         {/* Back button */}
         <Frame>
-          {pathname.startsWith("/dashboard/businesses")  && (
-            <Tooltip content="back" position="bottom">
+          {(pathname.startsWith("/dashboard/businesses") || pathname.startsWith("/dashboard/tasks")) && (
+            <Tooltip content="home" position="bottom">
               <Button func={() => router.push("/dashboard")} iconColor="accent" variant="outline" iconName="icon-left" size="xs"
                 specificStyles={{
                   border: `solid 1px var(--color-outline1)`,

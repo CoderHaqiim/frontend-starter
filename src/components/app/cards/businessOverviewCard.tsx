@@ -5,18 +5,18 @@ import {
   BusinessHealth,
   BusinessKpiResponse,
 } from "@/src/types/types"
-import { shortenText } from "@/src/utils/shortenText"
-import Link from "next/link"
-import RadialProgress from "../../ui/composites/radialProgress"
-import Frame from "../../ui/primitives/frame"
-import Card from "../../ui/composites/card"
-import Heading from "../../ui/primitives/heading"
-import Paragraph from "../../ui/primitives/paragraph"
-import { healthMap } from "@/src/utils/healthMap"
-import { generateHealthBackground } from "@/src/utils/healthBackground"
-import { useTheme } from "../../providers/themeProvider"
 import abridgeNumber from "@/src/utils/abridgeNumber"
 import { getCurrencySymbol } from "@/src/utils/currencySymbol"
+import { generateHealthBackground } from "@/src/utils/healthBackground"
+import { healthMap } from "@/src/utils/healthMap"
+import { shortenText } from "@/src/utils/shortenText"
+import Link from "next/link"
+import { useTheme } from "../../providers/themeProvider"
+import Card from "../../ui/composites/card"
+import RadialProgress from "../../ui/composites/radialProgress"
+import Frame from "../../ui/primitives/frame"
+import Heading from "../../ui/primitives/heading"
+import Paragraph from "../../ui/primitives/paragraph"
 
 type BusinessOverviewProps = {
   data: Business
@@ -76,7 +76,7 @@ export default function BusinessOverview({
       className="transform cursor-pointer pointer-events-auto transition-transform duration-300 hover:z-20 hover:scale-[0.96]"
     >
       <Card
-        width="300px"
+        width="310px"
         height="max-content"
         justify="space-between"
         padding="lg"
@@ -126,7 +126,7 @@ export default function BusinessOverview({
           <RadialProgress
             color={healthMap[businessHealth.health]}
             score={businessHealth.healthScore}
-            size={50}
+            size={55}
             textSize="xs"
             strokeWidth={2}
           />

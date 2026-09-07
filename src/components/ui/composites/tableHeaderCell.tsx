@@ -1,21 +1,24 @@
+import { FrameSizeType, SizeType } from "@/src/types/types";
 import { MouseEvent, ReactNode } from "react";
 import TableCell from "./tableCell";
-import { FrameSizeType, SizeType } from "@/src/types/types";
 
 type TableHeaderCellProp = {
     children: ReactNode,
     size: SizeType,
     width: FrameSizeType,
-    onResizeStart: (event: MouseEvent<HTMLDivElement>) => void
+    onResizeStart: (event: MouseEvent<HTMLDivElement>) => void,
+    isSelected?: boolean,
+    onSelect?: () => void
 }
 
-export default function TableHeaderCell({children, size, width, onResizeStart}: TableHeaderCellProp) {
+  export default function TableHeaderCell({children, size, width, onResizeStart, isSelected = false, onSelect}: TableHeaderCellProp) {
   return (
     <TableCell
       isHeader
       width={width}
       size={size}
       className="bg-[var(--color-background3)]"
+      onClick={onSelect}
       actionSlot={
         <div
           aria-hidden="true"

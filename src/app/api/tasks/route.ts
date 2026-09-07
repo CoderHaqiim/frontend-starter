@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
  const tasks = [
     {
@@ -44,7 +44,7 @@ import { NextResponse } from "next/server"
       business: "Opic Farms",
       dueDate: "Tomorrow",
       priority: "low",
-      status: "cancelled"
+      status: "pending"
     },
     {
       id: "6",
@@ -53,7 +53,7 @@ import { NextResponse } from "next/server"
       business: "Opic Farms",
       dueDate: "Tomorrow",
       priority: "low",
-      status: "cancelled"
+      status: "pending"
     },
     {
       id: "7",
@@ -62,7 +62,7 @@ import { NextResponse } from "next/server"
       business: "Opic Farms",
       dueDate: "Tomorrow",
       priority: "low",
-      status: "cancelled"
+      status: "pending",
     }
   ];
 

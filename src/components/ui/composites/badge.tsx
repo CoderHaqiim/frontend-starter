@@ -1,16 +1,14 @@
 
 "use client"
 
-import Frame from "../primitives/frame";
-import { SizeType } from "@/src/types/types";
-import { IconType } from "../primitives/icon";
-import { elementSizes } from "@/src/app/design/sizes";
-import Icon from "../primitives/icon";
 import { ColorTypes } from "@/src/app/design/colors";
+import { elementSizes, paddingSizes } from "@/src/app/design/sizes";
+import { SizeType } from "@/src/types/types";
 import { generateLightBackground } from "@/src/utils/healthBackground";
-import { paddingSizes } from "@/src/app/design/sizes";
-import Paragraph from "../primitives/paragraph";
 import { useTheme } from "../../providers/themeProvider";
+import Frame from "../primitives/frame";
+import Icon, { IconType } from "../primitives/icon";
+import Paragraph from "../primitives/paragraph";
 
 type BadgeProps = {
   color: ColorTypes;
@@ -18,7 +16,7 @@ type BadgeProps = {
   size?: SizeType;
   iconName?: IconType;
   className?: string;
-  text?:string;
+  text?: string | number;
 };
 
 export default function Badge({
@@ -40,7 +38,7 @@ export default function Badge({
       border: `solid 1px ${colors[background]}`
     }}>
       {iconName && <Icon size={size} name={iconName}/>}
-      <Paragraph weight="normal" size={size} color={color}>{text}</Paragraph>
+      <Paragraph weight="medium" size={size} color={color}>{text}</Paragraph>
     </Frame>
   );
 }

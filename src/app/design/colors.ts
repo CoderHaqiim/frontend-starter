@@ -8,13 +8,13 @@ export type ColorsMap = Record<keyof typeof lightColors, string>
 const staticColors= {
     "name": "color",
     "success": "#02681d",
-    "success2": "#02681d0a",
+    "success2": "#02681d18",
     "error": "#e50000",
-    "error2": "#e500000d",
+    "error2": "#e5000018",
     "warning": "#bd8c04",
-    "warning2": "#bd8c0415",
+    "warning2": "#bd8c0418",
     "info": "#0534c0",
-    "info2": "#0534c015",
+    "info2": "#0534c018",
     "gold" : "#bd8c04",
 }
 
@@ -71,9 +71,10 @@ const getColorVariables = (theme: ThemeType) => {
 
 
 
-export{
+export {
     colors,
     colorVariables,
     getColorVariables,
     themeColors
 }
+

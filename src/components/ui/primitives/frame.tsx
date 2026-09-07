@@ -7,6 +7,7 @@ type FrameProp = {
   direction?: "row" | "column";
   className?: string;
   border?: boolean
+  onClick?: () => void
 };
 
 const Frame = forwardRef<HTMLDivElement, FrameProp>(
@@ -18,6 +19,7 @@ const Frame = forwardRef<HTMLDivElement, FrameProp>(
       children,
       specificStyles,
       className,
+      onClick,
     },
     ref
   ) => {
@@ -36,7 +38,7 @@ const Frame = forwardRef<HTMLDivElement, FrameProp>(
     `;
 
     return (
-      <div ref={ref} className={`${baseStyle} ${className}`} style={{ ...specificStyles }}>
+      <div ref={ref} className={`${baseStyle} ${className}`} style={{ ...specificStyles }} onClick={onClick}>
         {children}
       </div>
     );

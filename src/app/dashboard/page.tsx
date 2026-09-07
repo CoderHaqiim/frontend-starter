@@ -1,27 +1,26 @@
 "use client"
 
+import BusinessOverviewCard from "@/src/components/app/cards/businessOverviewCard"
+import BusinessOverviewLoader from "@/src/components/app/cards/businessOverviewLoader"
+import ChartSection from "@/src/components/app/chartSection"
+import CreateBusinessForm from "@/src/components/app/forms/createBusiness"
+import MetricsRow from "@/src/components/app/metricsRow"
+import Section from "@/src/components/layout/section"
+import Badge from "@/src/components/ui/composites/badge"
+import Dropdown from "@/src/components/ui/composites/dropdown"
+import KpiRow from "@/src/components/ui/composites/kpiRow"
+import List from "@/src/components/ui/composites/list"
+import Button from "@/src/components/ui/primitives/button"
 import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
-import { useUserState } from "@/src/store/userState"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import BusinessOverviewCard from "@/src/components/app/cards/businessOverviewCard"
-import MetricsRow from "@/src/components/app/metricsRow"
-import { useState, useEffect, useRef, useMemo } from "react"
-import { Businesses, BusinessHealth, BusinessKpiResponse, kpiObjectProps, RankingMetric } from "@/src/types/types"
 import { http } from "@/src/http/client"
-import { useBusinessesState } from "@/src/store/businessesState"
-import List from "@/src/components/ui/composites/list"
-import Section from "@/src/components/layout/section"
-import Button from "@/src/components/ui/primitives/button"
-import KpiRow from "@/src/components/ui/composites/kpiRow"
-import Badge from "@/src/components/ui/composites/badge"
 import { useBackdropState } from "@/src/store/backdropState"
-import BusinessOverviewLoader from "@/src/components/app/cards/businessOverviewLoader"
+import { useBusinessesState } from "@/src/store/businessesState"
+import { useUserState } from "@/src/store/userState"
+import { Businesses, BusinessHealth, BusinessKpiResponse, Duration, kpiObjectProps, RankingMetric } from "@/src/types/types"
 import { kpiResponseToCards } from "@/src/utils/kpiResponseToCards"
-import ChartSection from "@/src/components/app/chartSection"
-import { Duration } from "@/src/types/types"
-import CreateBusinessForm from "@/src/components/app/forms/createBusiness"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 export default function Home() {
   const { userState } = useUserState()
@@ -167,7 +166,7 @@ export default function Home() {
  //Scroll business slider left
   const scrollLeftHandler = () => {
     sliderRef.current?.scrollBy({
-      left: -310,
+      left: -323,
       behavior: "smooth",
     })
   }
@@ -175,7 +174,7 @@ export default function Home() {
   //Scroll business slider right
   const scrollRightHandler = () => {
     sliderRef.current?.scrollBy({
-      left: 310,
+      left: 323,
       behavior: "smooth",
     })
   }

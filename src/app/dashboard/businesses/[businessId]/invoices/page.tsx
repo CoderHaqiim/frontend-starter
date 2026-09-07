@@ -1,19 +1,18 @@
 "use client"
 
+import Section from "@/src/components/layout/section"
+import Dropdown from "@/src/components/ui/composites/dropdown"
+import KpiRow from "@/src/components/ui/composites/kpiRow"
+import Table from "@/src/components/ui/composites/table"
+import Button from "@/src/components/ui/primitives/button"
 import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
-import Button from "@/src/components/ui/primitives/button"
-import Section from "@/src/components/layout/section"
-import Table from "@/src/components/ui/composites/table"
-import KpiRow from "@/src/components/ui/composites/kpiRow"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import { useMemo, useState } from "react"
 import { useBackdropState } from "@/src/store/backdropState"
+import { useMemo, useState } from "react"
 
 const invoiceSummaryKpis = [
   { id: "total", title: "Total Invoices", value: "24", meaning: "All created invoices" },
-  { id: "drafts", title: "Drafts", value: "4", meaning: "Invoices still being prepared" },
   { id: "outstanding", title: "Outstanding", value: "$8,450", meaning: "Amount awaiting payment" },
   { id: "paid", title: "Paid", value: "$15,200", meaning: "Paid invoices this period" },
   { id: "overdue", title: "Overdue", value: "$2,100", meaning: "Invoices past their due date" },
@@ -111,7 +110,9 @@ export default function InvoicesPage() {
       </Frame>
 
       {/* Kpis */}
-      <KpiRow kpis={invoiceSummaryKpis} />
+      <Section>
+       <KpiRow kpis={invoiceSummaryKpis} />
+      </Section>
 
       <Section width="stretch">
         <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">

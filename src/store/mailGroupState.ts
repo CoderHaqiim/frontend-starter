@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { customers } from "../components/app/customers/customerData"
+import { customers } from "../data/customers"
 
 export type MailGroup = {
   id: string

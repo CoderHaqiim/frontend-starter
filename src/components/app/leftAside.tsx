@@ -16,6 +16,10 @@ export default function LeftAside() {
   const pathname = usePathname();
   const navItems = getNavItemsForPath(pathname);
 
+  if (pathname.startsWith("/dashboard/tasks")) {
+    return null;
+  }
+
   return (
     <Aside
       width="260px"

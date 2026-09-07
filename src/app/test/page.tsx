@@ -1,13 +1,25 @@
-import Calculator from "@/src/components/app/cards/calculatorCard";
-import Table from "@/src/components/ui/composites/table";
-import CreateBusinessForm from "@/src/components/app/forms/createBusiness";
-import ProfileCard from "@/src/components/app/cards/profileCard";
-import TransactionManager from "@/src/components/app/transactionManager";
+import TaskCard from "@/src/components/app/cards/taskCard";
+import { Task } from "@/src/types/types";
+
 export default function page() {
+
+  type taskType = Task
+
+  const task: Task = {
+  id: 'task-001',
+  title: 'Design task manager UI',
+  description: 'Create the task manager layout with status columns and task cards.',
+  priority: "high",
+  dueDate: '2026-09-10',
+  assignee: {
+    name: 'Jaye',
+  },
+  status: "pending",
+}
 
   return (
     <div className={`w-[100%] h-[100%]`}>
-      <TransactionManager/>
+      <TaskCard task={task}/>
     </div>
   )
 }

@@ -1,11 +1,10 @@
 "use client"
 
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react"
+import { FrameSizeType, ObjectRecordType, SizeType } from "@/src/types/types"
+import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Frame from "../primitives/frame"
-import { FrameSizeType, SizeType } from "@/src/types/types"
-import TableRow from "./tableRow"
 import TableHeaderRow from "./tableHeaderRow"
-import { ObjectRecordType } from "@/src/types/types"
+import TableRow from "./tableRow"
 
 type TableProps = {
     width: FrameSizeType,
@@ -57,6 +56,22 @@ export default function Table({
     }, [data])
 
     const [columnWidths, setColumnWidths] = useState<number[]>([])
+    const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null)
+    const [selectedColumnIndex, setSelectedColumnIndex] = useState<number | null>(null)
+    const tableRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const clearSelectionOutsideTable = (event: globalThis.MouseEvent) => {
+            if (!tableRef.current?.contains(event.target as Node)) {
+                setSelectedRowIndex(null)
+                setSelectedColumnIndex(null)
+            }
+        }
+
+        document.addEventListener("mousedown", clearSelectionOutsideTable)
+
+        return () => document.removeEventListener("mousedown", clearSelectionOutsideTable)
+    }, [])
 
     useEffect(() => {
         const defaultWidth = parseColumnWidth(cellWidth)
@@ -111,6 +126,7 @@ export default function Table({
 
     return (
         <Frame
+            ref={tableRef}
             className={`
                 ${width === "stretch" ? "w-full" : ""}
                 ${width === "hug" ? "w-max" : ""}
@@ -118,7 +134,7 @@ export default function Table({
                 ${height === "hug" ? "h-max" : ""}
                 rounded-[var(--radius-sm)]
                 border-[0.5px]
-                border-[var(--color-outline2)]
+                border-[var(--color-outline1)]
                 overflow-auto
             `}
             specificStyles={{
@@ -138,13 +154,18 @@ export default function Table({
             }}
         >
             <Frame
-                className="w-max h-max flex flex-col"
+                className="w-max h-max flex flex-col bg-[var(--color-white)]"
             >
                 <TableHeaderRow
                     widths={cellWidths}
                     size={size}
                     data={headerData}
                     onResizeStart={handleColumnResizeStart}
+                    selectedColumnIndex={selectedColumnIndex}
+                    onSelectColumn={(columnIndex) => {
+                        setSelectedColumnIndex(columnIndex)
+                        setSelectedRowIndex(null)
+                    }}
                 />
 
                 {
@@ -156,6 +177,12 @@ export default function Table({
                             size={size}
                             widths={cellWidths}
                             data={item}
+                            isSelected={selectedRowIndex === index}
+                            selectedColumnIndex={selectedColumnIndex}
+                            onSelect={() => {
+                                setSelectedRowIndex(index)
+                                setSelectedColumnIndex(null)
+                            }}
                         />
                     ))
                 }

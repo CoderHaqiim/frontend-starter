@@ -1,12 +1,11 @@
 "use client"
 
+import Card from "@/src/components/ui/composites/card"
+import List from "@/src/components/ui/composites/list"
 import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
-import List from "@/src/components/ui/composites/list"
-import Card from "@/src/components/ui/composites/card"
-import { shadow3 } from "@/src/app/design/shadows"
-import { customers } from "./customerData"
+import { customers } from "@/src/data/customers"
 
 export default function CustomersDirectory() {
   return (

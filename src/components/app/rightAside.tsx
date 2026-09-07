@@ -1,10 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { CSSProperties, useState } from "react";
+import { CSSProperties } from "react";
 import Aside from "../layout/aside";
 import Frame from "../ui/primitives/frame";
 import Calendar from "./cards/calendar";
+import QuickActions from "./cards/quickActions";
 import TaskManagerCard from "./cards/taskManagerCard";
 
 type RightAsideProps = {
@@ -13,7 +14,6 @@ type RightAsideProps = {
 
 export default function RightAside({specificStyles  }: RightAsideProps) {
   const pathname = usePathname();
-  const [activePanel, setActivePanel] = useState<"task" | "calendar" | null>("task");
 
   const getAsideConfig = () => {
     switch (true) {
@@ -21,14 +21,8 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
         return {
           content: (
             <Frame className="w-max h-full flex-col gap-[var(--space-md)]">
-              <TaskManagerCard
-                expanded={activePanel === "task"}
-                onToggle={() => setActivePanel((prev) => prev === "task" ? null : "task")}
-              />
-              <Calendar
-                expanded={activePanel === "calendar"}
-                onToggle={() => setActivePanel((prev) => prev === "calendar" ? null : "calendar")}
-              />
+              <QuickActions />
+              <Calendar />
             </Frame>
           ),
         };
@@ -37,14 +31,16 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
         return {
           content: (
             <Frame className="w-max h-full flex-col gap-[var(--space-md)]">
-              <TaskManagerCard
-                expanded={activePanel === "task"}
-                onToggle={() => setActivePanel((prev) => prev === "task" ? null : "task")}
-              />
-              <Calendar
-                expanded={activePanel === "calendar"}
-                onToggle={() => setActivePanel((prev) => prev === "calendar" ? null : "calendar")}
-              />
+              <TaskManagerCard />
+            </Frame>
+          ),
+        };
+
+      case pathname.startsWith("/dashboard/businesses/") && pathname.endsWith("/invoices"):
+        return {
+          content: (
+            <Frame className="w-max h-full flex-col gap-[var(--space-md)]">
+              <TaskManagerCard />
             </Frame>
           ),
         };

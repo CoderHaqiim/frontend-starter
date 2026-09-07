@@ -1,16 +1,16 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import Section from "@/src/components/layout/section"
+import Dropdown from "@/src/components/ui/composites/dropdown"
+import KpiRow from "@/src/components/ui/composites/kpiRow"
+import Table from "@/src/components/ui/composites/table"
+import Button from "@/src/components/ui/primitives/button"
 import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
-import Button from "@/src/components/ui/primitives/button"
-import Section from "@/src/components/layout/section"
-import Table from "@/src/components/ui/composites/table"
-import KpiRow from "@/src/components/ui/composites/kpiRow"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import { ObjectRecordType } from "@/src/types/types"
 import { useBackdropState } from "@/src/store/backdropState"
+import { ObjectRecordType } from "@/src/types/types"
+import { useMemo, useState } from "react"
 
 const inventoryKpis = [
   { id: "items", title: "Total items", value: "128", meaning: "Items currently tracked" },
@@ -73,7 +73,9 @@ export default function InventoryPage() {
         </Frame>
       </Frame>
 
+    <Section>
       <KpiRow kpis={inventoryKpis} />
+    </Section>
 
       <Section width="stretch">
         <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">

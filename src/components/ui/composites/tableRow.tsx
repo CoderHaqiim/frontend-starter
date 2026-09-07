@@ -1,7 +1,5 @@
+import { FrameSizeType, ObjectRecordType, SizeType } from "@/src/types/types"
 import TableCell from "./tableCell"
-import Frame from "../primitives/frame"
-import { FrameSizeType, SizeType } from "@/src/types/types"
-import { ObjectRecordType } from "@/src/types/types"
 
 
 type TableRowProps = {
@@ -10,6 +8,9 @@ type TableRowProps = {
     size: SizeType,
     headerData: string[]
     rowIndex: number
+    isSelected?: boolean
+    selectedColumnIndex?: number | null
+    onSelect?: () => void
 }
 
 export default function TableRow({
@@ -17,17 +18,26 @@ export default function TableRow({
   headerData,
   widths,
   size,
-  rowIndex
+  rowIndex,
+  isSelected = false,
+  selectedColumnIndex = null,
+  onSelect
 }: TableRowProps) {
 
   const valuesArray = headerData.map(key => data[key] ?? "")
 
   return (
-    <Frame className={`bg-[var(--color-white)] w-full h-max`}>
+    <div
+      className={`bg-[var(--color-white)] w-full h-max flex ${isSelected ? "bg-[var(--color-background1)]" : ""}`}
+      role="row"
+      aria-selected={isSelected}
+      onClick={onSelect}
+    >
       <TableCell
-        width="56px"
+        width="50px"
         size={size}
-        className={`sticky left-0 z-10 bg-[var(--color-white)]`}
+        showCopyButton={false}
+        className={`sticky left-0 z-10 ${isSelected ? "bg-[var(--color-background1)]" : "bg-[var(--color-white)]"}`}
       >
         {String(rowIndex + 1)}
       </TableCell>
@@ -36,10 +46,11 @@ export default function TableRow({
           key={index}
           width={widths[index]}
           size={size}
+          className={isSelected || selectedColumnIndex === index ? "bg-[var(--color-background1)]" : ""}
         >
           {item}
         </TableCell>
       ))}
-    </Frame>
+    </div>
   )
 }

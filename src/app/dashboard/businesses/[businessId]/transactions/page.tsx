@@ -2,6 +2,7 @@
 
 import CreateTransactionForm from '@/src/components/app/forms/createTransaction'
 import TransactionManager from '@/src/components/app/transactionManager'
+import Section from '@/src/components/layout/section'
 import KpiRow from '@/src/components/ui/composites/kpiRow'
 import Button from '@/src/components/ui/primitives/button'
 import Frame from '@/src/components/ui/primitives/frame'
@@ -17,6 +18,7 @@ export default function Item3() {
   const { businessId } = useParams<{ businessId: string }>()
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [page, setPage] = useState(1)
+  const [isTransactionsLoading, setIsTransactionsLoading] = useState(true)
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
   const createTransaction = () => {
@@ -25,9 +27,11 @@ export default function Item3() {
   }
 
   useEffect(() => {
+    setIsTransactionsLoading(true)
     http<Transaction[]>(`/api/businesses/${businessId}/transactions?page=${page}&limit=10`)
       .then(setTransactions)
       .catch(() => setTransactions([]))
+      .finally(() => setIsTransactionsLoading(false))
   }, [businessId, page])
 
   const totalIncome = transactions
@@ -59,7 +63,9 @@ export default function Item3() {
         </Frame>
       </Frame>
 
-      <KpiRow kpis={transactionKpis} />
+      <Section>
+        <KpiRow kpis={transactionKpis} isLoading={isTransactionsLoading} itemsCount={4} />
+      </Section>
 
       <TransactionManager
         transactions={transactions}

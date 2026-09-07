@@ -1,17 +1,15 @@
 "use client"
 
+import { customers } from "@/src/data/customers"
+import { useMailGroupState } from "@/src/store/mailGroupState"
 import { useState } from "react"
-import Section from "../../layout/section"
+import Badge from "../../ui/composites/badge"
+import Card from "../../ui/composites/card"
+import List from "../../ui/composites/list"
+import Button from "../../ui/primitives/button"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
 import Paragraph from "../../ui/primitives/paragraph"
-import Button from "../../ui/primitives/button"
-import Badge from "../../ui/composites/badge"
-import { customers } from "@/src/components/app/customers/customerData"
-import { useMailGroupState } from "@/src/store/mailGroupState"
-import List from "../../ui/composites/list"
-import Card from "../../ui/composites/card"
-import { shadow3 } from "@/src/app/design/shadows"
 
 export default function MailGroupCard() {
   const { mailGroups, addMailGroup } = useMailGroupState()

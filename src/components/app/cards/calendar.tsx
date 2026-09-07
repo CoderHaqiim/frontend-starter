@@ -13,43 +13,36 @@ import {
   subMonths,
 } from "date-fns"
 
-import { useEffect, useMemo, useState } from "react"
-import { Schedule } from "@/src/types/types"
-import ScheduleModal from "../forms/scheduleModal"
-import Frame from "../../ui/primitives/frame"
+import { fontWeight } from "@/src/app/design/typograhy"
+import { http } from "@/src/http/client"
 import { useBackdropState } from "@/src/store/backdropState"
+import { Schedule } from "@/src/types/types"
+import { useEffect, useMemo, useState } from "react"
+import { useTheme } from "../../providers/themeProvider"
+import Card from "../../ui/composites/card"
+import Tooltip from "../../ui/composites/tooltip"
+import Button from "../../ui/primitives/button"
+import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
 import Paragraph from "../../ui/primitives/paragraph"
-import Card from "../../ui/composites/card"
-import Button from "../../ui/primitives/button"
-import { http } from "@/src/http/client"
-import Tooltip from "../../ui/composites/tooltip"
-import { useTheme } from "../../providers/themeProvider"
-import { fontWeight } from "@/src/app/design/typograhy"
+import ScheduleModal from "../forms/scheduleModal"
 
 type CalendarProps = {
   businessId?: string
-  expanded?: boolean
-  onToggle?: () => void
 }
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 export default function Calendar({
   businessId,
-  expanded: controlledExpanded,
-  onToggle,
 }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [schedules, setSchedules] = useState<Schedule[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [internalExpanded, setInternalExpanded] = useState(false)
 
   const { colors } = useTheme()
   const { setBackdropOpen, setBackdropContent } = useBackdropState()
-
-  const expanded = controlledExpanded ?? internalExpanded
 
   // Fetch Schedules
   useEffect(() => {
@@ -104,73 +97,25 @@ export default function Calendar({
       padding="lg"
       height="hug"
       className="bg-[var(--color-white)]"
-      width="310px"
+      width="290px"
       rounded="md"
       specificStyles={{
         border: `solid 1px ${colors["outline1"]}`,
       }}
     >
       <Frame
-        className={`${
-          expanded
-            ? "pb-[var(--space-sm)] border-b border-b-[var(--color-outline1)] mb-[var(--space-sm)]"
-            : ""
-        } flex items-center justify-between`}
-      >
+        className="flex items-center justify-between pb-[var(--space-sm)] mb-[var(--space-sm)]">
         <Frame className="flex flex-col">
           <Heading type="h3" size="sm">
             Schedular
           </Heading>
         </Frame>
-
-        <Tooltip
-          content={expanded ? "collapse" : "open"}
-          position="top"
-        >
-          <Button
-            variant="ghost"
-            size="xs"
-            isIcon
-            iconName={
-              expanded
-                ? "icon-chevron-down"
-                : "icon-right"
-            }
-            func={() => {
-              if (onToggle) {
-                onToggle()
-                return
-              }
-
-              setInternalExpanded((prev) => !prev)
-            }}
-          />
-        </Tooltip>
       </Frame>
 
-      <div
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{
-          maxHeight: expanded ? "900px" : "0px",
-          opacity: expanded ? 1 : 0,
-          transform: expanded
-            ? "translateY(0)"
-            : "translateY(-6px)",
-        }}
-      >
-        <Frame
-          className={`flex w-full items-center justify-between gap-[var(--space-md)] ${
-            expanded
-              ? "mb-[var(--space-md)]"
-              : ""
-          }`}
-        >
+      <div>
+        <Frame className="flex w-full items-center justify-between gap-[var(--space-md)] mb-[var(--space-md)]">
           <Tooltip content="previous month">
-            <Button
-              variant="ghost"
-              size="xs"
-              isIcon
-              iconName="icon-left"
+            <Button variant="ghost" size="xs" isIcon iconName="icon-left"
               func={() =>
                 setCurrentDate(
                   subMonths(currentDate, 1)
@@ -179,20 +124,12 @@ export default function Calendar({
             />
           </Tooltip>
 
-          <Heading
-            size="xxs"
-            weight="medium"
-            type="h4"
-          >
+          <Heading size="xxs" weight="medium" type="h4">
             {format(currentDate, "MMMM yyyy")}
           </Heading>
 
           <Tooltip content="next month">
-            <Button
-              variant="ghost"
-              size="xs"
-              isIcon
-              iconName="icon-right"
+            <Button variant="ghost" size="xs" isIcon iconName="icon-right"
               func={() =>
                 setCurrentDate(
                   addMonths(currentDate, 1)
@@ -206,15 +143,8 @@ export default function Calendar({
           {/* Week days */}
           <Frame className="grid grid-cols-7">
             {days.map((day) => (
-              <Frame
-                className="w-full justify-center"
-                key={day}
-              >
-                <Paragraph
-                  size="xs"
-                  weight="light"
-                  className="text-center"
-                >
+              <Frame className="w-full justify-center" key={day}>
+                <Paragraph size="xs" weight="light" className="text-center">
                   {day}
                 </Paragraph>
               </Frame>
@@ -240,7 +170,7 @@ export default function Calendar({
                       {format(day, "EEEE, MMMM d")}
                     </span>
                     <span className=" text-[length:var(--bodySize-xxs)] text-[var(--color-background1)]/80">
-                      {daySchedules.length} activities
+                      {daySchedules.length} activitie(s)
                     </span>
                   </Frame>
 
@@ -311,7 +241,7 @@ export default function Calendar({
                   >
                     {/* Schedule indicator */}
                     {isCurrentMonth && daySchedules.length > 0 && (
-                      <span className="absolute top-[3px] right-[3px] h-[4px] w-[4px] rounded-[var(--radius-lg)] bg-[var(--color-accent)]" />
+                      <span className="absolute top-[2px] right-[2px] h-[3px] w-[3px] rounded-[var(--radius-lg)] bg-[var(--color-accent)]" />
                     )}
 
                     <span className="flex justify-between">
