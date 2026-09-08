@@ -30,7 +30,7 @@ const lightColors = {
     "muted2": "#e7e5e5",
     "textColor2": "#444444",
     "background1": "#f9f9f9",
-    "background2": "#f3f3f3",
+    "background2": "#f5f5f5",
     "background3": "#ececec",
     "white": "#ffffff",
     "outline2": "#a1a1a1",

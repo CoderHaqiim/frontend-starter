@@ -76,7 +76,7 @@ export default function BusinessOverview({
       className="transform cursor-pointer pointer-events-auto transition-transform duration-300 hover:z-20 hover:scale-[0.96]"
     >
       <Card
-        width="310px"
+        width="318px"
         height="max-content"
         justify="space-between"
         padding="lg"
@@ -105,7 +105,7 @@ export default function BusinessOverview({
             </Paragraph>
           </Frame>
 
-          <Frame className="flex-col gap-[var(--space-xxs)]">
+          <Frame className="flex-col gap-[var(--space-xs)]">
             <Heading type="h3" size="sm">
               {shortenText(data?.name, 22)}
             </Heading>

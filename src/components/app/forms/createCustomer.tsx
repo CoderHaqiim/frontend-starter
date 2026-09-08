@@ -1,15 +1,15 @@
 "use client"
 
-import Form from "../../ui/composites/form"
-import Label from "../../ui/primitives/label"
+import { useBackdropState } from "@/src/store/backdropState"
 import Card from "../../ui/composites/card"
-import Input from "../../ui/primitives/input"
+import Dropdown from "../../ui/composites/dropdown"
+import Form from "../../ui/composites/form"
+import Button from "../../ui/primitives/button"
+import CloseButton from "../../ui/primitives/closeButton"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
-import Button from "../../ui/primitives/button"
-import Dropdown from "../../ui/composites/dropdown"
-import CloseButton from "../../ui/primitives/closeButton"
-import { useBackdropState } from "@/src/store/backdropState"
+import Input from "../../ui/primitives/input"
+import Label from "../../ui/primitives/label"
 
 export default function CreateCustomerForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
@@ -20,7 +20,7 @@ export default function CreateCustomerForm() {
   }
 
   return (
-    <Card width="500px" padding="xl" height="max-content">
+    <Card width="600px" padding="xl" height="max-content">
       <Frame className="mb-[var(--space-xl)] justify-between">
         <Heading size="md" type="h2">
           Add Customer
@@ -50,11 +50,24 @@ export default function CreateCustomerForm() {
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Status" size="xs" />
-              <Dropdown
-                name="status"
-                size="sm"
-                width="100%"
+              <Label text="Type" size="xs" />
+              <Dropdown name="type" size="sm" width="100%"
+                options={[
+                  { label: "Individual", value: "individual"},
+                  { label: "Company", value: "company" }
+                ]}
+              />
+            </Frame>
+            <Frame className="w-1/2 flex-col">
+              <Label text="Company Name" size="xs" />
+              <Input size="sm" rounded="sm" outline border type="text" name="city" variant="default" />
+            </Frame>
+          </Frame>
+          
+          <Frame className="gap-[var(--space-md)]">
+            <Frame className="w-1/2 flex-col">
+              <Label text="State" size="xs" />
+              <Dropdown name="state" size="sm" width="100%"
                 options={[
                   { label: "Active", value: "active" },
                   { label: "Watchlist", value: "watchlist" },
@@ -74,7 +87,7 @@ export default function CreateCustomerForm() {
               className="w-full resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="Customer address"
               name="address"
-              rows={4}
+              rows={2}
             />
           </Frame>
 

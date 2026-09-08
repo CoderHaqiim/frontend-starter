@@ -23,7 +23,7 @@ type TableHeaderProps = {
           className="sticky left-0 z-30 bg-[var(--color-background3)]"
           onClick={() => onSelectColumn(-1)}
         >
-          #
+          <></>
         </TableCell>
         {
             data.map((item, index) => 

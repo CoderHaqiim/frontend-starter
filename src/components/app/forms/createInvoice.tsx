@@ -1,14 +1,15 @@
 "use client"
 
-import Form from "../../ui/composites/form"
-import Label from "../../ui/primitives/label"
+import { useBackdropState } from "@/src/store/backdropState"
 import Card from "../../ui/composites/card"
-import Input from "../../ui/primitives/input"
+import Dropdown from "../../ui/composites/dropdown"
+import Form from "../../ui/composites/form"
+import Button from "../../ui/primitives/button"
+import CloseButton from "../../ui/primitives/closeButton"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
-import Dropdown from "../../ui/composites/dropdown"
-import CloseButton from "../../ui/primitives/closeButton"
-import { useBackdropState } from "@/src/store/backdropState"
+import Input from "../../ui/primitives/input"
+import Label from "../../ui/primitives/label"
 
 export default function CreateInvoiceForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
@@ -22,7 +23,7 @@ export default function CreateInvoiceForm() {
     <Card width="500px" padding="xl" height="max-content">
       <Frame className="mb-[var(--space-xl)] justify-between">
         <Heading size="md" type="h2">
-          New Invoice
+          Create Invoice
         </Heading>
         <Frame>
           <CloseButton func={closeCreateInvoiceForm} />

@@ -1,18 +1,20 @@
 "use client"
 
-import Form from "../../ui/composites/form"
-import Label from "../../ui/primitives/label"
+import { useBackdropState } from "@/src/store/backdropState"
+import { useBusinessesState } from "@/src/store/businessesState"
 import Card from "../../ui/composites/card"
-import Input from "../../ui/primitives/input"
+import Dropdown from "../../ui/composites/dropdown"
+import Form from "../../ui/composites/form"
+import Button from "../../ui/primitives/button"
+import CloseButton from "../../ui/primitives/closeButton"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
-import Button from "../../ui/primitives/button"
-import Dropdown from "../../ui/composites/dropdown"
-import CloseButton from "../../ui/primitives/closeButton"
-import { useBackdropState } from "@/src/store/backdropState"
+import Input from "../../ui/primitives/input"
+import Label from "../../ui/primitives/label"
 
 export default function CreateTaskForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { businessesState } = useBusinessesState()
 
   const closeCreateTaskForm = () => {
     setBackdropContent(null)
@@ -37,32 +39,18 @@ export default function CreateTaskForm() {
           {/* Task Title */}
           <Frame className="w-full flex-col">
             <Label text="Task Title" size="xs" />
-
-            <Input
-              size="sm"
-              rounded="sm"
-              placeholder="What needs to be done?"
-              outline
-              border
-              type="text"
-              name="title"
-              variant="default"
-            />
+            <Input size="sm" rounded="sm" placeholder="What needs to be done?" outline border type="text" name="title" variant="default"/>
           </Frame>
 
           {/* Due Date + Priority */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
               <Label text="Due Date" size="xs" />
-
-              <Input
-                size="sm"
-                rounded="sm"
-                outline
-                border
+              <input
+                required
                 type="date"
                 name="dueDate"
-                variant="default"
+                className="w-full rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-sm)] outline-none"
               />
             </Frame>
 
@@ -88,12 +76,10 @@ export default function CreateTaskForm() {
             <Frame className="w-1/2 flex-col">
               <Label text="Status" size="xs" />
 
-              <Dropdown
-                name="status"
-                size="sm"
-                width="100%"
+              <Dropdown name="status" size="sm" width="100%"
                 options={[
-                  { label: "To Do", value: "todo" },
+                  { label: "Pending", value: "pending" },
+                  { label: "Overdue", value: "overdue" },
                   { label: "In Progress", value: "in-progress" },
                   { label: "Completed", value: "completed" },
                 ]}
@@ -101,16 +87,16 @@ export default function CreateTaskForm() {
             </Frame>
 
             <Frame className="w-1/2 flex-col">
-              <Label text="Assignee" size="xs" />
+              <Label text="Business" size="xs" />
 
               <Dropdown
-                name="assignee"
+                name="business"
                 size="sm"
                 width="100%"
-                options={[
-                  { label: "Me", value: "me" },
-                  { label: "Unassigned", value: "unassigned" },
-                ]}
+                options={businessesState.map((business) => ({
+                  label: business.name,
+                  value: business.id,
+                }))}
               />
             </Frame>
           </Frame>

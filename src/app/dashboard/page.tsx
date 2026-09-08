@@ -166,7 +166,7 @@ export default function Home() {
  //Scroll business slider left
   const scrollLeftHandler = () => {
     sliderRef.current?.scrollBy({
-      left: -323,
+      left: -327,
       behavior: "smooth",
     })
   }
@@ -174,7 +174,7 @@ export default function Home() {
   //Scroll business slider right
   const scrollRightHandler = () => {
     sliderRef.current?.scrollBy({
-      left: 323,
+      left: 327,
       behavior: "smooth",
     })
   }

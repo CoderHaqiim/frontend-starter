@@ -1,79 +1,65 @@
 "use client"
 
+import InvoiceHeader from "@/src/components/app/invoiceHeader"
+import InvoiceLine from "@/src/components/app/invoiceLine"
 import Section from "@/src/components/layout/section"
 import Dropdown from "@/src/components/ui/composites/dropdown"
 import KpiRow from "@/src/components/ui/composites/kpiRow"
-import Table from "@/src/components/ui/composites/table"
+import List from "@/src/components/ui/composites/list"
 import Button from "@/src/components/ui/primitives/button"
 import Frame from "@/src/components/ui/primitives/frame"
 import Heading from "@/src/components/ui/primitives/heading"
 import Paragraph from "@/src/components/ui/primitives/paragraph"
+import type { Invoice } from "@/src/data/invoices"
+import { http } from "@/src/http/client"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useMemo, useState } from "react"
+import type { kpiObjectProps } from "@/src/types/types"
+import { useEffect, useMemo, useState } from "react"
 
-const invoiceSummaryKpis = [
-  { id: "total", title: "Total Invoices", value: "24", meaning: "All created invoices" },
-  { id: "outstanding", title: "Outstanding", value: "$8,450", meaning: "Amount awaiting payment" },
-  { id: "paid", title: "Paid", value: "$15,200", meaning: "Paid invoices this period" },
-  { id: "overdue", title: "Overdue", value: "$2,100", meaning: "Invoices past their due date" },
-]
-
-const recentInvoices = [
-  {
-    invoice: "INV-001",
-    customer: "Acme Ltd",
-    issueDate: "Aug 12, 2026",
-    dueDate: "Sep 12, 2026",
-    amount: "$2,500",
-    status: "pending",
-  },
-  {
-    invoice: "INV-002",
-    customer: "John Smith",
-    issueDate: "Aug 10, 2026",
-    dueDate: "Aug 24, 2026",
-    amount: "$850",
-    status: "paid",
-  },
-  {
-    invoice: "INV-003",
-    customer: "Bright Foods",
-    issueDate: "Aug 5, 2026",
-    dueDate: "Aug 15, 2026",
-    amount: "$1,200",
-    status: "overdue",
-  },
-  {
-    invoice: "INV-004",
-    customer: "Lagos Traders",
-    issueDate: "Jul 29, 2026",
-    dueDate: "Aug 12, 2026",
-    amount: "$3,100",
-    status: "paid",
-  },
-  {
-    invoice: "INV-005",
-    customer: "Westfield Co",
-    issueDate: "Aug 15, 2026",
-    dueDate: "Sep 05, 2026",
-    amount: "$2,100",
-    status: "pending",
-  },
-]
+type InvoiceKpiResponse = {
+  kpis: kpiObjectProps[]
+}
 
 export default function InvoicesPage() {
+  const [invoices, setInvoices] = useState<Invoice[]>([])
+  const [invoiceKpis, setInvoiceKpis] = useState<kpiObjectProps[]>([])
+  const [isInvoiceKpisLoading, setIsInvoiceKpisLoading] = useState(true)
   const [selectedInvoiceFilter, setSelectedInvoiceFilter] = useState("all")
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
+  useEffect(() => {
+    http<Invoice[]>("/api/invoices", undefined, { method: "GET" })
+      .then(setInvoices)
+      .catch(() => setInvoices([]))
+  }, [])
+
+  useEffect(() => {
+    http<InvoiceKpiResponse>("/api/invoices/kpis", undefined, { method: "GET" })
+      .then((response) => setInvoiceKpis(response.kpis))
+      .catch(() => setInvoiceKpis([]))
+      .finally(() => setIsInvoiceKpisLoading(false))
+  }, [])
+
   const filteredInvoices = useMemo(() => {
     if (selectedInvoiceFilter === "all") {
-      return recentInvoices
+      return invoices
     }
 
-    return recentInvoices.filter(
-      (invoice) => invoice.status === selectedInvoiceFilter
-    )
-  }, [selectedInvoiceFilter])
+    return invoices.reduce<Invoice[]>((filteredInvoices, invoice) => {
+      const matchingRecipients = invoice.sentTo.filter(
+        (recipient) => recipient.paymentStatus === selectedInvoiceFilter
+      )
+
+      if (matchingRecipients.length > 0) {
+        filteredInvoices.push({
+          ...invoice,
+          sentTo: matchingRecipients,
+        })
+      }
+
+      return filteredInvoices
+    }, [])
+  }, [invoices, selectedInvoiceFilter])
 
   const handleInvoiceFilterChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -111,7 +97,7 @@ export default function InvoicesPage() {
 
       {/* Kpis */}
       <Section>
-       <KpiRow kpis={invoiceSummaryKpis} />
+        <KpiRow kpis={invoiceKpis} isLoading={isInvoiceKpisLoading} itemsCount={4} />
       </Section>
 
       <Section width="stretch">
@@ -124,20 +110,19 @@ export default function InvoicesPage() {
               width="max-content"
               defaultValue="all"
               value={selectedInvoiceFilter}
-              options={["all", "paid", "pending", "overdue"]}
+              options={["all", "paid", "pending", "overdue", "cancelled"]}
               size="sm"
               formFunc={handleInvoiceFilterChange}
             />
           </Frame>
 
-          <Frame className="w-full h-full overflow-hidden">
-            <Table
-              width="stretch"
-              cellWidth="180px"
-              height="hug"
-              size="sm"
-              data={filteredInvoices}
-            />
+          <Frame className="w-full h-full">
+            <List width="stretch" height="stretch" scroll="hidden">
+              <InvoiceHeader />
+              {filteredInvoices.map((invoice) => (
+                <InvoiceLine key={invoice.id} invoice={invoice} />
+              ))}
+            </List>
           </Frame>
         </Frame>
       </Section>

@@ -164,6 +164,7 @@ export interface GoalsType {
     title: string,
     value: string,
     meaning?: string,
+    description?: string,
     trend?: "up" | "down" | string
     change?: number
 }

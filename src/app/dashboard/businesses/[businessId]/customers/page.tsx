@@ -63,17 +63,10 @@ export default function Home() {
     "Date added": customer.dateAdded,
     "Email": customer.email,
     "Phone number": customer.phone,
-    "Website": customer.website,
-    "Contact method": customer.preferredContactMethod,
-    "Billing address": customer.billingAddress,
-    "Address": customer.shippingServiceAddress,
     "City": customer.city,
     "State/Region": customer.stateRegion,
     "Country": customer.country,
     "Customer since": customer.customerSince,
-    "Assigned to": customer.assignedPersonTeamMember,
-    "Tags": customer.tags,
-    "Notes": customer.notes,
   }))
 
   const createCustomer = () => {

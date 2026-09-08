@@ -8,6 +8,7 @@ type FrameProp = {
   className?: string;
   border?: boolean
   onClick?: () => void
+  onMouseLeave?: () => void
 };
 
 const Frame = forwardRef<HTMLDivElement, FrameProp>(
@@ -20,6 +21,7 @@ const Frame = forwardRef<HTMLDivElement, FrameProp>(
       specificStyles,
       className,
       onClick,
+      onMouseLeave,
     },
     ref
   ) => {
@@ -38,7 +40,7 @@ const Frame = forwardRef<HTMLDivElement, FrameProp>(
     `;
 
     return (
-      <div ref={ref} className={`${baseStyle} ${className}`} style={{ ...specificStyles }} onClick={onClick}>
+      <div ref={ref} className={`${baseStyle} ${className}`} style={{ ...specificStyles }} onClick={onClick} onMouseLeave={onMouseLeave}>
         {children}
       </div>
     );

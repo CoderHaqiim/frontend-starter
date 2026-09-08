@@ -159,6 +159,8 @@ export default function Calendar({
 
               const isCurrentMonth =
                 isSameMonth(day, currentDate)
+              const hasSchedules =
+                isCurrentMonth && daySchedules.length > 0
 
               const isToday =
                 isSameDay(day, new Date())
@@ -181,7 +183,7 @@ export default function Calendar({
                           <p className="text-[length:var(--bodySize-sm)] leading-[1.5] font-[var(--fontWeight-medium)] text-[var(--color-background1)]">
                             {schedule.title}
                           </p>
-                          <p className="text-[length:var(--bodySize-xs)] leading-[1] font-[var(--fontWeight-medium)] text-[var(--color-background1)]">
+                          <p className="text-[length:var(--bodySize-xxs)] leading-[1] font-[var(--fontWeight-medium)] text-[var(--color-background1)]">
                             {format(new Date(schedule.startAt), "h:mm a")}
                           </p>
                         </div>
@@ -218,7 +220,6 @@ export default function Calendar({
                     func={isInteractive ? () => openScheduleModal(day) : undefined}
                     className={`transition ${isInteractive ? "hover:bg-[var(--color-background1)]" : "cursor-default"}`}
                     specificStyles={{
-                      position: "relative",
                       borderRadius:
                         "var(--space-sm)",
                       color: isToday
@@ -226,24 +227,23 @@ export default function Calendar({
                         : isCurrentMonth
                           ? colors["textColor1"]
                           : colors["background3"],
-                      border: isCurrentMonth
-                        ? `solid 1px ${colors["outline1"]}`
-                        : "0px",
+                      border: hasSchedules
+                        ? `solid 1px ${colors["info"]}`
+                        : isCurrentMonth
+                          ? `solid 1px ${colors["outline1"]}`
+                          : "0px",
                       fontWeight:
                         fontWeight["normal"],
-                      backgroundColor: isToday
-                        ? colors["accent2"]
+                      backgroundColor: hasSchedules
+                        ? colors["info2"]
+                        : isToday
+                          ? colors["accent2"]
                         : isCurrentMonth
                           ? colors["background1"]
                           : colors["white"],
                       pointerEvents: isInteractive ? "auto" : "none",
                     }}
                   >
-                    {/* Schedule indicator */}
-                    {isCurrentMonth && daySchedules.length > 0 && (
-                      <span className="absolute top-[2px] right-[2px] h-[3px] w-[3px] rounded-[var(--radius-lg)] bg-[var(--color-accent)]" />
-                    )}
-
                     <span className="flex justify-between">
                       <span>
                         {format(day, "d")}
