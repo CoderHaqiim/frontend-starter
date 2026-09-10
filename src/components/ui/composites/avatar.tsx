@@ -1,14 +1,15 @@
 import { elementSizes } from "@/src/app/design/sizes"
+import { SizeType } from "@/src/types/types"
 import Image from "next/image"
-import Frame from "../primitives/frame"
-import { FrameSizeType, SizeType } from "@/src/types/types"
 import { useTheme } from "../../providers/themeProvider"
+import Frame from "../primitives/frame"
 
 type AvatarProps = {
   size: SizeType
+  src?: string
 }
 
-export default function Avatar({size}: AvatarProps) {
+export default function Avatar({size, src = "/images/akeem.png"}: AvatarProps) {
   const {colors} = useTheme()
   return (
     <Frame className="relative rounded-[var(--radius-xxl)] overflow-hidden"
@@ -18,7 +19,7 @@ export default function Avatar({size}: AvatarProps) {
       }}>
         <Image 
             alt="user avatar"
-            src={"/images/akeem.png"}
+          src={src}
             fill
             sizes= {elementSizes[size]}
 

@@ -16,7 +16,7 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
   const amount = `${isIncome ? "+" : "-"}$${transaction.amount.toLocaleString()}`;
 
   return (
-    <Frame className="w-full p-[var(--space-lg)] flex-col gap-[var(--space-sm)]">
+    <Frame className="w-full px-[var(--space-lg)] py-[var(--space-md)] flex-col gap-[var(--space-sm)]">
       <Frame className="justify-between flex-1">
         <Frame className="gap-[var(--space-md)] items-center">
           <Icon
@@ -27,12 +27,12 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
           />
 
           <Frame className="flex-col">
-            <Paragraph color="textColor1" size="sm">
+            <Paragraph color="textColor1" size="xs">
               {transaction.description}
             </Paragraph>
 
             <Frame>
-              <Paragraph weight="light" size="xs">
+              <Paragraph weight="light" size="xxs">
                 {transaction.category}
               </Paragraph>
             </Frame>
@@ -44,7 +44,7 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
             <Paragraph
               weight="medium"
               color={isIncome ? "success" : "error"}
-              size="sm"
+              size="xs"
             >
               {amount}
             </Paragraph>

@@ -1,16 +1,15 @@
+import { shadow3 } from '@/src/app/design/shadows'
 import { useBackdropState } from '@/src/store/backdropState'
-import Frame from '../primitives/frame'
-import { ChartPeriod, ChartPoint, chartTypes, FunctionType} from '@/src/types/types'
-import Button from '../primitives/button'
-import Chart1 from './chart1'
-import { useState, useRef, useEffect } from 'react'
-import Tooltip from '../composites/tooltip'
+import { ChartPeriod, ChartPoint, chartTypes, FunctionType } from '@/src/types/types'
 import { toPng } from 'html-to-image'
 import jsPDF from 'jspdf'
+import { useEffect, useRef, useState } from 'react'
 import Card from '../composites/card'
-import { shadow3 } from '@/src/app/design/shadows'
+import Tooltip from '../composites/tooltip'
+import Button from '../primitives/button'
+import Frame from '../primitives/frame'
 import Heading from '../primitives/heading'
-import CloseButton from '../primitives/closeButton'
+import Chart1 from './chart1'
 
 
 type ExpandedChartProps = {
@@ -148,7 +147,7 @@ export default function ExpandedChart({chartData, selectedChart, selectedPeriod}
             </div>
         </Frame>
         <Frame ref={chartRef} className='flex-col gap-[var(--space-md)]'>
-            <Heading size='sm' type='h1'>
+            <Heading size='sm' weight='normal' type='h1'>
                 {period[selectedPeriod]} chart showing relationship between revenue, expenses and profit
             </Heading>
             <Chart1 height="400px" fixedRatio={false} variant={selectedChart} data={chartData} isLoading={false} selectedPeriod={selectedPeriod}/>

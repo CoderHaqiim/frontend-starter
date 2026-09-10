@@ -22,7 +22,7 @@ export default function Section({
 }: SectionProps) {
   const {colors} = useTheme()
   return (
-    <Frame className={`flex-col border border-[var(--color-outline1)] gap-[var(--space-md)] p-[var(--space-lg)] bg-[var(--color-background2)] rounded-[var(--radius-md)] ${className}`} 
+    <Frame className={`flex-col border-[1px] border-[var(--color-outline1)] gap-[var(--space-md)] p-[var(--space-lg)] bg-[var(--color-background2)] rounded-[var(--radius-md)] ${className}`} 
     specificStyles={{
       width: width,
       height: height,

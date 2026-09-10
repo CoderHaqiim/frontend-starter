@@ -119,7 +119,7 @@ export default function Home() {
             />
           </Frame>
           <Frame className="w-full h-full" scroll="hidden">
-            <Table width="stretch" cellWidth="180px" height="300px" size="sm" data={customerDirectoryTableData}/>
+            <Table width="stretch" cellWidth="180px" height="300px" size="sm" data={customerDirectoryTableData} isCustomerData />
           </Frame>
         </Frame>
       </Section>

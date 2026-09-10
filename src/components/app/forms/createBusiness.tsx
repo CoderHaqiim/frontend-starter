@@ -1,15 +1,15 @@
-"use client"
+ "use client"
 
-import Form from "../../ui/composites/form"
-import Label from "../../ui/primitives/label"
+import { useBackdropState } from "@/src/store/backdropState"
 import Card from "../../ui/composites/card"
-import Input from "../../ui/primitives/input"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
+import Dropdown from "../../ui/composites/dropdown"
+import Form from "../../ui/composites/form"
 import Button from "../../ui/primitives/button"
 import CloseButton from "../../ui/primitives/closeButton"
-import Dropdown from "../../ui/composites/dropdown"
-import { useBackdropState } from "@/src/store/backdropState"
+import Frame from "../../ui/primitives/frame"
+import Heading from "../../ui/primitives/heading"
+import Input from "../../ui/primitives/input"
+import Label from "../../ui/primitives/label"
 
 export default function CreateBusinessForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
@@ -37,28 +37,14 @@ export default function CreateBusinessForm() {
           {/* Business Name */}
           <Frame className="w-full flex-col">
             <Label text="Business Name" size="xs" />
-
-            <Input
-              size="sm"
-              rounded="sm"
-              placeholder="What is your business name?"
-              outline
-              border
-              type="text"
-              name="businessName"
-              variant="default"
-            />
+            <Input size="xs" rounded="sm" placeholder="What is your business name?" outline border type="text" name="businessName" variant="default"/>
           </Frame>
 
           {/* Country & State */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
               <Label text="Country" size="xs" />
-
-              <Dropdown
-                name="country"
-                size="sm"
-                width="100%"
+              <Dropdown name="country" size="xs" width="100%"
                 options={[
                   { label: "Nigeria", value: "Nigeria" },
                   { label: "Ghana", value: "Ghana" },
@@ -74,10 +60,7 @@ export default function CreateBusinessForm() {
             <Frame className="w-1/2 flex-col">
               <Label text="State / Province" size="xs" />
 
-              <Dropdown
-                name="state"
-                size="sm"
-                width="100%"
+              <Dropdown name="state" size="xs" width="100%"
                 options={[
                   { label: "Lagos", value: "Lagos" },
                   { label: "Abuja", value: "Abuja" },
@@ -96,9 +79,7 @@ export default function CreateBusinessForm() {
               <Label text="Industry" size="xs" />
 
               <Dropdown
-                name="industry"
-                size="sm"
-                width="100%"
+                name="industry" size="xs" width="100%"
                 options={[
                   { label: "Technology", value: "technology" },
                   { label: "Agriculture", value: "agriculture" },
@@ -112,12 +93,14 @@ export default function CreateBusinessForm() {
             </Frame>
 
             <Frame className="w-1/2 flex-col">
-              <Label text="Currency" size="xs" />
+              <Label text="Established in" size="xs" />
+              <Input size="xs" rounded="sm" placeholder="When was your business estalished?" outline border type="text" name="businessName" variant="default"/>
+            </Frame>
+          </Frame>
 
-              <Dropdown
-                name="currency"
-                size="sm"
-                width="100%"
+          <Frame className="w-1/2 flex-col">
+              <Label text="Currency" size="xs" />
+              <Dropdown name="currency" size="xs" width="100%"
                 options={[
                   { label: "Nigerian Naira (₦)", value: "NGN" },
                   { label: "US Dollar ($)", value: "USD" },
@@ -126,17 +109,15 @@ export default function CreateBusinessForm() {
                 ]}
               />
             </Frame>
-          </Frame>
 
           {/* Description */}
           <Frame className="w-full flex-col">
             <Label text="Description" size="xs" />
-
             <textarea
               className="w-full placeholder-[var(--color-outline1)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="What does this business do?"
               name="description"
-              rows={4}
+              rows={2}
             />
           </Frame>
 

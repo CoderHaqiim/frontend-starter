@@ -3,6 +3,7 @@
 import { shadow3 } from '@/src/app/design/shadows'
 import { space } from '@/src/app/design/spacing'
 import { fontWeight } from '@/src/app/design/typograhy'
+import BusinessSwitcher from '@/src/components/app/businessSwitcher'
 import ChartSection from '@/src/components/app/chartSection'
 import EditLogo from '@/src/components/app/forms/editLogo'
 import HealthProgressMetric from '@/src/components/app/healthProgressMetric'
@@ -29,7 +30,6 @@ import { getCurrencySymbol } from '@/src/utils/currencySymbol'
 import { healthMap } from '@/src/utils/healthMap'
 import { kpiResponseToCards } from '@/src/utils/kpiResponseToCards'
 import { shortenText } from '@/src/utils/shortenText'
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -182,44 +182,7 @@ export default function BusinessPage() {
                 <Heading size="xl" type="h1">
                   { shortenText(business?.name ?? "", 30) ?? "Business name" }
                 </Heading>
-                <Frame className="relative">
-                  <Button
-                    func={() => setIsBusinessMenuOpen((prev) => !prev)}
-                    variant="outline"
-                    iconPosition='right'
-                    iconColor='accent'
-                    size="xxs"
-                    iconName='icon-change'
-                    rounded="xs"
-                    specificStyles={{
-                      color: colors["accent"],
-                      fontWeight: `var(--fontWeight-bold)`
-                    }}
-                  >
-                    Switch Business
-                  </Button>
-
-                  {isBusinessMenuOpen && (
-                    <Frame className="left-0 top-[calc(100%+8px)] z-[60] flex-col min-w-[200px] max-h-[180px] overflow-y-auto border border-[var(--color-outline2)] rounded-[var(--radius-sm)] bg-[var(--color-white)] shadow-[0_8px_20px_rgba(0,0,0,0.08)]" specificStyles={{
-                      position: "absolute"
-                    }}>
-                      {businessesState.map((item) => (
-                        <Link
-                          key={item.id}
-                          href={`/dashboard/businesses/${item.id}/overview`}
-                          onClick={() => setIsBusinessMenuOpen(false)}
-                          className="block w-full px-3 py-2 text-left text-[length:var(--bodySize-xs)] transition-colors hover:bg-[var(--color-background1)]"
-                          style={{
-                            backgroundColor: businessId === item.id ? colors["accent2"] : undefined,
-                            color: businessId === item.id ? colors["accent"] : "var(--color-text1)",
-                          }}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </Frame>
-                  )}
-                </Frame>
+                <BusinessSwitcher businesses={businessesState} activeBusinessId={String(businessId)} />
               </Frame>
               <Frame className="gap-[var(--space-xs)] items-center">
                 <Paragraph weight="light" size="sm">

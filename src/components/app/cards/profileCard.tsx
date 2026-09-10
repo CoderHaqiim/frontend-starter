@@ -1,18 +1,21 @@
 "use client"
 
+import { shadow3 } from "@/src/app/design/shadows"
+import { useProfileState } from "@/src/store/profileState"
+import { Businesses } from "@/src/types/types"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import Avatar from "../../ui/composites/avatar"
 import Card from "../../ui/composites/card"
+import Button from "../../ui/primitives/button"
 import Frame from "../../ui/primitives/frame"
 import Heading from "../../ui/primitives/heading"
 import Paragraph from "../../ui/primitives/paragraph"
-import Button from "../../ui/primitives/button"
-import Avatar from "../../ui/composites/avatar"
-import { shadow3 } from "@/src/app/design/shadows"
-import { useProfileState } from "@/src/store/profileState"
-import { useRouter } from "next/navigation"
 
 export default function ProfileCard() {
-    const { profileOpen, setProfileOpen } = useProfileState()
+    const { profileOpen, setProfileOpen, profileData, fetchProfile } = useProfileState()
     const router = useRouter()
+    const [businessCount, setBusinessCount] = useState<number | null>(null)
     
     const closeProfile = () => {
         setProfileOpen(false)
@@ -22,8 +25,29 @@ export default function ProfileCard() {
       router.push("/login")
     }
 
+    useEffect(() => {
+      fetchProfile()
+
+      const fetchBusinesses = async () => {
+        try {
+          const response = await fetch("/api/businesses")
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch businesses")
+          }
+
+          const businesses = await response.json() as Businesses
+          setBusinessCount(businesses.length)
+        } catch (error) {
+          console.error("Unable to load businesses", error)
+        }
+      }
+
+      fetchBusinesses()
+    }, [fetchProfile])
+
   return (
-    <Card width="100%" height="max-content" padding="lg" gap="md" className={`${profileOpen? "flex" : "hidden"} ${shadow3}`}>
+    <Card width="100%" height="max-content" padding="md" gap="md" className={`${profileOpen? "flex" : "hidden"} ${shadow3}`}>
 
       <Button variant="ghost" func={closeProfile} size="xs" className="z-[200] right-[var(--space-sm)] top-[var(--space-sm)]" isIcon iconName="icon-x" 
         specificStyles={{
@@ -33,15 +57,15 @@ export default function ProfileCard() {
       {/* Profile */}
       <Frame className="w-full items-center gap-[var(--space-md)]">
         {/* Avatar */}
-        <Avatar size="md"/>
+        <Avatar size="md" src={profileData?.profilePicture}/>
 
         <Frame className="flex-col gap-[var(--space-xxs)]">
           <Heading type="h2" size="sm">
-            Haqiim Jaye
+            {profileData?.userName ?? "Loading..."}
           </Heading>
 
           <Paragraph size="xs" color="textColor2">
-            Business Owner
+            {profileData?.userRole ?? ""}
           </Paragraph>
         </Frame>
       </Frame>
@@ -54,7 +78,7 @@ export default function ProfileCard() {
           </Paragraph>
 
           <Paragraph size="sm" weight="semiBold" className="leading-[1]" color="textColor1">
-            4
+            {businessCount ?? "—"}
           </Paragraph>
         </Frame>
 

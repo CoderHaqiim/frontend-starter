@@ -39,8 +39,9 @@ export default function InvoiceLine({ invoice }: invoiceTypeProps) {
 
   const visibleRecipients = invoice.sentTo.slice(0, 4)
   const remainingRecipients = invoice.sentTo.length - visibleRecipients.length
+
   return (
-    <Frame className="w-full p-[var(--space-lg)] justify-between bg-[var(--color-white)]">
+    <Frame className="w-full items-center p-[var(--space-lg)] justify-between bg-[var(--color-white)]">
       <Frame className="w-[100px]" >
         <Paragraph size="xs">{invoice.date}</Paragraph>
       </Frame>
@@ -52,6 +53,7 @@ export default function InvoiceLine({ invoice }: invoiceTypeProps) {
       <Frame className="flex-col items-end w-[100px]">
         <Paragraph size="xs">{invoice.amount}</Paragraph>
       </Frame>
+
       <Frame
         className="w-[200px] cursor-pointer items-center"
         onClick={() => setCustomersOpen((open) => !open)}

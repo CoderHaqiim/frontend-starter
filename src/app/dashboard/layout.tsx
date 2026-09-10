@@ -1,14 +1,11 @@
-import Frame from "@/src/components/ui/primitives/frame"
-import Nav from "@/src/components/layout/nav"
-import Main from "@/src/components/layout/main"
+import BusinessPageHeader from "@/src/components/app/businessPageHeader"
 import LeftAside from "@/src/components/app/leftAside"
 import RightAside from "@/src/components/app/rightAside"
+import Main from "@/src/components/layout/main"
+import Nav from "@/src/components/layout/nav"
+import Frame from "@/src/components/ui/primitives/frame"
 import { ReactNode } from "react"
 // import Tab from "@/src/components/ui/composites/tab"
-import Tooltip from "@/src/components/ui/composites/tooltip"
-import Button from "@/src/components/ui/primitives/button"
-import { shadow1 } from "../design/shadows"
-import SmartNavigation from "@/src/components/ui/composites/smartNavigation"
 
 type LayoutProps = {
   children: ReactNode
@@ -20,8 +17,9 @@ export default function Layout({children}: LayoutProps) {
       <LeftAside/>
       <Frame  className="h=full flex-col h-full flex-1 overflow-hidden bg-[var(--color-background1)]">
         <Nav/>
+        <BusinessPageHeader />
         {/* <SmartNavigation/> */}
-        <Frame className="w-full justify-center" specificStyles={{ height:"calc(100% - 60px)"}}>
+        <Frame className="w-full flex-1 min-h-0 justify-center">
           <Main>
             {children}
           </Main>

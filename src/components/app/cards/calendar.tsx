@@ -1,16 +1,16 @@
 "use client"
 
 import {
-  addMonths,
-  eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  isSameDay,
-  isSameMonth,
-  startOfMonth,
-  startOfWeek,
-  subMonths,
+    addMonths,
+    eachDayOfInterval,
+    endOfMonth,
+    endOfWeek,
+    format,
+    isSameDay,
+    isSameMonth,
+    startOfMonth,
+    startOfWeek,
+    subMonths,
 } from "date-fns"
 
 import { fontWeight } from "@/src/app/design/typograhy"
@@ -97,7 +97,7 @@ export default function Calendar({
       padding="lg"
       height="hug"
       className="bg-[var(--color-white)]"
-      width="290px"
+      width="300px"
       rounded="md"
       specificStyles={{
         border: `solid 1px ${colors["outline1"]}`,
@@ -107,7 +107,7 @@ export default function Calendar({
         className="flex items-center justify-between pb-[var(--space-sm)] mb-[var(--space-sm)]">
         <Frame className="flex flex-col">
           <Heading type="h3" size="sm">
-            Schedular
+            Schedules
           </Heading>
         </Frame>
       </Frame>

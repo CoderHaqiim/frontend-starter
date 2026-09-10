@@ -48,11 +48,12 @@ export default function QuickActions() {
     { label: "Add Customer", open: () => openBackdrop("create-customer-form") },
     { label: "Add inventory item", open: () => openBackdrop("create-inventory-item-form") },
     { label: "New Invoice", open: () => openBackdrop("create-invoice-form") },
+    { label: "New Receipt", open: () => openBackdrop("create-receipt-form") },
     { label: "Add Transaction", open: createTransaction },
   ]
 
   return (
-    <Card padding="lg" rounded="md" width="290px" height="max-content">
+    <Card padding="lg" rounded="md" width="300px" height="max-content">
       <Frame className="pb-[var(--space-sm)] mb-[var(--space-sm)] flex w-full h-max items-center justify-between">
         <Heading type="h2" size="sm">Quick Actions</Heading>
       </Frame>

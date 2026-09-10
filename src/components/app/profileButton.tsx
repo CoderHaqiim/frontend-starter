@@ -1,17 +1,21 @@
-import Button from "../ui/primitives/button"
-import Avatar from "../ui/composites/avatar"
-import { bodySize } from "@/src/app/design/typograhy"
-import { useUserState } from "@/src/store/userState";
-import ProfileCard from "./cards/profileCard";
 import { space } from "@/src/app/design/spacing";
-import Frame from "../ui/primitives/frame";
 import { useProfileState } from "@/src/store/profileState";
+import { useEffect } from "react";
+import Avatar from "../ui/composites/avatar";
+import Button from "../ui/primitives/button";
+import Frame from "../ui/primitives/frame";
+import ProfileCard from "./cards/profileCard";
 
 
 
 export default function ProfileButton() {
- const {userState} = useUserState();
- const {setProfileOpen} = useProfileState()
+ const {setProfileOpen, profileData, fetchProfile} = useProfileState()
+
+ useEffect( 
+    () => {
+     fetchProfile()
+    }, [fetchProfile]
+)
 
  const openProfileCard = () => {
     setProfileOpen(true)
@@ -31,13 +35,13 @@ export default function ProfileButton() {
                 width: "100%",
                 backgroundColor:"transparent"
             }}>
-            <Avatar size="sm"/>
+            <Avatar size="sm" src={profileData?.profilePicture}/>
             <span className="flex flex-col justify-center items-start">
                 <span className="block leading-[1] text-[length:var(--bodySize-sm)] font-[var(--fontWeight-semiBold)]">
-                    {userState.username}
+                    {profileData?.userName ?? "Loading..."}
                 </span>
                 <span className="block text-[length:var(--bodySize-xs)] text-[color:var(--color-textColor2)]">
-                    {userState.role}
+                    {profileData?.userRole ?? ""}
                 </span>
             </span>
         </Button>

@@ -11,6 +11,7 @@ type TableRowProps = {
     isSelected?: boolean
     selectedColumnIndex?: number | null
     onSelect?: () => void
+    isCustomerData?: boolean
 }
 
 export default function TableRow({
@@ -21,14 +22,15 @@ export default function TableRow({
   rowIndex,
   isSelected = false,
   selectedColumnIndex = null,
-  onSelect
+  onSelect,
+  isCustomerData = false
 }: TableRowProps) {
 
   const valuesArray = headerData.map(key => data[key] ?? "")
 
   return (
     <div
-      className={`bg-[var(--color-white)] w-full h-max flex ${isSelected ? "bg-[var(--color-background1)]" : ""}`}
+      className={`bg-[var(--color-white)] w-full h-max flex ${isSelected ? "bg-[var(--color-background1)]" : ""} ${isCustomerData && data.Status === "Watchlist" ? "border-2 border-[var(--color-error2)]" : ""}`}
       role="row"
       aria-selected={isSelected}
       onClick={onSelect}

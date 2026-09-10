@@ -1,13 +1,11 @@
 "use client"
 
-import React, { ReactNode } from 'react'
-import Frame from '../primitives/frame'
-import { CSSProperties } from 'react'
-import { FrameSizeType, SizeType } from '@/src/types/types'
-import { useTheme } from '../../providers/themeProvider'
-import { shadow2 } from '@/src/app/design/shadows'
-import { space } from '@/src/app/design/spacing'
 import { radius } from '@/src/app/design/radius'
+import { space } from '@/src/app/design/spacing'
+import { FrameSizeType, SizeType } from '@/src/types/types'
+import { CSSProperties, ReactNode } from 'react'
+import { useTheme } from '../../providers/themeProvider'
+import Frame from '../primitives/frame'
 
 type CardProps = {
     children: ReactNode,

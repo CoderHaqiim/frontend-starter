@@ -1,16 +1,16 @@
 "use client"
 
-import { ReactNode, isValidElement } from "react"
-import Frame from "./frame"
 import { useBackdropState } from "@/src/store/backdropState"
-import CreateBusinessForm from "../../app/forms/createBusiness"
-import CreateTaskForm from "../../app/forms/createTask"
-import EditBusinessForm from "../../app/forms/editBusiness"
+import { ReactNode, isValidElement } from "react"
+import CreateCustomerForm from "../../app/forms/createCustomer"
+import CreateGoalForm from "../../app/forms/createGoal"
 import CreateInventoryItemForm from "../../app/forms/createInventoryItem"
 import CreateInvoiceForm from "../../app/forms/createInvoice"
-import CreateGoalForm from "../../app/forms/createGoal"
-import CreateCustomerForm from "../../app/forms/createCustomer"
+import CreateReceiptForm from "../../app/forms/createReceipt"
+import CreateTaskForm from "../../app/forms/createTask"
+import EditBusinessForm from "../../app/forms/editBusiness"
 import ScheduleModal from "../../app/forms/scheduleModal"
+import Frame from "./frame"
 
 type BackdropProps = {
     children?: ReactNode,
@@ -29,6 +29,7 @@ export default function Backdrop({children}: BackdropProps) {
       case "edit-business-form": return <EditBusinessForm/> 
       case "create-inventory-item-form": return <CreateInventoryItemForm/> 
       case "create-invoice-form": return <CreateInvoiceForm/> 
+      case "create-receipt-form": return <CreateReceiptForm/> 
       case "create-goal-form": return <CreateGoalForm/> 
       case "create-customer-form": return <CreateCustomerForm/> 
       case "create-schedule-form": return <ScheduleModal/> 

@@ -3,6 +3,7 @@
 import { http } from "@/src/http/client"
 import { useBackdropState } from "@/src/store/backdropState"
 import { Task } from "@/src/types/types"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useTheme } from "../../providers/themeProvider"
 import Card from "../../ui/composites/card"
@@ -21,14 +22,16 @@ export default function TaskManagerCard({}: TaskManagerCardProps) {
   const {setBackdropContent, setBackdropOpen} = useBackdropState()
   const [tasks, setTasks] = useState<Task[] | null>(null)
   const {colors} = useTheme()
+  const { businessId } = useParams<{ businessId: string }>()
+  const router = useRouter()
 
   useEffect(()=>{
     const fetchTasks = async() => {
-      const tasks = await http<Task[]>("/api/tasks")
+      const tasks = await http<Task[]>(`/api/businesses/${businessId}/tasks/today`)
       setTasks(tasks)
     }
     fetchTasks()
-  },[])
+  },[businessId])
 
   const createTask = () => {
     setBackdropOpen(true)
@@ -55,9 +58,10 @@ export default function TaskManagerCard({}: TaskManagerCardProps) {
           </Button>
 
           <Tooltip content="open" position="top">
-            <Button variant="outline" isIcon size="xs" iconName="icon-open"/>
+            <Button variant="outline" isIcon size="xs" iconName="icon-open"
+              func={() => router.push(`/dashboard/businesses/${businessId}/tasks`)}
+            />
           </Tooltip>
-
         </Frame>
       </Frame>
 
@@ -78,18 +82,11 @@ export default function TaskManagerCard({}: TaskManagerCardProps) {
           </Heading>
 
           <Frame>
-            <Paragraph size="xs">
-              {
-                " • " + 
-                (tasks?.length ?? "0") + 
-                " Tasks" + 
-                " • " +
-                (tasks?.filter(task => task?.status === "completed").length ?? "0") + 
-                " Completed" +
-                " • " +
-                (tasks?.filter(task => task?.status === "pending").length ?? "0") +
-                " Pending"
-                }
+            <Paragraph size="xxs">
+              {" • " + (tasks?.length ?? "0") + " Tasks" +
+                " • " + (tasks?.filter(task => task.status === "completed").length ?? "0") + " Completed" +
+                " • " + (tasks?.filter(task => task.status === "pending").length ?? "0") + " Pending" +
+                " • " + (tasks?.filter(task => task.status === "overdue").length ?? "0") + " Overdue"}
             </Paragraph>
           </Frame>
         </Frame>

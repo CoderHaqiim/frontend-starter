@@ -5,6 +5,12 @@ export type ObjectRecordType = Record<string, string>
 export type SizeType =  "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
 export type FrameSizeType = "hug" | "stretch" | CSSProperties["height"] | CSSProperties["width"];
 export type FunctionType = (arg?: number | string) => void | Promise<void>
+export interface Profile {
+  profilePicture: string
+  userName: string
+  userId: string | number
+  userRole: string
+}
 export type HealthType = "healthy" | "critical" | "moderate"
 export type Duration = "weekly" |"monthly" |"annual"
 
@@ -96,6 +102,7 @@ export interface Task {
   id: string | number;
   title: string;
   description?: string;
+  businessId: string;
   business?: string;
   assignee?: {
     name: string;

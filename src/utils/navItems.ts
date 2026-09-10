@@ -47,10 +47,10 @@ export function getBusinessView(businessId: string): navItems {
             link: `/dashboard/businesses/${businessId}/overview`
         },
         {
-            id: "tasks",
-            text: "Tasks",
-            icon: "icon-double-check",
-            link: `/dashboard/businesses/${businessId}/tasks`
+            id: "transactions",
+            text: "Transactions",
+            icon: "icon-transactions",
+            link: `/dashboard/businesses/${businessId}/transactions`
         },
         {
             id: "inventory",
@@ -65,10 +65,16 @@ export function getBusinessView(businessId: string): navItems {
             link: `/dashboard/businesses/${businessId}/invoices`
         },
         {
-            id: "transactions",
-            text: "Transactions",
-            icon: "icon-transactions",
-            link: `/dashboard/businesses/${businessId}/transactions`
+            id: "receipts",
+            text: "Receipts",
+            icon: "icon-receipt",
+            link: `/dashboard/businesses/${businessId}/receipts`
+        },
+        {
+            id: "tasks",
+            text: "Tasks",
+            icon: "icon-double-check",
+            link: `/dashboard/businesses/${businessId}/tasks`
         },
         {
             id: "customers",

@@ -22,7 +22,7 @@ export default function LeftAside() {
 
   return (
     <Aside
-      width="260px"
+      width="240px"
       className="items-start border-r border-r-[var(--color-outline1)] justify-between"
       specificStyles={{
         backgroundColor: colors["background3"],
@@ -33,7 +33,7 @@ export default function LeftAside() {
       </Frame>
 
       <Frame className="flex w-full flex-1 flex-col">
-        <Frame className="flex h-max w-full gap-[var(--space-sm)] flex-col pb-[var(--space-md)]">
+        <Frame className="flex h-max w-full flex-col pb-[var(--space-md)]">
           {navItems
             .filter((item)=> item.id !== "settings" && item.id !== "support")
             .map((item) => (
@@ -48,7 +48,7 @@ export default function LeftAside() {
               </NavLink>
             ))}
         </Frame>
-        <Frame className="flex h-max w-full flex-col border-t-[1px] border-t-[var(--color-outline2)] pt-[var(--space-md)] mb-[var(--space-lg)]">
+        <Frame className="flex h-max w-full flex-col border-t-[1px] border-t-[var(--color-outline1)] pt-[var(--space-md)] mb-[var(--space-lg)]">
           {navItems
             .filter((item)=> item.id == "settings" || item.id == "support")
             .map((item) => (

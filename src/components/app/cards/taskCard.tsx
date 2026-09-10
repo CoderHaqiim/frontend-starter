@@ -1,6 +1,7 @@
 import { ColorTypes } from "@/src/app/design/colors";
 import { shadow1 } from "@/src/app/design/shadows";
 import { Task } from "@/src/types/types";
+import { format } from "date-fns";
 import { DragEvent } from "react";
 import { useTheme } from "../../providers/themeProvider";
 import Badge from "../../ui/composites/badge";
@@ -35,7 +36,7 @@ export default function TaskCard({task}:{task: Task}) {
 
   return (
     <div draggable onDragStart={handleDragStart} 
-    className={`flex h-[160px] shrink-0 w-[220px] cursor-grab flex-col gap-3 rounded-[var(--radius-md)] border border-[var(--color-outline1)] bg-[var(--color-white)] p-4 transition hover:${shadow1} hover:border-[var(--color-outline2)] active:cursor-grabbing`}>
+    className={`flex h-max max-h-[220px] min-h-[160px] shrink-0 w-[220px] cursor-grab flex-col gap-3 rounded-[var(--radius-md)] border border-[var(--color-outline1)] bg-[var(--color-white)] p-4 transition hover:${shadow1} hover:border-[var(--color-outline2)] active:cursor-grabbing`}>
       <Frame className="flex-1 w-full h-full justify-between flex-col">
         <Frame className="w-full justify-between">
           <Frame className="gap-[var(--space-xs)]">
@@ -52,7 +53,7 @@ export default function TaskCard({task}:{task: Task}) {
           }
         </Frame>
         <Frame>
-          <Badge color="accent" iconName="icon-clock" size="xxs" text={task.dueDate}/>
+          <Badge color="accent" iconName="icon-clock" size="xxs" text={format(new Date(`${task.dueDate}T00:00:00`), "MMM d, yyyy")}/>
         </Frame>
       </Frame>
     </div>

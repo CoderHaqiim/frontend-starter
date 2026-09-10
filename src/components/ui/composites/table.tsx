@@ -11,7 +11,8 @@ type TableProps = {
     cellWidth?: FrameSizeType,
     height: FrameSizeType,
     data: ObjectRecordType[],
-    size: SizeType
+    size: SizeType,
+    isCustomerData?: boolean
 }
 
 const MIN_COLUMN_WIDTH = 50
@@ -34,7 +35,8 @@ export default function Table({
     cellWidth = "150px",
     height,
     data,
-    size
+    size,
+    isCustomerData = false
 }: TableProps) {
 
     const headerData: string[] = useMemo(() => {
@@ -183,6 +185,7 @@ export default function Table({
                                 setSelectedRowIndex(index)
                                 setSelectedColumnIndex(null)
                             }}
+                            isCustomerData={isCustomerData}
                         />
                     ))
                 }

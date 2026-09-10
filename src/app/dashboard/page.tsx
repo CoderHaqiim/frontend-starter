@@ -58,12 +58,12 @@ export default function Home() {
           )
         )
 
+          console.log(businessSummaryKpiList)
+          
         setBusinessesState(businesses)
         setDashboardKpis(kpiResponseToCards(kpis, "NGN"))
         setBusinessHealth(
-          Object.fromEntries(
-            health.map(item => [item.businessId, item])
-          )
+          Object.fromEntries( health.map(item => [item.businessId, item]))
         )
 
         setBusinessSummaryKpis(

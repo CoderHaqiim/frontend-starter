@@ -1,4 +1,3 @@
-import { FormObjectTypes } from "../types/types"
 
 export type HttpOptions = RequestInit
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL

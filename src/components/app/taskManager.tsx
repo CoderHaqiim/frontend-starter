@@ -2,6 +2,7 @@
 
 import { http } from "@/src/http/client";
 import { Task, TaskStatus } from "@/src/types/types";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Badge from "../ui/composites/badge";
 import Frame from "../ui/primitives/frame";
@@ -17,16 +18,17 @@ const columns: { status: TaskStatus; title: string }[] = [
 
 export default function TaskManager() {
 	const [tasks, setTasks] = useState<Task[]>([]);
+	const { businessId } = useParams<{ businessId: string }>()
 
 	useEffect(() => {
 		const fetchTasks = async () => {
-			const taskData = await http<Task[]>("/api/tasks", undefined, {
+			const taskData = await http<Task[]>(`/api/businesses/${businessId}/tasks`, undefined, {
 				method: "GET",
 			});
 			setTasks(taskData);
 		};
 		fetchTasks();
-	}, []);
+	}, [businessId]);
 
 	const updateTaskStatus = (taskId: string, status: TaskStatus) => {
 		setTasks((currentTasks) =>

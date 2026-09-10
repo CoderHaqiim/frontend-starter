@@ -1,7 +1,6 @@
-import { ChartPeriod, ChartPoint } from "../types/types"
-import { useBackdropState } from "../store/backdropState"
 import ExpandedChart from "../components/ui/charts/expandedChart"
-import { chartTypes } from "../types/types"
+import { useBackdropState } from "../store/backdropState"
+import { ChartPeriod, ChartPoint, chartTypes } from "../types/types"
 
 export default function useExtendedChart() {
   const { setBackdropOpen, setBackdropContent } = useBackdropState()
@@ -14,7 +13,5 @@ export default function useExtendedChart() {
     setBackdropOpen(true)
   }
 
-  return {
-    openChart,
-  }
+  return { openChart }
 }

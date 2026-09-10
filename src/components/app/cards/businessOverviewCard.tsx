@@ -36,20 +36,13 @@ const avatarColors = [
   "#d67179",
 ]
 
-const getBusinessInitial = (name: string) => {
-  return name?.trim()?.charAt(0)?.toUpperCase() || "?"
-}
+const getBusinessInitial = (name: string) => { return name?.trim()?.charAt(0)?.toUpperCase() || "?" }
 
 const getBusinessColor = (index: number) => {
   return avatarColors[index % avatarColors.length]
 }
 
-export default function BusinessOverview({
-  data,
-  health,
-  kpis,
-  index,
-}: BusinessOverviewProps) {
+export default function BusinessOverview({ data, health, kpis, index,}: BusinessOverviewProps) {
   const { colors } = useTheme()
 
   const businessHealth = {
