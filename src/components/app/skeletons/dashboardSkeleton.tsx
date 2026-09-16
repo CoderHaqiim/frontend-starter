@@ -1,6 +1,5 @@
-import Card from "@/src/components/ui/composites/card"
-import Frame from "@/src/components/ui/primitives/frame"
-import Skeleton from "../../ui/composites/skeleton"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Skeleton from "../../base/ui/composites/skeleton"
 
 export default function DashboardSkeleton() {
   return (

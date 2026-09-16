@@ -1,11 +1,11 @@
 "use client";
 
 import { SupportTicket } from "@/src/types/types";
-import Dropdown from "../ui/composites/dropdown";
-import Frame from "../ui/primitives/frame";
-import List from "../ui/composites/list";
-import Paragraph from "../ui/primitives/paragraph";
-import Section from "../layout/section";
+import Section from "../base/layout/section";
+import Dropdown from "../base/ui/composites/dropdown";
+import List from "../base/ui/composites/list";
+import Frame from "../base/ui/primitives/frame";
+import Paragraph from "../base/ui/primitives/paragraph";
 import SupportItem from "./supportItem";
 
 const supportTickets: SupportTicket[] = [

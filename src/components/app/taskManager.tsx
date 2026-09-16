@@ -1,12 +1,12 @@
 "use client";
 
-import { http } from "@/src/http/client";
+import { businessTasksQueryKey, getBusinessTasks } from "@/src/services/taskService";
 import { Task, TaskStatus } from "@/src/types/types";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import Badge from "../ui/composites/badge";
-import Frame from "../ui/primitives/frame";
-import Heading from "../ui/primitives/heading";
+import Badge from "../base/ui/composites/badge";
+import Frame from "../base/ui/primitives/frame";
+import Heading from "../base/ui/primitives/heading";
 import TaskCard from "./cards/taskCard";
 
 const columns: { status: TaskStatus; title: string }[] = [
@@ -17,21 +17,15 @@ const columns: { status: TaskStatus; title: string }[] = [
 ];
 
 export default function TaskManager() {
-	const [tasks, setTasks] = useState<Task[]>([]);
 	const { businessId } = useParams<{ businessId: string }>()
-
-	useEffect(() => {
-		const fetchTasks = async () => {
-			const taskData = await http<Task[]>(`/api/businesses/${businessId}/tasks`, undefined, {
-				method: "GET",
-			});
-			setTasks(taskData);
-		};
-		fetchTasks();
-	}, [businessId]);
+	const queryClient = useQueryClient()
+	const { data: tasks = [] } = useQuery({
+		queryKey: businessTasksQueryKey(businessId),
+		queryFn: () => getBusinessTasks(businessId),
+	})
 
 	const updateTaskStatus = (taskId: string, status: TaskStatus) => {
-		setTasks((currentTasks) =>
+		queryClient.setQueryData<Task[]>(businessTasksQueryKey(businessId), (currentTasks = []) =>
 			currentTasks.map((task) =>
 				String(task.id) === taskId ? { ...task, status } : task,
 			),

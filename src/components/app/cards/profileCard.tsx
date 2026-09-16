@@ -1,21 +1,24 @@
 "use client"
 
 import { shadow3 } from "@/src/app/design/shadows"
+import { getProfile, profileQueryKey } from "@/src/services/profileService"
 import { useProfileState } from "@/src/store/profileState"
-import { Businesses } from "@/src/types/types"
+import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import Avatar from "../../ui/composites/avatar"
-import Card from "../../ui/composites/card"
-import Button from "../../ui/primitives/button"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Paragraph from "../../ui/primitives/paragraph"
+import Avatar from "../../base/ui/composites/avatar"
+import Card from "../../base/ui/composites/card"
+import Button from "../../base/ui/primitives/button"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
 
 export default function ProfileCard() {
-    const { profileOpen, setProfileOpen, profileData, fetchProfile } = useProfileState()
+    const { profileOpen, setProfileOpen } = useProfileState()
     const router = useRouter()
-    const [businessCount, setBusinessCount] = useState<number | null>(null)
+    const {data: profileData} = useQuery({
+      queryKey: profileQueryKey,
+      queryFn: getProfile,
+    })
     
     const closeProfile = () => {
         setProfileOpen(false)
@@ -24,27 +27,6 @@ export default function ProfileCard() {
     const logout = () => {
       router.push("/login")
     }
-
-    useEffect(() => {
-      fetchProfile()
-
-      const fetchBusinesses = async () => {
-        try {
-          const response = await fetch("/api/businesses")
-
-          if (!response.ok) {
-            throw new Error("Failed to fetch businesses")
-          }
-
-          const businesses = await response.json() as Businesses
-          setBusinessCount(businesses.length)
-        } catch (error) {
-          console.error("Unable to load businesses", error)
-        }
-      }
-
-      fetchBusinesses()
-    }, [fetchProfile])
 
   return (
     <Card width="100%" height="max-content" padding="md" gap="md" className={`${profileOpen? "flex" : "hidden"} ${shadow3}`}>
@@ -78,7 +60,7 @@ export default function ProfileCard() {
           </Paragraph>
 
           <Paragraph size="sm" weight="semiBold" className="leading-[1]" color="textColor1">
-            {businessCount ?? "—"}
+            {"—"}
           </Paragraph>
         </Frame>
 

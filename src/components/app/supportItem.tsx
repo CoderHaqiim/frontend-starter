@@ -1,11 +1,11 @@
-import { SupportTicket } from "@/src/types/types";
 import { ColorTypes } from "@/src/app/design/colors";
+import { SupportTicket } from "@/src/types/types";
 import { priorityColorMap } from "@/src/utils/priorityColorMap";
-import Badge from "../ui/composites/badge";
-import Button from "../ui/primitives/button";
-import Frame from "../ui/primitives/frame";
-import Paragraph from "../ui/primitives/paragraph";
-import Tooltip from "../ui/composites/tooltip";
+import Badge from "../base/ui/composites/badge";
+import Tooltip from "../base/ui/composites/tooltip";
+import Button from "../base/ui/primitives/button";
+import Frame from "../base/ui/primitives/frame";
+import Paragraph from "../base/ui/primitives/paragraph";
 
 type SupportItemProps = {
   ticket: SupportTicket;

@@ -1,10 +1,12 @@
 import { BusinessHealth } from "@/src/types/types"
 
-export const businessHealthMetrics: {
+interface BusinessHealthMetric {
   key: keyof BusinessHealth["metrics"]
   label: string
   description: string
-}[] = [
+}
+
+export const businessHealthMetrics: BusinessHealthMetric[] = [
   {
     "key": "profitability",
     "label": "Profitability",

@@ -1,15 +1,16 @@
  "use client"
 
 import { useBackdropState } from "@/src/store/backdropState"
-import Card from "../../ui/composites/card"
-import Dropdown from "../../ui/composites/dropdown"
-import Form from "../../ui/composites/form"
-import Button from "../../ui/primitives/button"
-import CloseButton from "../../ui/primitives/closeButton"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Input from "../../ui/primitives/input"
-import Label from "../../ui/primitives/label"
+import Card from "../../base/ui/composites/card"
+import Dropdown from "../../base/ui/composites/dropdown"
+import Form from "../../base/ui/composites/form"
+import Button from "../../base/ui/primitives/button"
+import CloseButton from "../../base/ui/primitives/closeButton"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Input from "../../base/ui/primitives/input"
+import Label from "../../base/ui/primitives/label"
+import CountryStateFields from "./countryStateFields"
 
 export default function CreateBusinessForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
@@ -36,48 +37,17 @@ export default function CreateBusinessForm() {
 
           {/* Business Name */}
           <Frame className="w-full flex-col">
-            <Label text="Business Name" size="xs" />
-            <Input size="xs" rounded="sm" placeholder="What is your business name?" outline border type="text" name="businessName" variant="default"/>
+            <Label required text="Business Name" size="xs" />
+            <Input size="xs" required rounded="sm" placeholder="What is your business name?" outline border type="text" name="businessName" variant="default"/>
           </Frame>
 
           {/* Country & State */}
-          <Frame className="gap-[var(--space-md)]">
-            <Frame className="w-1/2 flex-col">
-              <Label text="Country" size="xs" />
-              <Dropdown name="country" size="xs" width="100%"
-                options={[
-                  { label: "Nigeria", value: "Nigeria" },
-                  { label: "Ghana", value: "Ghana" },
-                  { label: "Togo", value: "Togo" },
-                  { label: "France", value: "France" },
-                  { label: "United Kingdom", value: "United Kingdom" },
-                  { label: "United States", value: "United States" },
-                  { label: "Other", value: "other" },
-                ]}
-              />
-            </Frame>
-
-            <Frame className="w-1/2 flex-col">
-              <Label text="State / Province" size="xs" />
-
-              <Dropdown name="state" size="xs" width="100%"
-                options={[
-                  { label: "Lagos", value: "Lagos" },
-                  { label: "Abuja", value: "Abuja" },
-                  { label: "Oyo", value: "Oyo" },
-                  { label: "Rivers", value: "Rivers" },
-                  { label: "Kano", value: "Kano" },
-                  { label: "Other", value: "other" },
-                ]}
-              />
-            </Frame>
-          </Frame>
+          <CountryStateFields size="xs" />
 
           {/* Industry & Currency */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
               <Label text="Industry" size="xs" />
-
               <Dropdown
                 name="industry" size="xs" width="100%"
                 options={[
@@ -93,37 +63,36 @@ export default function CreateBusinessForm() {
             </Frame>
 
             <Frame className="w-1/2 flex-col">
-              <Label text="Established in" size="xs" />
-              <Input size="xs" rounded="sm" placeholder="When was your business estalished?" outline border type="text" name="businessName" variant="default"/>
+              <Label required text="Established in" size="xs" />
+              <Input required size="xs" rounded="sm" placeholder="2026" outline border type="number" name="establishedYear" variant="default"/>
             </Frame>
           </Frame>
 
-          <Frame className="w-1/2 flex-col">
-              <Label text="Currency" size="xs" />
-              <Dropdown name="currency" size="xs" width="100%"
-                options={[
-                  { label: "Nigerian Naira (₦)", value: "NGN" },
-                  { label: "US Dollar ($)", value: "USD" },
-                  { label: "British Pound (£)", value: "GBP" },
-                  { label: "Euro (€)", value: "EUR" },
-                ]}
-              />
-            </Frame>
+          {/* Address*/}
+          <Frame className="w-full flex-col">
+            <Label text="Address" size="xs" />
+            <textarea
+              className="w-full placeholder-[var(--color-outline1)] text-[length:var(--bodySize-xs)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
+              placeholder="city, street and building number"
+              name="address"
+              rows={2}
+            />
+          </Frame>
 
           {/* Description */}
           <Frame className="w-full flex-col">
             <Label text="Description" size="xs" />
             <textarea
-              className="w-full placeholder-[var(--color-outline1)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
+              className="w-full text-[length:var(--bodySize-xs)] placeholder-[var(--color-outline1)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="What does this business do?"
               name="description"
-              rows={2}
+              rows={3}
             />
           </Frame>
 
           {/* Submit */}
           <Frame className="w-full justify-end">
-            <Button variant="fill" role="submit" size="sm" propagate>
+            <Button variant="fill" role="submit" size="md" propagate>
               Create Business
             </Button>
           </Frame>

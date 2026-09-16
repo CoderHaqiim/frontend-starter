@@ -1,9 +1,9 @@
 import { Task } from "@/src/types/types"
 import { shortenText } from "@/src/utils/shortenText"
-import Badge from "../ui/composites/badge"
-import Checkbox from "../ui/primitives/checkbox"
-import Frame from "../ui/primitives/frame"
-import Paragraph from "../ui/primitives/paragraph"
+import Badge from "../base/ui/composites/badge"
+import Checkbox from "../base/ui/primitives/checkbox"
+import Frame from "../base/ui/primitives/frame"
+import Paragraph from "../base/ui/primitives/paragraph"
 
 type TaskLineProps = {
   task: Task

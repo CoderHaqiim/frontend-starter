@@ -1,10 +1,10 @@
 "use client"
 
-import Card from "../../ui/composites/card"
-import Button from "../../ui/primitives/button"
-import Frame from "../../ui/primitives/frame"
-import Paragraph from "../../ui/primitives/paragraph"
-import Heading from "../../ui/primitives/heading"
+import Card from "../../base/ui/composites/card"
+import Button from "../../base/ui/primitives/button"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
 import { useTheme } from "../../providers/themeProvider"
 
 export default function SubscriptionCard() {

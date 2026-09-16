@@ -143,6 +143,34 @@ export const customers: ObjectRecordType[] = [
   }
 ]
 
+export const businessCustomers: Record<string, ObjectRecordType[]> = {
+  "0": [
+    { id: "business-0-customer-001", name: "Amelia Carter", phone: "+442071234567", email: "amelia.carter@example.co.uk", customerType: "Company", companyName: "Carter Networks", status: "Active", dateAdded: "2026-01-08", city: "London", stateRegion: "London", country: "United Kingdom", customerSince: "2024-03-12" },
+    { id: "business-0-customer-002", name: "Oliver Hughes", phone: "+441612345678", email: "oliver.hughes@example.co.uk", customerType: "Individual", companyName: "", status: "Active", dateAdded: "2026-02-14", city: "Manchester", stateRegion: "Greater Manchester", country: "United Kingdom", customerSince: "2025-06-21" },
+    { id: "business-0-customer-003", name: "Isla Morgan", phone: "+442912345678", email: "isla.morgan@example.co.uk", customerType: "Company", companyName: "Morgan Digital Ltd", status: "Watchlist", dateAdded: "2026-03-02", city: "Cardiff", stateRegion: "Wales", country: "United Kingdom", customerSince: "2023-11-05" },
+  ],
+  "1": [
+    { id: "business-1-customer-001", name: "Adewale Okafor", phone: "08031234567", email: "adewale.okafor@example.com", customerType: "Company", companyName: "Okafor Builders", status: "Active", dateAdded: "2026-01-18", city: "Lagos", stateRegion: "Lagos", country: "Nigeria", customerSince: "2024-04-09" },
+    { id: "business-1-customer-002", name: "Bisi Adeyemi", phone: "08042345678", email: "bisi.adeyemi@example.com", customerType: "Individual", companyName: "", status: "Active", dateAdded: "2026-02-26", city: "Ibadan", stateRegion: "Oyo", country: "Nigeria", customerSince: "2025-02-17" },
+    { id: "business-1-customer-003", name: "Chinedu Eze", phone: "08053456789", email: "chinedu.eze@example.com", customerType: "Company", companyName: "Eze Materials", status: "Watchlist", dateAdded: "2026-03-11", city: "Enugu", stateRegion: "Enugu", country: "Nigeria", customerSince: "2023-09-28" },
+  ],
+  "2": [
+    { id: "business-2-customer-001", name: "Grace Williams", phone: "08064567890", email: "grace.williams@example.com", customerType: "Company", companyName: "Williams Cloud Services", status: "Active", dateAdded: "2026-01-21", city: "Lagos", stateRegion: "Lagos", country: "Nigeria", customerSince: "2024-01-16" },
+    { id: "business-2-customer-002", name: "Ibrahim Musa", phone: "08075678901", email: "ibrahim.musa@example.com", customerType: "Company", companyName: "Musa Technologies", status: "Active", dateAdded: "2026-02-09", city: "Abuja", stateRegion: "FCT", country: "Nigeria", customerSince: "2025-05-03" },
+    { id: "business-2-customer-003", name: "Lilian Ojo", phone: "08086789012", email: "lilian.ojo@example.com", customerType: "Individual", companyName: "", status: "Inactive", dateAdded: "2026-03-19", city: "Benin City", stateRegion: "Edo", country: "Nigeria", customerSince: "2022-12-14" },
+  ],
+  "3": [
+    { id: "business-3-customer-001", name: "Maya Thompson", phone: "+12125550101", email: "maya.thompson@example.com", customerType: "Company", companyName: "Thompson Produce", status: "Active", dateAdded: "2026-01-13", city: "New York", stateRegion: "New York", country: "United States", customerSince: "2024-07-19" },
+    { id: "business-3-customer-002", name: "Noah Wilson", phone: "+13105550102", email: "noah.wilson@example.com", customerType: "Individual", companyName: "", status: "Active", dateAdded: "2026-02-22", city: "Los Angeles", stateRegion: "California", country: "United States", customerSince: "2025-03-30" },
+    { id: "business-3-customer-003", name: "Sophia Brown", phone: "+13055550103", email: "sophia.brown@example.com", customerType: "Company", companyName: "Brown Farms Market", status: "Watchlist", dateAdded: "2026-03-27", city: "Miami", stateRegion: "Florida", country: "United States", customerSince: "2023-10-11" },
+  ],
+  "4": [
+    { id: "business-4-customer-001", name: "Kemi Balogun", phone: "08097890123", email: "kemi.balogun@example.com", customerType: "Individual", companyName: "", status: "Active", dateAdded: "2026-01-05", city: "Lagos", stateRegion: "Lagos", country: "Nigeria", customerSince: "2024-08-08" },
+    { id: "business-4-customer-002", name: "Tunde Martins", phone: "08108901234", email: "tunde.martins@example.com", customerType: "Company", companyName: "Martins Retail Hub", status: "Active", dateAdded: "2026-02-16", city: "Abeokuta", stateRegion: "Ogun", country: "Nigeria", customerSince: "2025-01-27" },
+    { id: "business-4-customer-003", name: "Yinka Salami", phone: "08119012345", email: "yinka.salami@example.com", customerType: "Company", companyName: "Salami Home Goods", status: "Inactive", dateAdded: "2026-03-24", city: "Ilorin", stateRegion: "Kwara", country: "Nigeria", customerSince: "2022-06-18" },
+  ],
+}
+
 export const watchlistTableData: ObjectRecordType[] = [
   { customer: "Dangote Stores", reason: "Overdue Payment", outstanding: "₦150,000", lastActivity: "Aug 08, 2026", priority: "High", nextAction: "Follow Up" },
   { customer: "Ade & Sons", reason: "No Recent Activity", outstanding: "₦45,000", lastActivity: "Jul 20, 2026", priority: "Medium", nextAction: "Contact" },

@@ -2,37 +2,32 @@
 
 import CreateTransactionForm from '@/src/components/app/forms/createTransaction'
 import TransactionManager from '@/src/components/app/transactionManager'
-import Section from '@/src/components/layout/section'
-import KpiRow from '@/src/components/ui/composites/kpiRow'
-import Button from '@/src/components/ui/primitives/button'
-import Frame from '@/src/components/ui/primitives/frame'
-import Heading from '@/src/components/ui/primitives/heading'
-import Paragraph from '@/src/components/ui/primitives/paragraph'
-import { http } from '@/src/http/client'
+import Section from '@/src/components/base/layout/section'
+import KpiRow from '@/src/components/base/ui/composites/kpiRow'
+import Button from '@/src/components/base/ui/primitives/button'
+import Frame from '@/src/components/base/ui/primitives/frame'
+import Heading from '@/src/components/base/ui/primitives/heading'
+import Paragraph from '@/src/components/base/ui/primitives/paragraph'
+import { businessTransactionsQueryKey, getBusinessTransactions } from '@/src/services/transactionService'
 import { useBackdropState } from '@/src/store/backdropState'
-import { kpiObjectProps, Transaction } from '@/src/types/types'
+import { kpiObjectProps } from '@/src/types/types'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function Item3() {
   const { businessId } = useParams<{ businessId: string }>()
-  const [transactions, setTransactions] = useState<Transaction[]>([])
   const [page, setPage] = useState(1)
-  const [isTransactionsLoading, setIsTransactionsLoading] = useState(true)
+  const { data: transactions = [], isLoading: isTransactionsLoading } = useQuery({
+    queryKey: businessTransactionsQueryKey(businessId, page),
+    queryFn: () => getBusinessTransactions(businessId, page),
+  })
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
   const createTransaction = () => {
     setBackdropContent(<CreateTransactionForm businessId={businessId} />)
     setBackdropOpen(true)
   }
-
-  useEffect(() => {
-    setIsTransactionsLoading(true)
-    http<Transaction[]>(`/api/businesses/${businessId}/transactions?page=${page}&limit=10`)
-      .then(setTransactions)
-      .catch(() => setTransactions([]))
-      .finally(() => setIsTransactionsLoading(false))
-  }, [businessId, page])
 
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")

@@ -1,9 +1,9 @@
 import BusinessPageHeader from "@/src/components/app/businessPageHeader"
 import LeftAside from "@/src/components/app/leftAside"
 import RightAside from "@/src/components/app/rightAside"
-import Main from "@/src/components/layout/main"
-import Nav from "@/src/components/layout/nav"
-import Frame from "@/src/components/ui/primitives/frame"
+import Main from "@/src/components/base/layout/main"
+import Nav from "@/src/components/base/layout/nav"
+import Frame from "@/src/components/base/ui/primitives/frame"
 import { ReactNode } from "react"
 // import Tab from "@/src/components/ui/composites/tab"
 

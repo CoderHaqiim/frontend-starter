@@ -1,6 +1,5 @@
 import Link from "next/link";
-import Button from "../components/ui/primitives/button";
-import Paragraph from "../components/ui/primitives/paragraph";
+import Paragraph from "../components/base/ui/primitives/paragraph";
 
 const socialLinks = [
   {

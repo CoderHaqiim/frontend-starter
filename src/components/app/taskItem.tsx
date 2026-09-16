@@ -1,12 +1,12 @@
-import Frame from "../ui/primitives/frame"
-import Paragraph from "../ui/primitives/paragraph"
-import Tooltip from "../ui/composites/tooltip"
-import Button from "../ui/primitives/button"
+import { ColorTypes } from "@/src/app/design/colors"
 import { Task } from "@/src/types/types"
-import Badge from "../ui/composites/badge"
 import { priorityColorMap } from "@/src/utils/priorityColorMap"
 import { statusColorMap } from "@/src/utils/statusColorMap"
-import { ColorTypes } from "@/src/app/design/colors"
+import Badge from "../base/ui/composites/badge"
+import Tooltip from "../base/ui/composites/tooltip"
+import Button from "../base/ui/primitives/button"
+import Frame from "../base/ui/primitives/frame"
+import Paragraph from "../base/ui/primitives/paragraph"
 
 type TaskItemProp = {
   task: Task
@@ -27,9 +27,9 @@ export default function TaskItem({ task }: TaskItemProp) {
           </Frame>
 
           <Frame>
-            <Paragraph weight="light" size="xs">
+            {/* <Paragraph weight="light" size="xs">
               {task.business}
-            </Paragraph>
+            </Paragraph> */}
           </Frame>
         </Frame>
 

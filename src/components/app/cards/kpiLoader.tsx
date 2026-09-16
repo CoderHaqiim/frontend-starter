@@ -1,5 +1,5 @@
-import Card from "../../ui/composites/card"
-import Spinner from "../../ui/composites/spinner"
+import Card from "../../base/ui/composites/card"
+import Spinner from "../../base/ui/composites/spinner"
 
 export default function KpiLoader(){
   return (

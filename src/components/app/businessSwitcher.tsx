@@ -1,19 +1,20 @@
 "use client"
 
 import { useTheme } from "@/src/components/providers/themeProvider"
-import { Businesses } from "@/src/types/types"
+import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
+import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import Button from "../ui/primitives/button"
-import Frame from "../ui/primitives/frame"
+import Button from "../base/ui/primitives/button"
+import Frame from "../base/ui/primitives/frame"
 
 type BusinessSwitcherProps = {
-  businesses: Businesses
   activeBusinessId?: string
 }
 
-export default function BusinessSwitcher({ businesses, activeBusinessId }: BusinessSwitcherProps) {
+export default function BusinessSwitcher({ activeBusinessId }: BusinessSwitcherProps) {
+
   const { colors } = useTheme()
   const pathname = usePathname()
   const [isBusinessMenuOpen, setIsBusinessMenuOpen] = useState(false)
@@ -21,6 +22,12 @@ export default function BusinessSwitcher({ businesses, activeBusinessId }: Busin
   const businessRoute = currentBusinessRoute.length > 0
     ? `/${currentBusinessRoute.join("/")}`
     : "/overview"
+
+
+  const { data: businesses = [] } = useQuery({
+    queryKey: businessesQueryKey,
+    queryFn: getBusinesses,
+  })
 
   return (
     <Frame className="relative">
@@ -56,7 +63,7 @@ export default function BusinessSwitcher({ businesses, activeBusinessId }: Busin
                 color: activeBusinessId === item.id ? colors["accent"] : "var(--color-text1)",
               }}
             >
-              {item.name}
+              {item.businessName}
             </Link>
           ))}
         </Frame>

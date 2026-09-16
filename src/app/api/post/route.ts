@@ -4,10 +4,19 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     
-    console.log("Received schedule payload:", body)
+    console.log("Received payload:", body)
+
+    if (body.action === "login") {
+      return NextResponse.json(
+        { message: "Login failed: invalid email or password." },
+        { status: 401 }
+      )
+    }
 
     return NextResponse.json({
-      message: "Schedule received successfully",
+      message: body.action === "signup"
+        ? "Signup request received successfully."
+        : "Request received successfully.",
       data: body,
     })
   } catch (error) {

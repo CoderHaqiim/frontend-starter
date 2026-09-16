@@ -1,10 +1,10 @@
 "use client"
 
 import { Transaction } from "@/src/types/types";
+import Badge from "../base/ui/composites/badge";
+import Frame from "../base/ui/primitives/frame";
+import Paragraph from "../base/ui/primitives/paragraph";
 import { useTheme } from "../providers/themeProvider";
-import Badge from "../ui/composites/badge";
-import Frame from "../ui/primitives/frame";
-import Paragraph from "../ui/primitives/paragraph";
 
 type TransactionItemProps = {
   transaction: Transaction;

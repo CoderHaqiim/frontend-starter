@@ -4,10 +4,10 @@ import { Business } from "@/src/types/types"
 import { shortenText } from "@/src/utils/shortenText"
 import Link from "next/link"
 import { useParams } from "next/navigation"
-import Heading from "../../ui/primitives/heading"
-import Paragraph from "../../ui/primitives/paragraph"
-import Card from "../../ui/composites/card"
-import Frame from "../../ui/primitives/frame"
+import Card from "../../base/ui/composites/card"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
 import { useTheme } from "../../providers/themeProvider"
 
 type SmallBusinessOverviewProps = {
@@ -58,7 +58,7 @@ export default function SmallBusinessOverview({
       >
         <Frame className="w-full flex justify-center items-center h-max">
           <Heading type="h3" size="xxs">
-            {shortenText(business?.name, 18)}
+            {shortenText(business?.businessName, 18)}
           </Heading>
         </Frame>
 

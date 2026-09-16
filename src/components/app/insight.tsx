@@ -1,6 +1,6 @@
-import Frame from "../ui/primitives/frame"
-import Paragraph from "../ui/primitives/paragraph"
-import Icon from "../ui/primitives/icon"
+import Frame from "../base/ui/primitives/frame"
+import Icon from "../base/ui/primitives/icon"
+import Paragraph from "../base/ui/primitives/paragraph"
 
 type insightProps = {
     text: string

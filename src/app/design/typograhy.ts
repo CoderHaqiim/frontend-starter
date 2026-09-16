@@ -8,7 +8,7 @@ const bodySize = {
   "md": "16px",      // 16px
   "lg": "18px",  // 18px
   "xl": "20px",   // 20px
-  "xxl": "24px", // 22px
+  "xxl": "22px", // 22px
 } as const
 
 const headingSize = {
@@ -37,10 +37,6 @@ const headingSizeVariables = generateVariable(headingSize, headingSize.name)
 const fontWeightVariables = generateVariable(fontWeight, fontWeight.name)
 
 export {
-  bodySize, 
-  headingSize, 
-  fontWeight, 
-  bodySizeVariables, 
-  headingSizeVariables, 
-  fontWeightVariables
+  bodySize, bodySizeVariables, fontWeight, fontWeightVariables, headingSize, headingSizeVariables
 }
+

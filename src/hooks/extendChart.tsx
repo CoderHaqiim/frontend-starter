@@ -1,4 +1,4 @@
-import ExpandedChart from "../components/ui/charts/expandedChart"
+import ExpandedChart from "../components/base/ui/charts/expandedChart"
 import { useBackdropState } from "../store/backdropState"
 import { ChartPeriod, ChartPoint, chartTypes } from "../types/types"
 

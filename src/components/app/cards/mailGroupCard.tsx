@@ -3,13 +3,13 @@
 import { customers } from "@/src/data/customers"
 import { useMailGroupState } from "@/src/store/mailGroupState"
 import { useState } from "react"
-import Badge from "../../ui/composites/badge"
-import Card from "../../ui/composites/card"
-import List from "../../ui/composites/list"
-import Button from "../../ui/primitives/button"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Paragraph from "../../ui/primitives/paragraph"
+import Badge from "../../base/ui/composites/badge"
+import Card from "../../base/ui/composites/card"
+import List from "../../base/ui/composites/list"
+import Button from "../../base/ui/primitives/button"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
 
 export default function MailGroupCard() {
   const { mailGroups, addMailGroup } = useMailGroupState()

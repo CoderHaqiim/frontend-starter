@@ -2,12 +2,12 @@
 
 import { Transaction } from "@/src/types/types";
 import { useState } from "react";
-import Section from "../layout/section";
-import Dropdown from "../ui/composites/dropdown";
-import List from "../ui/composites/list";
-import Button from "../ui/primitives/button";
-import Frame from "../ui/primitives/frame";
-import Paragraph from "../ui/primitives/paragraph";
+import Section from "../base/layout/section";
+import Dropdown from "../base/ui/composites/dropdown";
+import List from "../base/ui/composites/list";
+import Button from "../base/ui/primitives/button";
+import Frame from "../base/ui/primitives/frame";
+import Paragraph from "../base/ui/primitives/paragraph";
 import TransactionHeader from "./transactionHeader";
 import TransactionLine from "./transactionLine";
 

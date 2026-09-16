@@ -4,12 +4,12 @@ import { http } from "@/src/http/client"
 import { useBackdropState } from "@/src/store/backdropState"
 import { Business } from "@/src/types/types"
 import { useState } from "react"
-import Card from "../../ui/composites/card"
-import Button from "../../ui/primitives/button"
-import CloseButton from "../../ui/primitives/closeButton"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Label from "../../ui/primitives/label"
+import Card from "../../base/ui/composites/card"
+import Button from "../../base/ui/primitives/button"
+import CloseButton from "../../base/ui/primitives/closeButton"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Label from "../../base/ui/primitives/label"
 
 type EditLogoProps = {
   businessId: string

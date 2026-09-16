@@ -1,11 +1,10 @@
 "use client"
 
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
-import Paragraph from "@/src/components/ui/primitives/paragraph"
-import Button from "@/src/components/ui/primitives/button"
-import KpiCard from "@/src/components/app/cards/kpiCard"
-import KpiRow from "@/src/components/ui/composites/kpiRow"
+import KpiRow from "@/src/components/base/ui/composites/kpiRow"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 
 const schedules = [
   {

@@ -1,15 +1,15 @@
 "use client"
 
-import { useTheme } from '../providers/themeProvider'
-import Frame from '../ui/primitives/frame'
 import { GoalsType } from '@/src/types/types'
-import Paragraph from '../ui/primitives/paragraph'
-import Button from '../ui/primitives/button'
-import Icon from '../ui/primitives/icon'
-import LinearProgress from '../ui/composites/linearProgressBar'
-import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
 import { healthMap } from '@/src/utils/healthMap'
-import Tooltip from '../ui/composites/tooltip'
+import { scoreHealthMap } from '@/src/utils/scoreHealthMap'
+import LinearProgress from '../base/ui/composites/linearProgressBar'
+import Tooltip from '../base/ui/composites/tooltip'
+import Button from '../base/ui/primitives/button'
+import Frame from '../base/ui/primitives/frame'
+import Icon from '../base/ui/primitives/icon'
+import Paragraph from '../base/ui/primitives/paragraph'
+import { useTheme } from '../providers/themeProvider'
 
 type GoalsLineProps = {
   goal: GoalsType

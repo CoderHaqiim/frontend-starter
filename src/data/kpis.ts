@@ -6,7 +6,7 @@ export const businessKpiSummaries: Record<Duration, BusinessKpiResponse[]> = {
       businessId: "0",
       financials: {
         revenue: {
-          value: 250000,
+          value: 290000,
           change: 9,
           direction: "up",
         },

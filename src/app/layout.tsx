@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import Toast from "../components/ui/composites/toast";
-import Frame from "../components/ui/primitives/frame";
 import { Google_Sans_Flex } from "next/font/google";
-import { spaceVariables } from "./design/spacing";
-import { colorVariables } from "./design/colors";
-import { fontWeightVariables } from "./design/typograhy";
-import { radiusVariables } from "./design/radius";
-import { bodySizeVariables } from "./design/typograhy";
-import { headingSizeVariables } from "./design/typograhy";
-import { paddingSizesVariables } from "./design/sizes";
-import { elementSizesVariables } from "./design/sizes";
-import Backdrop from "../components/ui/primitives/backdrop";
+import ToastBar from "../components/base/ui/composites/toastBar";
+import Backdrop from "../components/base/ui/primitives/backdrop";
 import ThemeProvider from "../components/providers/themeProvider";
+import { colorVariables } from "./design/colors";
+import { radiusVariables } from "./design/radius";
+import { elementSizesVariables, paddingSizesVariables } from "./design/sizes";
+import { spaceVariables } from "./design/spacing";
+import { bodySizeVariables, fontWeightVariables, headingSizeVariables } from "./design/typograhy";
+import "./globals.css";
+import QueryProvider from "./libs/providers/queryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -53,22 +50,11 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <Frame
-            className="z-[5000] top-0 left-0 flex-col w-full h-[100vh] gap-[var(--space-sm)] items-end p-[var(--space-sm)]"
-            specificStyles={{
-              position: "fixed",
-              pointerEvents: "none",
-            }}
-          >
-            {/* <Toast variant="success" title="not connected" text="there are a lot of errors in the message here"/>
-            <Toast variant="error" title="not connected" text="there are a lot of errors in the message here"/>
-            <Toast variant="info" title="not connected" text="there are a lot of errors in the message here"/>
-            <Toast variant="warning" title="not connected" text="there are a lot of errors in the message here"/> */}
-          </Frame>
-
-          <Backdrop/>
-
-          {children}
+          <QueryProvider>
+            <ToastBar/>
+            <Backdrop/>
+            {children}
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

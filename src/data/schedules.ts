@@ -13,13 +13,8 @@ export const schedules: Schedule[] = [
 
     startAt: "2026-08-31T10:00:00.000Z",
     endAt: "2026-08-31T11:00:00.000Z",
-
     allDay: false,
-
     location: "Office",
-
-    customerId: "cus_001",
-
     recurrence: {
       enabled: false,
       frequency: "weekly"
@@ -44,8 +39,6 @@ export const schedules: Schedule[] = [
     allDay: false,
 
     location: "Conference Room A",
-
-    customerId: "cus_002",
 
     recurrence: {
       enabled: true,
@@ -72,8 +65,6 @@ export const schedules: Schedule[] = [
 
     location: "Remote",
 
-    customerId: "cus_003",
-
     recurrence: {
       enabled: false,
       frequency: "weekly"
@@ -99,8 +90,6 @@ export const schedules: Schedule[] = [
 
     location: "Riverside Retreat",
 
-    customerId: "cus_004",
-
     recurrence: {
       enabled: true,
       frequency: "yearly"
@@ -125,8 +114,6 @@ export const schedules: Schedule[] = [
     allDay: false,
 
     location: "",
-
-    customerId: "cus_005",
 
     recurrence: {
       enabled: true,

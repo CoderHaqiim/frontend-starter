@@ -8,82 +8,75 @@ import ChartSection from '@/src/components/app/chartSection'
 import EditLogo from '@/src/components/app/forms/editLogo'
 import HealthProgressMetric from '@/src/components/app/healthProgressMetric'
 import TransactionItem from '@/src/components/app/transactionItem'
-import Section from '@/src/components/layout/section'
+import Section from '@/src/components/base/layout/section'
+import Card from '@/src/components/base/ui/composites/card'
+import Dropdown from '@/src/components/base/ui/composites/dropdown'
+import KpiRow from '@/src/components/base/ui/composites/kpiRow'
+import List from '@/src/components/base/ui/composites/list'
+import RadialProgress from '@/src/components/base/ui/composites/radialProgress'
+import Button from '@/src/components/base/ui/primitives/button'
+import Frame from '@/src/components/base/ui/primitives/frame'
+import Heading from '@/src/components/base/ui/primitives/heading'
+import Icon from '@/src/components/base/ui/primitives/icon'
+import Paragraph from '@/src/components/base/ui/primitives/paragraph'
 import { useTheme } from '@/src/components/providers/themeProvider'
-import Card from '@/src/components/ui/composites/card'
-import Dropdown from '@/src/components/ui/composites/dropdown'
-import KpiRow from '@/src/components/ui/composites/kpiRow'
-import List from '@/src/components/ui/composites/list'
-import RadialProgress from '@/src/components/ui/composites/radialProgress'
-import Button from '@/src/components/ui/primitives/button'
-import Frame from '@/src/components/ui/primitives/frame'
-import Heading from '@/src/components/ui/primitives/heading'
-import Icon from '@/src/components/ui/primitives/icon'
-import Paragraph from '@/src/components/ui/primitives/paragraph'
-import { http } from '@/src/http/client'
+import { businessHealthQueryKey, businessKpisQueryKey, businessQueryKey, getBusiness, getBusinessHealth, getBusinessKpis } from '@/src/services/businessService'
+import { getRecentBusinessTransactions, recentBusinessTransactionsQueryKey } from '@/src/services/transactionService'
 import { useBackdropState } from '@/src/store/backdropState'
-import { useBusinessesState } from '@/src/store/businessesState'
-import { Business, Businesses, BusinessHealth, BusinessKpiResponse, Duration, kpiObjectProps, Transaction } from '@/src/types/types'
+import { Business, Duration, kpiObjectProps } from '@/src/types/types'
 import abridgeNumber from '@/src/utils/abridgeNumber'
 import { businessHealthMetrics } from '@/src/utils/businessHealthMetrics'
 import { getCurrencySymbol } from '@/src/utils/currencySymbol'
 import { healthMap } from '@/src/utils/healthMap'
 import { kpiResponseToCards } from '@/src/utils/kpiResponseToCards'
 import { shortenText } from '@/src/utils/shortenText'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function BusinessPage() {
   const { colors } = useTheme()
-  const { businessesState, setBusinessesState } = useBusinessesState()
   const [summaryPeriod, setSummaryPeriod] = useState<Duration>("weekly")
-  const [business, setBusiness] = useState<Business | null>(null)
-  const [businessHealthResponse, setBusinessHealthResponse] = useState<BusinessHealth | null>(null)
-  const [businessKpisResponse, setBusinessKpisResponse] = useState<BusinessKpiResponse | null>(null)
-  const [transactions, setTransactions] = useState<Transaction[]>([])
   const [kpisExpanded, setKpisExpanded] = useState(false)
-  const [isBusinessMenuOpen, setIsBusinessMenuOpen] = useState(false)
-  const { businessId } = useParams()
+  const { businessId } = useParams<{ businessId: string }>()
   const reportDuration = ["weekly", "monthly", "annual"]
-
+  const queryClient = useQueryClient()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
 
-  useEffect(() => {
-    const fetchBusinesses = async () => {
-      if (businessesState.length > 0) return
 
-      const businesses = await http<Businesses>("/api/businesses", undefined, { method: "GET" })
-      setBusinessesState(businesses)
-    }
 
-    fetchBusinesses()
-  }, [businessesState.length, setBusinessesState])
+  //Fetches
+  const { data: businessResponse} = useQuery({
+    queryKey: businessQueryKey(businessId),
+    queryFn: () => getBusiness(businessId),
+  })
 
-  useEffect(() => {
-    async function fetchBusiness() {
-      const [business, health, kpis] = await Promise.all([
-        http<Business>(`/api/businesses/${businessId}`),
-        http<BusinessHealth>(`/api/businesses/${businessId}/health?period=${summaryPeriod}`),
-        http<BusinessKpiResponse>(`/api/businesses/${businessId}/kpis?period=${summaryPeriod}`),
-      ])
+  const { data: businessHealthResponse } = useQuery({
+    queryKey: businessHealthQueryKey(businessId, summaryPeriod),
+    queryFn: () => getBusinessHealth(businessId, summaryPeriod),
+  })
 
-      setBusiness({
-        ...business,
-        health: health.health,
-        healthScore: health.healthScore,
-      })
-      setBusinessHealthResponse(health)
-      setBusinessKpisResponse(kpis)
-    }
+  const { data: businessKpisResponse = null } = useQuery({
+    queryKey: businessKpisQueryKey(businessId, summaryPeriod),
+    queryFn: () => getBusinessKpis(businessId, summaryPeriod),
+  })
 
-    fetchBusiness()
-  }, [businessId, summaryPeriod])
+  const { data: transactions = [] } = useQuery({
+    queryKey: recentBusinessTransactionsQueryKey(businessId),
+    queryFn: () => getRecentBusinessTransactions(businessId),
+  })
 
-  useEffect(() => {
-    http<Transaction[]>(`/api/businesses/${businessId}/transactions?limit=5`)
-      .then(setTransactions)
-      .catch(() => setTransactions([]))
-  }, [businessId])
+
+  
+  const business = 
+    businessResponse && businessHealthResponse? 
+    {
+      ...businessResponse,
+      health: businessHealthResponse.healthStatus,
+      healthScore: businessHealthResponse.healthScore,
+    } : 
+    businessResponse
+
 
    // Change duration
   const reportChangeHandler = ( e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -100,10 +93,9 @@ export default function BusinessPage() {
   const editLogo = () => {
     setBackdropOpen(true)
     setBackdropContent(
-      <EditLogo
-        businessId={String(businessId)}
+      <EditLogo businessId={String(businessId)}
         onSaved={(updatedBusiness) =>
-          setBusiness((currentBusiness) => ({
+          queryClient.setQueryData<Business>(businessQueryKey(businessId), (currentBusiness) => ({
             ...currentBusiness,
             ...updatedBusiness,
           }))
@@ -113,14 +105,16 @@ export default function BusinessPage() {
   }
 
   const financials = businessKpisResponse?.financials
-  const currency = business?.currency ?? "NGN"
+
+  const currency = "NGN"
   const currencySymbol = getCurrencySymbol(currency)
   const formatAmount = (amount = 0) => `${currencySymbol} ${abridgeNumber(amount)}`
   const profitMargin = financials?.revenue.value ? Math.round((financials.profit.value / financials.revenue.value) * 100) : 0
   const businessHealth = business?.health ?? "healthy"
   const businessHealthScore = business?.healthScore ?? 0
   
-  const businessKpis: kpiObjectProps[] = [...kpiResponseToCards(businessKpisResponse, currency),
+  const businessKpis: kpiObjectProps[] = [
+    ...kpiResponseToCards(businessKpisResponse, currency),
     {
       title: "Net Profit Margin",
       value: `${profitMargin}%`,
@@ -156,14 +150,11 @@ export default function BusinessPage() {
           {/* Business Info */}
           <Frame className="gap-[var(--space-lg)]">
             <Frame className="w-[50px] justify-center items-center h-[50px] border rounded-[var(--radius-sm)] text-[white] bg-[green]">
-              {business?.logo ? (
-                <img
-                  src={business.logo}
-                  alt={`${business.name} logo`}
-                  className="h-full w-full rounded-[var(--radius-sm)] object-cover"
-                />
+              {
+                business?.logo ? (
+                <img src={business.logo} alt={`${business.businessName} logo`} className="h-full w-full rounded-[var(--radius-sm)] object-cover"/>
               ) : (
-                business?.name?.trim().charAt(0).toUpperCase() || "B"
+                business?.businessName?.trim().charAt(0).toUpperCase() || "B"
               )}
               <Frame specificStyles={{ position: "absolute", right: "-6px", bottom: "-6px" }}>
                 <button
@@ -180,9 +171,9 @@ export default function BusinessPage() {
             <Frame className="flex-col gap-[var(--space-xxs)]">
               <Frame className="items-center h-max w-auto gap-[var(--space-md)]">
                 <Heading size="xl" type="h1">
-                  { shortenText(business?.name ?? "", 30) ?? "Business name" }
+                  { shortenText(business?.businessName?? "", 30) ?? "Business name" }
                 </Heading>
-                <BusinessSwitcher businesses={businessesState} activeBusinessId={String(businessId)} />
+                <BusinessSwitcher activeBusinessId={String(businessId)} />
               </Frame>
               <Frame className="gap-[var(--space-xs)] items-center">
                 <Paragraph weight="light" size="sm">
@@ -190,7 +181,7 @@ export default function BusinessPage() {
                 </Paragraph>
                 <span>•</span>
                 <Paragraph weight="light" size="xxs">
-                  est {business?.established}
+                  est {businessResponse?.establishedYear}
                 </Paragraph>
                 <span>•</span>
                 <Paragraph weight="light" size="xxs">

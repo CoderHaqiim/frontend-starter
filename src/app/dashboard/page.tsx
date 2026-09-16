@@ -5,125 +5,64 @@ import BusinessOverviewLoader from "@/src/components/app/cards/businessOverviewL
 import ChartSection from "@/src/components/app/chartSection"
 import CreateBusinessForm from "@/src/components/app/forms/createBusiness"
 import MetricsRow from "@/src/components/app/metricsRow"
-import Section from "@/src/components/layout/section"
-import Badge from "@/src/components/ui/composites/badge"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import KpiRow from "@/src/components/ui/composites/kpiRow"
-import List from "@/src/components/ui/composites/list"
-import Button from "@/src/components/ui/primitives/button"
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
-import Paragraph from "@/src/components/ui/primitives/paragraph"
-import { http } from "@/src/http/client"
+import Section from "@/src/components/base/layout/section"
+import Badge from "@/src/components/base/ui/composites/badge"
+import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import KpiRow from "@/src/components/base/ui/composites/kpiRow"
+import List from "@/src/components/base/ui/composites/list"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
+import { dashboardRankingQueryKey, dashboardSummaryQueryKey, getDashboardRanking, getDashboardSummary } from "@/src/services/dashboardService"
+import { getProfile, profileQueryKey } from "@/src/services/profileService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useBusinessesState } from "@/src/store/businessesState"
-import { useUserState } from "@/src/store/userState"
-import { Businesses, BusinessHealth, BusinessKpiResponse, Duration, kpiObjectProps, RankingMetric } from "@/src/types/types"
-import { kpiResponseToCards } from "@/src/utils/kpiResponseToCards"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { Duration, RankingMetric } from "@/src/types/types"
+import { useQuery } from "@tanstack/react-query"
+import { useMemo, useRef, useState } from "react"
 
 export default function Home() {
-  const { userState } = useUserState()
   const reportDuration = ["weekly", "monthly", "annual"]
   const rankingMetrics: RankingMetric[] = ["profit",  "revenue"]
   const businessFilterArray = ["all", "healthy", "moderate", "critical"]
   const [rankSelector, setRankSelector] = useState<RankingMetric>("profit")
-  const { businessesState, setBusinessesState } = useBusinessesState()
   const [businessFilter, setBusinessFilter] = useState("all")
-  const [dashboardKpis, setDashboardKpis] = useState<kpiObjectProps[] | null>(null)
-  const [businessHealth, setBusinessHealth] = useState<Record<string, BusinessHealth>>({})
-  const [businessSummaryKpis, setBusinessSummaryKpis] = useState<Record<string, BusinessKpiResponse>>({})
-  const [businessRankingKpis, setBusinessRankingKpis] = useState<Record<string, BusinessKpiResponse>>({})
   const [summaryPeriod, setSummaryPeriod] = useState<Duration>("weekly")
   const [rankingPeriod, setRankingPeriod] = useState<Duration>("weekly")
   const sliderRef = useRef<HTMLDivElement>(null)
   const { setBackdropContent,setBackdropOpen } = useBackdropState()
 
+  const { data: profileData = {userName: "user"} } = useQuery({
+    queryKey: profileQueryKey,
+    queryFn: getProfile,
+  })
 
-  //Fetch Dashboard Data
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const [businesses, kpis, health] = await Promise.all(
-          [
-            http<Businesses>( "/api/businesses", undefined,{method: "GET"}),
-            http<BusinessKpiResponse>(`/api/kpis?period=${summaryPeriod}`, undefined, {method: "GET"}),
-            http<BusinessHealth[]>(`/api/businesses/health?period=${summaryPeriod}`, undefined, {method: "GET"})
-          ]
-        )
+  const { data: dashboardSummary, isLoading: isDashboardSummaryLoading } = useQuery({
+    queryKey: dashboardSummaryQueryKey(summaryPeriod),
+    queryFn: () => getDashboardSummary(summaryPeriod),
+  })
 
-        const businessSummaryKpiList = await Promise.all( 
-          businesses.map(business =>
-            http<BusinessKpiResponse>(`/api/businesses/${business.id}/kpis?period=${summaryPeriod}`, undefined, { method: "GET" })
-          )
-        )
+  const { data: dashboardRanking } = useQuery({
+    queryKey: dashboardRankingQueryKey(rankingPeriod),
+    queryFn: () => getDashboardRanking(rankingPeriod),
+  })
 
-          console.log(businessSummaryKpiList)
-          
-        setBusinessesState(businesses)
-        setDashboardKpis(kpiResponseToCards(kpis, "NGN"))
-        setBusinessHealth(
-          Object.fromEntries( health.map(item => [item.businessId, item]))
-        )
-
-        setBusinessSummaryKpis(
-          Object.fromEntries(
-            businessSummaryKpiList.map(kpi => [kpi.businessId, kpi])
-          )
-        )
-      } catch (error) {
-        console.error(
-          "Failed to fetch dashboard data:", error
-        )
-      }
-    }
-
-    fetchDashboardData()
-  }, [setBusinessesState, summaryPeriod])
-
-  useEffect(() => {
-    const fetchRankingData = async () => {
-      try {
-        const businesses = businessesState.length > 0
-          ? businessesState
-          : await http<Businesses>( "/api/businesses", undefined,{method: "GET"})
-
-        if (businessesState.length === 0) {
-          setBusinessesState(businesses)
-        }
-
-        const businessRankingKpiList = await Promise.all( 
-          businesses.map(business =>
-            http<BusinessKpiResponse>(`/api/businesses/${business.id}/kpis?period=${rankingPeriod}`, undefined, { method: "GET" })
-          )
-        )
-
-        setBusinessRankingKpis(
-          Object.fromEntries(
-            businessRankingKpiList.map(kpi => [kpi.businessId, kpi])
-          )
-        )
-      } catch (error) {
-        console.error(
-          "Failed to fetch ranking data:", error
-        )
-      }
-    }
-
-    fetchRankingData()
-  }, [businessesState, rankingPeriod, setBusinessesState])
+  const businesses = dashboardSummary?.businesses ?? []
+  const businessHealth = dashboardSummary?.businessHealth ?? {}
+  const businessSummaryKpis = dashboardSummary?.businessSummaryKpis ?? {}
+  const businessRankingKpis = dashboardRanking?.businessRankingKpis ?? {}
 
   const filteredBusinesses = useMemo(() => {
     if (businessFilter === "all") {
-      return businessesState
+      return businesses
     }
 
-    return businessesState.filter(item => businessHealth[item.id]?.health === businessFilter)
-  }, [businessesState, businessFilter, businessHealth])
+    return businesses.filter(item => businessHealth[item.id]?.healthStatus === businessFilter)
+  }, [businesses, businessFilter, businessHealth])
 
    //rank business
   const rankedBusinesses = useMemo(() => {
-    return [...businessesState]
+    return [...(dashboardRanking?.businesses ?? businesses)]
       .sort((a, b) => {
         const aFinancials = businessRankingKpis[a.id]?.financials
         const bFinancials = businessRankingKpis[b.id]?.financials
@@ -133,17 +72,15 @@ export default function Home() {
       .map((business, index) => ({
         id: business.id,
         rank: index + 1,
-        name: business.name,
+        name: business.businessName,
         value: businessRankingKpis[business.id]?.financials[rankSelector].value ?? 0,
-        currency: business.currency,
         metric: rankSelector
       }))
-  }, [businessesState, businessRankingKpis, rankSelector])
+  }, [businesses, businessRankingKpis, dashboardRanking?.businesses, rankSelector])
 
   //Business filter
   const filterBusinesses = ( e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
-
     setBusinessFilter(selectedValue)
   }
 
@@ -191,7 +128,7 @@ export default function Home() {
       <Frame className="w-full flex justify-between items-start">
         <Frame className="gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">
-            {`Welcome back, ${userState.username}`}
+            <span>{`Welcome back, ${profileData.userName}`}</span>
           </Heading>
           <Paragraph weight="light" size="sm">
             Here&apos;s what&apos;s happening today.
@@ -210,12 +147,9 @@ export default function Home() {
           <Dropdown formFunc={selectSummaryPeriod} name="summaryPeriod" width="max-content" size="xs" options={reportDuration}/>
         </Frame>
         {
-          dashboardKpis ? 
-          <KpiRow kpis={dashboardKpis} isLoading={false} itemsCount={4}/>: 
-          <KpiRow kpis={dashboardKpis} isLoading={true} itemsCount={4}/>
+          <KpiRow kpis={dashboardSummary?.dashboardKpis ?? null} isLoading={isDashboardSummaryLoading} itemsCount={4}/>
         }
       </Section>
-
 
       {/* Business Overview */}
       <Section>
@@ -241,7 +175,7 @@ export default function Home() {
 
         <Frame ref={sliderRef} className="w-full h-max overflow-hidden flex gap-[var(--space-md)]">
           {
-            businessesState.length > 0 ? (
+            businesses.length > 0 ? (
               filteredBusinesses.map( (business, index) =>
                 <BusinessOverviewCard data={business} index={index} health={businessHealth[business.id]} kpis={businessSummaryKpis[business.id]} key={business.id}/>
               )

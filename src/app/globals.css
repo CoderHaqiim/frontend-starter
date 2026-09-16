@@ -50,7 +50,7 @@ body {
 .scrollVisible::-webkit-scrollbar-thumb{
   width:3px;
   height:3px;
-  background-color:var(--color-textColor1);
+  background-color:var(--color-accent);
 }
 
 @keyframes shimmer {

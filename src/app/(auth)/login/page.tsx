@@ -1,18 +1,15 @@
 "use client"
 
-import Frame from '@/src/components/ui/primitives/frame'
-import Form from '@/src/components/ui/composites/form'
-import Label from '@/src/components/ui/primitives/label'
-import Input from '@/src/components/ui/primitives/input'
-import Button from '@/src/components/ui/primitives/button'
-import Paragraph from '@/src/components/ui/primitives/paragraph'
-import LinkComponent from '@/src/components/ui/primitives/navLink'
-import Heading from '@/src/components/ui/primitives/heading'
-import { colors } from '../../design/colors'
+import Form from '@/src/components/base/ui/composites/form'
+import Button from '@/src/components/base/ui/primitives/button'
+import Frame from '@/src/components/base/ui/primitives/frame'
+import Heading from '@/src/components/base/ui/primitives/heading'
+import Input from '@/src/components/base/ui/primitives/input'
+import Label from '@/src/components/base/ui/primitives/label'
+import Paragraph from '@/src/components/base/ui/primitives/paragraph'
 import Image from 'next/image'
-import { space } from '../../design/spacing'
-import { fontWeight } from '../../design/typograhy'
 import Link from 'next/link'
+import { colors } from '../../design/colors'
 
 
 
@@ -27,7 +24,8 @@ export default function LoginPage() {
                     <Frame className="w-full h-max mb-[var(--space-xl)]">
                         <Heading size="xxl" type='h1'>Log in to your account</Heading>
                     </Frame>
-                    <Form url="/auth/login">
+                    <Form url="/api/post">
+                        <input type="hidden" name="action" value="login" />
                         <Frame className="flex-col w-full h-full">
                             <Label text='Email' size='md'/>
                             <Input outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>

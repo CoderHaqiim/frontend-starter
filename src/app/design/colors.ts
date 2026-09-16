@@ -20,7 +20,7 @@ const staticColors= {
 
 const lightColors = {
     ...staticColors,
-    "accent": "#3b155c",
+    "accent": "#4a1b72",
     "accent-lt-1":" #2dc55b",
     "accent-lt-2": "#5c153c",
     "accent2": "#3b155c35",

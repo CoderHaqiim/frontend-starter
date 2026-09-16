@@ -1,8 +1,8 @@
 "use Client"
 
-import Frame from "../ui/primitives/frame"
-import Icon from "../ui/primitives/icon"
-import Paragraph from "../ui/primitives/paragraph"
+import Frame from "../base/ui/primitives/frame"
+import Icon from "../base/ui/primitives/icon"
+import Paragraph from "../base/ui/primitives/paragraph"
 import { useTheme } from "../providers/themeProvider"
 
 export default function Transaction() {

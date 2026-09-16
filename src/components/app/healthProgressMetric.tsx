@@ -1,11 +1,11 @@
-import Frame from "../ui/primitives/frame"
-import Tooltip from "../ui/composites/tooltip"
-import Icon from "../ui/primitives/icon"
-import LinearProgress from "../ui/composites/linearProgressBar"
-import Heading from "../ui/primitives/heading"
+import { BusinessHealth } from "@/src/types/types"
 import { healthMap } from "@/src/utils/healthMap"
 import { scoreHealthMap } from "@/src/utils/scoreHealthMap"
-import { BusinessHealth } from "@/src/types/types"
+import LinearProgress from "../base/ui/composites/linearProgressBar"
+import Tooltip from "../base/ui/composites/tooltip"
+import Frame from "../base/ui/primitives/frame"
+import Heading from "../base/ui/primitives/heading"
+import Icon from "../base/ui/primitives/icon"
 
 type healthProgressProps = {
   item: {

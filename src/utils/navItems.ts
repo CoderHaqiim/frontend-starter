@@ -1,4 +1,4 @@
-import { IconType } from "../components/ui/primitives/icon"
+import { IconType } from "../components/base/ui/primitives/icon"
 
 export type navItem = {
     id: string

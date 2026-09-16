@@ -3,9 +3,9 @@
 import { ObjectRecordType } from "@/src/types/types"
 import { shortenText } from "@/src/utils/shortenText"
 import { useMemo } from "react"
-import Card from "../../ui/composites/card"
-import Frame from "../../ui/primitives/frame"
-import Paragraph from "../../ui/primitives/paragraph"
+import Card from "../../base/ui/composites/card"
+import Frame from "../../base/ui/primitives/frame"
+import Paragraph from "../../base/ui/primitives/paragraph"
 
 type QuickAccessProps = {
     entry?: ObjectRecordType
@@ -35,7 +35,7 @@ export default function QuickAccessCard({ entry }: QuickAccessProps) {
             gap="sm"
             padding="lg"
             rounded="md"
-            className="shrink-0 min-h-[80px] border-[1px] border-[var(--color-outline2)]"
+            className="shrink-0 min-h-[80px] border-[1px] border-[var(--color-outline1)]"
         >
             <Frame className="flex items-start gap-[var(--space-md)]">
                 <Frame

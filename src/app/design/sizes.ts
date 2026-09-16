@@ -4,11 +4,11 @@ const elementSizes = {
     "name": "elementSize",
     "xxs": "24px",
     "xs": "28px",
-    "sm": "36px",
-    "md": "40px",
-    "lg": "44px",
-    "xl": "48px",
-    "xxl": "56px",
+    "sm": "32px",
+    "md": "36px",
+    "lg": "40px",
+    "xl": "44px",
+    "xxl": "48px",
 } as const
 
 const paddingSizes = {

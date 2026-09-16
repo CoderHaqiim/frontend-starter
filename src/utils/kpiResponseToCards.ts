@@ -1,13 +1,12 @@
 import { BusinessKpiResponse, kpiObjectProps } from "@/src/types/types"
 import { getCurrencySymbol } from "./currencySymbol"
 
-export function kpiResponseToCards(
-  kpis: BusinessKpiResponse | null,
-  currency = "NGN"
-): kpiObjectProps[] {
+export function kpiResponseToCards( kpis: BusinessKpiResponse | null, currency = "NGN"): kpiObjectProps[] {
+  
   if (!kpis) {
     return []
   }
+  
   const currencySymbol = getCurrencySymbol(currency)
 
   return [

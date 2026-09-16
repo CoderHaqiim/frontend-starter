@@ -1,7 +1,7 @@
 "use client"
 
-import Frame from "../ui/primitives/frame"
-import Paragraph from "../ui/primitives/paragraph"
+import Frame from "../base/ui/primitives/frame"
+import Paragraph from "../base/ui/primitives/paragraph"
 
 type ReceiptLineType = {
   date: string

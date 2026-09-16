@@ -1,9 +1,9 @@
 "use client"
 
 import TaskManager from "@/src/components/app/taskManager"
-import Button from "@/src/components/ui/primitives/button"
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function Page() {

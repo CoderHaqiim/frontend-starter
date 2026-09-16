@@ -2,48 +2,33 @@
 
 import ReceiptHeader from "@/src/components/app/receiptHeader"
 import ReceiptLine from "@/src/components/app/receiptLine"
-import Section from "@/src/components/layout/section"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import List from "@/src/components/ui/composites/list"
-import Button from "@/src/components/ui/primitives/button"
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
-import Paragraph from "@/src/components/ui/primitives/paragraph"
+import Section from "@/src/components/base/layout/section"
+import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import List from "@/src/components/base/ui/composites/list"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import type { Receipt } from "@/src/data/receipts"
-import { http } from "@/src/http/client"
+import { getReceiptKpis, getReceipts, receiptKpisQueryKey, receiptsQueryKey } from "@/src/services/receiptService"
 import { useBackdropState } from "@/src/store/backdropState"
-import type { kpiObjectProps } from "@/src/types/types"
+import { useQuery } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
-import { useEffect, useMemo, useState } from "react"
-
-type ReceiptKpiResponse = {
-  kpis: kpiObjectProps[]
-}
+import { useMemo, useState } from "react"
 
 export default function ReceiptsPage() {
   const { businessId } = useParams<{ businessId: string }>()
-  const [receipts, setReceipts] = useState<Receipt[]>([])
-  const [receiptKpis, setReceiptKpis] = useState<kpiObjectProps[]>([])
-  const [isReceiptKpisLoading, setIsReceiptKpisLoading] = useState(true)
+  const { data: receipts = [] } = useQuery({
+    queryKey: receiptsQueryKey(businessId),
+    queryFn: () => getReceipts(businessId),
+  })
+  useQuery({
+    queryKey: receiptKpisQueryKey(businessId),
+    queryFn: () => getReceiptKpis(businessId),
+    select: (response) => response.kpis,
+  })
   const [selectedReceiptFilter, setSelectedReceiptFilter] = useState("all")
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-
-  useEffect(() => {
-    if (!businessId) return
-
-    http<Receipt[]>(`/api/businesses/${businessId}/receipts`, undefined, { method: "GET" })
-      .then(setReceipts)
-      .catch(() => setReceipts([]))
-  }, [businessId])
-
-  useEffect(() => {
-    if (!businessId) return
-
-    http<ReceiptKpiResponse>(`/api/businesses/${businessId}/receipts/kpis`, undefined, { method: "GET" })
-      .then((response) => setReceiptKpis(response.kpis))
-      .catch(() => setReceiptKpis([]))
-      .finally(() => setIsReceiptKpisLoading(false))
-  }, [businessId])
 
   const filteredReceipts = useMemo(() => {
     if (selectedReceiptFilter === "all") {
@@ -103,7 +88,7 @@ export default function ReceiptsPage() {
       <Section width="stretch">
         <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">
           <Frame className="w-full h-max flex items-center justify-between">
-            <Heading size="md" type="h2">Recent Receipts</Heading>
+            <Heading size="md" type="h2">Receipts</Heading>
 
             <Dropdown
               name="receiptFilter"

@@ -1,11 +1,10 @@
 export const dynamic = "force-dynamic";
 
-import { http } from '@/src/http/client'
+import { getBusinesses } from '@/src/services/businessService'
 import { redirect } from 'next/navigation'
-import { Businesses } from '@/src/types/types'
 
 const fetchBusinesses = async () => {
-  const businesses = await http<Businesses>("/api/businesses", undefined, { method: "GET" })
+  const businesses = await getBusinesses()
   const firstBusinessId = businesses[0].id
   return firstBusinessId
 }

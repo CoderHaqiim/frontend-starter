@@ -5,6 +5,7 @@ export type ObjectRecordType = Record<string, string>
 export type SizeType =  "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
 export type FrameSizeType = "hug" | "stretch" | CSSProperties["height"] | CSSProperties["width"];
 export type FunctionType = (arg?: number | string) => void | Promise<void>
+
 export interface Profile {
   profilePicture: string
   userName: string
@@ -17,7 +18,7 @@ export type Duration = "weekly" |"monthly" |"annual"
 export interface BusinessHealth {
   businessId: string
   period: Duration
-  health: HealthType
+  healthStatus: HealthType
   healthScore: number
   metrics: {
     operational: number
@@ -29,20 +30,19 @@ export interface BusinessHealth {
 
 export interface Business {
   id: string
-  name: string
+  businessName: string
   logo?: string
   description?: string
   industry?: string
-  currency: string
-  established: number
+  establishedYear: number
   country: string
   state: string
   customers: number
   health?: HealthType
   healthScore?: number
 }
-export type Businesses = Business[]
 
+export type Businesses = Business[]
 export type KpiDirection = "up" | "down"
 
 export type KpiMetric = {
@@ -63,10 +63,19 @@ export type BusinessKpiResponse = {
 
 export interface Customer {
   id: string
-  name: string
+  customerName: string
+  customerType: "individual" | "company"
+  companyName?: string
   address: string
   phone: string
   email: string
+  quickCard: boolean
+}
+
+export type ToastType = {
+  variant: "success" | "error" | "warning" | "info",
+  message: string,
+  title?: string
 }
 
 export type ScheduleType = "task" | "meeting" | "reminder" | "event"
@@ -86,7 +95,6 @@ export type Schedule = {
   endAt?: string
   allDay: boolean
   location?: string
-  customerId?: string
   recurrence: {
     enabled: boolean
     frequency?: ScheduleRecurrenceFrequency
@@ -103,7 +111,6 @@ export interface Task {
   title: string;
   description?: string;
   businessId: string;
-  business?: string;
   assignee?: {
     name: string;
     avatar?: string;
@@ -192,7 +199,6 @@ export interface BusinessStats {
   rank: number
   name: string
   value: number
-  currency: string
   metric: RankingMetric
 }
 

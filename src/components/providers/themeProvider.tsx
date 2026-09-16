@@ -1,14 +1,14 @@
 "use client";
 
-import { ReactNode, createContext, useContext, useEffect, useSyncExternalStore } from "react";
 import {
-  ColorVariables,
-  ThemeType,
-  colorVariables,
-  getColorVariables,
-  ColorsMap,
-  themeColors,
+    ColorVariables,
+    ColorsMap,
+    ThemeType,
+    colorVariables,
+    getColorVariables,
+    themeColors,
 } from "@/src/app/design/colors";
+import { ReactNode, createContext, useContext, useEffect, useSyncExternalStore } from "react";
 
 type ThemeContextType = {
   theme: ThemeType;

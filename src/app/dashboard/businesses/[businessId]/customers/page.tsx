@@ -3,59 +3,40 @@
 import KpiRow from "@/src/components/app/cards/kpiCard"
 import KpiLoader from "@/src/components/app/cards/kpiLoader"
 import QuickAccessCard from "@/src/components/app/cards/quickAccess"
-import Section from "@/src/components/layout/section"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import Table from "@/src/components/ui/composites/table"
-import Button from "@/src/components/ui/primitives/button"
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
-import Paragraph from "@/src/components/ui/primitives/paragraph"
-import { http } from "@/src/http/client"
+import Section from "@/src/components/base/layout/section"
+import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import Table from "@/src/components/base/ui/composites/table"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
+import { customerKpisQueryKey, customersQueryKey, getCustomerKpis, getCustomers, getQuickAccessCustomers, quickAccessCustomersQueryKey } from "@/src/services/customerService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { kpiObjectProps, ObjectRecordType } from "@/src/types/types"
-import { useEffect, useState } from "react"
-
-type CustomerKpiResponse = {
-  kpis: kpiObjectProps[]
-  accessCards: ObjectRecordType[]
-}
+import { useQuery } from "@tanstack/react-query"
+import { useParams } from "next/navigation"
+import { useState } from "react"
 
 export default function Home() {
+  const { businessId } = useParams<{ businessId: string }>()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const [customers, setCustomers] = useState<ObjectRecordType[]>([])
-  const [customerKpis, setCustomerKpis] = useState<CustomerKpiResponse>({
-    kpis: [],
-    accessCards: [],
+  const { data: customers = [] } = useQuery({
+    queryKey: customersQueryKey(businessId),
+    queryFn: () => getCustomers(businessId),
   })
-  const [isCustomerKpisLoading, setIsCustomerKpisLoading] = useState(true)
-  const [selectedStatus, setSelectedStatus] = useState("All")
+  const { data: quickAccessCustomers = [], isLoading: isCustomerQuickAccessLoading } = useQuery({
+    queryKey: quickAccessCustomersQueryKey(businessId),
+    queryFn: () => getQuickAccessCustomers(businessId),
+  })
+  const { data: customerKpis = { kpis: [] }, isLoading: isCustomerKpisLoading } = useQuery({
+    queryKey: customerKpisQueryKey(businessId),
+    queryFn: () => getCustomerKpis(businessId),
+  })
+  const [selectedStatus, setSelectedStatus] = useState("all")
 
-  useEffect(() => {
-  const fetchCustomers = async () => {
-    try {
-      const customers = await http<ObjectRecordType[]>("/api/customers")
-      setCustomers(customers)
-    } catch {
-      setCustomers([])
-    }
-  }
-
-  fetchCustomers()
-}, [])
-
-  useEffect(() => {
-    http<CustomerKpiResponse>("/api/customers/kpis")
-      .then(setCustomerKpis)
-      .catch(() => setCustomerKpis({ kpis: [], accessCards: [] }))
-      .finally(() => setIsCustomerKpisLoading(false))
-  }, [])
-
-  const filteredCustomers = selectedStatus === "All"
-    ? customers
-    : customers.filter((customer) => customer.status === selectedStatus)
+  const filteredCustomers = selectedStatus === "all"? 
+  customers : customers.filter((customer) => customer.status === selectedStatus)
 
   const customerDirectoryTableData = filteredCustomers.map((customer) => ({
-    "Customer ID": customer.id,
     "Customer name": customer.name,
     "Customer type": customer.customerType,
     "Company name": customer.companyName,
@@ -101,7 +82,11 @@ export default function Home() {
           </Frame>
          
             <Frame scroll="hidden" className="gap-[var(--space-md)]">
-              {customerKpis.accessCards.map((customer) => ( <QuickAccessCard key={customer.id} entry={customer} />))}
+              {isCustomerQuickAccessLoading
+                ? Array.from({ length: 3 }).map((_, index) => <KpiLoader key={index} />)
+                : quickAccessCustomers.map((customer) => (
+                  <QuickAccessCard key={customer.id} entry={customer} />
+                ))}
             </Frame>
         </Frame>
       </Section>
@@ -118,8 +103,8 @@ export default function Home() {
               formFunc={(event) => setSelectedStatus(event.target.value)}
             />
           </Frame>
-          <Frame className="w-full h-full" scroll="hidden">
-            <Table width="stretch" cellWidth="180px" height="300px" size="sm" data={customerDirectoryTableData} isCustomerData />
+          <Frame className="w-full h-max">
+            <Table width="stretch" cellWidth="180px" height="hug" size="sm" data={customerDirectoryTableData} isCustomerData />
           </Frame>
         </Frame>
       </Section>

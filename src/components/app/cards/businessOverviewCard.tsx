@@ -5,18 +5,16 @@ import {
   BusinessHealth,
   BusinessKpiResponse,
 } from "@/src/types/types"
-import abridgeNumber from "@/src/utils/abridgeNumber"
-import { getCurrencySymbol } from "@/src/utils/currencySymbol"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
 import { healthMap } from "@/src/utils/healthMap"
 import { shortenText } from "@/src/utils/shortenText"
 import Link from "next/link"
+import Card from "../../base/ui/composites/card"
+import RadialProgress from "../../base/ui/composites/radialProgress"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
 import { useTheme } from "../../providers/themeProvider"
-import Card from "../../ui/composites/card"
-import RadialProgress from "../../ui/composites/radialProgress"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Paragraph from "../../ui/primitives/paragraph"
 
 type BusinessOverviewProps = {
   data: Business
@@ -25,16 +23,7 @@ type BusinessOverviewProps = {
   index: number
 }
 
-const avatarColors = [
-  "#97bdfd",
-  "#6ce175",
-  "#df28ec",
-  "#efb98d",
-  "#a28cc2",
-  "#1b707b",
-  "#afd65a",
-  "#d67179",
-]
+const avatarColors = [ "#97bdfd", "#6ce175", "#df28ec", "#efb98d", "#a28cc2", "#1b707b", "#afd65a", "#d67179"]
 
 const getBusinessInitial = (name: string) => { return name?.trim()?.charAt(0)?.toUpperCase() || "?" }
 
@@ -44,23 +33,15 @@ const getBusinessColor = (index: number) => {
 
 export default function BusinessOverview({ data, health, kpis, index,}: BusinessOverviewProps) {
   const { colors } = useTheme()
-
   const businessHealth = {
-    health: health?.health ?? data.health ?? "healthy",
+    health: health?.healthStatus ?? data.health ?? "healthy",
     healthScore: health?.healthScore ?? data.healthScore ?? 0,
   }
-
-  const healthBackground = generateHealthBackground(
-    businessHealth.health
-  )
-
-  const businessInitial = getBusinessInitial(data.name)
+  const healthBackground = generateHealthBackground( businessHealth.health)
+  const businessInitial = getBusinessInitial(data.businessName)
   const businessColor = getBusinessColor(index)
-  const currencySymbol = getCurrencySymbol(data.currency)
-
-  const formatAmount = (amount: number) =>
-    `${currencySymbol} ${abridgeNumber(amount)}`
-
+  // const currencySymbol = getCurrencySymbol(data.currency)
+  // const formatAmount = (amount: number) => `${currencySymbol} ${abridgeNumber(amount)}`
   const financials = kpis?.financials
 
   return (
@@ -100,7 +81,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
 
           <Frame className="flex-col gap-[var(--space-xs)]">
             <Heading type="h3" size="sm">
-              {shortenText(data?.name, 22)}
+              {shortenText(data?.businessName, 22)}
             </Heading>
 
             <Paragraph size="xs">
@@ -152,9 +133,10 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               weight="medium"
               size="sm"
             >
-              {formatAmount(
-                financials?.revenue.value ?? 0
-              )}
+              {
+                 "$" + financials?.revenue.value
+                  // formatAmount( financials?.revenue.value ?? 0)
+              }
             </Paragraph>
           </Frame>
 
@@ -182,9 +164,10 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               weight="medium"
               size="sm"
             >
-              {formatAmount(
-                financials?.expenses.value ?? 0
-              )}
+              {
+                "$" + financials?.revenue.value
+                // formatAmount( financials?.expenses.value ?? 0)
+              }
             </Paragraph>
           </Frame>
 
@@ -193,14 +176,11 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               Profit
             </Paragraph>
 
-            <Paragraph
-              color="textColor1"
-              weight="medium"
-              size="sm"
-            >
-              {formatAmount(
-                financials?.profit.value ?? 0
-              )}
+            <Paragraph color="textColor1" weight="medium" size="sm">
+              {
+                "$" + financials?.profit.value
+                // formatAmount( financials?.profit.value ?? 0)
+              }
             </Paragraph>
           </Frame>
         </Frame>

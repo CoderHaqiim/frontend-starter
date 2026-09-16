@@ -1,14 +1,13 @@
 "use client"
 
-import { http } from "@/src/http/client"
+import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { Businesses } from "@/src/types/types"
-import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import Card from "../../base/ui/composites/card"
+import Button from "../../base/ui/primitives/button"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
 import { useTheme } from "../../providers/themeProvider"
-import Card from "../../ui/composites/card"
-import Button from "../../ui/primitives/button"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
 import CreateTransactionForm from "../forms/createTransaction"
 
 type QuickAction = {
@@ -19,17 +18,11 @@ type QuickAction = {
 export default function QuickActions() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
   const { colors } = useTheme()
-  const [businessId, setBusinessId] = useState<string>("")
-
-  useEffect(() => {
-    http<Businesses>("/api/businesses", undefined, { method: "GET" })
-      .then((businesses) => {
-        if (businesses[0]) {
-          setBusinessId(businesses[0].id)
-        }
-      })
-      .catch(() => {})
-  }, [])
+  const { data: businesses = [] } = useQuery({
+    queryKey: businessesQueryKey,
+    queryFn: getBusinesses,
+  })
+  const businessId = businesses[0]?.id ?? ""
 
   const openBackdrop = (content: string) => {
     setBackdropOpen(true)

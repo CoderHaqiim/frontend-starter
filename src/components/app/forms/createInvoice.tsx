@@ -1,15 +1,15 @@
 "use client"
 
 import { useBackdropState } from "@/src/store/backdropState"
-import Card from "../../ui/composites/card"
-import Dropdown from "../../ui/composites/dropdown"
-import Form from "../../ui/composites/form"
-import Button from "../../ui/primitives/button"
-import CloseButton from "../../ui/primitives/closeButton"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Input from "../../ui/primitives/input"
-import Label from "../../ui/primitives/label"
+import Card from "../../base/ui/composites/card"
+import Dropdown from "../../base/ui/composites/dropdown"
+import Form from "../../base/ui/composites/form"
+import Button from "../../base/ui/primitives/button"
+import CloseButton from "../../base/ui/primitives/closeButton"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Input from "../../base/ui/primitives/input"
+import Label from "../../base/ui/primitives/label"
 
 export default function CreateInvoiceForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
@@ -39,12 +39,16 @@ export default function CreateInvoiceForm() {
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Issue Date" size="xs" />
-              <Input size="sm" rounded="sm" outline border type="date" name="issueDate" variant="default" />
+              <Label required text="Issue Date" size="xs" />
+              <input required type="date" name="dueDate"
+                className="w-full text-[length:var(--bodySize-sm)] h-[var(--elementSize-sm)] rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-md)] outline-none"
+              />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Due Date" size="xs" />
-              <Input size="sm" rounded="sm" outline border type="date" name="dueDate" variant="default" />
+              <Label required text="Due Date" size="xs" />
+              <input required type="date" name="dueDate"
+                className="w-full text-[length:var(--bodySize-sm)] h-[var(--elementSize-sm)] rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-md)] outline-none"
+              />
             </Frame>
           </Frame>
 
@@ -75,12 +79,12 @@ export default function CreateInvoiceForm() {
               className="w-full resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="Add invoice notes..."
               name="notes"
-              rows={4}
+              rows={2}
             />
           </Frame>
 
           <Frame className="justify-end w-full">
-            <Button variant="fill" role="submit" size="sm" propagate>
+            <Button variant="fill" role="submit" size="md" propagate>
               Create Invoice
             </Button>
           </Frame>

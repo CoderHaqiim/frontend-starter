@@ -1,15 +1,16 @@
 "use client"
 
-import Form from "../../ui/composites/form"
-import Label from "../../ui/primitives/label"
-import Card from "../../ui/composites/card"
-import Input from "../../ui/primitives/input"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Dropdown from "../../ui/composites/dropdown"
-import CloseButton from "../../ui/primitives/closeButton"
-import Button from "../../ui/primitives/button"
 import { useBackdropState } from "@/src/store/backdropState"
+import Card from "../../base/ui/composites/card"
+import Dropdown from "../../base/ui/composites/dropdown"
+import Form from "../../base/ui/composites/form"
+import Button from "../../base/ui/primitives/button"
+import CloseButton from "../../base/ui/primitives/closeButton"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Input from "../../base/ui/primitives/input"
+import Label from "../../base/ui/primitives/label"
+import CountryStateFields from "./countryStateFields"
 
 export default function EditBusinessForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
@@ -37,29 +38,7 @@ export default function EditBusinessForm() {
             <Input size="sm" rounded="sm" placeholder="What is your business name?" outline border type="text" name="businessName" variant="default" />
           </Frame>
 
-          <Frame className="gap-[var(--space-md)]">
-            <Frame className="w-1/2 flex-col">
-              <Label text="Country" size="xs" />
-              <Dropdown
-                name="country"
-                size="sm"
-                width="100%"
-                options={[
-                  { label: "Nigeria", value: "Nigeria" },
-                  { label: "Ghana", value: "Ghana" },
-                  { label: "Togo", value: "Togo" },
-                  { label: "France", value: "France" },
-                  { label: "United Kingdom", value: "United Kingdom" },
-                  { label: "United States", value: "United States" },
-                  { label: "Other", value: "other" },
-                ]}
-              />
-            </Frame>
-            <Frame className="w-1/2 flex-col">
-              <Label text="State / Province" size="xs" />
-              <Input size="sm" rounded="sm" placeholder="State / Province" outline border type="text" name="state" variant="default" />
-            </Frame>
-          </Frame>
+          <CountryStateFields size="sm" />
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">

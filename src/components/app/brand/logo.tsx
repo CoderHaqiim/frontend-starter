@@ -1,7 +1,6 @@
-import React from 'react'
-import Frame from '../../ui/primitives/frame'
 import Image from 'next/image'
 import Link from 'next/link'
+import Frame from '../../base/ui/primitives/frame'
 
 export default function Logo() {
   return (

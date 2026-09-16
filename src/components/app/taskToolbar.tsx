@@ -1,5 +1,5 @@
-import Frame from "../ui/primitives/frame";
-import Dropdown from "../ui/composites/dropdown";
+import Dropdown from "../base/ui/composites/dropdown";
+import Frame from "../base/ui/primitives/frame";
 
 export default function TaskToolbar() {
     const businessTasks = ["All Businesses", "Business1", "Business2"]

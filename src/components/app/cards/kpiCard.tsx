@@ -1,11 +1,11 @@
 "use client"
 import { FrameSizeType, kpiObjectProps } from "@/src/types/types"
 import abridgeNumber from "@/src/utils/abridgeNumber"
-import Card from "../../ui/composites/card"
-import Tooltip from "../../ui/composites/tooltip"
-import Frame from "../../ui/primitives/frame"
-import Icon from "../../ui/primitives/icon"
-import Paragraph from "../../ui/primitives/paragraph"
+import Card from "../../base/ui/composites/card"
+import Tooltip from "../../base/ui/composites/tooltip"
+import Frame from "../../base/ui/primitives/frame"
+import Icon from "../../base/ui/primitives/icon"
+import Paragraph from "../../base/ui/primitives/paragraph"
 
 
 type KpiCardProps = {

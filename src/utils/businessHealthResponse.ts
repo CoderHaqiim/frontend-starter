@@ -60,7 +60,7 @@ export const toBusinessHealthResponse = (health: BusinessHealthRecord): Business
   return {
     ...health,
     healthScore,
-    health: getHealthStatus(healthScore),
+    healthStatus: getHealthStatus(healthScore),
     metrics,
   }
 }

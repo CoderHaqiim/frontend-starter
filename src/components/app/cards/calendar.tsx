@@ -14,17 +14,17 @@ import {
 } from "date-fns"
 
 import { fontWeight } from "@/src/app/design/typograhy"
-import { http } from "@/src/http/client"
+import { getSchedules, schedulesQueryKey } from "@/src/services/scheduleService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { Schedule } from "@/src/types/types"
-import { useEffect, useMemo, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useMemo, useState } from "react"
+import Card from "../../base/ui/composites/card"
+import Tooltip from "../../base/ui/composites/tooltip"
+import Button from "../../base/ui/primitives/button"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
 import { useTheme } from "../../providers/themeProvider"
-import Card from "../../ui/composites/card"
-import Tooltip from "../../ui/composites/tooltip"
-import Button from "../../ui/primitives/button"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Paragraph from "../../ui/primitives/paragraph"
 import ScheduleModal from "../forms/scheduleModal"
 
 type CalendarProps = {
@@ -37,29 +37,14 @@ export default function Calendar({
   businessId,
 }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
-  const [schedules, setSchedules] = useState<Schedule[]>([])
-  const [loading, setLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const { data: schedules = [] } = useQuery({
+    queryKey: schedulesQueryKey,
+    queryFn: getSchedules,
+  })
 
   const { colors } = useTheme()
   const { setBackdropOpen, setBackdropContent } = useBackdropState()
-
-  // Fetch Schedules
-  useEffect(() => {
-    fetchSchedules()
-  }, [])
-
-  async function fetchSchedules() {
-    const schedulesData = await http<Schedule[]>(
-      "/api/schedules",
-      undefined,
-      { method: "GET" }
-    )
-
-    console.log("Schedules:", schedulesData)
-    setSchedules(schedulesData)
-    setLoading(false)
-  }
 
   // Date-fns config
   const calendarDays = useMemo(() => {
@@ -113,7 +98,7 @@ export default function Calendar({
       </Frame>
 
       <div>
-        <Frame className="flex w-full items-center justify-between gap-[var(--space-md)] mb-[var(--space-md)]">
+        <Frame className="flex w-full items-center justify-between mb-[var(--space-md)]">
           <Tooltip content="previous month">
             <Button variant="ghost" size="xs" isIcon iconName="icon-left"
               func={() =>
@@ -139,7 +124,7 @@ export default function Calendar({
           </Tooltip>
         </Frame>
 
-        <Frame className="flex w-full flex-col border border-[var(--color-outline1)] gap-[var(--space-sm)] rounded-[var(--radius-md)] p-[var(--space-md)]">
+        <Frame className="flex w-full flex-col border border-[var(--color-outline1)] gap-[var(--space-lg)] rounded-[var(--radius-md)] p-[var(--space-md)]">
           {/* Week days */}
           <Frame className="grid grid-cols-7">
             {days.map((day) => (
@@ -152,7 +137,7 @@ export default function Calendar({
           </Frame>
 
           {/* Calendar dates */}
-          <Frame className="grid grid-cols-7 gap-[var(--space-xs)]">
+          <Frame className="grid grid-cols-7 gap-[var(--space-sm)]">
             {calendarDays.map((day) => {
               const daySchedules =
                 getSchedulesForDate(day)
@@ -214,7 +199,7 @@ export default function Calendar({
                   }}
                 >
                   <Button
-                    size="xs"
+                    size="xxs"
                     isIcon
                     variant="outline"
                     func={isInteractive ? () => openScheduleModal(day) : undefined}

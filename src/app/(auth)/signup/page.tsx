@@ -1,22 +1,25 @@
 "use client"
 
-import Frame from '@/src/components/ui/primitives/frame'
-import Form from '@/src/components/ui/composites/form'
-import Label from '@/src/components/ui/primitives/label'
-import Input from '@/src/components/ui/primitives/input'
-import Button from '@/src/components/ui/primitives/button'
-import Paragraph from '@/src/components/ui/primitives/paragraph'
-import LinkComponent from '@/src/components/ui/primitives/navLink'
-import Heading from '@/src/components/ui/primitives/heading'
-import { colors } from '../../design/colors'
+import Form from '@/src/components/base/ui/composites/form'
+import Button from '@/src/components/base/ui/primitives/button'
+import Frame from '@/src/components/base/ui/primitives/frame'
+import Heading from '@/src/components/base/ui/primitives/heading'
+import Input from '@/src/components/base/ui/primitives/input'
+import Label from '@/src/components/base/ui/primitives/label'
+import Paragraph from '@/src/components/base/ui/primitives/paragraph'
 import Image from 'next/image'
-import { space } from '../../design/spacing'
-import { fontWeight } from '../../design/typograhy'
 import Link from 'next/link'
+import { useState } from 'react'
+import { colors } from '../../design/colors'
 
 
 
 export default function SignupPage() {
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const passwordsDoNotMatch = confirmPassword.length > 0 && password !== confirmPassword
+    const passwordsMatch = password.length > 0 && password === confirmPassword
+
   return (
     <Frame className="w-full h-[100vh] justify-center p-[var(--space-xs)] items-center bg-[var(--color-white]">
         <Frame className="w-full justify-center items-center h-full overflow-hidden bg-[var(--color-white)]">
@@ -27,7 +30,8 @@ export default function SignupPage() {
                     <Frame className="w-full h-max mb-[var(--space-xl)]">
                         <Heading size="xxl" type='h1'>Create an account</Heading>
                     </Frame>
-                    <Form url="/auth/login">
+                    <Form url="/api/post">
+                        <input type="hidden" name="action" value="signup" />
                         <Frame className="flex-col w-full h-full">
                             <Label text='Email' size='md'/>
                             <Input outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
@@ -35,15 +39,23 @@ export default function SignupPage() {
                         </Frame>
                         <Frame className="flex-col w-full h-full">
                             <Label text='Password' size='md'/>
-                            <Input outline rounded='sm' name="password" variant="password" type='text' size='md' border placeholder='Password'/>
+                                   <Input
+                                     outline rounded='sm' name="password" variant="password" type='text' size="md"
+                                     border placeholder='Password'
+                                     formFunc={(event) => setPassword(event.target.value)}
+                                   />
                             <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                         </Frame>
                         <Frame className="flex-col w-full h-full">
                             <Label text='Confirm Password' size='md'/>
-                            <Input outline rounded='sm' name="confirm-password" variant="password" type='text' size='md' border placeholder='Password'/>
-                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                                   <Input
+                                     outline rounded='sm' name="confirm-password" variant="password" type='text' size="md"
+                                     border placeholder='Password'
+                                     formFunc={(event) => setConfirmPassword(event.target.value)}
+                                   />
+                                   <div className={`${passwordsDoNotMatch ? 'block' : 'hidden'} text-[0.6rem] font-[500] text-[red]`}>Passwords do not match</div>
                         </Frame>
-                        <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Log in</Button>  
+                           <Button propagate role={passwordsMatch ? 'submit' : 'button'} rounded='xl' variant="fill" size='xl'width="stretch">Sign up</Button>  
                     </Form>
                     <Frame className="justify-center h-[30px] items-center w-full" >
                         <Paragraph size='sm' color="textColor1" className='justify-center text-center z-[5] bg-[var(--color-white)]' specificStyle={{width: "70px"}}>OR</Paragraph>

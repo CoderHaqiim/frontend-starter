@@ -1,5 +1,4 @@
-import React from 'react'
-import Frame from '../ui/primitives/frame'
+import Frame from '../base/ui/primitives/frame'
 
 export default function OpenAside() {
   return (

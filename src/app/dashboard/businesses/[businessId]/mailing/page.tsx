@@ -1,13 +1,13 @@
 "use client"
 
-import Section from "@/src/components/layout/section"
-import Badge from "@/src/components/ui/composites/badge"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import Table from "@/src/components/ui/composites/table"
-import Button from "@/src/components/ui/primitives/button"
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
-import Paragraph from "@/src/components/ui/primitives/paragraph"
+import Section from "@/src/components/base/layout/section"
+import Badge from "@/src/components/base/ui/composites/badge"
+import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import Table from "@/src/components/base/ui/composites/table"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import { customers } from "@/src/data/customers"
 import { ObjectRecordType } from "@/src/types/types"
 import { useMemo, useState } from "react"
@@ -206,7 +206,7 @@ export default function MailingPage() {
             formFunc={(event) => setRecordView(event.target.value as RecordView)}
           />
         </Frame>
-        <Table width="stretch" cellWidth="180px" height="250px" size="xs" data={recordDataMap[recordView]} />
+        <Table width="stretch" cellWidth="180px" height="hug" size="xs" data={recordDataMap[recordView]} />
       </Section>
     </Frame>
   )

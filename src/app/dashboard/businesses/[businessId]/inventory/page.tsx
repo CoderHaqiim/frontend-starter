@@ -1,43 +1,70 @@
 "use client"
 
-import Section from "@/src/components/layout/section"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import KpiRow from "@/src/components/ui/composites/kpiRow"
-import Table from "@/src/components/ui/composites/table"
-import Button from "@/src/components/ui/primitives/button"
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
-import Paragraph from "@/src/components/ui/primitives/paragraph"
+import Section from "@/src/components/base/layout/section"
+import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import KpiRow from "@/src/components/base/ui/composites/kpiRow"
+import Table from "@/src/components/base/ui/composites/table"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
+import { getInventory, inventoryQueryKey } from "@/src/services/inventoryService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { ObjectRecordType } from "@/src/types/types"
+import { useQuery } from "@tanstack/react-query"
+import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
 
-const inventoryKpis = [
-  { id: "items", title: "Total items", value: "128", meaning: "Items currently tracked" },
-  { id: "value", title: "Inventory value", value: "$42,680", meaning: "Estimated stock value" },
-  { id: "lowStock", title: "Low stock", value: "9", meaning: "Items needing attention" },
-  { id: "outOfStock", title: "Out of stock", value: "3", meaning: "Items unavailable" },
-]
-
-const inventoryItems:ObjectRecordType[] = [
-  { Item: "Premium Coffee Beans", SKU: "COF-001", Category: "Beverages", Stock: "42", "Reorder level": "15", Status: "In stock" },
-  { Item: "Organic Green Tea", SKU: "TEA-014", Category: "Beverages", Stock: "8", "Reorder level": "12", Status: "Low stock" },
-  { Item: "Ceramic Mug", SKU: "MUG-008", Category: "Accessories", Stock: "6", "Reorder level": "20", Status: "In stock" },
-  { Item: "Gift Box - Medium", SKU: "GFT-021", Category: "Packaging", Stock: "0", "Reorder level": "10", Status: "Out of stock" },
-  { Item: "Vanilla Syrup", SKU: "SYR-006", Category: "Ingredients", Stock: "14", "Reorder level": "15", Status: "Low stock" },
-]
-
 export default function InventoryPage() {
+  const { businessId } = useParams<{ businessId: string }>()
   const [selectedInventoryFilter, setSelectedInventoryFilter] = useState("all")
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { data: inventoryItems = [], isLoading: isInventoryLoading } = useQuery({
+    queryKey: inventoryQueryKey(businessId),
+    queryFn: () => getInventory(businessId),
+    enabled: Boolean(businessId),
+  })
+  const availableInventoryItems = inventoryItems
+
+  const inventoryKpis = useMemo(() => {
+    const totalStockUnits = availableInventoryItems.reduce((total, item) => total + Number(item.Stock), 0)
+    const lowStockItems = availableInventoryItems.filter((item) => item.Status === "Low stock")
+    const outOfStockItems = availableInventoryItems.filter((item) => item.Status === "Out of stock")
+
+    return [
+      {
+        id: "items",
+        title: "Total items",
+        value: String(availableInventoryItems.length),
+        meaning: "Items currently tracked",
+      },
+      {
+        id: "stockUnits",
+        title: "Stock units",
+        value: String(totalStockUnits),
+        meaning: "Total units currently in stock",
+      },
+      {
+        id: "lowStock",
+        title: "Low stock",
+        value: String(lowStockItems.length),
+        meaning: "Items needing attention",
+      },
+      {
+        id: "outOfStock",
+        title: "Out of stock",
+        value: String(outOfStockItems.length),
+        meaning: "Items unavailable",
+      },
+    ]
+  }, [availableInventoryItems])
 
   const filteredItems = useMemo(() => {
-    if (selectedInventoryFilter === "all") return inventoryItems
+    if (selectedInventoryFilter === "all") return availableInventoryItems
 
-    return inventoryItems.filter(
+    return availableInventoryItems.filter(
       (item) => item.Status.toLowerCase().replace(" ", "-") === selectedInventoryFilter
     )
-  }, [selectedInventoryFilter])
+  }, [availableInventoryItems, selectedInventoryFilter])
 
   const handleInventoryFilterChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -74,7 +101,7 @@ export default function InventoryPage() {
       </Frame>
 
     <Section>
-      <KpiRow kpis={inventoryKpis} />
+      <KpiRow kpis={inventoryKpis} isLoading={isInventoryLoading} itemsCount={4} />
     </Section>
 
       <Section width="stretch">
@@ -93,7 +120,7 @@ export default function InventoryPage() {
             />
           </Frame>
 
-          <Frame className="w-full h-full overflow-hidden">
+          <Frame className="w-full h-max">
             <Table
               width="stretch"
               cellWidth="180px"

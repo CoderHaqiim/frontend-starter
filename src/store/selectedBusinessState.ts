@@ -1,4 +1,4 @@
-import {create} from "zustand"
+import { create } from "zustand"
 import { Business } from "../types/types"
 
 type SelectedBusinessProps = {
@@ -9,11 +9,10 @@ type SelectedBusinessProps = {
 
 export const useSelectedBusiness = create<SelectedBusinessProps>((set)=>({
     selectedBusiness : {
-        name:"",
+        businessName:"",
         id:"",
         industry: "",
-        currency: "NGN",
-        established: 2010,
+        establishedYear: 2010,
         country: "Nigeria",
         state: "Lagos",
         customers: 0,

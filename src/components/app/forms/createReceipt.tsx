@@ -1,15 +1,15 @@
 "use client"
 
 import { useBackdropState } from "@/src/store/backdropState"
-import Card from "../../ui/composites/card"
-import Dropdown from "../../ui/composites/dropdown"
-import Form from "../../ui/composites/form"
-import Button from "../../ui/primitives/button"
-import CloseButton from "../../ui/primitives/closeButton"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Input from "../../ui/primitives/input"
-import Label from "../../ui/primitives/label"
+import Card from "../../base/ui/composites/card"
+import Dropdown from "../../base/ui/composites/dropdown"
+import Form from "../../base/ui/composites/form"
+import Button from "../../base/ui/primitives/button"
+import CloseButton from "../../base/ui/primitives/closeButton"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Input from "../../base/ui/primitives/input"
+import Label from "../../base/ui/primitives/label"
 
 export default function CreateReceiptForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()

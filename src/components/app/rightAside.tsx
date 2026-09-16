@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { CSSProperties } from "react";
-import Aside from "../layout/aside";
-import Frame from "../ui/primitives/frame";
+import Aside from "../base/layout/aside";
+import Frame from "../base/ui/primitives/frame";
 import Calendar from "./cards/calendar";
 import QuickActions from "./cards/quickActions";
 import TaskManagerCard from "./cards/taskManagerCard";
@@ -20,7 +20,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
       case pathname === "/dashboard":
         return {
           content: (
-            <Frame className="w-max h-full flex-col gap-[var(--space-md)]">
+            <Frame className="w-max h-full flex-col gap-[var(--space-lg)]">
               <QuickActions />
               <Calendar />
             </Frame>
@@ -30,7 +30,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
       case pathname.startsWith("/dashboard/businesses/") && pathname.endsWith("/overview"):
         return {
           content: (
-            <Frame className="w-max h-full flex-col gap-[var(--space-md)]">
+            <Frame className="w-max h-full flex-col gap-[var(--space-lg)]">
               <TaskManagerCard />
             </Frame>
           ),

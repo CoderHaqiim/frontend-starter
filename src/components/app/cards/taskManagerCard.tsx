@@ -1,18 +1,17 @@
 "use client"
 
-import { http } from "@/src/http/client"
+import { getTodayBusinessTasks, todayBusinessTasksQueryKey } from "@/src/services/taskService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { Task } from "@/src/types/types"
+import { useQuery } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import Card from "../../base/ui/composites/card"
+import List from "../../base/ui/composites/list"
+import Tooltip from "../../base/ui/composites/tooltip"
+import Button from "../../base/ui/primitives/button"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
 import { useTheme } from "../../providers/themeProvider"
-import Card from "../../ui/composites/card"
-import List from "../../ui/composites/list"
-import Tooltip from "../../ui/composites/tooltip"
-import Button from "../../ui/primitives/button"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Paragraph from "../../ui/primitives/paragraph"
 import TaskLine from "../taskLine"
 
 type TaskManagerCardProps = {
@@ -20,18 +19,13 @@ type TaskManagerCardProps = {
 
 export default function TaskManagerCard({}: TaskManagerCardProps) {
   const {setBackdropContent, setBackdropOpen} = useBackdropState()
-  const [tasks, setTasks] = useState<Task[] | null>(null)
   const {colors} = useTheme()
   const { businessId } = useParams<{ businessId: string }>()
   const router = useRouter()
-
-  useEffect(()=>{
-    const fetchTasks = async() => {
-      const tasks = await http<Task[]>(`/api/businesses/${businessId}/tasks/today`)
-      setTasks(tasks)
-    }
-    fetchTasks()
-  },[businessId])
+  const { data: tasks = [] } = useQuery({
+    queryKey: todayBusinessTasksQueryKey(businessId),
+    queryFn: () => getTodayBusinessTasks(businessId),
+  })
 
   const createTask = () => {
     setBackdropOpen(true)

@@ -1,14 +1,17 @@
 "use client"
 
-import Form from "../../ui/composites/form"
-import Label from "../../ui/primitives/label"
-import Card from "../../ui/composites/card"
-import Input from "../../ui/primitives/input"
-import Frame from "../../ui/primitives/frame"
-import Heading from "../../ui/primitives/heading"
-import Button from "../../ui/primitives/button"
-import CloseButton from "../../ui/primitives/closeButton"
+import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
+import { useQuery } from "@tanstack/react-query"
+import Card from "../../base/ui/composites/card"
+import Dropdown from "../../base/ui/composites/dropdown"
+import Form from "../../base/ui/composites/form"
+import Button from "../../base/ui/primitives/button"
+import CloseButton from "../../base/ui/primitives/closeButton"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Input from "../../base/ui/primitives/input"
+import Label from "../../base/ui/primitives/label"
 
 type CreateTransactionFormProps = {
   businessId: string
@@ -16,6 +19,10 @@ type CreateTransactionFormProps = {
 
 export default function CreateTransactionForm({ businessId }: CreateTransactionFormProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { data: businesses = [] } = useQuery({
+    queryKey: businessesQueryKey,
+    queryFn: getBusinesses,
+  })
 
   const closeForm = () => {
     setBackdropContent(null)
@@ -31,47 +38,80 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
         </Frame>
       </Frame>
 
-      <Form url={`/api/businesses/${businessId}/transactions`}>
-        <input type="hidden" name="businessId" value={businessId} />
+      <Form url={`/api/post`}>
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
-            <Label text="Description" size="xs" />
-            <Input size="sm" rounded="sm" placeholder="What was this transaction for?" outline border type="text" name="description" variant="default" />
+            <Label required text="Description" size="xs" />
+            <Input required size="sm" rounded="sm" placeholder="What was this transaction for?" outline border type="text" name="description" variant="default" />
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Amount" size="xs" />
-              <Input size="sm" rounded="sm" placeholder="0.00" outline border type="number" name="amount" variant="default" />
+              <Label text="Business" size="xs" />
+              <Dropdown
+                name="businessId"
+                size="sm"
+                width="100%"
+                defaultValue={businessId}
+                options={businesses.map((business) => ({
+                  label: business.businessName,
+                  value: business.id,
+                }))}
+              />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Date" size="xs" />
-              <Input size="sm" rounded="sm" outline border type="date" name="date" variant="default" />
+              <Label text="Customer" size="xs" />
+              <Input size="sm" rounded="sm" placeholder="Customer name" outline border type="text" name="customer" variant="default" />
             </Frame>
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
-            <Frame className="w-1/2 flex-col">
-              <Label text="Category" size="xs" />
-              <Input size="sm" rounded="sm" placeholder="e.g. Sales, Utilities" outline border type="text" name="category" variant="default" />
-            </Frame>
             <Frame className="w-1/2 flex-col">
               <Label text="Transaction Type" size="xs" />
-              <Frame className="gap-[var(--space-xs)]">
-                <label className="flex flex-1 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-outline1)] px-2 py-2 text-[length:var(--bodySize-xs)]">
-                  <input type="radio" name="type" value="income" defaultChecked />
-                  Income
-                </label>
-                <label className="flex flex-1 cursor-pointer items-center gap-1 rounded-[var(--radius-sm)] border border-[var(--color-outline1)] px-2 py-2 text-[length:var(--bodySize-xs)]">
-                  <input type="radio" name="type" value="expense" />
-                  Expense
-                </label>
-              </Frame>
+              <Dropdown
+                name="type"
+                size="sm"
+                width="100%"
+                options={[
+                  { label: "Income", value: "income" },
+                  { label: "Expense", value: "expense" },
+                ]}
+              />
             </Frame>
+            <Frame className="w-1/2 flex-col">
+              <Label required text="Due Date" size="xs" />
+              <input required type="date" name="date"
+                className="w-full text-[length:var(--bodySize-sm)] h-[var(--elementSize-sm)] rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-md)] outline-none"
+              />
+            </Frame>
+          </Frame>
+
+          <Frame className="gap-[var(--space-md)]">
+            <Frame className="w-1/2 flex-col">
+              <Label required text="Amount" size="xs" />
+              <Input required size="sm" rounded="sm" placeholder="0.00" outline border type="number" name="amount" variant="default" />
+            </Frame>
+            <Frame className="w-1/2 flex-col">
+              <Label text="Status" size="xs" />
+              <Dropdown
+                name="status"
+                size="sm"
+                width="100%"
+                options={[
+                  { label: "Pending", value: "pending" },
+                  { label: "Completed", value: "completed" },
+                ]}
+              />
+            </Frame>
+          </Frame>
+
+          <Frame className="w-1/2 flex-col">
+            <Label text="Category" size="xs" />
+            <Input size="sm" rounded="sm" placeholder="e.g. Sales, Utilities" outline border type="text" name="category" variant="default" />
           </Frame>
 
           <Frame className="justify-end w-full">
-            <Button variant="fill" role="submit" size="sm" propagate>Create Transaction</Button>
+            <Button variant="fill" role="submit" size="md" propagate>Create Transaction</Button>
           </Frame>
         </Frame>
       </Form>

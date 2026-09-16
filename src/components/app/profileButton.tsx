@@ -1,21 +1,21 @@
-import { space } from "@/src/app/design/spacing";
+import { getProfile, profileQueryKey } from "@/src/services/profileService";
 import { useProfileState } from "@/src/store/profileState";
-import { useEffect } from "react";
-import Avatar from "../ui/composites/avatar";
-import Button from "../ui/primitives/button";
-import Frame from "../ui/primitives/frame";
+import { useQuery } from "@tanstack/react-query";
+import Avatar from "../base/ui/composites/avatar";
+import Button from "../base/ui/primitives/button";
+import Frame from "../base/ui/primitives/frame";
 import ProfileCard from "./cards/profileCard";
 
 
 
-export default function ProfileButton() {
- const {setProfileOpen, profileData, fetchProfile} = useProfileState()
 
- useEffect( 
-    () => {
-     fetchProfile()
-    }, [fetchProfile]
-)
+export default function ProfileButton() {
+ const {setProfileOpen} = useProfileState()
+
+ const {data: profileData} = useQuery({
+    queryKey: profileQueryKey,
+    queryFn: getProfile,
+ })
 
  const openProfileCard = () => {
     setProfileOpen(true)
@@ -31,16 +31,17 @@ export default function ProfileButton() {
 
         <Button size="xl" func={openProfileCard} variant="outline" rounded="lg" justify="start" showFocusRing={false} 
             specificStyles={{
-                padding: space["md"],
+                padding: `var(--space-lg) var(--space-md)`,
                 width: "100%",
-                backgroundColor:"transparent"
+                backgroundColor:"transparent",
+                border:"solid 1px var(--color-outline1)"
             }}>
             <Avatar size="sm" src={profileData?.profilePicture}/>
             <span className="flex flex-col justify-center items-start">
                 <span className="block leading-[1] text-[length:var(--bodySize-sm)] font-[var(--fontWeight-semiBold)]">
                     {profileData?.userName ?? "Loading..."}
                 </span>
-                <span className="block text-[length:var(--bodySize-xs)] text-[color:var(--color-textColor2)]">
+                <span className="block font-[weight:var(--fontWeight-light)] text-[length:var(--bodySize-xs)] text-[color:var(--color-textColor2)]">
                     {profileData?.userRole ?? ""}
                 </span>
             </span>

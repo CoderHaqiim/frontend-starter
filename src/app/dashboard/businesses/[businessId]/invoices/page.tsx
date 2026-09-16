@@ -2,43 +2,32 @@
 
 import InvoiceHeader from "@/src/components/app/invoiceHeader"
 import InvoiceLine from "@/src/components/app/invoiceLine"
-import Section from "@/src/components/layout/section"
-import Dropdown from "@/src/components/ui/composites/dropdown"
-import KpiRow from "@/src/components/ui/composites/kpiRow"
-import List from "@/src/components/ui/composites/list"
-import Button from "@/src/components/ui/primitives/button"
-import Frame from "@/src/components/ui/primitives/frame"
-import Heading from "@/src/components/ui/primitives/heading"
-import Paragraph from "@/src/components/ui/primitives/paragraph"
+import Section from "@/src/components/base/layout/section"
+import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import KpiRow from "@/src/components/base/ui/composites/kpiRow"
+import List from "@/src/components/base/ui/composites/list"
+import Button from "@/src/components/base/ui/primitives/button"
+import Frame from "@/src/components/base/ui/primitives/frame"
+import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import type { Invoice } from "@/src/data/invoices"
-import { http } from "@/src/http/client"
+import { getInvoiceKpis, getInvoices, invoiceKpisQueryKey, invoicesQueryKey } from "@/src/services/invoiceService"
 import { useBackdropState } from "@/src/store/backdropState"
-import type { kpiObjectProps } from "@/src/types/types"
-import { useEffect, useMemo, useState } from "react"
-
-type InvoiceKpiResponse = {
-  kpis: kpiObjectProps[]
-}
+import { useQuery } from "@tanstack/react-query"
+import { useMemo, useState } from "react"
 
 export default function InvoicesPage() {
-  const [invoices, setInvoices] = useState<Invoice[]>([])
-  const [invoiceKpis, setInvoiceKpis] = useState<kpiObjectProps[]>([])
-  const [isInvoiceKpisLoading, setIsInvoiceKpisLoading] = useState(true)
+  const { data: invoices = [] } = useQuery({
+    queryKey: invoicesQueryKey,
+    queryFn: getInvoices,
+  })
+  const { data: invoiceKpis = [], isLoading: isInvoiceKpisLoading } = useQuery({
+    queryKey: invoiceKpisQueryKey,
+    queryFn: getInvoiceKpis,
+    select: (response) => response.kpis,
+  })
   const [selectedInvoiceFilter, setSelectedInvoiceFilter] = useState("all")
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-
-  useEffect(() => {
-    http<Invoice[]>("/api/invoices", undefined, { method: "GET" })
-      .then(setInvoices)
-      .catch(() => setInvoices([]))
-  }, [])
-
-  useEffect(() => {
-    http<InvoiceKpiResponse>("/api/invoices/kpis", undefined, { method: "GET" })
-      .then((response) => setInvoiceKpis(response.kpis))
-      .catch(() => setInvoiceKpis([]))
-      .finally(() => setIsInvoiceKpisLoading(false))
-  }, [])
 
   const filteredInvoices = useMemo(() => {
     if (selectedInvoiceFilter === "all") {

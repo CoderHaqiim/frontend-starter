@@ -3,12 +3,12 @@
 import { shadow1, shadow3 } from "@/src/app/design/shadows";
 import { statusColorMap } from "@/src/utils/statusColorMap";
 import { useState } from "react";
+import Badge from "../base/ui/composites/badge";
+import Card from "../base/ui/composites/card";
+import Tooltip from "../base/ui/composites/tooltip";
+import Frame from "../base/ui/primitives/frame";
+import Paragraph from "../base/ui/primitives/paragraph";
 import { useTheme } from "../providers/themeProvider";
-import Badge from "../ui/composites/badge";
-import Card from "../ui/composites/card";
-import Tooltip from "../ui/composites/tooltip";
-import Frame from "../ui/primitives/frame";
-import Paragraph from "../ui/primitives/paragraph";
 
 type createInvoiceType = {
   date: string;

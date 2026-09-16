@@ -1,17 +1,15 @@
 "use client";
 
-import { useUserState } from "@/src/store/userState";
 import { getNavItemsForPath } from "@/src/utils/navItems";
 import { usePathname } from "next/navigation";
-import Aside from "../layout/aside";
+import Aside from "../base/layout/aside";
+import Frame from "../base/ui/primitives/frame";
+import NavLink from "../base/ui/primitives/navLink";
 import { useTheme } from "../providers/themeProvider";
-import Frame from "../ui/primitives/frame";
-import NavLink from "../ui/primitives/navLink";
 import Logo from "./brand/logo";
 import ProfileButton from "./profileButton";
 
 export default function LeftAside() {
-  const { userState } = useUserState();
   const { colors } = useTheme();
   const pathname = usePathname();
   const navItems = getNavItemsForPath(pathname);
@@ -40,7 +38,7 @@ export default function LeftAside() {
               <NavLink
                 key={item.id}
                 href={item.link}
-                size="md"
+                size="sm"
                 iconName={item.icon}
                 iconPosition="left"
               >
@@ -55,7 +53,7 @@ export default function LeftAside() {
               <NavLink
                 key={item.id}
                 href={item.link}
-                size="md"
+                size="sm"
                 iconName={item.icon}
                 iconPosition="left"
               >
