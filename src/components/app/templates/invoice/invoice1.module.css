@@ -1,0 +1,292 @@
+.page {
+  min-height: 100vh;
+  background: #f1f3f6;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  color: #172b4d;
+}
+
+/* A4 document */
+.invoice {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 18mm 14mm;
+  background: white;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.company {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  position: relative;
+  width: 58px;
+  height: 48px;
+}
+
+.logo span {
+  position: absolute;
+  display: block;
+  width: 18px;
+  height: 42px;
+  background: #2165c5;
+  border-radius: 3px;
+  transform: skew(-35deg);
+}
+
+.logo span:first-child {
+  top: 0;
+  left: 8px;
+}
+
+.logo span:last-child {
+  bottom: 0;
+  right: 8px;
+}
+
+.company h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #10294f;
+}
+
+.company p {
+  margin-top: 8px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #637694;
+}
+
+.invoiceTitle {
+  text-align: right;
+}
+
+.invoiceTitle h2 {
+  margin: 0 0 28px;
+  color: #2165c5;
+  font-size: 38px;
+  letter-spacing: -1px;
+}
+
+.invoiceInfo p {
+  margin: 9px 0;
+  color: #526783;
+}
+
+.invoiceInfo strong {
+  display: inline-block;
+  width: 100px;
+  text-align: left;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #d7e0eb;
+  margin: 28px 0;
+}
+
+/* Contact */
+.contact {
+  line-height: 1.8;
+  color: #344b6b;
+  margin-bottom: 25px;
+}
+
+.contact p {
+  margin: 2px 0;
+}
+
+/* Billing */
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-bottom: 35px;
+}
+
+.details h3,
+.notes h3 {
+  margin: 0 0 18px;
+  font-size: 17px;
+  color: #10294f;
+}
+
+.details p {
+  margin: 7px 0;
+  color: #526783;
+}
+
+.details strong {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.details span {
+  display: inline-block;
+  width: 115px;
+  color: #71819a;
+}
+
+/* Items table */
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #d4deea;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.itemsTable th {
+  background: #eaf0f7;
+  color: #10294f;
+  font-weight: bold;
+  text-align: left;
+  padding: 13px 10px;
+  border-right: 1px solid #d4deea;
+}
+
+.itemsTable td {
+  padding: 17px 10px;
+  border-top: 1px solid #d4deea;
+  border-right: 1px solid #d4deea;
+  color: #213b60;
+}
+
+.itemsTable th:first-child,
+.itemsTable td:first-child {
+  width: 30px;
+  text-align: center;
+}
+
+.itemsTable th:nth-child(3),
+.itemsTable td:nth-child(3) {
+  width: 60px;
+  text-align: center;
+}
+
+.itemsTable th:nth-child(n + 4),
+.itemsTable td:nth-child(n + 4) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.itemsTable td strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.itemsTable td small {
+  display: block;
+  color: #71819a;
+  font-size: 11px;
+}
+
+/* Summary */
+.summary {
+  width: 380px;
+  margin: 28px 0 0 auto;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  color: #344b6b;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  background: #2165c5;
+  color: white;
+  padding: 15px 20px;
+  margin-top: 12px;
+  font-size: 16px;
+  border-radius: 3px;
+}
+
+/* Notes */
+.notes {
+  margin-top: 35px;
+  color: #526783;
+}
+
+.notes ul {
+  padding-left: 20px;
+  line-height: 2;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid #d7e0eb;
+  margin-top: 35px;
+  padding-top: 25px;
+  color: #526783;
+}
+
+.footer > div {
+  text-align: center;
+}
+
+.footer strong {
+  display: block;
+  font-size: 27px;
+  font-family: cursive;
+  font-weight: normal;
+  color: #2165c5;
+}
+
+.footer small {
+  display: block;
+  margin-top: 8px;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+/* Print styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  .page {
+    padding: 0;
+    background: white;
+  }
+
+  .invoice {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    padding: 18mm 14mm;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page {
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  .invoice {
+    margin: 0;
+  }
+}

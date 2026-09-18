@@ -5,6 +5,7 @@ import { bodySize } from '@/src/app/design/typograhy'
 import { SizeType } from '@/src/types/types'
 import React, { CSSProperties, useState } from 'react'
 import Button from './button'
+import Frame from './frame'
 
 type InputProp = {
     type: React.HTMLInputTypeAttribute,
@@ -48,6 +49,7 @@ export default function Input({
 
     const defaultStyles: CSSProperties= {
         height: elementSizes[size],
+        boxSizing: "border-box",
         borderRadius: rounded && radius[rounded],
         fontSize: staticTextSize.includes(fontSize)? bodySize["md"] : bodySize[fontSize],
     }
@@ -55,10 +57,10 @@ export default function Input({
     const typeCheck = variant === "password"? (showText? "text":"password") : type
 
   return (
-      <div className='w-auto flex flex-1 justify-center overflow-y-hidden flex-col '>
+      <Frame className='w-full flex h-max justify-center overflow-y-hidden flex-col'>
         <input required={required} onChange={formFunc} type={typeCheck} onFocus={func} onBlur={func} name={name} autoComplete="true" placeholder={placeholder} 
             className={
-                `w-auto flex p-[var(--space-lg)] outline-none 
+                `w-auto flex px-[var(--space-md)] outline-none 
                 ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--color-accent)] hover:border-[var(--color-accent)]"} 
                 items-[center] placeholder-[var(--color-outline1)]
                 ${border && "border-[var(--color-outline1)] border-[0.5px]"}
@@ -81,6 +83,6 @@ export default function Input({
                     }}
                 />
             }
-      </div>
+      </Frame>
   )
 }

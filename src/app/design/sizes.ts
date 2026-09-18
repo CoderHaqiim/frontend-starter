@@ -13,7 +13,7 @@ const elementSizes = {
 
 const paddingSizes = {
     "name": "paddingSize",
-    "xxs": "px-[4px] gap-[var(--space-xs)]",
+    "xxs": "px-[6px] gap-[var(--space-xs)]",
     "xs": "px-[8px] gap-[var(--space-sm)]",
     "sm": "px-[12px] gap-[var(--space-sm)]",
     "md": "px-[16px] gap-[var(--space-md)]",

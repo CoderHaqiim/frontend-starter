@@ -10,20 +10,23 @@ import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
-import type { Invoice } from "@/src/data/invoices"
 import { getInvoiceKpis, getInvoices, invoiceKpisQueryKey, invoicesQueryKey } from "@/src/services/invoiceService"
 import { useBackdropState } from "@/src/store/backdropState"
 import { useQuery } from "@tanstack/react-query"
+import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
 
 export default function InvoicesPage() {
+  const { businessId } = useParams<{ businessId: string }>()
   const { data: invoices = [] } = useQuery({
-    queryKey: invoicesQueryKey,
-    queryFn: getInvoices,
+    queryKey: invoicesQueryKey(businessId),
+    queryFn: () => getInvoices(businessId),
+    enabled: Boolean(businessId),
   })
   const { data: invoiceKpis = [], isLoading: isInvoiceKpisLoading } = useQuery({
-    queryKey: invoiceKpisQueryKey,
-    queryFn: getInvoiceKpis,
+    queryKey: invoiceKpisQueryKey(businessId),
+    queryFn: () => getInvoiceKpis(businessId),
+    enabled: Boolean(businessId),
     select: (response) => response.kpis,
   })
   const [selectedInvoiceFilter, setSelectedInvoiceFilter] = useState("all")
@@ -34,20 +37,9 @@ export default function InvoicesPage() {
       return invoices
     }
 
-    return invoices.reduce<Invoice[]>((filteredInvoices, invoice) => {
-      const matchingRecipients = invoice.sentTo.filter(
-        (recipient) => recipient.paymentStatus === selectedInvoiceFilter
-      )
-
-      if (matchingRecipients.length > 0) {
-        filteredInvoices.push({
-          ...invoice,
-          sentTo: matchingRecipients,
-        })
-      }
-
-      return filteredInvoices
-    }, [])
+    return invoices.filter(
+      (invoice) => invoice.customer.paymentStatus === selectedInvoiceFilter
+    )
   }, [invoices, selectedInvoiceFilter])
 
   const handleInvoiceFilterChange = (

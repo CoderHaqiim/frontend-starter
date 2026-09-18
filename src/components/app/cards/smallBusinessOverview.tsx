@@ -1,13 +1,9 @@
 "use client"
 
+import { shadow4 } from "@/src/app/design/shadows"
 import { Business } from "@/src/types/types"
-import { shortenText } from "@/src/utils/shortenText"
-import Link from "next/link"
 import { useParams } from "next/navigation"
 import Card from "../../base/ui/composites/card"
-import Frame from "../../base/ui/primitives/frame"
-import Heading from "../../base/ui/primitives/heading"
-import Paragraph from "../../base/ui/primitives/paragraph"
 import { useTheme } from "../../providers/themeProvider"
 
 type SmallBusinessOverviewProps = {
@@ -34,53 +30,18 @@ export default function SmallBusinessOverview({
   `
 
   return (
-    <Link
-      href={`/dashboard/businesses/${business.id}/overview`}
-      className={`
-        relative w-max rounded-[var(--radius-sm)]
-        shrink-0 h-[170px] w-[170px]
-        ${hoverStyles}
-      `}
-    >
-      <Card
-        width="170px"
-        padding="lg"
-        height="170px"
-        rounded="sm"
-        justify="space-between"
-        specificStyles={{
+    <Card width="130px" padding="lg" height="auto" rounded="sm" justify="space-between" 
+      specificStyles={{
+          borderRadius: 0,
+          aspectRatio: "1/1.414",
           position: "relative",
           flexShrink: 0,
           border: `solid 1px ${colors["outline2"]}`,
           background: colors["white"],
         }}
-        className="z-[10] cursor-pointer"
+        className={`z-[10] ${shadow4} cursor-pointer`}
       >
-        <Frame className="w-full flex justify-center items-center h-max">
-          <Heading type="h3" size="xxs">
-            {shortenText(business?.businessName, 18)}
-          </Heading>
-        </Frame>
-
-        <Frame
-          className="
-            w-full
-            flex
-            flex-col
-            items-center
-            gap-[var(--space-sm)]
-            flex-1
-            justify-center
-          "
-        >
-          <Paragraph weight="semiBold" color="textColor1" size="md">
-            {business.customers}
-          </Paragraph>
-          <Paragraph weight="light" color="textColor2" size="xs">
-            customers
-          </Paragraph>
-        </Frame>
+       //content here
       </Card>
-    </Link>
   )
 }

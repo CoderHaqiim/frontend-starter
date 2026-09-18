@@ -104,8 +104,8 @@ export default function Dropdown({
             fontWeight: fontWeight["normal"],
           }}
         >
-          {getOptionLabel(selectedOption)}
-          <span className="absolute right-2 pointer-events-none">
+            {getOptionLabel(selectedOption)}
+          <span className="absolute right-2 bg-[var(--color-white)] pointer-events-none">
             <Icon name="icon-chevron-down" size="sm"/>
           </span>
         </button>
@@ -114,7 +114,7 @@ export default function Dropdown({
         {open && (
           <Frame scroll="hidden"
             className={` ${shadow2} border border-[var(--color-outline2)] flex-col rounded-[var(--radius-sm)] left-0 top-[100%]
-              bg-[var(--color-white)] max-h-[150px] mt-1 w-full overflow-y-auto
+              bg-[var(--color-white)] max-h-[150px] mt-1 w-full min-w-[180px] overflow-y-auto
             `}
             specificStyles={{
               position: "absolute",

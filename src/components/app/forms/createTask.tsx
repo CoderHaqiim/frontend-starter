@@ -2,7 +2,6 @@
 
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useBusinessesState } from "@/src/store/businessesState"
 import { useQuery } from "@tanstack/react-query"
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
@@ -16,7 +15,6 @@ import Label from "../../base/ui/primitives/label"
 
 export default function CreateTaskForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { businessesState } = useBusinessesState()
 
   const closeCreateTaskForm = () => {
     setBackdropContent(null)

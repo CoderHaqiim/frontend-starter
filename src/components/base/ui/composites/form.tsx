@@ -23,7 +23,7 @@ export default function Form({children, url}: FormProps) {
     http(url, dataHolder, { method: "POST"})
   }
 
-  const cardFormStyle = `gap-[var(--space-lg)] w-full h-max flex flex-col items-center justify-center`
+  const cardFormStyle = `gap-[var(--space-lg)] w-full relative h-max flex flex-col items-center justify-center`
 
   return (
     <form onSubmit={(e) =>{handleSubmit(e)}} className={cardFormStyle}>

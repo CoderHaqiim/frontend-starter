@@ -6,12 +6,10 @@ const parseAmount = (amount: string) => Number(amount.replace(/[^0-9.-]+/g, ""))
 const formatAmount = (amount: number) => `$${amount.toLocaleString()}`
 
 export async function GET() {
-  const sentInvoices = invoices.flatMap((invoice) =>
-    invoice.sentTo.map((recipient) => ({
-      amount: parseAmount(invoice.amount),
-      paymentStatus: recipient.paymentStatus,
-    }))
-  )
+  const sentInvoices = invoices.map((invoice) => ({
+    amount: parseAmount(invoice.amount),
+    paymentStatus: invoice.customer.paymentStatus,
+  }))
 
   const totalAmount = sentInvoices
     .reduce((total, invoice) => total + invoice.amount, 0)
@@ -27,7 +25,7 @@ export async function GET() {
   const outstandingAmount = sentInvoices
     .filter((invoice) => invoice.paymentStatus === "pending")
     .reduce((total, invoice) => total + invoice.amount, 0)
-  const recipientCount = sentInvoices.length
+  const customerCount = sentInvoices.length
 
   return NextResponse.json({
     kpis: [
@@ -36,7 +34,7 @@ export async function GET() {
         title: "Total Invoices",
         value: String(invoices.length),
         meaning: "Total number of sent invoices",
-        description: `${recipientCount} recipients`,
+        description: `${customerCount} customers`,
       },
       {
         id: "totalMoney",

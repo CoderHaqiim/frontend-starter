@@ -5,7 +5,6 @@ import { statusColorMap } from "@/src/utils/statusColorMap";
 import { useState } from "react";
 import Badge from "../base/ui/composites/badge";
 import Card from "../base/ui/composites/card";
-import Tooltip from "../base/ui/composites/tooltip";
 import Frame from "../base/ui/primitives/frame";
 import Paragraph from "../base/ui/primitives/paragraph";
 import { useTheme } from "../providers/themeProvider";
@@ -14,11 +13,11 @@ type createInvoiceType = {
   date: string;
   id: string;
   amount: string;
-  sentTo: {
+  customer: {
     id: string;
     name: string;
     paymentStatus: string;
-  }[];
+  };
 }
 
 type invoiceTypeProps = {
@@ -37,8 +36,7 @@ export default function InvoiceLine({ invoice }: invoiceTypeProps) {
   "#9B7BC7", // Soft purple
 ]
 
-  const visibleRecipients = invoice.sentTo.slice(0, 4)
-  const remainingRecipients = invoice.sentTo.length - visibleRecipients.length
+  const customer = invoice.customer
 
   return (
     <Frame className="w-full items-center p-[var(--space-lg)] justify-between bg-[var(--color-white)]">
@@ -60,24 +58,16 @@ export default function InvoiceLine({ invoice }: invoiceTypeProps) {
         onMouseLeave={() => setCustomersOpen(false)}
       >
         <Frame className="items-center gap-[var(--space-xs)]">
-          {visibleRecipients.map((customer, index) => (
-            <Tooltip key={customer.id} content={customer.name}>
-              <Frame
-                className="flex h-7 w-7 items-center justify-center rounded-full border-2 text-[length:var(--bodySize-xs)] font-[var(--fontWeight-medium)] text-[var(--color-textColor1)]"
-                specificStyles={{
-                  backgroundColor: recipientBackgrounds[index % recipientBackgrounds.length],
-                  borderColor: colors["white"],
-                  marginLeft: index === 0 ? undefined : "-12px",
-                  zIndex: visibleRecipients.length - index,
-                }}
-              >
-                {customer.name.charAt(0).toUpperCase()}
-              </Frame>
-            </Tooltip>
-          ))}
-          {remainingRecipients > 0 && (
-            <Paragraph size="xs">and {remainingRecipients} other(s)</Paragraph>
-          )}
+          <Frame
+            className="flex h-7 w-7 items-center justify-center rounded-full border-2 text-[length:var(--bodySize-xs)] font-[var(--fontWeight-medium)] text-[var(--color-textColor1)]"
+            specificStyles={{
+              backgroundColor: recipientBackgrounds[0],
+              borderColor: colors["white"],
+            }}
+          >
+            {customer.name.charAt(0).toUpperCase()}
+          </Frame>
+          <Paragraph size="xs">{customer.name}</Paragraph>
         </Frame>
 
         {customersOpen && (
@@ -85,8 +75,7 @@ export default function InvoiceLine({ invoice }: invoiceTypeProps) {
             specificStyles={{ position: "absolute"}}
           >
             <Frame direction="column" scroll="hidden" className="w-full flex-col gap-[var(--space-lg)]" specificStyles={{ maxHeight: "200px" }}>
-              {invoice.sentTo.map((customer) => (
-                <Frame key={customer.id} className="w-full items-center justify-between">
+              <Frame className="w-full items-center justify-between">
                   <Paragraph size="xs" color="textColor1" weight="medium">
                     {customer.name}
                   </Paragraph>
@@ -99,8 +88,7 @@ export default function InvoiceLine({ invoice }: invoiceTypeProps) {
                     size="xxs"
                     text={customer.paymentStatus}
                   />
-                </Frame>
-              ))}
+              </Frame>
             </Frame>
           </Card>
         )}
