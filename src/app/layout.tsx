@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Google_Sans_Flex } from "next/font/google";
+import CreateInvoiceForm from "../components/app/forms/createInvoice";
 import ToastBar from "../components/base/ui/composites/toastBar";
 import Backdrop from "../components/base/ui/primitives/backdrop";
 import ThemeProvider from "../components/providers/themeProvider";
@@ -52,6 +53,7 @@ export default function RootLayout({
         <ThemeProvider>
           <QueryProvider>
             <ToastBar/>
+            <CreateInvoiceForm/>
             <Backdrop/>
             {children}
           </QueryProvider>

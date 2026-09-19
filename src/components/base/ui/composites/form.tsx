@@ -1,15 +1,16 @@
 "use client"
 import { http } from '@/src/http/client'
 import { FormObjectTypes } from '@/src/types/types'
-import React, { ReactNode } from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 
 
 type FormProps = {
     children: ReactNode,
-    url: string
+    url: string,
+    specificStyles?: CSSProperties
 }
 
-export default function Form({children, url}: FormProps) {
+export default function Form({children, url, specificStyles}: FormProps) {
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     const dataHolder: FormObjectTypes = {}
@@ -26,7 +27,11 @@ export default function Form({children, url}: FormProps) {
   const cardFormStyle = `gap-[var(--space-lg)] w-full relative h-max flex flex-col items-center justify-center`
 
   return (
-    <form onSubmit={(e) =>{handleSubmit(e)}} className={cardFormStyle}>
+    <form
+      onSubmit={(e) =>{handleSubmit(e)}}
+      className={cardFormStyle}
+      style={{ ...specificStyles }}
+    >
         {children}
     </form>
   )

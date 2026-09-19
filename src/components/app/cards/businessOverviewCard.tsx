@@ -50,7 +50,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
       className="transform cursor-pointer pointer-events-auto transition-transform duration-300 hover:z-20 hover:scale-[0.96]"
     >
       <Card
-        width="318px"
+        width="320px"
         height="max-content"
         justify="space-between"
         padding="lg"

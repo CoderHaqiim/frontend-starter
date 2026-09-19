@@ -1,36 +1,10 @@
+"use client";
+
+import InvoiceTable from "@/src/components/app/invoiceTable";
 import Frame from "@/src/components/base/ui/primitives/frame";
 import Paragraph from "@/src/components/base/ui/primitives/paragraph";
-
-const items = [
-  {
-    id: 1,
-    name: "Website Design & Development",
-    description: "Custom website design and development",
-    quantity: 1,
-    price: 500000,
-  },
-  {
-    id: 2,
-    name: "UI/UX Design",
-    description: "User interface and experience design",
-    quantity: 1,
-    price: 150000,
-  },
-  {
-    id: 3,
-    name: "Hosting (1 Year)",
-    description: "Website hosting and maintenance",
-    quantity: 1,
-    price: 50000,
-  },
-  {
-    id: 4,
-    name: "Domain Registration (1 Year)",
-    description: "Domain name registration",
-    quantity: 1,
-    price: 20000,
-  },
-];
+import { getItemsSubtotal, useInvoiceDraft } from "@/src/store/invoiceDraftState";
+import { useSelectedBusiness } from "@/src/store/selectedBusinessState";
 
 const formatCurrency = (amount: number) =>
   `₦${amount.toLocaleString("en-NG", {
@@ -38,14 +12,30 @@ const formatCurrency = (amount: number) =>
     maximumFractionDigits: 2,
   })}`;
 
-export default function Invoice1() {
-  const subtotal = items.reduce(
-    (total, item) => total + item.quantity * item.price,
-    0
-  );
+const formatDate = (date: string, fallback: string) => {
+  if (!date) return fallback;
 
-  const discount = subtotal * 0.05;
-  const vat = (subtotal - discount) * 0.075;
+  return new Intl.DateTimeFormat("en-NG", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+};
+
+export default function Invoice1() {
+  const { selectedBusiness } = useSelectedBusiness();
+  const invoiceDraft = useInvoiceDraft();
+  const businessName = selectedBusiness.businessName || "Your Company";
+
+  const enteredAmount = Number(invoiceDraft.amount);
+  const itemsSubtotal = getItemsSubtotal(invoiceDraft.items);
+  const subtotal = invoiceDraft.items.length > 0
+    ? itemsSubtotal
+    : enteredAmount > 0 ? enteredAmount : 0;
+  const discountRate = Number(invoiceDraft.discount) || 0;
+  const vatRate = Number(invoiceDraft.vat) || 0;
+  const discount = subtotal * (discountRate / 100);
+  const vat = (subtotal - discount) * (vatRate / 100);
   const total = subtotal - discount + vat;
 
   return (
@@ -62,9 +52,9 @@ export default function Invoice1() {
               <Paragraph size="xl" weight="semiBold" color="textColor1" specificStyle={{
                 lineHeight:"sm",
                 color: '#1b1b1b'
-              }}>Your Company</Paragraph>
+              }}>{businessName}</Paragraph>
               <Paragraph size="xs" weight="normal" color="muted" specificStyle={{ color: '#7a7a7a' }}>
-                Building a better tomorrow
+                business tagline
               </Paragraph>
             </Frame>
           </Frame>
@@ -77,15 +67,15 @@ export default function Invoice1() {
             <Frame className="mt-[var(--space-xs)] flex-col items-end gap-[2px]">
               <Frame className="gap-[var(--space-xs)]">
                 <Paragraph size="xs" weight="medium" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>Invoice No:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>INV-2025-001</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>invoice-number</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-xs)]">
-                <Paragraph size="xs" weight="medium" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>Invoice Date:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>Sep 16, 2025</Paragraph>
+                <Paragraph size="xs" weight="medium" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>Issue Date:</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{formatDate(invoiceDraft.issueDate, "Issue Date")}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-xs)]">
                 <Paragraph size="xs" weight="medium" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>Due Date:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>Sep 30, 2025</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{formatDate(invoiceDraft.dueDate, "Due Date")}</Paragraph>
               </Frame>
             </Frame>
           </Frame>
@@ -113,8 +103,9 @@ export default function Invoice1() {
                 lineHeight:"2",
                 color: '#1b1b1b'
               }}>Bill To :</Paragraph>
-              <Paragraph size="xs" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>Client Name</Paragraph>
-              <Paragraph size="xxs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>123 Client Avenue, Lagos, Nigeria</Paragraph>
+              <Paragraph className="customer" size="sm" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>{invoiceDraft.customer || "Client's Name"}</Paragraph>
+              <Paragraph className="address" size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{invoiceDraft.customerAddress || "Client's address"}</Paragraph>
+              <Paragraph className="email" size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{invoiceDraft.customerEmail || "Client's email"}</Paragraph>
             </Frame>
 
             <Frame className="flex-1 gap-[var(--space-xs)] flex-col">
@@ -124,11 +115,11 @@ export default function Invoice1() {
               }}>Payment Details</Paragraph>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Bank Name:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>Access Bank</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>Your bank name</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Account Name:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>Your Company Ltd</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{businessName}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Account Number:</Paragraph>
@@ -146,40 +137,7 @@ export default function Invoice1() {
           </Frame>
         </Frame>
 
-        <table className="w-full overflow-hidden border-separate border-spacing-0 border border-[#dfe3ea]">
-          <thead>
-            <tr className="bg-[#f4f4f7]">
-              <th className="border-r border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-sm)] text-left text-[10px] font-[600] text-[#1b1b1b]">#</th>
-              <th className="border-r border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-sm)] text-left text-[10px] font-[600] text-[#1b1b1b]">Description</th>
-              <th className="border-r border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-sm)] text-center text-[10px] font-[600] text-[#1b1b1b]">Quantity</th>
-              <th className="border-r border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-sm)] text-right text-[10px] font-[600] text-[#1b1b1b]">Unit Price</th>
-              <th className="px-[var(--space-md)] py-[var(--space-sm)] text-right text-[10px] font-[600] text-[#1b1b1b]">Amount</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {items.map((item) => (
-              <tr key={item.id}>
-                <td className="border-t border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-sm)] text-center text-[11px] text-[#4f4f4f]">
-                  {item.id}
-                </td>
-                <td className="border-t border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-sm)] text-[11px] text-[#4f4f4f]">
-                  <div className="font-[600] text-[#1b1b1b]">{item.name}</div>
-                  <div className="text-[9px] text-[#4f4f4f]">{item.description}</div>
-                </td>
-                <td className="border-t border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-md)] text-center text-[11px] text-[#4f4f4f]">
-                  {item.quantity}
-                </td>
-                <td className="border-t border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-md)] text-right text-[11px] text-[#4f4f4f]">
-                  {formatCurrency(item.price)}
-                </td>
-                <td className="border-t border-[#dfe3ea] px-[var(--space-md)] py-[var(--space-md)] text-right text-[11px] text-[#4f4f4f]">
-                  {formatCurrency(item.quantity * item.price)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <InvoiceTable />
 
         <Frame className="ml-auto mt-[6mm] w-full max-w-[120mm] flex-col gap-[1mm]">
           <Frame className="w-full items-center justify-between">
@@ -188,12 +146,12 @@ export default function Invoice1() {
           </Frame>
 
           <Frame className="w-full items-center justify-between">
-            <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>Discount (5%)</Paragraph>
+            <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>Discount ({discountRate}%)</Paragraph>
             <Paragraph size="xs" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>- {formatCurrency(discount)}</Paragraph>
           </Frame>
 
           <Frame className="w-full items-center justify-between">
-            <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>VAT (7.5%)</Paragraph>
+            <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>VAT ({vatRate}%)</Paragraph>
             <Paragraph size="xs" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>{formatCurrency(vat)}</Paragraph>
           </Frame>
 

@@ -18,6 +18,7 @@ type InputProp = {
     rounded?: SizeType
     variant: "password" | "checkbox" | "radio" | "default"
     name: string,
+    value?: string,
     func?: () => void
     formFunc? : (e:React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -35,7 +36,8 @@ export default function Input({
     border, 
     size = "md", 
     rounded,
-    placeholder
+    placeholder,
+    value
 }: InputProp){
 
     const [showText, setShowText] = useState<boolean>(false)
@@ -58,7 +60,7 @@ export default function Input({
 
   return (
       <Frame className='w-full flex h-max justify-center overflow-y-hidden flex-col'>
-        <input required={required} onChange={formFunc} type={typeCheck} onFocus={func} onBlur={func} name={name} autoComplete="true" placeholder={placeholder} 
+        <input required={required} value={value} onChange={formFunc} type={typeCheck} onFocus={func} onBlur={func} name={name} autoComplete="true" placeholder={placeholder} 
             className={
                 `w-auto flex px-[var(--space-md)] outline-none 
                 ${outline && "focus:border-[2px] hover:border-[1px] focus:border-[var(--color-accent)] hover:border-[var(--color-accent)]"} 

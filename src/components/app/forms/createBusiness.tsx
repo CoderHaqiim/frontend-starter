@@ -41,6 +41,12 @@ export default function CreateBusinessForm() {
             <Input size="xs" required rounded="sm" placeholder="What is your business name?" outline border type="text" name="businessName" variant="default"/>
           </Frame>
 
+          {/* Business Name */}
+          <Frame className="w-full flex-col">
+            <Label text="Tagline" size="xs" />
+            <Input size="xs" rounded="sm" placeholder="Business Tagline?" outline border type="text" name="tagLine" variant="default"/>
+          </Frame>
+
           {/* Country & State */}
           <CountryStateFields size="xs" />
 
@@ -75,7 +81,7 @@ export default function CreateBusinessForm() {
               className="w-full placeholder-[var(--color-outline1)] text-[length:var(--bodySize-xs)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="city, street and building number"
               name="address"
-              rows={2}
+              rows={1}
             />
           </Frame>
 
@@ -86,7 +92,7 @@ export default function CreateBusinessForm() {
               className="w-full text-[length:var(--bodySize-xs)] placeholder-[var(--color-outline1)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
               placeholder="What does this business do?"
               name="description"
-              rows={3}
+              rows={1}
             />
           </Frame>
 

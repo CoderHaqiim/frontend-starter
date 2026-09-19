@@ -11,7 +11,7 @@ import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import { getInvoiceKpis, getInvoices, invoiceKpisQueryKey, invoicesQueryKey } from "@/src/services/invoiceService"
-import { useBackdropState } from "@/src/store/backdropState"
+import { useInvoiceFormState } from "@/src/store/invoiceFormState"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
@@ -30,7 +30,7 @@ export default function InvoicesPage() {
     select: (response) => response.kpis,
   })
   const [selectedInvoiceFilter, setSelectedInvoiceFilter] = useState("all")
-  const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const openInvoice = useInvoiceFormState((state) => state.openInvoice)
 
   const filteredInvoices = useMemo(() => {
     if (selectedInvoiceFilter === "all") {
@@ -49,8 +49,7 @@ export default function InvoicesPage() {
   }
 
   const createInvoice = () => {
-    setBackdropOpen(true)
-    setBackdropContent("create-invoice-form")
+    openInvoice()
   }
 
   return (

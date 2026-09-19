@@ -2,6 +2,7 @@
 
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
+import { useInvoiceFormState } from "@/src/store/invoiceFormState"
 import { useQuery } from "@tanstack/react-query"
 import Card from "../../base/ui/composites/card"
 import Button from "../../base/ui/primitives/button"
@@ -17,6 +18,8 @@ type QuickAction = {
 
 export default function QuickActions() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const openInvoice = useInvoiceFormState((state) => state.openInvoice)
+
   const { colors } = useTheme()
   const { data: businesses = [] } = useQuery({
     queryKey: businessesQueryKey,
@@ -40,7 +43,7 @@ export default function QuickActions() {
     { label: "New Task", open: () => openBackdrop("create-task-form") },
     { label: "Add Customer", open: () => openBackdrop("create-customer-form") },
     { label: "Add inventory item", open: () => openBackdrop("create-inventory-item-form") },
-    { label: "New Invoice", open: () => openBackdrop("create-invoice-form") },
+    { label: "New Invoice", open: openInvoice },
     { label: "New Receipt", open: () => openBackdrop("create-receipt-form") },
     { label: "Add Transaction", open: createTransaction },
   ]

@@ -19,7 +19,11 @@ import { getProfile, profileQueryKey } from "@/src/services/profileService"
 import { useBackdropState } from "@/src/store/backdropState"
 import { Duration, RankingMetric } from "@/src/types/types"
 import { useQuery } from "@tanstack/react-query"
-import { useMemo, useRef, useState } from "react"
+import { useMemo, useRef, useState, useSyncExternalStore } from "react"
+
+const emptySubscribe = () => () => undefined
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
 
 export default function Home() {
   const reportDuration = ["weekly", "monthly", "annual"]
@@ -29,10 +33,15 @@ export default function Home() {
   const [businessFilter, setBusinessFilter] = useState("all")
   const [summaryPeriod, setSummaryPeriod] = useState<Duration>("weekly")
   const [rankingPeriod, setRankingPeriod] = useState<Duration>("weekly")
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  )
   const sliderRef = useRef<HTMLDivElement>(null)
   const { setBackdropContent,setBackdropOpen } = useBackdropState()
 
-  const { data: profileData = {userName: "user"} } = useQuery({
+  const { data: profileData } = useQuery({
     queryKey: profileQueryKey,
     queryFn: getProfile,
   })
@@ -128,7 +137,7 @@ export default function Home() {
       <Frame className="w-full flex justify-between items-start">
         <Frame className="gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">
-            <span>{`Welcome back, ${profileData.userName}`}</span>
+             Welcome back, {isMounted ? profileData?.userName ?? "there" : "there"}
           </Heading>
           <Paragraph weight="light" size="sm">
             Here&apos;s what&apos;s happening today.
