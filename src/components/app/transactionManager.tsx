@@ -63,7 +63,7 @@ export default function TransactionManager({
   })
 
   return (
-    <Section width="stretch" height="hug" className="min-h-[200px]">
+    <Section height="hug" className="min-h-[200px]">
       <Frame className="w-full h-max justify-end gap-[var(--space-sm)] pb-[var(--space-md)]">
         <Frame className="gap-[var(--space-sm)]">
          <Dropdown

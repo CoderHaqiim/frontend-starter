@@ -44,19 +44,21 @@ export default function Item3() {
   ]
 
   return (
-    <Frame className="flex w-full flex-col gap-[var(--space-lg)]">
-      <Frame className="flex h-max w-full justify-between">
-        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
-          <Heading size="xl" type="h1">Transactions</Heading>
-          <Paragraph weight="light" size="sm">Track and manage all income and expenses for this business.</Paragraph>
-        </Frame>
+    <Frame className="flex w-full flex-col">
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">Transactions</Heading>
+            <Paragraph weight="light" size="sm">Track and manage all income and expenses for this business.</Paragraph>
+          </Frame>
 
-        <Frame>
-          <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus" func={createTransaction}>
-            Add Transaction
-          </Button>
+          <Frame>
+            <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus" func={createTransaction}>
+              Add Transaction
+            </Button>
+          </Frame>
         </Frame>
-      </Frame>
+      </Section>
 
       <Section>
         <KpiRow kpis={transactionKpis} isLoading={isTransactionsLoading} itemsCount={4} />

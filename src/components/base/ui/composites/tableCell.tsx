@@ -29,6 +29,7 @@ export default function TableCell({
     onClick
 }: TableCellProps) {
     const cellText = String(children ?? "")
+    const isTextContent = typeof children === "string" || typeof children === "number"
 
     const copyCellText = async () => {
         await navigator.clipboard.writeText(cellText)
@@ -42,15 +43,23 @@ export default function TableCell({
         }}
         onClick={onClick}
         >
-        <Paragraph color={isHeader? "textColor1" : "textColor2"} weight={isHeader? "medium" : "light"} size={size}>
-            {children}
-        </Paragraph>
+        {isTextContent ? (
+            <Paragraph color={isHeader? "textColor1" : "textColor2"} weight={isHeader? "medium" : "light"} size={size}>
+                {children}
+            </Paragraph>
+        ) : (
+            <div className="flex items-center justify-start w-full h-full">
+                {children}
+            </div>
+        )}
         {!isHeader && showCopyButton && (
-            <Frame specificStyles={{
-                position:"absolute",
-                top:"10%",
-                right:"0px"
-            }}>
+            <Frame
+                className="pointer-events-none absolute right-[var(--space-xs)] top-0 bottom-0 flex items-center opacity-0 transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
+                specificStyles={{
+                    position: "absolute",
+                    right: "var(--space-xs)",
+                }}
+            >
                 <Button
                     variant="ghost"
                     size="xxs"
@@ -58,9 +67,12 @@ export default function TableCell({
                     iconName="icon-coppy"
                     aria-label="Copy cell text"
                     func={copyCellText}
-                    className=" opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+                    iconColor="textColor2"
                     specificStyles={{
-                        backgroundColor: "var(--color-white)",
+                        backgroundColor: "var(--color-background1)",
+                        border: "1px solid var(--color-outline1)",
+                        borderRadius: "var(--radius-sm)",
+                        color: "var(--color-textColor2)",
                     }}
                 />
             </Frame>

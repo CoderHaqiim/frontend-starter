@@ -5,10 +5,12 @@ export type InvoiceDraft = {
   customerEmail: string
   customerAddress: string
   amount: string
+  currency: string
   issueDate: string
   dueDate: string
   vat: string
   discount: string
+  invoiceNo: string
 }
 
 export type InvoiceItem = {
@@ -22,13 +24,9 @@ export type InvoiceItem = {
 
 export type InvoiceItemDraft = Omit<InvoiceItem, "id" | "amount">
 
-const getItemAmount = (item: Pick<InvoiceItem, "quantity" | "price">) =>
-  item.quantity * item.price
-
+const getItemAmount = (item: Pick<InvoiceItem, "quantity" | "price">) => item.quantity * item.price
 const roundAmount = (amount: number) => Math.round(amount * 100) / 100
-
-export const getItemsSubtotal = (items: Pick<InvoiceItem, "amount">[]) =>
-  roundAmount(items.reduce((subtotal, item) => subtotal + item.amount, 0))
+export const getItemsSubtotal = (items: Pick<InvoiceItem, "amount">[]) => roundAmount(items.reduce((subtotal, item) => subtotal + item.amount, 0))
 
 const getNextItemId = (items: InvoiceItem[]) => {
   const highestId = items.reduce((highest, item) => {
@@ -45,6 +43,10 @@ const withItemsAmount = (items: InvoiceItem[]) => ({
   amount: items.length > 0 ? String(getItemsSubtotal(items)) : "",
 })
 
+
+
+
+
 type InvoiceDraftState = InvoiceDraft & {
   setInvoiceField: (field: keyof InvoiceDraft, value: string) => void
   items: InvoiceItem[]
@@ -57,10 +59,12 @@ export const useInvoiceDraft = create<InvoiceDraftState>((set) => ({
   customerEmail: "",
   customerAddress: "",
   amount: "",
+  currency: "NGN",
   issueDate: "",
   dueDate: "",
   vat: "0",
   discount: "0",
+  invoiceNo: "",
   items: [],
 
   setInvoiceField: (field, value) => set({ [field]: value } as Partial<InvoiceDraftState>),

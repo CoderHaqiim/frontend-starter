@@ -78,33 +78,35 @@ export default function InventoryPage() {
   }
 
   return (
-    <Frame className="w-full h-max flex flex-col gap-[var(--space-lg)]">
-      <Frame className="w-full h-max flex justify-between">
-        <Frame className="w-full h-max flex flex-col gap-[var(--space-xs)]">
-          <Heading size="xl" type="h1">Inventory</Heading>
-          <Paragraph size="sm" weight="light">
-            Track stock levels, inventory value and items that need attention.
-          </Paragraph>
+    <Frame className="w-full h-max flex flex-col">
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">Inventory</Heading>
+            <Paragraph size="sm" weight="light">
+              Track stock levels, inventory value and items that need attention.
+            </Paragraph>
+          </Frame>
+
+          <Frame>
+            <Button
+              variant="outline"
+              size="sm"
+              iconPosition="left"
+              iconName="icon-plus"
+              func={createInventoryItem}
+            >
+              Add inventory item
+            </Button>
+          </Frame>
         </Frame>
+      </Section>
 
-        <Frame>
-          <Button
-            variant="outline"
-            size="sm"
-            iconPosition="left"
-            iconName="icon-plus"
-            func={createInventoryItem}
-          >
-            Add inventory item
-          </Button>
-        </Frame>
-      </Frame>
+      <Section>
+        <KpiRow kpis={inventoryKpis} isLoading={isInventoryLoading} itemsCount={4} />
+      </Section>
 
-    <Section>
-      <KpiRow kpis={inventoryKpis} isLoading={isInventoryLoading} itemsCount={4} />
-    </Section>
-
-      <Section width="stretch">
+      <Section>
         <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">
           <Frame className="w-full h-max flex items-center justify-between">
             <Heading size="lg" type="h2">Inventory items</Heading>

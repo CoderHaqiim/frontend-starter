@@ -181,18 +181,20 @@ export default function MailingPage() {
   }
 
   return (
-    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
-      <Frame className="justify-between w-full h-max">
-        <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
-          <Heading size="xl" type="h1">Mailing</Heading>
-          <Paragraph weight="light" size="sm">
-            Compose, manage, and send mails to customers.
-          </Paragraph>
+    <Frame className="w-full flex-col h-max">
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">Mailing</Heading>
+            <Paragraph weight="light" size="sm">
+              Compose, manage, and send mails to customers.
+            </Paragraph>
+          </Frame>
+          <Button variant="outline" iconPosition="left" iconName="icon-plus" size="sm">Compose Email</Button>
         </Frame>
-        <Button variant="outline" iconPosition="left" iconName="icon-plus" size="sm">Compose Email</Button>
-      </Frame>
+      </Section>
 
-      <Section width="stretch">
+      <Section>
         <Frame className="w-full justify-between items-center">
           <Frame className="gap-[var(--space-sm)] items-center">
             <Heading size="md" type="h2">Records</Heading>

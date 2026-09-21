@@ -1,10 +1,9 @@
-import { shadow3 } from '@/src/app/design/shadows'
 import { useBackdropState } from '@/src/store/backdropState'
-import { ChartPeriod, ChartPoint, chartTypes, FunctionType } from '@/src/types/types'
+import { ChartPeriod, ChartPoint, chartTypes } from '@/src/types/types'
 import { toPng } from 'html-to-image'
 import jsPDF from 'jspdf'
 import { useEffect, useRef, useState } from 'react'
-import Card from '../composites/card'
+import DownloadDialogue from '../composites/downloadDialogue'
 import Tooltip from '../composites/tooltip'
 import Button from '../primitives/button'
 import Frame from '../primitives/frame'
@@ -142,7 +141,12 @@ export default function ExpandedChart({chartData, selectedChart, selectedPeriod}
                     style={{ position: 'absolute' }}
                     onMouseLeave={closeDownloadDialogue}
                  >
-                    <DownloadDialogue downloadPDF={downloadPDF} downloadPNG={downloadPNG}/>
+                    <DownloadDialogue
+                        downloadPDF={downloadPDF}
+                        downloadPNG={downloadPNG}
+                        pngLabel="Download PNG"
+                        pdfLabel="Download PDF"
+                    />
                 </div>
             </div>
         </Frame>
@@ -156,11 +160,3 @@ export default function ExpandedChart({chartData, selectedChart, selectedPeriod}
   )
 }
 
-function DownloadDialogue ({downloadPDF, downloadPNG}:{ downloadPDF: FunctionType, downloadPNG: FunctionType}){
-    return(
-        <Card padding="md" width="max-content" height="max-content" className={`gap-[var(--space-sm)] ${shadow3}`}>
-            <Button width="150px" func={downloadPNG} size="sm" variant='outline' iconName='icon-download' specificStyles={{ borderRadius: `var(--radius-sm)`}}>Download PNG</Button>
-            <Button width="150px"func={downloadPDF} size="sm" variant='fill' iconName='icon-download' specificStyles={{ borderRadius: `var(--radius-sm)`}}>Download PDF</Button>
-        </Card>
-    )
-}

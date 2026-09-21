@@ -16,3 +16,10 @@ export function getCurrencySymbol(currency: string) {
 
   return currencySymbols[code] ?? currency
 }
+
+export function getCurrencyOptions() {
+  return Object.keys(currencySymbols).map((code) => ({
+    label: `${getCurrencySymbol(code)} ${code}`,
+    value: code,
+  }))
+}

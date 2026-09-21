@@ -1,6 +1,7 @@
 "use client"
 
 import TaskManager from "@/src/components/app/taskManager"
+import Section from "@/src/components/base/layout/section"
 import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
@@ -15,17 +16,19 @@ export default function Page() {
   }
 
   return (
-    <Frame className="flex h-full min-h-0 w-full flex-col gap-[var(--space-lg)]">
-      <Frame className="flex h-max w-full justify-between">
-        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
-          <Heading size="xl" type="h1">Task manager</Heading>
+    <Frame className="flex h-full min-h-0 w-full flex-col">
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">Task manager</Heading>
+          </Frame>
+          <Frame>
+            <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus" func={createTask}>
+              New Task
+            </Button>
+          </Frame>
         </Frame>
-        <Frame>
-          <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus" func={createTask}>
-            New Task
-          </Button>
-        </Frame>
-      </Frame>
+      </Section>
       <TaskManager />
     </Frame>
   )

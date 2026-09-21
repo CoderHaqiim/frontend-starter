@@ -1,6 +1,5 @@
 import { FrameSizeType } from '@/src/types/types'
 import { CSSProperties, ReactNode } from 'react'
-import { useTheme } from '../../providers/themeProvider'
 import Frame from '../ui/primitives/frame'
 
 type SectionProps = {
@@ -20,9 +19,8 @@ export default function Section({
   emptyState= false,
   specificStyles
 }: SectionProps) {
-  const {colors} = useTheme()
   return (
-    <Frame className={`flex-col border-[1px] border-[var(--color-outline1)] gap-[var(--space-md)] p-[var(--space-lg)] bg-[var(--color-background2)] rounded-[var(--radius-md)] ${className}`} 
+    <Frame className={`flex-col border-[0.5px] border-[var(--color-outline1)] gap-[var(--space-md)] p-[var(--space-lg)] ${className}`} 
     specificStyles={{
       width: width,
       height: height,

@@ -28,6 +28,7 @@ type ButtonProps = {
     className?: string
     height?: CSSProperties
     showFocusRing?: boolean
+    disabled?: boolean
 }
 
 export default function Button({
@@ -48,6 +49,7 @@ export default function Button({
     className,
     height,
     showFocusRing = true,
+    disabled = false,
     func
 }: ButtonProps) {
 
@@ -77,8 +79,9 @@ export default function Button({
         height: elementSizes[size] ?? height ,
         fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         justifyContent: justify,
-        cursor: "pointer",
-        pointerEvents:"all"
+        cursor: disabled ? "not-allowed" : "pointer",
+        pointerEvents: disabled ? "none" : "all",
+        opacity: disabled ? 0.55 : 1,
     }
 
     const hoverStyles = ""
@@ -94,6 +97,12 @@ export default function Button({
     }
 
      const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (disabled) {
+            event.preventDefault()
+            event.stopPropagation()
+            return
+        }
+
         if(!propagate){
             event.preventDefault()
         }
@@ -105,6 +114,7 @@ export default function Button({
     <button 
     type={role}
     onClick={clickHandler}
+    disabled={disabled}
     className={`
             ${className}
             ${derivedPadding}

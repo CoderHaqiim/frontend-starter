@@ -63,29 +63,31 @@ export default function ReceiptsPage() {
   }
 
   return (
-    <Frame className="w-full h-max flex flex-col gap-[var(--space-lg)]">
-      <Frame className="w-full h-max flex justify-between">
-        <Frame className="w-full h-max flex flex-col gap-[var(--space-xs)]">
-          <Heading size="xl" type="h1">Receipts</Heading>
-          <Paragraph size="sm" weight="light">
-            Create, manage and track your receipts.
-          </Paragraph>
-        </Frame>
+    <Frame className="w-full h-max flex flex-col">
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">Receipts</Heading>
+            <Paragraph size="sm" weight="light">
+              Create, manage and track your receipts.
+            </Paragraph>
+          </Frame>
 
-        <Frame>
-          <Button
-            variant="outline"
-            size="sm"
-            iconPosition="left"
-            iconName="icon-plus"
-            func={createReceipt}
-          >
-            New Receipt
-          </Button>
+          <Frame>
+            <Button
+              variant="outline"
+              size="sm"
+              iconPosition="left"
+              iconName="icon-plus"
+              func={createReceipt}
+            >
+              New Receipt
+            </Button>
+          </Frame>
         </Frame>
-      </Frame>
+      </Section>
 
-      <Section width="stretch">
+      <Section>
         <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">
           <Frame className="w-full h-max flex items-center justify-between">
             <Heading size="md" type="h2">Receipts</Heading>

@@ -1,5 +1,6 @@
 "use client"
 
+import Section from "@/src/components/base/layout/section"
 import KpiRow from "@/src/components/base/ui/composites/kpiRow"
 import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
@@ -62,56 +63,62 @@ const scheduleStat = [
 
 export default function Page() {
   return (
-    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
+    <Frame className="w-full flex-col h-max">
       {/* Header */}
-      <Frame className="justify-between w-full h-max">
-        <Frame className="w-full gap-[var(--space-xs)] h-max flex-col">
-          <Heading size="xl" type="h1">
-            Schedules
-          </Heading>
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">
+              Schedules
+            </Heading>
 
-          <Paragraph size="sm">
-            Plan and manage your business activities.
-          </Paragraph>
-        </Frame>
+            <Paragraph size="sm">
+              Plan and manage your business activities.
+            </Paragraph>
+          </Frame>
 
-        <Frame>
-          <Button
-            variant="outline"
-            size="sm"
-            iconPosition="left"
-            iconName="icon-plus"
-          >
-            Create schedule
-          </Button>
+          <Frame>
+            <Button
+              variant="outline"
+              size="sm"
+              iconPosition="left"
+              iconName="icon-plus"
+            >
+              Create schedule
+            </Button>
+          </Frame>
         </Frame>
-      </Frame>
+      </Section>
 
       {/* Summary */}
-      <KpiRow kpis={scheduleStat} />
+      <Section>
+        <KpiRow kpis={scheduleStat} />
+      </Section>
 
-      {/* Navigation */}
-      <Frame className="w-full gap-[var(--space-sm)]">
-        <Button variant="fill" size="sm">
-          Today
-        </Button>
-        <Button variant="outline" size="sm">
-          Upcoming
-        </Button>
-        <Button variant="outline" size="sm">
-          Recurring
-        </Button>
-      </Frame>
+      <Section>
+        {/* Navigation */}
+        <Frame className="w-full gap-[var(--space-sm)]">
+          <Button variant="fill" size="sm">
+            Today
+          </Button>
+          <Button variant="outline" size="sm">
+            Upcoming
+          </Button>
+          <Button variant="outline" size="sm">
+            Recurring
+          </Button>
+        </Frame>
 
-      {/* Schedule list */}
-      <Frame className="w-full flex-col h-max gap-[var(--space-sm)]">
-        {schedules.map((schedule, index) => (
-          <ScheduleItem
-            key={index}
-            {...schedule}
-          />
-        ))}
-      </Frame>
+        {/* Schedule list */}
+        <Frame className="w-full flex-col h-max gap-[var(--space-sm)]">
+          {schedules.map((schedule, index) => (
+            <ScheduleItem
+              key={index}
+              {...schedule}
+            />
+          ))}
+        </Frame>
+      </Section>
     </Frame>
   )
 }

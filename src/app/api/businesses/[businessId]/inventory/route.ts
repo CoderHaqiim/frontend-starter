@@ -1,4 +1,4 @@
-import { inventoryByBusinessId } from "@/src/data/inventory"
+import { getInventoryStatus, inventoryByBusinessId } from "@/src/data/inventory"
 import { NextResponse } from "next/server"
 
 export async function GET(
@@ -7,5 +7,10 @@ export async function GET(
 ) {
   const { businessId } = await params
 
-  return NextResponse.json(inventoryByBusinessId[businessId] ?? [])
+  const inventoryItems = (inventoryByBusinessId[businessId] ?? []).map((item) => ({
+    ...item,
+    Status: getInventoryStatus(item.Stock),
+  }))
+
+  return NextResponse.json(inventoryItems)
 }

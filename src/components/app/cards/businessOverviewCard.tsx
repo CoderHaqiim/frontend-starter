@@ -65,18 +65,26 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
         {/* Business name */}
         <Frame className="w-full h-max items-center gap-[var(--space-md)]">
           <Frame
-            className="w-[var(--elementSize-md)] h-[var(--elementSize-md)] items-center justify-center rounded-[var(--radius-sm)]"
+            className="w-[var(--elementSize-md)] h-[var(--elementSize-md)] overflow-hidden items-center justify-center rounded-[var(--radius-sm)]"
             specificStyles={{
               backgroundColor: businessColor,
             }}
           >
-            <Paragraph
-              size="sm"
-              weight="semiBold"
-              color="textColor1"
-            >
-              {businessInitial}
-            </Paragraph>
+            {data.logo ? (
+              <img
+                src={data.logo}
+                alt={`${data.businessName} logo`}
+                className="h-full w-full rounded-[var(--radius-sm)] object-cover"
+              />
+            ) : (
+              <Paragraph
+                size="sm"
+                weight="semiBold"
+                color="textColor1"
+              >
+                {businessInitial}
+              </Paragraph>
+            )}
           </Frame>
 
           <Frame className="flex-col gap-[var(--space-xs)]">

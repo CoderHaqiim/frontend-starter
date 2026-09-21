@@ -18,6 +18,9 @@ export default function InvoiceHeader() {
       <Frame className="flex-col items-end w-[100px]">
         <Paragraph color="textColor1" weight="medium" size="sm">Amount</Paragraph>
       </Frame>
+      <Frame className="w-[120px] items-start justify-start">
+        <Paragraph color="textColor1" weight="medium" size="sm">Status</Paragraph>
+      </Frame>
       <Frame className="w-[200px]">
         <Paragraph color="textColor1" weight="medium" size="sm">Customer</Paragraph>
       </Frame>

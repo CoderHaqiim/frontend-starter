@@ -56,18 +56,21 @@ export default function Home() {
   }
 
   return (
-    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
-      <Frame className="w-full gap-[var(--space-xs)] justify-between h-max">
-        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
-          <Heading size="xl" type="h1">Customers</Heading>
-          <Paragraph weight="light" size="sm">
-            Track and manage your customers and their relationships with your business.
-          </Paragraph>
-        </Frame>
-        <Frame>
+    <Frame className="w-full flex-col h-max">
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">Customers</Heading>
+            <Paragraph weight="light" size="sm">
+              Track and manage your customers and their relationships with your business.
+            </Paragraph>
+          </Frame>
+          <Frame>
             <Button variant="outline" iconName="icon-plus" size="sm" func={createCustomer}> Add Customer </Button>
+          </Frame>
         </Frame>
-      </Frame>
+      </Section>
+
       <Section>
         <Frame className="w-full h-[100px] gap-[var(--space-md)]">
           {isCustomerKpisLoading
@@ -75,12 +78,12 @@ export default function Home() {
             : customerKpis.kpis.map((item) => <KpiRow key={item?.id} kpi={item} />)}
         </Frame>
       </Section>
-      <Section width="stretch">
+
+      <Section>
         <Frame className="w-full flex-col gap-[var(--space-md)]">
-          <Frame className="mb-[var(--space-sm)]">
+          <Frame>
             <Heading size="md" type="h2">Quick Access Cards</Heading>
           </Frame>
-         
             <Frame scroll="hidden" className="gap-[var(--space-md)]">
               {isCustomerQuickAccessLoading
                 ? Array.from({ length: 3 }).map((_, index) => <KpiLoader key={index} />)
@@ -90,7 +93,8 @@ export default function Home() {
             </Frame>
         </Frame>
       </Section>
-      <Section width="stretch">
+
+      <Section>
         <Frame className="w-full flex-col gap-[var(--space-md)]">
           <Frame className="mb-[var(--space-sm)] justify-between items-center">
             <Heading size="md" type="h2">Customer Directory</Heading>

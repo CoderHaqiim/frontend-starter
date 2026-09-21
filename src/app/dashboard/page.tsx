@@ -132,24 +132,26 @@ export default function Home() {
   }
 
   return (
-    <Frame className="w-full flex-col h-max gap-[var(--space-lg)]">
+    <Frame className="w-full flex-col h-max">
       {/* Header */}
-      <Frame className="w-full flex justify-between items-start">
-        <Frame className="gap-[var(--space-xs)] h-max flex-col">
-          <Heading size="xl" type="h1">
-             Welcome back, {isMounted ? profileData?.userName ?? "there" : "there"}
-          </Heading>
-          <Paragraph weight="light" size="sm">
-            Here&apos;s what&apos;s happening today.
-          </Paragraph>
-        </Frame>
+      <Section>
+        <Frame className="justify-between">
+          <Frame className="gap-[var(--space-xs)] h-max flex-col">
+            <Heading size="xl" type="h1">
+              Welcome back, {isMounted ? profileData?.userName ?? "there" : "there"}
+            </Heading>
+            <Paragraph weight="light" size="sm">
+              Here&apos;s what&apos;s happening today.
+            </Paragraph>
+          </Frame>
 
-        <Frame>
-          <Button variant="outline" func={createBusiness} size="sm" iconName="icon-plus">
-            Create Business
-          </Button>
+          <Frame>
+            <Button variant="outline" func={createBusiness} size="sm" iconName="icon-plus">
+              Create Business
+            </Button>
+          </Frame>
         </Frame>
-      </Frame>
+      </Section>
 
       <Section>
         <Frame className="w-full justify-end">
@@ -170,13 +172,13 @@ export default function Home() {
             <Badge color="accent" size="xs" text={String(filteredBusinesses.length )}/>
           </Frame>
 
-          <Frame className="w-auto h-max gap-[var(--space-sm)]">
+          <Frame className="w-max h-max gap-[var(--space-sm)]">
             <Dropdown
               formFunc={filterBusinesses}
               name="active filter"
               value={businessFilter}
-              width="120px"
-              size="sm"
+              width="max-content"
+              size="xs"
               options={businessFilterArray}
             />
           </Frame>

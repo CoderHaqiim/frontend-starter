@@ -32,7 +32,12 @@ export interface Business {
   id: string
   businessName: string
   logo?: string
+  tagLine?: string
   description?: string
+  email?: string
+  phone?: string
+  address?: string
+  website?: string
   industry?: string
   establishedYear: number
   country: string
@@ -210,6 +215,80 @@ export type ChartResponse = {
     period: ChartPeriod
     points: ChartPoint[]
   }
+}
+
+export type InvoiceCustomerPayload = {
+  name?: string
+  email?: string
+  address?: string
+}
+
+// A line item as typed on the form: quantity and price are the source values,
+// the amount is always derived from them.
+export type CreateInvoiceItemPayload = {
+  id?: string
+  name?: string
+  description?: string
+  quantity?: number | string
+  price?: number | string
+}
+
+// JSON payload sent by the create invoice form. It carries source values only:
+// the business travels as its id, and the line items, discount and vat rates are
+// enough for the route to derive every amount and total.
+export type CreateInvoicePayload = {
+  template?: string
+  businessId?: string
+  customer?: InvoiceCustomerPayload
+  currency?: string
+  items?: CreateInvoiceItemPayload[]
+  discount?: number | string
+  vat?: number | string
+  issueDate?: string
+  dueDate?: string
+}
+
+// The invoice returned by POST /api/invoices once the payload is normalised.
+export type CreatedInvoice = {
+  invoiceNo: string
+  template: string
+  status: string
+  businessId: string
+  customer: {
+    name: string
+    email: string
+    address: string
+  }
+  currency: {
+    code: string
+    symbol: string
+  }
+  items: {
+    id: string
+    name: string
+    description: string
+    quantity: number
+    price: number
+    amount: number
+  }[]
+  totals: {
+    subtotal: number
+    discountRate: number
+    discountAmount: number
+    vatRate: number
+    vatAmount: number
+    total: number
+  }
+  dates: {
+    issueDate: string
+    dueDate: string
+    createdAt: string
+  }
+}
+
+export type CreateInvoiceResponse = {
+  message: string
+  data: CreatedInvoice
 }
 
 

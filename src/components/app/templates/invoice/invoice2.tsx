@@ -5,15 +5,20 @@ import Frame from "@/src/components/base/ui/primitives/frame";
 import Paragraph from "@/src/components/base/ui/primitives/paragraph";
 import { getItemsSubtotal, useInvoiceDraft } from "@/src/store/invoiceDraftState";
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState";
+import { getCurrencySymbol } from "@/src/utils/currencySymbol";
 
-const formatCurrency = (amount: number) =>
-  `₦${amount.toLocaleString("en-NG", {
+// Values populated from the business or the invoice inputs render as a blank
+// space when no data is available, instead of placeholder data.
+const EMPTY_VALUE = " ";
+
+const formatCurrency = (amount: number, symbol: string) =>
+  `${symbol}${amount.toLocaleString("en-NG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
 
-const formatDate = (date: string, fallback: string) => {
-  if (!date) return fallback;
+const formatDate = (date: string) => {
+  if (!date) return EMPTY_VALUE;
 
   return new Intl.DateTimeFormat("en-NG", {
     month: "short",
@@ -25,7 +30,20 @@ const formatDate = (date: string, fallback: string) => {
 export default function Invoice1() {
   const { selectedBusiness } = useSelectedBusiness();
   const invoiceDraft = useInvoiceDraft();
-  const businessName = selectedBusiness.businessName || "Your Company";
+  const currencySymbol = getCurrencySymbol(invoiceDraft.currency);
+  const businessName = selectedBusiness.businessName || EMPTY_VALUE;
+  const businessTagline = selectedBusiness.tagLine || EMPTY_VALUE;
+  const businessAddress =
+    [
+      selectedBusiness.address,
+      selectedBusiness.state,
+      selectedBusiness.country,
+    ]
+      .filter(Boolean)
+      .join(", ") || EMPTY_VALUE;
+  const businessPhone = selectedBusiness.phone || EMPTY_VALUE;
+  const businessEmail = selectedBusiness.email || EMPTY_VALUE;
+  const businessWebsite = selectedBusiness.website || EMPTY_VALUE;
 
   const enteredAmount = Number(invoiceDraft.amount);
   const itemsSubtotal = getItemsSubtotal(invoiceDraft.items);
@@ -44,7 +62,10 @@ export default function Invoice1() {
           
           <Frame className="items-center gap-[var(--space-md)]">
             
-            <Frame className="relative h-[40px] w-[40px] items-center justify-center rounded-[var(--radius-xs)] bg-[var(--color-accent)]">
+            <Frame className="relative h-[40px] w-[40px] overflow-hidden items-center justify-center rounded-[var(--radius-xs)] bg-[var(--color-accent)]">
+              {selectedBusiness.logo ? (
+                <img src={selectedBusiness.logo} alt={`${businessName} logo`} className="h-full w-full object-cover" />
+              ) : null}
               
             </Frame>
 
@@ -53,7 +74,7 @@ export default function Invoice1() {
                 lineHeight:"sm"
               }}>{businessName}</Paragraph>
               <Paragraph size="xs" weight="normal" color="muted">
-                Building a better tomorrow
+                {businessTagline}
               </Paragraph>
             </Frame>
           </Frame>
@@ -66,15 +87,15 @@ export default function Invoice1() {
             <Frame className="mt-[var(--space-xs)] flex-col items-end gap-[2px]">
               <Frame className="gap-[var(--space-xs)]">
                 <Paragraph size="xs" weight="medium" color="textColor1">Invoice No:</Paragraph>
-                <Paragraph size="xs" color="textColor2">INV-2025-001</Paragraph>
+                <Paragraph size="xs" color="textColor2">{invoiceDraft.invoiceNo || EMPTY_VALUE}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-xs)]">
                 <Paragraph size="xs" weight="medium" color="textColor1">Invoice Date:</Paragraph>
-                <Paragraph size="xs" color="textColor2">{formatDate(invoiceDraft.issueDate, "Sep 16, 2025")}</Paragraph>
+                <Paragraph size="xs" color="textColor2">{formatDate(invoiceDraft.issueDate)}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-xs)]">
                 <Paragraph size="xs" weight="medium" color="textColor1">Due Date:</Paragraph>
-                <Paragraph size="xs" color="textColor2">{formatDate(invoiceDraft.dueDate, "Sep 30, 2025")}</Paragraph>
+                <Paragraph size="xs" color="textColor2">{formatDate(invoiceDraft.dueDate)}</Paragraph>
               </Frame>
             </Frame>
           </Frame>
@@ -84,19 +105,19 @@ export default function Invoice1() {
           <Frame className="gap-[var(--space-lg)]">
             <Paragraph size="xxs" color="textColor2" className="items-center gap-[var(--space-xs)]">
               
-              <span>123 Business Street, Lagos, Nigeria</span>
+              <span>{businessAddress}</span>
             </Paragraph>
             <Paragraph size="xxs" color="textColor2" className="items-center gap-[var(--space-xs)]">
               
-              <span>+234 801 234 5678</span>
+              <span>{businessPhone}</span>
             </Paragraph>
             <Paragraph size="xxs" color="textColor2" className="items-center gap-[var(--space-xs)]">
               
-              <span>hello@yourcompany.com</span>
+              <span>{businessEmail}</span>
             </Paragraph>
             <Paragraph size="xxs" color="textColor2" className="items-center gap-[var(--space-xs)]">
               
-              <span>www.yourcompany.com</span>
+              <span>{businessWebsite}</span>
             </Paragraph>
           </Frame>
 
@@ -105,9 +126,9 @@ export default function Invoice1() {
               <Paragraph size="sm" weight="bold" color="textColor1" specificStyle={{
                 lineHeight:"2"
               }}>Bill To :</Paragraph>
-              <Paragraph size="xs" color="textColor1">{invoiceDraft.customer || "Client Name"}</Paragraph>
-              <Paragraph size="xxs" color="textColor2">{invoiceDraft.customerAddress || "123 Client Avenue, Lagos, Nigeria"}</Paragraph>
-              <Paragraph size="xxs" color="textColor2">{invoiceDraft.customerEmail || "customer@email.com"}</Paragraph>
+              <Paragraph size="xs" color="textColor1">{invoiceDraft.customer || EMPTY_VALUE}</Paragraph>
+              <Paragraph size="xxs" color="textColor2">{invoiceDraft.customerAddress || EMPTY_VALUE}</Paragraph>
+              <Paragraph size="xxs" color="textColor2">{invoiceDraft.customerEmail || EMPTY_VALUE}</Paragraph>
             </Frame>
 
             <Frame className="flex-1 gap-[var(--space-xs)] flex-col">
@@ -116,7 +137,7 @@ export default function Invoice1() {
               }}>Payment Details</Paragraph>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]">Bank Name:</Paragraph>
-                <Paragraph size="xs" color="textColor2">Access Bank</Paragraph>
+                <Paragraph size="xs" color="textColor2">{EMPTY_VALUE}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]">Account Name:</Paragraph>
@@ -124,15 +145,15 @@ export default function Invoice1() {
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]">Account Number:</Paragraph>
-                <Paragraph size="xs" color="textColor2">0123456789</Paragraph>
+                <Paragraph size="xs" color="textColor2">{EMPTY_VALUE}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]">Sort Code:</Paragraph>
-                <Paragraph size="xs" color="textColor2">044</Paragraph>
+                <Paragraph size="xs" color="textColor2">{EMPTY_VALUE}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]">Reference:</Paragraph>
-                <Paragraph size="xs" color="textColor2">INV-2025-001</Paragraph>
+                <Paragraph size="xs" color="textColor2">{EMPTY_VALUE}</Paragraph>
               </Frame>
             </Frame>
           </Frame>
@@ -143,22 +164,22 @@ export default function Invoice1() {
         <Frame className="ml-auto mt-[6mm] w-full max-w-[120mm] flex-col gap-[1mm]">
           <Frame className="w-full items-center justify-between">
             <Paragraph size="xs" weight="medium" color="textColor1">Subtotal</Paragraph>
-            <Paragraph size="xs" weight="medium" color="textColor1">{formatCurrency(subtotal)}</Paragraph>
+            <Paragraph size="xs" weight="medium" color="textColor1">{formatCurrency(subtotal, currencySymbol)}</Paragraph>
           </Frame>
 
           <Frame className="w-full items-center justify-between">
             <Paragraph size="xs" color="textColor2">Discount ({discountRate}%)</Paragraph>
-            <Paragraph size="xs" color="textColor1">- {formatCurrency(discount)}</Paragraph>
+            <Paragraph size="xs" color="textColor1">- {formatCurrency(discount, currencySymbol)}</Paragraph>
           </Frame>
 
           <Frame className="w-full items-center justify-between">
             <Paragraph size="xs" color="textColor2">VAT ({vatRate}%)</Paragraph>
-            <Paragraph size="xs" color="textColor1">{formatCurrency(vat)}</Paragraph>
+            <Paragraph size="xs" color="textColor1">{formatCurrency(vat, currencySymbol)}</Paragraph>
           </Frame>
 
           <Frame className="mt-[2px] w-full items-center justify-between rounded-[var(--radius-sm)] bg-[var(--color-accent2)] px-[var(--space-md)] py-[var(--space-md)]">
             <Paragraph size="sm" color="textColor1" weight="bold" >Total</Paragraph>
-            <Paragraph size="sm" color="textColor1" weight="bold">{formatCurrency(total)}</Paragraph>
+            <Paragraph size="sm" color="textColor1" weight="bold">{formatCurrency(total, currencySymbol)}</Paragraph>
           </Frame>
         </Frame>
 
@@ -167,7 +188,7 @@ export default function Invoice1() {
           <Frame className="flex-col gap-[2px]">
             <Paragraph size="xs" color="textColor2">• Payment is due within 14 days from the invoice date.</Paragraph>
             <Paragraph size="xs" color="textColor2">• Please use the invoice number as the payment reference.</Paragraph>
-            <Paragraph size="xs" color="textColor2">• For questions, contact us at hello@yourcompany.com.</Paragraph>
+            <Paragraph size="xs" color="textColor2">• For questions, contact us at {businessEmail}.</Paragraph>
           </Frame>
         </Frame>
 

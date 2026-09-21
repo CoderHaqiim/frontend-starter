@@ -32,7 +32,7 @@ export default function Dropdown({
   value,
   defaultValue,
   options,
-  width,
+  width = "max-content",
   size = "md",
   border = true,
   outline = true,
@@ -42,6 +42,7 @@ export default function Dropdown({
 }: DropdownProps) {
   const { colors } = useTheme()
   const [open, setOpen] = useState(false)
+  const isContentSized = width === "max-content" || width === undefined
 
   function getOptionLabel(option: DropdownOption) {
     return typeof option === "string" ? option : option?.label
@@ -99,7 +100,7 @@ export default function Dropdown({
 
   return (
     <Frame
-      className={`${open ? "z-[500]" : "z-[50]"} w-full items-center`}
+      className={`${open ? "z-[500]" : "z-[50]"} ${isContentSized ? "w-fit" : "w-full"} items-center`}
       specificStyles={{
         width: width,
       }}
@@ -111,13 +112,13 @@ export default function Dropdown({
         disabled={disabled}
       />
 
-      <div ref={wrapperRef} className="relative w-full">
+      <div ref={wrapperRef} className={`relative ${isContentSized ? "w-fit" : "w-full"}`}>
         {/* Dropdown button */}
         <button
           type="button"
           disabled={disabled}
           onClick={() => setOpen((prev) => !prev)}
-          className={`relative flex w-full min-w-[100px] items-center justify-between gap-[var(--space-sm)] overflow-hidden whitespace-nowrap rounded-[var(--radius-sm)] bg-[var(--color-background1)]
+          className={`relative flex ${isContentSized ? "w-fit" : "w-full"} min-w-[100px] items-center justify-between gap-[var(--space-sm)] overflow-hidden whitespace-nowrap rounded-[var(--radius-xs)] bg-[var(--color-background1)]
             ${
               border
                 ? "border border-[var(--color-outline2)]"
@@ -143,7 +144,7 @@ export default function Dropdown({
           </span>
 
           {/* Chevron icon */}
-          <span className="pointer-events-none shrink-0 bg-[var(--color-white)]">
+          <span className="pointer-events-none shrink-0 bg-[var(--color-background1)]">
             <Icon name="icon-chevron-down" size="sm" />
           </span>
         </button>
@@ -152,7 +153,7 @@ export default function Dropdown({
         {open && (
           <Frame
             scroll="hidden"
-            className={`${shadow2} left-0 top-[100%] mt-1 flex max-h-[150px] w-full min-w-[180px] flex-col overflow-y-auto rounded-[var(--radius-sm)] border border-[var(--color-outline2)] bg-[var(--color-white)]`}
+            className={`${shadow2} left-0 top-[100%] mt-1 flex max-h-[150px] ${isContentSized ? "w-fit" : "w-full"} min-w-[100px] flex-col overflow-y-auto rounded-[var(--radius-sm)] border border-[var(--color-outline2)] bg-[var(--color-white)]`}
             specificStyles={{
               position: "absolute",
             }}
@@ -167,7 +168,8 @@ export default function Dropdown({
                   onClick={() => selectOption(option)}
                   className="block w-full overflow-hidden whitespace-nowrap px-3 py-2 text-left text-ellipsis transition-colors hover:bg-[var(--color-background1)]"
                   style={{
-                    height: elementSizes[size],
+                    height: "max-content",
+                    minHeight: elementSizes[size],
                     fontSize: bodySize[dropdownTextSize],
                     fontWeight: fontWeight["normal"],
                     backgroundColor:

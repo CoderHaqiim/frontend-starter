@@ -144,8 +144,8 @@ export default function BusinessPage() {
   const isBusinessDataLoading = !business || !businessKpisResponse
 
   return (
-    <Frame className="w-full flex-col gap-[var(--space-lg)] h-max">
-      <Frame className="w-full flex-col z-[45] bg-[var(--color-background1)]">
+    <Frame className="w-full flex-col h-max">
+      <Section className="w-full flex-col z-[45] bg-[var(--color-background1)]">
         <Frame className="w-full rounded-[var(--radius-sm)] h-max justify-between">
           {/* Business Info */}
           <Frame className="gap-[var(--space-lg)]">
@@ -196,7 +196,7 @@ export default function BusinessPage() {
             <Button variant="outline" size="sm" width="max-content" iconName='icon-pencil' func={editBusiness}>Edit Business</Button>
           </Frame>
         </Frame>
-      </Frame>
+      </Section>
 
       {/* KPIS */}
       <Section
@@ -204,7 +204,6 @@ export default function BusinessPage() {
         specificStyles={{
           overflow: "hidden",
           transition: "max-height 300ms ease, transform 250ms ease",
-          transform: kpisExpanded ? "scale(1)" : "scale(0.995)",
         }}
       >
         <Frame className=' flex-col gap-[var(--space-md)]'>
@@ -235,7 +234,7 @@ export default function BusinessPage() {
 
 
       {/* Business Health */}
-      <Section width="stretch" height="stretch">
+      <Section height="stretch">
         <Frame className="justify-between gap-[var(--space-xs)] h-max w-full">
           <Frame className="w-full items-center gap-[var(--space-sm)]">
             <Heading type="h2" size='md'>Business Health</Heading>
@@ -267,7 +266,7 @@ export default function BusinessPage() {
       <ChartSection chartUrl="/api/dashboard/financialTrends" />
 
       {/* Business Insights
-      <Section width="stretch" height="stretch">
+      <Section height="stretch">
         <Frame className="flex-col gap-[var(--space-md)] h-max w-full">
           <Frame className="w-full">
             <Heading type="h2" size='md'>Business Insights</Heading>

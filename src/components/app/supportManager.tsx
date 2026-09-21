@@ -48,7 +48,6 @@ export default function SupportManager() {
 
   return (
     <Section
-      width="stretch"
       height="hug"
       className="min-h-[200px]"
     >

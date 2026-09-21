@@ -20,7 +20,7 @@ export default function Label({weight, required= false, text, color, size, speci
   const defaultStyle: CSSProperties = {
     fontSize: bodySize[size],
     marginBottom: space["xs"],
-    fontWeight: (weight && fontWeight[weight]) ?? fontWeight["medium"],
+    fontWeight: (weight && fontWeight[weight]) ?? fontWeight["normal"],
     color: color ?? `var(--color-textColor1)`,
   }
 

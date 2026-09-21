@@ -33,7 +33,7 @@ export default function TaskManager() {
 	};
 
 	return (
-		<div className="grid h-full min-h-0 w-full flex-1 grid-cols-4 gap-[2px] overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-outline1)] bg-[var(--color-outline1)]">
+		<div className="grid h-full min-h-0 w-full flex-1 grid-cols-4 gap-[1px] overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-outline1)] bg-[var(--color-outline1)]">
 			{
         		columns.map((column) => {
 				  const columnTasks = tasks.filter((task) => task.status === column.status);

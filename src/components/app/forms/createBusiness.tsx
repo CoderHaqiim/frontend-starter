@@ -22,7 +22,7 @@ export default function CreateBusinessForm() {
 
   return (
     <Card width="500px" padding="xl" height="max-content">
-      <Frame className="mb-[var(--space-xl)] justify-between">
+      <Frame className="mb-[var(--space-lg)] justify-between">
         <Heading size="md" type="h2">
           Create Business
         </Heading>
@@ -45,6 +45,18 @@ export default function CreateBusinessForm() {
           <Frame className="w-full flex-col">
             <Label text="Tagline" size="xs" />
             <Input size="xs" rounded="sm" placeholder="Business Tagline?" outline border type="text" name="tagLine" variant="default"/>
+          </Frame>
+
+          {/* Phone & Email */}
+          <Frame className="gap-[var(--space-md)]">
+            <Frame className="w-1/2 flex-col">
+              <Label text="Phone" size="xs" />
+              <Input size="xs" rounded="sm" placeholder="Phone number" outline border type="tel" name="phone" variant="default"/>
+            </Frame>
+            <Frame className="w-1/2 flex-col">
+              <Label text="Email" size="xs" />
+              <Input size="xs" rounded="sm" placeholder="Email address" outline border type="email" name="email" variant="default"/>
+            </Frame>
           </Frame>
 
           {/* Country & State */}

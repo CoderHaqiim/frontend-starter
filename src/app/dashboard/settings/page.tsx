@@ -50,18 +50,18 @@ const settingsGroups = [
 
 export default function SettingsPage() {
   return (
-    <Frame className="flex w-full flex-col gap-[var(--space-lg)]">
-      <Frame className="flex h-max w-full justify-between">
-        <Frame className="flex h-max w-full flex-col gap-[var(--space-xs)]">
+    <Frame className="flex w-full flex-col">
+      <Section>
+        <Frame className="gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">Settings</Heading>
           <Paragraph weight="light" size="sm">
             Manage your profile, account, app preferences, and business details.
           </Paragraph>
         </Frame>
-      </Frame>
+      </Section>
 
       {settingsGroups.map((group) => (
-        <Section key={group.title} width="stretch">
+        <Section key={group.title}>
           <Frame className="flex w-full flex-col gap-[var(--space-md)]">
             <Heading size="md" type="h2">{group.title}</Heading>
 

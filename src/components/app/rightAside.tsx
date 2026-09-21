@@ -54,8 +54,7 @@ export default function RightAside({specificStyles  }: RightAsideProps) {
       width="hug"
       specificStyles={{
          ...specificStyles,
-        paddingLeft: 0,
-        //  backgroundColor: colors["background2"]
+         border: `solid 1px var(--color-outline1)`
       }}>
       <Frame className="w-max h-full h-full flex-col gap-var(--space-md)">
         {content}

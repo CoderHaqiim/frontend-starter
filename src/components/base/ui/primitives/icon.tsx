@@ -54,6 +54,7 @@ import {
     ReceiptText,
     Search,
     Settings,
+    Share2,
     SquareArrowOutUpRight,
     Star,
     Store,
@@ -146,6 +147,7 @@ const icons = {
     "icon-pile": CirclePile,
     "icon-users-round": UsersRound,
     "icon-download": Download,
+    "icon-share": Share2,
     "icon-play" : Play,
     "icon-change": ArrowLeftRight,
     "icon-coppy": Copy

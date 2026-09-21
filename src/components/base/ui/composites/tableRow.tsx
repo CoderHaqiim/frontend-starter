@@ -1,4 +1,6 @@
+import { ColorTypes } from "@/src/app/design/colors"
 import { FrameSizeType, ObjectRecordType, SizeType } from "@/src/types/types"
+import Badge from "./badge"
 import TableCell from "./tableCell"
 
 
@@ -27,6 +29,14 @@ export default function TableRow({
 }: TableRowProps) {
 
   const valuesArray = headerData.map(key => data[key] ?? "")
+  const statusColorMap: Record<string, ColorTypes> = {
+    "Active": "success",
+    "Inactive": "muted",
+    "Watchlist": "error",
+    "In stock": "success",
+    "Low stock": "warning",
+    "Out of stock": "error",
+  }
 
   return (
     <div
@@ -43,16 +53,26 @@ export default function TableRow({
       >
         {String(rowIndex + 1)}
       </TableCell>
-      {valuesArray.map((item, index) => (
-        <TableCell
-          key={index}
-          width={widths[index]}
-          size={size}
-          className={isSelected || selectedColumnIndex === index ? "bg-[var(--color-background1)]" : ""}
-        >
-          {item}
-        </TableCell>
-      ))}
+      {valuesArray.map((item, index) => {
+        const columnKey = headerData[index]
+        const isStatusColumn = columnKey === "Status" || columnKey === "status"
+        const statusColor = isStatusColumn ? (statusColorMap[String(item)] ?? "muted") : "muted"
+
+        return (
+          <TableCell
+            key={index}
+            width={widths[index]}
+            size={size}
+            className={isSelected || selectedColumnIndex === index ? "bg-[var(--color-background1)]" : ""}
+          >
+            {isStatusColumn ? (
+              <Badge text={String(item)} color={statusColor} size="xxs" />
+            ) : (
+              item
+            )}
+          </TableCell>
+        )
+      })}
     </div>
   )
 }

@@ -9,7 +9,6 @@ import Label from '@/src/components/base/ui/primitives/label'
 import Paragraph from '@/src/components/base/ui/primitives/paragraph'
 import Image from 'next/image'
 import Link from 'next/link'
-import { colors } from '../../design/colors'
 
 
 
@@ -43,7 +42,7 @@ export default function LoginPage() {
                         <hr className='w-[70%] border-0 bg-[var(--color-outline1)] h-[1px] absolute'/>
                     </Frame>
                     <Frame>
-                         <Button rounded='xl' variant="outline" size='xl'width="stretch" specificStyles={{border:`1px solid ${colors["accent"]}`}}>
+                         <Button rounded='xl' variant="outline" size='xl'width="stretch">
                             <Image
                               src="svgs/google-logo.svg"
                               alt="google-logo"
