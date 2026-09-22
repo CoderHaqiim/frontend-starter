@@ -47,6 +47,18 @@ export default function CreateTaskForm() {
             <Input size="sm" required rounded="sm" placeholder="What needs to be done?" outline border type="text" name="title" variant="default"/>
           </Frame>
 
+           {/* Description */}
+          <Frame className="w-full flex-col">
+            <Label required text="Description" size="xs" />
+            <textarea
+              required
+              className="w-full text-[length:var(--bodySize-xs)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
+              placeholder="Add details about this task..."
+              name="description"
+              rows={3}
+            />
+          </Frame>
+
           {/* Due Date */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
@@ -94,18 +106,6 @@ export default function CreateTaskForm() {
                 }))}
               />
             </Frame>
-          </Frame>
-
-          {/* Description */}
-          <Frame className="w-full flex-col">
-            <Label required text="Description" size="xs" />
-            <textarea
-              required
-              className="w-full text-[length:var(--bodySize-xs)] resize-none rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)]"
-              placeholder="Add details about this task..."
-              name="description"
-              rows={3}
-            />
           </Frame>
 
           {/* Submit */}

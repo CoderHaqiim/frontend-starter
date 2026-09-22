@@ -8,12 +8,10 @@ import { useInvoiceFormState } from "@/src/store/invoiceFormState"
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState"
 import { getCurrencyOptions } from "@/src/utils/currencySymbol"
 import { useQuery } from "@tanstack/react-query"
-import { toJpeg, toPng } from "html-to-image"
-import jsPDF from "jspdf"
-import { useEffect, useRef, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 import Card from "../../base/ui/composites/card"
-import DownloadDialogue from "../../base/ui/composites/downloadDialogue"
 import Dropdown from "../../base/ui/composites/dropdown"
 import Button from "../../base/ui/primitives/button"
 import CloseButton from "../../base/ui/primitives/closeButton"
@@ -22,31 +20,35 @@ import Heading from "../../base/ui/primitives/heading"
 import Input from "../../base/ui/primitives/input"
 import Label from "../../base/ui/primitives/label"
 
-import TemplateList, { invoiceTemplates, type InvoiceTemplateId } from "../templateList"
+import TemplateList, { invoiceTemplateComponents, type InvoiceTemplateId } from "../templateList"
 import CreateInvoiceItemForm from "./createInvoiceItem"
 
-const templates = Object.fromEntries(
-  invoiceTemplates.map(({ id, component }) => [id, component]),
-) as Record<InvoiceTemplateId,  (typeof invoiceTemplates)[number]["component"]>
-
 export default function CreateInvoiceForm() {
+  const router = useRouter()
   const isOpen = useInvoiceFormState((state) => state.isOpen)
   const closeInvoice = useInvoiceFormState((state) => state.closeInvoice)
   const invoiceDraft = useInvoiceDraft()
-  const { setInvoiceField } = invoiceDraft
+  const { setInvoiceField, resetDraft } = invoiceDraft
   const { selectedBusiness, setSelectedBusiness } = useSelectedBusiness()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const [selectedTemplate, setSelectedTemplate] = useState<InvoiceTemplateId>("invoice-1")
-  const [downloadOpen, setDownloadOpen] = useState(false)
-  const downloadDialogRef = useRef<HTMLDivElement>(null)
-  const downloadTriggerRef = useRef<HTMLDivElement>(null)
+  const selectedTemplate = invoiceDraft.template as InvoiceTemplateId
 
-  const previewRef = useRef<HTMLDivElement>(null)
+  const setSelectedTemplate = (template: InvoiceTemplateId) => {
+    setInvoiceField("template", template)
+  }
 
   const { data: businesses = [] } = useQuery({
     queryKey: businessesQueryKey,
     queryFn: getBusinesses,
   })
+
+  // Every new invoice starts from a blank draft. The draft is left untouched
+  // while a created invoice is being viewed on the view-invoice page.
+  useEffect(() => {
+    if (!isOpen) return
+
+    resetDraft()
+  }, [isOpen, resetDraft])
 
   useEffect(() => {
     if (businesses.length === 0) return
@@ -60,45 +62,10 @@ export default function CreateInvoiceForm() {
     }
   }, [businesses, selectedBusiness.id, setSelectedBusiness])
 
-// close dowload menu
-  useEffect(() => {
-    if (!downloadOpen) return
-    const handlePointerDown = (event: MouseEvent) => {
-      const target = event.target
-      if (
-        target instanceof Node &&
-        (downloadTriggerRef.current?.contains(target) ||
-          downloadDialogRef.current?.contains(target))
-      ) {
-        return
-      }
-      setDownloadOpen(false)
-    }
-
-    document.addEventListener("mousedown", handlePointerDown)
-
-    return () => { document.removeEventListener("mousedown", handlePointerDown)}
-  }, [downloadOpen])
-
   if (!isOpen) return null
 
   const closeCreateInvoiceForm = () => {
-    invoiceDraft.setInvoiceField("customer", "")
-    invoiceDraft.setInvoiceField("customerEmail", "")
-    invoiceDraft.setInvoiceField("customerAddress", "")
-    invoiceDraft.setInvoiceField("amount", "")
-    invoiceDraft.setInvoiceField("currency", "NGN")
-    invoiceDraft.setInvoiceField("issueDate", "")
-    invoiceDraft.setInvoiceField("dueDate", "")
-    invoiceDraft.setInvoiceField("vat", "0")
-    invoiceDraft.setInvoiceField("discount", "0")
-    invoiceDraft.setInvoiceField("invoiceNo", "")
-
-    useInvoiceDraft.setState({
-      items: [],
-    })
-
-    setSelectedTemplate("invoice-1")
+    resetDraft()
     closeInvoice()
   }
 
@@ -184,11 +151,15 @@ export default function CreateInvoiceForm() {
         { method: "POST"},
       )
 
-      console.log("Create invoice response:", response)
+      if (!response?.data?.invoiceNo) return
 
-      if (response?.data?.invoiceNo) {
-        setInvoiceField( "invoiceNo", response.data.invoiceNo )
-      }
+      setInvoiceField("invoiceNo", response.data.invoiceNo)
+
+      // The draft is intentionally left intact: the view-invoice page renders
+      // the invoice that was just created.
+      closeInvoice()
+
+      router.push("/dashboard/view-invoice")
     } catch (error) {
       console.error(
         "Failed to submit the create invoice payload:",
@@ -197,140 +168,7 @@ export default function CreateInvoiceForm() {
     }
   }
 
-  const isInvoiceCreated = Boolean(invoiceDraft.invoiceNo)
-
-  const openDownloadDialogue = () => {
-    setDownloadOpen(true)
-  }
-
-  const closeDownloadDialogue = () => {
-    setDownloadOpen(false)
-  }
-
-  /*
-   * ---------------------------------------------------------
-   * EXPORT HELPERS
-   * ---------------------------------------------------------
-   */
-
-  /*
-   * 3x rendering gives a much sharper image than pixelRatio: 1.
-   *
-   * The invoice itself is NOT scaled here.
-   * The screen-only scale-[0.89] wrapper is outside previewRef.
-   */
-  const getInvoicePng = async () => {
-    if (!previewRef.current) {
-      throw new Error("Invoice preview element was not found.")
-    }
-
-    return await toPng(previewRef.current, {
-      pixelRatio: 3,
-      backgroundColor: "#ffffff",
-
-      /*
-       * These help html-to-image capture the actual
-       * dimensions of the invoice.
-       */
-      width: previewRef.current.scrollWidth,
-      height: previewRef.current.scrollHeight,
-    })
-  }
-
-  /*
-   * Download JPG
-   */
-  const downloadJPG = async () => {
-    if (!previewRef.current) return
-
-    try {
-      const dataUrl = await toJpeg(previewRef.current, {
-        pixelRatio: 3,
-        backgroundColor: "#ffffff",
-        quality: 1,
-
-        width: previewRef.current.scrollWidth,
-        height: previewRef.current.scrollHeight,
-      })
-
-      const link = document.createElement("a")
-
-      link.download =
-        `${invoiceDraft.invoiceNo || "invoice"}.jpg`
-
-      link.href = dataUrl
-
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-
-      setDownloadOpen(false)
-    } catch (error) {
-      console.error(
-        "Failed to download invoice JPG:",
-        error,
-      )
-    }
-  }
-
-  /*
-   * Download PDF
-   *
-   * The PDF itself is A4:
-   *
-   * Width  = 210mm
-   * Height = 297mm
-   */
-  const downloadPDF = async () => {
-    if (!previewRef.current) return
-
-    try {
-      const dataUrl = await getInvoicePng()
-
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-        compress: true,
-      })
-
-      /*
-       * A4 dimensions in millimeters.
-       */
-      const pageWidth = 210
-      const pageHeight = 297
-
-      /*
-       * Fill the entire A4 page.
-       *
-       * Because the invoice itself is A4,
-       * there should be no intentional PDF margin.
-       */
-      pdf.addImage(
-        dataUrl,
-        "PNG",
-        0,
-        0,
-        pageWidth,
-        pageHeight,
-        undefined,
-        "FAST",
-      )
-
-      pdf.save(
-        `${invoiceDraft.invoiceNo || "invoice"}.pdf`,
-      )
-
-      setDownloadOpen(false)
-    } catch (error) {
-      console.error(
-        "Failed to download invoice PDF:",
-        error,
-      )
-    }
-  }
-
-  const ActiveTemplate = templates[selectedTemplate]
+  const ActiveTemplate = invoiceTemplateComponents[selectedTemplate]
 
   return (
     <Card
@@ -388,11 +226,7 @@ export default function CreateInvoiceForm() {
         <Frame
           scroll="hidden"
           direction="column"
-          className={
-            isInvoiceCreated
-              ? "flex-col flex-1 h-full min-h-0 min-w-0 overflow-x-hidden bg-[var(--color-background3)]"
-              : "flex-col flex-1 h-full min-h-0 min-w-0 overflow-x-hidden bg-[var(--color-background3)]"
-          }
+          className="flex-col flex-1 h-full min-h-0 min-w-0 overflow-x-hidden bg-[var(--color-background3)]"
         >
           <Frame
             className="
@@ -403,76 +237,10 @@ export default function CreateInvoiceForm() {
               p-[var(--space-lg)]
             "
           >
-            {/* DOWNLOAD / SHARE BUTTONS */}
-
-            {isInvoiceCreated && (
-              <div
-                ref={downloadTriggerRef}
-                className="
-                  absolute
-                  top-[var(--space-md)]
-                  right-[var(--space-md)]
-                  z-10
-                  flex
-                  flex-row
-                  gap-[var(--space-xs)]
-                "
-              >
-                <Button
-                  variant="outline"
-                  isIcon
-                  iconName="icon-download"
-                  size="sm"
-                  func={openDownloadDialogue}
-                />
-
-                <div
-                  ref={downloadDialogRef}
-                  className={`
-                    ${
-                      downloadOpen
-                        ? "flex"
-                        : "hidden"
-                    }
-                    absolute
-                    top-[120%]
-                    right-0
-                    z-[20]
-                  `}
-                  onMouseLeave={
-                    closeDownloadDialogue
-                  }
-                >
-                  <DownloadDialogue
-                    downloadPDF={downloadPDF}
-                    downloadPNG={downloadJPG}
-                    pngLabel="Download JPG"
-                    pdfLabel="Download PDF"
-                  />
-                </div>
-
-                <Button
-                  variant="outline"
-                  isIcon
-                  iconName="icon-share"
-                  size="sm"
-                />
-              </div>
-            )}
-
-            {/*
-             * IMPORTANT:
-             *
-             * scale-[0.89] is ONLY for the screen.
-             *
-             * previewRef is INSIDE this wrapper.
-             * Therefore the exported invoice is not scaled.
-             */}
+            {/* The scale is screen only, so the invoice keeps its A4 size. */}
 
             <div className="origin-top scale-[0.89]">
-              <div ref={previewRef}>
-                <ActiveTemplate />
-              </div>
+              <ActiveTemplate />
             </div>
           </Frame>
         </Frame>

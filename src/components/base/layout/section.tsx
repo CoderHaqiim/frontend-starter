@@ -20,7 +20,7 @@ export default function Section({
   specificStyles
 }: SectionProps) {
   return (
-    <Frame className={`flex-col border-[0.5px] border-[var(--color-outline1)] gap-[var(--space-md)] p-[var(--space-lg)] ${className}`} 
+    <Frame className={`flex-col border-[0.5px] border-[var(--color-outline1)] gap-[var(--space-lg)] py-[var(--space-xl)] px-[var(--space-lg)] ${className}`} 
     specificStyles={{
       width: width,
       height: height,

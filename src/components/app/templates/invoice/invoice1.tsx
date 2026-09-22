@@ -158,9 +158,11 @@ export default function Invoice1() {
           </Frame>
         </Frame>
 
-        <InvoiceTable />
+        <Frame className="relative z-[70] w-full">
+          <InvoiceTable />
+        </Frame>
 
-        <Frame className="ml-auto mt-[6mm] w-full max-w-[120mm] flex-col gap-[1mm]">
+        <Frame className="relative z-[2] ml-auto mt-[6mm] w-full max-w-[120mm] flex-col gap-[1mm]">
           <Frame className="w-full items-center justify-between">
             <Paragraph size="xs" weight="medium" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>Subtotal</Paragraph>
             <Paragraph size="xs" weight="medium" color="textColor1" specificStyle={{ color: '#1b1b1b' }}>{formatCurrency(subtotal, currencySymbol)}</Paragraph>

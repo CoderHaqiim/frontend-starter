@@ -11,6 +11,7 @@ export type InvoiceDraft = {
   vat: string
   discount: string
   invoiceNo: string
+  template: string
 }
 
 export type InvoiceItem = {
@@ -49,12 +50,15 @@ const withItemsAmount = (items: InvoiceItem[]) => ({
 
 type InvoiceDraftState = InvoiceDraft & {
   setInvoiceField: (field: keyof InvoiceDraft, value: string) => void
+  resetDraft: () => void
   items: InvoiceItem[]
   addItem: (item: InvoiceItemDraft) => void
+  updateItem: (id: string, item: InvoiceItemDraft) => void
   removeItem: (id: string) => void
 }
 
-export const useInvoiceDraft = create<InvoiceDraftState>((set) => ({
+// A blank draft. Also used to clear the form so every new invoice starts fresh.
+export const initialInvoiceDraft: InvoiceDraft = {
   customer: "",
   customerEmail: "",
   customerAddress: "",
@@ -65,9 +69,15 @@ export const useInvoiceDraft = create<InvoiceDraftState>((set) => ({
   vat: "0",
   discount: "0",
   invoiceNo: "",
+  template: "invoice-1",
+}
+
+export const useInvoiceDraft = create<InvoiceDraftState>((set) => ({
+  ...initialInvoiceDraft,
   items: [],
 
   setInvoiceField: (field, value) => set({ [field]: value } as Partial<InvoiceDraftState>),
+  resetDraft: () => set({ ...initialInvoiceDraft, items: [] }),
   addItem: (item) => set((state) => withItemsAmount([
     ...state.items,
     {
@@ -76,6 +86,16 @@ export const useInvoiceDraft = create<InvoiceDraftState>((set) => ({
       amount: roundAmount(getItemAmount(item)),
     },
   ])),
+  updateItem: (id, item) => set((state) => withItemsAmount(
+    state.items.map((existingItem) => existingItem.id === id
+      ? {
+          ...existingItem,
+          ...item,
+          amount: roundAmount(getItemAmount(item)),
+        }
+      : existingItem,
+    ),
+  )),
   removeItem: (id) => set((state) =>
     withItemsAmount(state.items.filter((item) => item.id !== id)),
   ),

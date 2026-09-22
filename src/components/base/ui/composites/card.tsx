@@ -19,6 +19,7 @@ type CardProps = {
     className?: string
     scroll?: "hidden" | "visible"
     gap?: SizeType
+    onMouseLeave?: () => void
 }
 
 export default function Card({
@@ -32,7 +33,8 @@ export default function Card({
   gap,
   scroll,
   justify,
-  align
+  align,
+  onMouseLeave,
 }: CardProps) {
   const {colors} = useTheme()
   return (
@@ -47,7 +49,9 @@ export default function Card({
         padding: padding && space[padding],
         backgroundColor: colors["white"],
         ...specificStyles,
-        }}>
+      }}
+      onMouseLeave={onMouseLeave}
+    >
       {children}
     </Frame>
   )

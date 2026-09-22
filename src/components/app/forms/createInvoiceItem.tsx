@@ -1,6 +1,6 @@
 "use client"
 
-import { useInvoiceDraft } from "@/src/store/invoiceDraftState"
+import { InvoiceItem, useInvoiceDraft } from "@/src/store/invoiceDraftState"
 import { ChangeEvent, useState } from "react"
 import Card from "../../base/ui/composites/card"
 import Button from "../../base/ui/primitives/button"
@@ -26,11 +26,18 @@ const initialForm: ItemForm = {
 
 type CreateInvoiceItemFormProps = {
   onClose: () => void
+  itemToEdit?: InvoiceItem
 }
 
-export default function CreateInvoiceItemForm({ onClose }: CreateInvoiceItemFormProps) {
+export default function CreateInvoiceItemForm({ onClose, itemToEdit }: CreateInvoiceItemFormProps) {
   const addItem = useInvoiceDraft((state) => state.addItem)
-  const [form, setForm] = useState<ItemForm>(initialForm)
+  const updateItem = useInvoiceDraft((state) => state.updateItem)
+  const [form, setForm] = useState<ItemForm>(() => itemToEdit ? {
+    title: itemToEdit.name,
+    description: itemToEdit.description,
+    quantity: String(itemToEdit.quantity),
+    unitPrice: String(itemToEdit.price),
+  } : initialForm)
 
   const closeForm = () => {
     onClose()
@@ -53,24 +60,33 @@ export default function CreateInvoiceItemForm({ onClose }: CreateInvoiceItemForm
       return
     }
 
-    addItem({
+    const itemPayload = {
       name: title,
       description: form.description.trim(),
       quantity,
       price: unitPrice,
-    })
+    }
+
+    if (itemToEdit) {
+      updateItem(itemToEdit.id, itemPayload)
+      onClose()
+    } else {
+      addItem(itemPayload)
+      setForm(initialForm)
+      return
+    }
 
     setForm(initialForm)
   }
 
   return (
-    <Card width="550px" padding="xl" height="max-content">
-      <Frame className="mb-[var(--space-lg)] items-center justify-between">
-        <Heading size="md" type="h2">Add Invoice Item</Heading>
+    <Card width="550px" padding="xl" height="max-content" onMouseLeave={closeForm}>
+      <Frame className="mb-[var(--space-xl)] items-center justify-between">
+        <Heading size="md" type="h2">{itemToEdit ? "Edit Invoice Item" : "Add Invoice Item"}</Heading>
         <CloseButton func={closeForm} />
       </Frame>
 
-      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-[var(--space-lg)]">
+      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-[var(--space-xl)]">
         <Frame className="w-full flex-col">
           <Label required text="Title" size="xs" />
           <Input required size="xs" rounded="sm" placeholder="Item title" outline border type="text" name="title" variant="default" value={form.title} formFunc={handleChange} />
@@ -92,8 +108,17 @@ export default function CreateInvoiceItemForm({ onClose }: CreateInvoiceItemForm
           </Frame>
         </Frame>
 
-        <Frame className="w-full justify-end">
-          <Button variant="fill" role="submit" size="md" propagate>Add Item</Button>
+        <Frame className="w-full justify-end pt-[var(--space-md)]">
+          <Button
+            variant="fill"
+            role="submit"
+            size="md"
+            propagate
+            className="text-sm px-[var(--space-lg)]"
+            specificStyles={{ paddingInline: "var(--space-lg)" }}
+          >
+            {itemToEdit ? "Save Changes" : "Add Item"}
+          </Button>
         </Frame>
       </form>
     </Card>

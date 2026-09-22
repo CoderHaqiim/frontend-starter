@@ -11,7 +11,7 @@ import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import type { Receipt } from "@/src/data/receipts"
 import { getReceiptKpis, getReceipts, receiptKpisQueryKey, receiptsQueryKey } from "@/src/services/receiptService"
-import { useBackdropState } from "@/src/store/backdropState"
+import { useReceiptFormState } from "@/src/store/receiptFormState"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
@@ -28,7 +28,7 @@ export default function ReceiptsPage() {
     select: (response) => response.kpis,
   })
   const [selectedReceiptFilter, setSelectedReceiptFilter] = useState("all")
-  const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const openReceipt = useReceiptFormState((state) => state.openReceipt)
 
   const filteredReceipts = useMemo(() => {
     if (selectedReceiptFilter === "all") {
@@ -58,8 +58,7 @@ export default function ReceiptsPage() {
   }
 
   const createReceipt = () => {
-    setBackdropOpen(true)
-    setBackdropContent("create-receipt-form")
+    openReceipt()
   }
 
   return (

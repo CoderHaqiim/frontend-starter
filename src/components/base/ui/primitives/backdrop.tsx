@@ -4,7 +4,6 @@ import { useBackdropState } from "@/src/store/backdropState"
 import { ReactNode, isValidElement } from "react"
 import CreateCustomerForm from "../../../app/forms/createCustomer"
 import CreateInventoryItemForm from "../../../app/forms/createInventoryItem"
-import CreateReceiptForm from "../../../app/forms/createReceipt"
 import CreateTaskForm from "../../../app/forms/createTask"
 import EditBusinessForm from "../../../app/forms/editBusiness"
 import ScheduleModal from "../../../app/forms/scheduleModal"
@@ -26,7 +25,6 @@ export default function Backdrop({children}: BackdropProps) {
       case "create-task-form": return <CreateTaskForm/> 
       case "edit-business-form": return <EditBusinessForm/> 
       case "create-inventory-item-form": return <CreateInventoryItemForm/> 
-      case "create-receipt-form": return <CreateReceiptForm/> 
       case "create-customer-form": return <CreateCustomerForm/> 
       case "create-schedule-form": return <ScheduleModal/> 
       default: return null 

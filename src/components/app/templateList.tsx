@@ -12,6 +12,13 @@ export const invoiceTemplates = [
 
 export type InvoiceTemplateId = (typeof invoiceTemplates)[number]["id"]
 
+export type InvoiceTemplateComponent = (typeof invoiceTemplates)[number]["component"]
+
+// Lets consumers render the template that was picked, by its id.
+export const invoiceTemplateComponents = Object.fromEntries(
+  invoiceTemplates.map(({ id, component }) => [id, component]),
+) as Record<InvoiceTemplateId, InvoiceTemplateComponent>
+
 type SmallBusinessCardListProps = {
   selectedTemplate: InvoiceTemplateId
   onSelectTemplate: (id: InvoiceTemplateId) => void
