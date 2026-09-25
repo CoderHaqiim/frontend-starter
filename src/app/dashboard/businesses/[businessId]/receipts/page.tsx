@@ -10,18 +10,29 @@ import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import type { Receipt } from "@/src/data/receipts"
-import { getReceiptKpis, getReceipts, receiptKpisQueryKey, receiptsQueryKey } from "@/src/services/receiptService"
+import { deleteReceipt, getReceiptKpis, getReceipts, receiptKpisQueryKey, receiptsQueryKey } from "@/src/services/receiptService"
+import { useReceiptDraft } from "@/src/store/receiptDraftState"
 import { useReceiptFormState } from "@/src/store/receiptFormState"
-import { useQuery } from "@tanstack/react-query"
-import { useParams } from "next/navigation"
+import { useToastState } from "@/src/store/toastState"
+import type { ToastType } from "@/src/types/types"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useParams, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
+
+// Stable empty fallback. A fresh `[]` literal on every render would change the
+// query data reference each time and retrigger consumers.
+const EMPTY_RECEIPTS: Receipt[] = []
 
 export default function ReceiptsPage() {
   const { businessId } = useParams<{ businessId: string }>()
-  const { data: receipts = [] } = useQuery({
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const { data } = useQuery({
     queryKey: receiptsQueryKey(businessId),
     queryFn: () => getReceipts(businessId),
+    enabled: Boolean(businessId),
   })
+  const receipts = data ?? EMPTY_RECEIPTS
   useQuery({
     queryKey: receiptKpisQueryKey(businessId),
     queryFn: () => getReceiptKpis(businessId),
@@ -29,26 +40,19 @@ export default function ReceiptsPage() {
   })
   const [selectedReceiptFilter, setSelectedReceiptFilter] = useState("all")
   const openReceipt = useReceiptFormState((state) => state.openReceipt)
+  const setDraftState = useReceiptDraft.setState
+  const { toastState, setToastState } = useToastState()
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
 
   const filteredReceipts = useMemo(() => {
     if (selectedReceiptFilter === "all") {
       return receipts
     }
 
-    return receipts.reduce<Receipt[]>((filteredReceipts, receipt) => {
-      const matchingRecipients = receipt.sentTo.filter(
-        (recipient) => recipient.paymentStatus === selectedReceiptFilter
-      )
-
-      if (matchingRecipients.length > 0) {
-        filteredReceipts.push({
-          ...receipt,
-          sentTo: matchingRecipients,
-        })
-      }
-
-      return filteredReceipts
-    }, [])
+    return receipts.filter((receipt) => receipt.customer.amount === selectedReceiptFilter)
   }, [receipts, selectedReceiptFilter])
 
   const handleReceiptFilterChange = (
@@ -59,6 +63,57 @@ export default function ReceiptsPage() {
 
   const createReceipt = () => {
     openReceipt()
+  }
+
+  const handleViewReceipt = (receiptId: string) => {
+    const receipt = receipts.find((item) => item.id === receiptId)
+
+    if (!receipt) return
+
+    setDraftState({
+      receiptNo: receipt.id,
+      customer: receipt.customer.name,
+      customerEmail: receipt.customer.email,
+      amount: String(receipt.total),
+      currency: receipt.currency,
+      paymentDate: receipt.paymentDate,
+      template: receipt.template,
+      items: receipt.items.map((item) => ({ ...item })),
+    })
+
+    router.push("/dashboard/view-receipt")
+  }
+
+  const handleDeleteReceipt = async (receiptId: string) => {
+    try {
+      // Sends the delete request through the http client. The API removes the
+      // receipt from the shared receipt store, so the list and KPI routes
+      // reflect the deletion on their next fetch.
+      await deleteReceipt(businessId, receiptId)
+
+      // Remove the receipt from the query cache so the list reflects the
+      // deletion immediately, then refetch the KPIs from the server.
+      queryClient.setQueryData<Receipt[]>(
+        receiptsQueryKey(businessId),
+        (currentReceipts) =>
+          (currentReceipts ?? []).filter((receipt) => receipt.id !== receiptId),
+      )
+      queryClient.invalidateQueries({ queryKey: receiptKpisQueryKey(businessId) })
+
+      showToast({
+        variant: "success",
+        title: "Receipt deleted",
+        message: `Receipt ${receiptId} was deleted successfully.`,
+      })
+    } catch (error) {
+      console.error("Failed to delete the receipt:", error)
+
+      showToast({
+        variant: "error",
+        title: "Delete failed",
+        message: "The receipt could not be deleted. Please try again.",
+      })
+    }
   }
 
   return (
@@ -74,7 +129,7 @@ export default function ReceiptsPage() {
 
           <Frame>
             <Button
-              variant="outline"
+              variant="fill"
               size="sm"
               iconPosition="left"
               iconName="icon-plus"
@@ -96,7 +151,7 @@ export default function ReceiptsPage() {
               width="max-content"
               defaultValue="all"
               value={selectedReceiptFilter}
-              options={["all", "paid", "pending", "overdue", "cancelled"]}
+              options={["all"]}
               size="sm"
               formFunc={handleReceiptFilterChange}
             />
@@ -106,7 +161,12 @@ export default function ReceiptsPage() {
             <List width="stretch" height="stretch" scroll="hidden">
               <ReceiptHeader />
               {filteredReceipts.map((receipt) => (
-                <ReceiptLine key={receipt.id} receipt={receipt} />
+                <ReceiptLine
+                  key={receipt.id}
+                  receipt={receipt}
+                  onView={handleViewReceipt}
+                  onDelete={handleDeleteReceipt}
+                />
               ))}
             </List>
           </Frame>

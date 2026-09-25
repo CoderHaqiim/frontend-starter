@@ -1,6 +1,8 @@
 import { Transaction } from "@/src/types/types"
+import { createMockStore } from "@/src/utils/mockStore"
+import { dateDaysAgo, toIsoDate } from "@/src/utils/dateRange"
 
-export const transactions: Transaction[] = [
+const handwrittenTransactions: Transaction[] = [
   {
     id: "trn-001",
     businessId: "0",
@@ -262,3 +264,308 @@ export const transactions: Transaction[] = [
     updatedAt: "2026-07-08T16:00:00.000Z",
   },
 ]
+
+/*
+ * The rest of the store is generated.
+ *
+ * Every business trades in NGN and needs a trading history of its own, because the
+ * weekly, monthly and annual reports are read from the transactions inside their
+ * window and measured against the window directly before it. So each business is
+ * given its own customers, vendors, amounts and rate of growth, and a pattern of
+ * day offsets is laid over it twice: once for the current year and once for the
+ * year before it.
+ */
+
+type TradingProfile = {
+  businessId: string
+  customers: string[]
+  vendors: string[]
+  income: { description: string; category: string }[]
+  expenses: { description: string; category: string }[]
+  incomeRange: [number, number]
+  expenseRange: [number, number]
+  // How much more the business earns and spends than it did two years ago. A value
+  // below 1 is a business that is shrinking, which is what turns its reports into
+  // a fall rather than a rise.
+  growth: number
+}
+
+const tradingProfiles: TradingProfile[] = [
+  {
+    businessId: "0",
+    customers: [
+      "Acme Networks",
+      "TechSource Supplies",
+      "BrightPath Consulting",
+      "Northstar Telecoms",
+      "CityConnect Ltd",
+      "Nova Consulting",
+      "Apex Solutions",
+      "MetroLink Services",
+    ],
+    vendors: [
+      "Ikeja Data Centre",
+      "Multilinks Power Services",
+      "Zenith Office Supplies",
+      "SwiftNet Fibre",
+      "Lagos Software House",
+    ],
+    income: [
+      { description: "Client invoice payment", category: "Sales" },
+      { description: "Managed services retainer", category: "Services" },
+      { description: "Network installation payment", category: "Services" },
+      { description: "Bandwidth resale income", category: "Sales" },
+      { description: "Technical consulting payment", category: "Consulting" },
+      { description: "Monthly support retainer", category: "Services" },
+    ],
+    expenses: [
+      { description: "Office internet subscription", category: "Utilities" },
+      { description: "Software licence renewal", category: "Software" },
+      { description: "Equipment maintenance", category: "Maintenance" },
+      { description: "Data centre power bill", category: "Utilities" },
+      { description: "Team travel expense", category: "Travel" },
+      { description: "Staff salaries", category: "Payroll" },
+    ],
+    incomeRange: [420000, 3800000],
+    expenseRange: [95000, 1250000],
+    growth: 1.35,
+  },
+  {
+    businessId: "1",
+    customers: [
+      "BuildRight Distributors",
+      "Lagos Builders Depot",
+      "Abuja Construction Ltd",
+      "Westgate Projects",
+      "Cement Traders Union",
+      "Delta Blocks and Concrete",
+    ],
+    vendors: [
+      "Obajana Haulage Services",
+      "Northern Limestone Ltd",
+      "CoalLink Energy",
+      "Gbagada Plant Spares",
+      "Industrial Diesel Supplies",
+    ],
+    income: [
+      { description: "Cement distribution order", category: "Sales" },
+      { description: "Bulk cement supply", category: "Sales" },
+      { description: "Haulage contract income", category: "Logistics" },
+      { description: "Export shipment payment", category: "Sales" },
+      { description: "Concrete block supply", category: "Sales" },
+    ],
+    expenses: [
+      { description: "Freight and delivery costs", category: "Logistics" },
+      { description: "Plant maintenance", category: "Maintenance" },
+      { description: "Limestone purchase", category: "Raw Materials" },
+      { description: "Diesel for kilns", category: "Utilities" },
+      { description: "Plant staff wages", category: "Payroll" },
+    ],
+    incomeRange: [8500000, 42000000],
+    expenseRange: [3200000, 21000000],
+    growth: 0.82,
+  },
+  {
+    businessId: "2",
+    customers: [
+      "CloudPoint Nigeria",
+      "Zenith Financial Services",
+      "SwiftPay Fintech",
+      "Northern Data Systems",
+      "Lagos State Ministry of Education",
+    ],
+    vendors: [
+      "Azure Hosting Nigeria",
+      "Partner Network Africa",
+      "Brightline Marketing",
+      "Sapphire Data Centres",
+      "West Africa Cloud Brokers",
+    ],
+    income: [
+      { description: "Cloud services renewal", category: "Services" },
+      { description: "Enterprise licence payment", category: "Licensing" },
+      { description: "Azure consumption billing", category: "Services" },
+      { description: "Partner support contract", category: "Services" },
+      { description: "Developer tooling subscription", category: "Licensing" },
+    ],
+    expenses: [
+      { description: "Data centre hosting", category: "Hosting" },
+      { description: "Partner commissions", category: "Commissions" },
+      { description: "Marketing campaign spend", category: "Marketing" },
+      { description: "Engineering salaries", category: "Payroll" },
+      { description: "Software testing services", category: "Professional Services" },
+    ],
+    incomeRange: [6000000, 28000000],
+    expenseRange: [2400000, 11500000],
+    growth: 1.28,
+  },
+  {
+    businessId: "3",
+    customers: [
+      "GreenField Produce",
+      "Ikeja Food Market",
+      "Fresh Harvest Stores",
+      "Opic Agro Dealers",
+      "Agric Suppliers Nigeria",
+    ],
+    vendors: [
+      "Agro Seed Nigeria",
+      "Livestock Feed Depot",
+      "Ikorodu Irrigation Services",
+      "Farm Labour Cooperative",
+      "Poultry Care Ventures",
+    ],
+    income: [
+      { description: "Produce sales to wholesalers", category: "Sales" },
+      { description: "Poultry supply contract", category: "Sales" },
+      { description: "Grain harvest sale", category: "Sales" },
+      { description: "Farm machinery hire income", category: "Hire" },
+      { description: "Processed food supply", category: "Sales" },
+    ],
+    expenses: [
+      { description: "Seed and fertilizer purchase", category: "Supplies" },
+      { description: "Feed and veterinary costs", category: "Livestock" },
+      { description: "Irrigation diesel", category: "Utilities" },
+      { description: "Farm labour wages", category: "Payroll" },
+      { description: "Harvest haulage", category: "Logistics" },
+    ],
+    incomeRange: [1800000, 8500000],
+    expenseRange: [900000, 4600000],
+    growth: 1.18,
+  },
+  {
+    businessId: "4",
+    customers: [
+      "Lagos Home Mart",
+      "Alaba Traders",
+      "Ikeja Retail Hub",
+      "Mama Nkechi Provisions",
+      "Walk-in Customers",
+    ],
+    vendors: [
+      "Alaba Wholesale Depot",
+      "Ikeja Stock Supply",
+      "PowerGen Diesel",
+      "Shop Rent Services",
+      "City Retail Logistics",
+    ],
+    income: [
+      { description: "Household goods sale", category: "Sales" },
+      { description: "Counter sales", category: "Sales" },
+      { description: "Bulk provisions order", category: "Sales" },
+      { description: "Store delivery income", category: "Delivery" },
+      { description: "Weekend market sales", category: "Sales" },
+    ],
+    expenses: [
+      { description: "Stock purchase", category: "Inventory" },
+      { description: "Shop rent", category: "Rent" },
+      { description: "Generator fuel", category: "Utilities" },
+      { description: "Store attendant wages", category: "Payroll" },
+      { description: "Packaging materials", category: "Supplies" },
+    ],
+    incomeRange: [250000, 1600000],
+    expenseRange: [120000, 980000],
+    growth: 0.92,
+  },
+]
+
+// Day offsets from today, laid out so every report window holds an even spread of
+// income and expenses: the first four are the current week, the next four the week
+// before it, then the rest of the current month, the month before it, and ten day
+// steps that fill the rest of the year. Every window on this list holds an even
+// number of transactions, so income and expenses alternate cleanly across it.
+const yearOffsets = [
+  0, 2, 4, 6,
+  7, 9, 11, 13,
+  15, 18, 21, 24, 27, 29,
+  31, 32, 34, 37, 38, 40, 43, 44, 46, 49, 50, 52, 55, 58,
+  65, 75, 85, 95, 105, 115, 125, 135, 145, 155,
+  165, 175, 185, 195, 205, 215, 225, 235, 245, 255,
+  265, 275, 285, 295, 305, 315, 325, 335, 345, 355,
+]
+
+// The span the generated history covers, which is what the growth of a business is
+// measured over.
+const historyDays = 730
+
+// Deterministic variation: the history looks varied, but a restart on the same day
+// rebuilds exactly the same store.
+const variation = (seed: number) => {
+  const value = Math.sin(seed) * 10000
+
+  return value - Math.floor(value)
+}
+
+// Naira amounts, rounded to the nearest thousand because that is the smallest unit
+// these businesses deal in.
+const amountFor = (range: [number, number], seed: number, trend: number) => {
+  const [minimum, maximum] = range
+  const amount = (minimum + (maximum - minimum) * (0.65 + variation(seed) * 0.35)) * trend
+
+  return Math.round(amount / 1000) * 1000
+}
+
+// Income is paid in turns, so every second income is still pending and sits in
+// receivables, while expenses settle more often. The occasional transaction is
+// cancelled, which takes it out of every figure.
+const statusFor = (index: number, isIncome: boolean): Transaction["status"] => {
+  if (index % 9 === 5) return "cancelled"
+  if (isIncome) return (index / 2) % 2 === 0 ? "pending" : "completed"
+
+  return ((index - 1) / 2) % 5 === 3 ? "pending" : "completed"
+}
+
+const buildGeneratedTransactions = () => {
+  const generated: Transaction[] = []
+
+  tradingProfiles.forEach((profile, profileIndex) => {
+    // The same year of offsets is laid down twice: the current year, then the year
+    // before it, which is the year the annual report is measured against.
+    const datedOffsets = [0, 1].flatMap((yearsAgo) =>
+      yearOffsets.map((offset) => offset + yearsAgo * 365)
+    )
+
+    datedOffsets.forEach((daysAgo, index) => {
+      const isIncome = index % 2 === 0
+      const catalogue = isIncome ? profile.income : profile.expenses
+      const parties = isIncome ? profile.customers : profile.vendors
+      const entry = catalogue[index % catalogue.length]
+      const seed = profileIndex * 1000 + index
+      // Newer history is scaled by the growth of the business, so the figure a
+      // window reports can genuinely move up or down against the window before it.
+      const trend = Math.pow(profile.growth, (historyDays - daysAgo) / historyDays)
+      const date = toIsoDate(dateDaysAgo(daysAgo))
+      const hour = String(8 + (index % 9)).padStart(2, "0")
+
+      generated.push({
+        id: `trn-${profileIndex + 1}-${daysAgo > 365 ? "y2" : "y1"}-${String(index + 1).padStart(3, "0")}`,
+        businessId: profile.businessId,
+        customer: parties[index % parties.length],
+        type: isIncome ? "income" : "expense",
+        status: statusFor(index, isIncome),
+        amount: amountFor(isIncome ? profile.incomeRange : profile.expenseRange, seed, trend),
+        description: entry.description,
+        category: entry.category,
+        date,
+        createdAt: `${date}T${hour}:30:00.000Z`,
+        updatedAt: `${date}T${hour}:30:00.000Z`,
+      })
+    })
+  })
+
+  return generated
+}
+
+// Newest first, which is the order the list routes page through and the order the
+// create route keeps by unshifting.
+const seedTransactions: Transaction[] = [
+  ...handwrittenTransactions,
+  ...buildGeneratedTransactions(),
+].sort(
+  (first, second) =>
+    second.date.localeCompare(first.date) || second.createdAt.localeCompare(first.createdAt)
+)
+
+// One shared copy of the store per server process, so every transaction route
+// reads and mutates the same array.
+export const transactions = createMockStore("transactionsStore", seedTransactions)

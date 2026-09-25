@@ -1,4 +1,5 @@
 import { customers } from "@/src/data/customers"
+import { getGeneralKpis } from "@/src/data/kpis"
 import { NextResponse } from "next/server"
 
 export async function GET() {
@@ -32,7 +33,7 @@ export async function GET() {
       {
         id: 3,
         title: "Receivables",
-        value: "$0",
+        value: String(getGeneralKpis().financials.receivables.value),
         meaning: "Total amount owed to your business",
       },
     ],

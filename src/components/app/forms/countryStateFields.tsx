@@ -19,6 +19,21 @@ type CountryStateFieldsProps = {
 
 const countries = Country.getAllCountries()
 
+// Stored values are lowercase, so the dataset names are matched without regard to
+// casing and the dataset's own casing is used for the values that get submitted.
+const findCountry = (name?: string) =>
+  countries.find(
+    (country) => country.name.toLowerCase() === (name ?? "").trim().toLowerCase()
+  )
+
+const findState = (isoCode: string | undefined, name?: string) => {
+  if (!isoCode) return undefined
+
+  return State.getStatesOfCountry(isoCode).find(
+    (state) => state.name.toLowerCase() === (name ?? "").trim().toLowerCase()
+  )?.name
+}
+
 export default function CountryStateFields({
   size = "sm",
   countryName = "country",
@@ -28,18 +43,28 @@ export default function CountryStateFields({
   defaultCountry = "Nigeria",
   defaultState = "Lagos",
 }: CountryStateFieldsProps) {
-  const initialCountry = countries.find((country) => country.name === defaultCountry) ?? countries[0]
+  const initialCountry = findCountry(defaultCountry) ?? countries[0]
   const [countryNameValue, setCountryNameValue] = useState(initialCountry?.name ?? "")
-  const [stateNameValue, setStateNameValue] = useState(defaultState)
+  const [stateNameValue, setStateNameValue] = useState(
+    findState(initialCountry?.isoCode, defaultState) ?? defaultState
+  )
 
   const states = useMemo(() => {
     const country = countries.find((item) => item.name === countryNameValue)
     return country ? State.getStatesOfCountry(country.isoCode) : []
   }, [countryNameValue])
 
-  const stateOptions = states.length > 0
-    ? states.map((state) => ({ label: state.name, value: state.name }))
-    : [{ label: "No states available", value: "" }]
+  const stateOptions = useMemo(() => {
+    const options = states.map((state) => ({ label: state.name, value: state.name }))
+
+    // A saved state can be missing from the country's state list (older or free
+    // typed values), so the current state stays visible until it is changed.
+    if (stateNameValue && !options.some((option) => option.value === stateNameValue)) {
+      options.unshift({ label: stateNameValue, value: stateNameValue })
+    }
+
+    return options.length > 0 ? options : [{ label: "No states available", value: "" }]
+  }, [states, stateNameValue])
 
   const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCountryNameValue(event.target.value)

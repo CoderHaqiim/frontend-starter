@@ -12,24 +12,22 @@ export async function GET(
   const { businessId } = await params
   const businessReceipts = receipts.filter((receipt) => receipt.businessId === businessId)
 
-  const sentReceipts = businessReceipts.flatMap((receipt) =>
-    receipt.sentTo.map((recipient) => ({
-      amount: parseAmount(recipient.amount),
-      paymentStatus: recipient.paymentStatus,
-    }))
+  const totalAmount = businessReceipts.reduce(
+    (total, receipt) => total + parseAmount(receipt.amount),
+    0
   )
-
-  const totalAmount = sentReceipts.reduce((total, receipt) => total + receipt.amount, 0)
-  const paidAmount = sentReceipts
-    .filter((receipt) => receipt.paymentStatus === "paid")
-    .reduce((total, receipt) => total + receipt.amount, 0)
-  const overdueAmount = sentReceipts
-    .filter((receipt) => receipt.paymentStatus === "overdue")
-    .reduce((total, receipt) => total + receipt.amount, 0)
-  const outstandingAmount = sentReceipts
-    .filter((receipt) => receipt.paymentStatus === "pending")
-    .reduce((total, receipt) => total + receipt.amount, 0)
-  const recipientCount = sentReceipts.length
+  const paidAmount = businessReceipts
+    .filter((receipt) => receipt.customer.paymentStatus === "paid")
+    .reduce((total, receipt) => total + parseAmount(receipt.amount), 0)
+  const overdueAmount = businessReceipts
+    .filter((receipt) => receipt.customer.paymentStatus === "overdue")
+    .reduce((total, receipt) => total + parseAmount(receipt.amount), 0)
+  // A receipt only carries a payment status once one has been set, so a receipt
+  // without a status is counted as outstanding.
+  const outstandingAmount = businessReceipts
+    .filter((receipt) => !receipt.customer.paymentStatus
+      || receipt.customer.paymentStatus === "pending")
+    .reduce((total, receipt) => total + parseAmount(receipt.amount), 0)
 
   return NextResponse.json({
     kpis: [
@@ -38,7 +36,7 @@ export async function GET(
         title: "Total Receipts",
         value: String(businessReceipts.length),
         meaning: "Total number of receipts",
-        description: `${recipientCount} recipients`,
+        description: `${businessReceipts.length} customers`,
       },
       {
         id: "totalMoney",

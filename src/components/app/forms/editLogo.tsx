@@ -1,6 +1,6 @@
 "use client"
 
-import { http } from "@/src/http/client"
+import { updateBusinessLogo } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
 import { Business } from "@/src/types/types"
 import { useState } from "react"
@@ -41,7 +41,7 @@ export default function EditLogo({ businessId, onSaved }: EditLogoProps) {
 
     setIsSaving(true)
     try {
-      const business = await http<Business>(`/api/businesses/${businessId}`, { logo }, { method: "POST" })
+      const { data: business } = await updateBusinessLogo(businessId, logo)
       onSaved(business)
       closeForm()
     } finally {

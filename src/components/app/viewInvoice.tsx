@@ -295,13 +295,15 @@ export default function ViewInvoice() {
   return (
     <Frame className="w-full flex-col h-max">
       {/* HEADER + ACTIONS */}
-      <Section
-        className="bg-[var(--color-background1)]"
-        specificStyles={{ position: "sticky", top: 0, zIndex: 10 }}
-      >
-        <Frame className="justify-between">
-          <Frame className="gap-[var(--space-xs)] h-max flex-col">
-            <Heading size="lg" type="h1">
+      <Frame
+        className="w-full bg-[var(--color-background1)] top-0 z-[20] p-[var(--space-lg)]"
+        specificStyles={{ 
+          position: "sticky",
+      }}>
+        <Frame className="w-full justify-between">
+
+          <Frame className="gap-[var(--space-xs)] z-[50] bg-[var(--color-background1)] h-max flex-col">
+            <Heading size="md" type="h1">
               Invoice {invoiceNo}
             </Heading>
             <Paragraph weight="light" size="sm">
@@ -369,10 +371,10 @@ export default function ViewInvoice() {
             </div>
           </Frame>
         </Frame>
-      </Section>
+      </Frame>
 
       {/* INVOICE */}
-      <Section>
+      <Section className="z-0">
         <Frame className="w-full justify-center">
           <div ref={previewRef}>
             <ActiveTemplate />

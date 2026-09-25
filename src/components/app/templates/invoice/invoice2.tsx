@@ -498,45 +498,26 @@ export default function Invoice2() {
             <Paragraph
               size="md"
               weight="bold"
-              color="accent"
               specificStyle={{ color: "#32064f" }}
             >
               Total
             </Paragraph>
 
-            <Paragraph
-              size="md"
-              weight="bold"
-              color="accent"
-              specificStyle={{ color: "#32064f" }}
-            >
+            <Paragraph size="md" weight="bold" specificStyle={{ color: "#32064f" }}>
               {formatCurrency(total, currencySymbol)}
             </Paragraph>
-
           </Frame>
-
         </Frame>
-
       </Frame>
 
       {/* FOOTER */}
       <Frame className="mt-[6mm] w-full items-center justify-between border-t border-[#dfe3ea] pt-[3mm]">
 
-        <Paragraph
-          size="xxs"
-          color="muted"
-          specificStyle={{ color: "#7a7a7a" }}
-        >
+        <Paragraph size="xxs" specificStyle={{ color: "#7a7a7a" }}>
           Thank you for your business.
         </Paragraph>
 
-        <Paragraph
-          size="xxs"
-          weight="medium"
-          color="accent"
-          className="uppercase tracking-[0.12em]"
-          specificStyle={{ color: "#32064f" }}
-        >
+        <Paragraph size="xxs" weight="medium" className="uppercase tracking-[0.12em]" specificStyle={{ color: "#32064f" }}>
           {businessName}
         </Paragraph>
 

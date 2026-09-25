@@ -1,6 +1,7 @@
 import { ObjectRecordType } from "@/src/types/types"
+import { createMockStore } from "@/src/utils/mockStore"
 
-export const customers: ObjectRecordType[] = [
+const seedCustomers: ObjectRecordType[] = [
   {
     id: "cust-001",
     name: "Joyce Mirro",
@@ -143,7 +144,7 @@ export const customers: ObjectRecordType[] = [
   }
 ]
 
-export const businessCustomers: Record<string, ObjectRecordType[]> = {
+const seedBusinessCustomers: Record<string, ObjectRecordType[]> = {
   "0": [
     { id: "business-0-customer-001", name: "Amelia Carter", phone: "+442071234567", email: "amelia.carter@example.co.uk", customerType: "Company", companyName: "Carter Networks", status: "Active", dateAdded: "2026-01-08", city: "London", stateRegion: "London", country: "United Kingdom", customerSince: "2024-03-12" },
     { id: "business-0-customer-002", name: "Oliver Hughes", phone: "+441612345678", email: "oliver.hughes@example.co.uk", customerType: "Individual", companyName: "", status: "Active", dateAdded: "2026-02-14", city: "Manchester", stateRegion: "Greater Manchester", country: "United Kingdom", customerSince: "2025-06-21" },
@@ -170,6 +171,12 @@ export const businessCustomers: Record<string, ObjectRecordType[]> = {
     { id: "business-4-customer-003", name: "Yinka Salami", phone: "08119012345", email: "yinka.salami@example.com", customerType: "Company", companyName: "Salami Home Goods", status: "Inactive", dateAdded: "2026-03-24", city: "Ilorin", stateRegion: "Kwara", country: "Nigeria", customerSince: "2022-06-18" },
   ],
 }
+
+// One shared copy of each store per server process, so the customer list, the
+// customer KPIs and the quick access route all read and mutate the same arrays.
+export const customers = createMockStore("customersStore", seedCustomers)
+
+export const businessCustomers = createMockStore("businessCustomersStore", seedBusinessCustomers)
 
 export const watchlistTableData: ObjectRecordType[] = [
   { customer: "Dangote Stores", reason: "Overdue Payment", outstanding: "₦150,000", lastActivity: "Aug 08, 2026", priority: "High", nextAction: "Follow Up" },

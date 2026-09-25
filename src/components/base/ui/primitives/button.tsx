@@ -67,7 +67,7 @@ export default function Button({
         backgroundColor: 
            variant === "fill"? colors["accent"]:
            variant === "ghost"? "transparent":
-           variant === "outline"? colors["background1"]:
+           variant === "outline"? colors["background3"]:
            "",
         color: 
             variant === "fill"? colors["white"]:
@@ -75,7 +75,7 @@ export default function Button({
             variant === "ghost"? colors["textColor1"]:
             "",
         border: 
-            variant === "outline"? `solid 1px ${colors["outline2"]}` : "",
+            variant === "outline"? `solid 1px var(--color-outline3)` : "",
         height: elementSizes[size] ?? height ,
         fontSize: staticTextSize.includes(size)? bodySize["md"] : bodySize[size],
         justifyContent: justify,

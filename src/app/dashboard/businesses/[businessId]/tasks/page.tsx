@@ -23,7 +23,7 @@ export default function Page() {
             <Heading size="xl" type="h1">Task manager</Heading>
           </Frame>
           <Frame>
-            <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus" func={createTask}>
+            <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createTask}>
               New Task
             </Button>
           </Frame>

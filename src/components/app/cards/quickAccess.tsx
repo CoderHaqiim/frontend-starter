@@ -30,12 +30,12 @@ export default function QuickAccessCard({ entry }: QuickAccessProps) {
 
     return (
         <Card
-            width="200px"
+            width="max-content"
             height="max-content"
             gap="sm"
             padding="lg"
             rounded="md"
-            className="shrink-0 min-h-[80px] border-[1px] border-[var(--color-outline1)]"
+            className="shrink-0 min-h-[80px] max-w-[220px] border-[1px] border-[var(--color-outline1)]"
         >
             <Frame className="flex items-start gap-[var(--space-md)]">
                 <Frame

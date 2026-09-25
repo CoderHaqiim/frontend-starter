@@ -1,8 +1,19 @@
 "use client"
 
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
+import {
+  createCustomer,
+  customerKpisQueryKey,
+  customersQueryKey,
+  quickAccessCustomersQueryKey,
+} from "@/src/services/customerService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useQuery } from "@tanstack/react-query"
+import { useToastState } from "@/src/store/toastState"
+import { FormObjectTypes, ObjectRecordType, ToastType } from "@/src/types/types"
+import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
 import Form from "../../base/ui/composites/form"
@@ -16,11 +27,63 @@ import CountryStateFields from "./countryStateFields"
 
 export default function CreateCustomerForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const pathname = usePathname()
+  const queryClient = useQueryClient()
+  const [isSaving, setIsSaving] = useState(false)
+  // A form opened from a business page always targets that business and the
+  // business field is read only there. On the home dashboard there is no
+  // business context, so the field stays changeable.
+  const contextBusinessId = getBusinessIdFromPathname(pathname)
+  const isBusinessContext = Boolean(contextBusinessId)
 
   const {data:businesses = []} = useQuery({
     queryKey: businessesQueryKey,
     queryFn: getBusinesses
   })
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  const saveCustomer = async (values: FormObjectTypes) => {
+    const targetBusinessId = String(values.businessId ?? "")
+
+    setIsSaving(true)
+
+    try {
+      const { data: createdCustomer } = await createCustomer(targetBusinessId, values)
+
+      // The new customer is put straight into the directory, and the directory,
+      // the KPI cards and the quick access cards all refetch.
+      queryClient.setQueryData<ObjectRecordType[]>(
+        customersQueryKey(targetBusinessId),
+        (currentCustomers = []) => [
+          createdCustomer,
+          ...currentCustomers.filter((customer) => customer.id !== createdCustomer.id),
+        ]
+      )
+      queryClient.invalidateQueries({ queryKey: customersQueryKey(targetBusinessId) })
+      queryClient.invalidateQueries({ queryKey: customerKpisQueryKey(targetBusinessId) })
+      queryClient.invalidateQueries({ queryKey: quickAccessCustomersQueryKey(targetBusinessId) })
+
+      showToast({
+        variant: "success",
+        title: "Customer added",
+        message: `${createdCustomer.name} was added successfully.`,
+      })
+
+      closeCreateCustomerForm()
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Create failed",
+        message: "The customer could not be added. Please try again.",
+      })
+    } finally {
+      setIsSaving(false)
+    }
+  }
 
   const closeCreateCustomerForm = () => {
     setBackdropContent(null)
@@ -37,7 +100,7 @@ export default function CreateCustomerForm() {
           <CloseButton func={closeCreateCustomerForm} />
         </Frame>
       </Frame>
-      <Form url="/api/post">
+      <Form onSubmit={saveCustomer}>
         <Frame className="w-full max-h-[380px] px-[var(--space-sm)] flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
             <Label required text="Customer Name" size="xs" />
@@ -77,6 +140,12 @@ export default function CreateCustomerForm() {
             <Frame className="w-1/2 flex-col">
               <Label text="Business" size="xs" />
               <Dropdown name="businessId" size="xs" width="100%"
+                value={
+                  isBusinessContext
+                    ? contextBusinessId
+                    : undefined
+                }
+                disabled={isBusinessContext}
                 options={businesses.map((business) => ({
                   label: business.businessName,
                   value: business.id
@@ -95,8 +164,8 @@ export default function CreateCustomerForm() {
           </Frame>
         </Frame>
         <Frame className="justify-end w-full">
-          <Button variant="fill" role="submit" size="md" propagate>
-            Add Customer
+          <Button variant="fill" role="submit" size="md" propagate disabled={isSaving}>
+            {isSaving ? "Adding..." : "Add Customer"}
           </Button>
         </Frame>
       </Form>

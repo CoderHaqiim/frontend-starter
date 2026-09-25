@@ -9,14 +9,16 @@ import Frame from "../../base/ui/primitives/frame";
 import Heading from "../../base/ui/primitives/heading";
 import Paragraph from "../../base/ui/primitives/paragraph";
 import { useTheme } from "../../providers/themeProvider";
+import RowActions from "../rowActions";
 
-export default function TaskCard({task}:{task: Task}) {
+export default function TaskCard({task, onDelete}:{task: Task, onDelete?: (taskId: string) => void}) {
   const {colors} = useTheme()
 
   const priorityColor = {
     low:"success",
     medium: "warning",
-    high: "error"
+    high: "error",
+    urgent: "error"
   };
 
   const statusColor = {
@@ -42,7 +44,11 @@ export default function TaskCard({task}:{task: Task}) {
           <Frame className="gap-[var(--space-xs)]">
             <Badge color={badgePriorityColor} size="xxs" text={task.priority + " priority"}/>
           </Frame>
-          <Button variant="ghost" size="xxs" iconName="icon-vertival-dots" isIcon />
+          {onDelete ? (
+            <RowActions onDelete={() => onDelete(String(task.id))} />
+          ) : (
+            <Button variant="ghost" size="xxs" iconName="icon-vertival-dots" isIcon />
+          )}
         </Frame>
         <Frame className="flex flex-col">
           <Frame className="mb-[var(--space-sm)]">

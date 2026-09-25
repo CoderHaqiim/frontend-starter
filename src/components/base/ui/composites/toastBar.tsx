@@ -16,13 +16,18 @@ export default function ToastBar() {
                 pointerEvents: "none",
             }}
         >
-                        {toastState.map((toast, index) => (
-                            <Toast
-                                key={index}
-                                {...toast}
-                                onClose={() => removeToast(toast)}
-                            />
-                        ))}
+                        {toastState.map((toast, index) => {
+                            const exitDuration = Math.max(140, 260 - (toastState.length - 1 - index) * 40)
+
+                            return (
+                                <Toast
+                                    key={index}
+                                    {...toast}
+                                    exitDuration={exitDuration}
+                                    onClose={() => removeToast(toast)}
+                                />
+                            )
+                        })}
         </Frame>
   )
 }

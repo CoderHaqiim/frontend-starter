@@ -105,11 +105,13 @@ export default function Dropdown({
         width: width,
       }}
     >
+      {/* The value is always submitted, even while the dropdown is read only,
+          so a locked field still reaches the form data. */}
       <input
         type="hidden"
         name={name}
         value={selectedValue}
-        disabled={disabled}
+        readOnly
       />
 
       <div ref={wrapperRef} className={`relative ${isContentSized ? "w-fit" : "w-full"}`}>
@@ -118,15 +120,16 @@ export default function Dropdown({
           type="button"
           disabled={disabled}
           onClick={() => setOpen((prev) => !prev)}
-          className={`relative flex ${isContentSized ? "w-fit" : "w-full"} min-w-[100px] items-center justify-between gap-[var(--space-sm)] overflow-hidden whitespace-nowrap rounded-[var(--radius-xs)] bg-[var(--color-background1)]
+          className={`relative ${!disabled? "cursor-pointer" : "cursor-not-allowed"} flex ${isContentSized ? "w-fit" : "w-full"} min-w-[100px] items-center justify-between gap-[var(--space-sm)] overflow-hidden whitespace-nowrap rounded-[var(--radius-sm)] bg-[var(--color-background3)]
             ${
               border
-                ? "border border-[var(--color-outline2)]"
+                ? "border-[0.5px] border-[var(--color-outline2)]"
                 : ""
             }
             ${
+              !disabled && 
               outline
-                ? "hover:border-[var(--color-accent)] focus:border-2 focus:border-[var(--color-accent)]"
+                ? "hover:border-[var(--color-accent)] focus:border-[1px] focus:border-[var(--color-accent)]"
                 : ""
             }
           `}
@@ -144,7 +147,7 @@ export default function Dropdown({
           </span>
 
           {/* Chevron icon */}
-          <span className="pointer-events-none shrink-0 bg-[var(--color-background1)]">
+          <span className="pointer-events-none shrink-0 bg-[var(--color-background3)]">
             <Icon name="icon-chevron-down" size="sm" />
           </span>
         </button>

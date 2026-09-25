@@ -1,4 +1,4 @@
-import { businessKpiSummaries } from "@/src/data/kpis"
+import { getBusinessKpis } from "@/src/data/kpis"
 import { Duration } from "@/src/types/types"
 import { NextResponse } from "next/server"
 
@@ -18,7 +18,7 @@ export async function GET(
     )
   }
 
-  const kpis = businessKpiSummaries[selectedPeriod].find(item => item.businessId === businessId)
+  const kpis = getBusinessKpis(businessId, selectedPeriod)
 
   if (!kpis) {
     return NextResponse.json(

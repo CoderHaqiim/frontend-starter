@@ -1,16 +1,17 @@
 import { ObjectRecordType } from "@/src/types/types"
+import { createMockStore } from "@/src/utils/mockStore"
 
 export const getInventoryStatus = (stock: string | number): string => {
   const parsedStock = Number(stock)
 
-  if (Number.isNaN(parsedStock)) return "In stock"
-  if (parsedStock === 0) return "Out of stock"
-  if (parsedStock < 10) return "Low stock"
+  if (Number.isNaN(parsedStock)) return "in stock"
+  if (parsedStock === 0) return "out of stock"
+  if (parsedStock < 10) return "low stock"
 
-  return "In stock"
+  return "in stock"
 }
 
-export const inventoryByBusinessId: Record<string, ObjectRecordType[]> = {
+const seedInventoryByBusinessId: Record<string, ObjectRecordType[]> = {
   "0": [
     { Item: "Premium Coffee Beans", SKU: "COF-001", Category: "Beverages", Stock: "42" },
     { Item: "Organic Green Tea", SKU: "TEA-014", Category: "Beverages", Stock: "8" },
@@ -39,3 +40,10 @@ export const inventoryByBusinessId: Record<string, ObjectRecordType[]> = {
     { Item: "Canvas Sneakers", SKU: "SNK-008", Category: "Footwear", Stock: "24" },
   ],
 }
+
+// One shared copy of the store per server process, so every inventory route reads
+// and mutates the same arrays.
+export const inventoryByBusinessId = createMockStore(
+  "inventoryByBusinessIdStore",
+  seedInventoryByBusinessId
+)

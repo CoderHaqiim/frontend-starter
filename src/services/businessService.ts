@@ -59,6 +59,29 @@ export function getRecentBusinessTransactions(businessId: string, limit = 5) {
   return http<Transaction[]>(`/api/businesses/${businessId}/transactions?limit=${limit}`)
 }
 
+// The business routes answer with the saved record next to the message, the same
+// shape the invoice create route uses.
+export type BusinessMutationResponse = {
+  message: string
+  data: Business
+}
+
+// The routes validate and coerce the fields they know, so a form body is passed
+// on unchanged alongside the numeric values the form derived.
+type BusinessMutationBody = Record<string, unknown>
+
+export function createBusiness(business: BusinessMutationBody) {
+  return http<BusinessMutationResponse>("/api/businesses", business, { method: "POST" })
+}
+
+export function updateBusiness(businessId: string, updates: BusinessMutationBody) {
+  return http<BusinessMutationResponse>(`/api/businesses/${businessId}`, updates, { method: "PATCH" })
+}
+
+export function deleteBusiness(businessId: string) {
+  return http<BusinessMutationResponse>(`/api/businesses/${businessId}`, undefined, { method: "DELETE" })
+}
+
 export function updateBusinessLogo(businessId: string, logo: string) {
-  return http<Business>(`/api/businesses/${businessId}`, { logo }, { method: "POST" })
+  return http<BusinessMutationResponse>(`/api/businesses/${businessId}`, { logo }, { method: "PATCH" })
 }

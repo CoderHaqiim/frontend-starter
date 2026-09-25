@@ -1,367 +1,951 @@
-export type Receipt = {
-  businessId: string
-  date: string
+import { createMockStore } from "@/src/utils/mockStore"
+
+export type ReceiptItem = {
   id: string
-  amount: string
-  sentTo: {
-    id: string
-    name: string
-    dateSent: string
-    amount: string
-    paymentStatus: "overdue" | "paid" | "pending"
-  }[]
-  issueDate: string
+  name: string
+  description: string
+  quantity: number
+  price: number
+  amount: number
 }
 
-export const receipts: Receipt[] = [
+/*
+ * A receipt as it is stored once it has been created.
+ *
+ * Every field the create receipt form sends to POST /api/receipts is kept here
+ * (template, businessId, customer, currency, items, subtotal, amount and
+ * paymentDate) so a stored receipt can be loaded straight back into the receipt
+ * draft and rendered by the template it was created with.
+ *
+ * `amount` is the formatted total for the receipt and is what the receipt list
+ * and receipt KPIs read. `subtotal` is kept as the raw line-item subtotal and
+ * `total` stores the receipt total, which matches the subtotal because a
+ * receipt carries no discount or VAT. `paymentDate` is the date the payment was
+ * received, matching the draft state.
+ */
+export type Receipt = {
+  businessId: string
+  id: string
+  template: string
+  currency: string
+  paymentDate: string
+  customer: {
+    id: string
+    name: string
+    email: string
+    dateSent: string
+    amount: string
+    paymentStatus?: "overdue" | "paid" | "pending"
+  }
+  items: ReceiptItem[]
+  subtotal: number
+  total: number
+  amount: string
+}
+
+const seedReceipts: Receipt[] = [
   {
     businessId: "0",
     id: "RCP-001",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-08-12",
+    customer: {
       id: "cust-001",
       name: "Joyce Mirro",
+      email: "joyce.mirro@mirrogroup.com",
       dateSent: "Aug 12, 2026",
       amount: "$2,500",
       paymentStatus: "pending",
-    }],
-    date: "Aug 12, 2026",
-    issueDate: "Aug 12, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Consultation Session",
+        description: "Advisory session with follow-up notes",
+        quantity: 1,
+        price: 1500,
+        amount: 1500,
+      },
+      {
+        id: "item-2",
+        name: "Product Bundle",
+        description: "Assorted items from the current catalogue",
+        quantity: 1,
+        price: 1000,
+        amount: 1000,
+      },
+    ],
+    subtotal: 2500,
+    total: 2500,
     amount: "$2,500",
   },
   {
     businessId: "0",
     id: "RCP-002",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-08-10",
+    customer: {
       id: "cust-002",
       name: "Tola Ajayi",
+      email: "tola.ajayi@ajayigroup.com",
       dateSent: "Aug 10, 2026",
       amount: "$850",
       paymentStatus: "paid",
-    }],
-    date: "Aug 10, 2026",
-    issueDate: "Aug 10, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Monthly Subscription",
+        description: "Recurring monthly service charge",
+        quantity: 1,
+        price: 510,
+        amount: 510,
+      },
+      {
+        id: "item-2",
+        name: "Installation Service",
+        description: "On-site installation and setup",
+        quantity: 1,
+        price: 340,
+        amount: 340,
+      },
+    ],
+    subtotal: 850,
+    total: 850,
     amount: "$850",
   },
   {
     businessId: "0",
     id: "RCP-003",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-08-08",
+    customer: {
       id: "cust-004",
       name: "Temi Ojo",
+      email: "temi.ojo@ojogroup.com",
       dateSent: "Aug 08, 2026",
       amount: "$1,200",
       paymentStatus: "overdue",
-    }],
-    date: "Aug 08, 2026",
-    issueDate: "Aug 08, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Delivery Service",
+        description: "Same-day delivery to the customer address",
+        quantity: 1,
+        price: 720,
+        amount: 720,
+      },
+      {
+        id: "item-2",
+        name: "Maintenance Visit",
+        description: "Scheduled maintenance and inspection",
+        quantity: 1,
+        price: 480,
+        amount: 480,
+      },
+    ],
+    subtotal: 1200,
+    total: 1200,
     amount: "$1,200",
   },
   {
     businessId: "0",
     id: "RCP-004",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-08-06",
+    customer: {
       id: "cust-005",
       name: "Ifeoma Eze",
+      email: "ifeoma.eze@ezegroup.com",
       dateSent: "Aug 06, 2026",
       amount: "$3,140",
       paymentStatus: "paid",
-    }],
-    date: "Aug 06, 2026",
-    issueDate: "Aug 06, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Product Bundle",
+        description: "Assorted items from the current catalogue",
+        quantity: 1,
+        price: 1884,
+        amount: 1884,
+      },
+      {
+        id: "item-2",
+        name: "Custom Order",
+        description: "Bespoke order prepared for the customer",
+        quantity: 1,
+        price: 1256,
+        amount: 1256,
+      },
+    ],
+    subtotal: 3140,
+    total: 3140,
     amount: "$3,140",
   },
   {
     businessId: "0",
     id: "RCP-005",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-08-03",
+    customer: {
       id: "cust-007",
       name: "Nkechi Okafor",
+      email: "nkechi.okafor@okaforgroup.com",
       dateSent: "Aug 03, 2026",
       amount: "$4,560",
       paymentStatus: "paid",
-    }],
-    date: "Aug 03, 2026",
-    issueDate: "Aug 03, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Installation Service",
+        description: "On-site installation and setup",
+        quantity: 1,
+        price: 2736,
+        amount: 2736,
+      },
+      {
+        id: "item-2",
+        name: "Training Session",
+        description: "Staff training on the purchased equipment",
+        quantity: 1,
+        price: 1824,
+        amount: 1824,
+      },
+    ],
+    subtotal: 4560,
+    total: 4560,
     amount: "$4,560",
   },
   {
     businessId: "1",
     id: "RCP-101",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-08-08",
+    customer: {
       id: "cust-009",
       name: "Grace Ikem",
+      email: "grace.ikem@ikemgroup.com",
       dateSent: "Aug 08, 2026",
       amount: "$7,800",
       paymentStatus: "paid",
-    }],
-    date: "Aug 08, 2026",
-    issueDate: "Aug 08, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Maintenance Visit",
+        description: "Scheduled maintenance and inspection",
+        quantity: 1,
+        price: 4680,
+        amount: 4680,
+      },
+      {
+        id: "item-2",
+        name: "Consultation Session",
+        description: "Advisory session with follow-up notes",
+        quantity: 1,
+        price: 3120,
+        amount: 3120,
+      },
+    ],
+    subtotal: 7800,
+    total: 7800,
     amount: "$7,800",
   },
   {
     businessId: "1",
     id: "RCP-102",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-08-05",
+    customer: {
       id: "cust-010",
       name: "Kehinde Adebayo",
+      email: "kehinde.adebayo@adebayogroup.com",
       dateSent: "Aug 05, 2026",
       amount: "$3,420",
       paymentStatus: "pending",
-    }],
-    date: "Aug 05, 2026",
-    issueDate: "Aug 05, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Custom Order",
+        description: "Bespoke order prepared for the customer",
+        quantity: 1,
+        price: 2052,
+        amount: 2052,
+      },
+      {
+        id: "item-2",
+        name: "Monthly Subscription",
+        description: "Recurring monthly service charge",
+        quantity: 1,
+        price: 1368,
+        amount: 1368,
+      },
+    ],
+    subtotal: 3420,
+    total: 3420,
     amount: "$3,420",
   },
   {
     businessId: "1",
     id: "RCP-103",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-08-01",
+    customer: {
       id: "cust-012",
       name: "Dayo Yusuf",
+      email: "dayo.yusuf@yusufgroup.com",
       dateSent: "Aug 01, 2026",
       amount: "$6,150",
       paymentStatus: "paid",
-    }],
-    date: "Aug 01, 2026",
-    issueDate: "Aug 01, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Training Session",
+        description: "Staff training on the purchased equipment",
+        quantity: 1,
+        price: 3690,
+        amount: 3690,
+      },
+      {
+        id: "item-2",
+        name: "Delivery Service",
+        description: "Same-day delivery to the customer address",
+        quantity: 1,
+        price: 2460,
+        amount: 2460,
+      },
+    ],
+    subtotal: 6150,
+    total: 6150,
     amount: "$6,150",
   },
   {
     businessId: "1",
     id: "RCP-104",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-07-28",
+    customer: {
       id: "cust-013",
       name: "Musa Gbadamosi",
+      email: "musa.gbadamosi@gbadamosigroup.com",
       dateSent: "Jul 28, 2026",
       amount: "$2,940",
       paymentStatus: "pending",
-    }],
-    date: "Jul 28, 2026",
-    issueDate: "Jul 28, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Consultation Session",
+        description: "Advisory session with follow-up notes",
+        quantity: 1,
+        price: 1764,
+        amount: 1764,
+      },
+      {
+        id: "item-2",
+        name: "Product Bundle",
+        description: "Assorted items from the current catalogue",
+        quantity: 1,
+        price: 1176,
+        amount: 1176,
+      },
+    ],
+    subtotal: 2940,
+    total: 2940,
     amount: "$2,940",
   },
   {
     businessId: "1",
     id: "RCP-105",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-07-22",
+    customer: {
       id: "cust-015",
       name: "Aisha Basiru",
+      email: "aisha.basiru@basirugroup.com",
       dateSent: "Jul 22, 2026",
       amount: "$5,620",
       paymentStatus: "overdue",
-    }],
-    date: "Jul 22, 2026",
-    issueDate: "Jul 22, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Monthly Subscription",
+        description: "Recurring monthly service charge",
+        quantity: 1,
+        price: 3372,
+        amount: 3372,
+      },
+      {
+        id: "item-2",
+        name: "Installation Service",
+        description: "On-site installation and setup",
+        quantity: 1,
+        price: 2248,
+        amount: 2248,
+      },
+    ],
+    subtotal: 5620,
+    total: 5620,
     amount: "$5,620",
   },
   {
     businessId: "2",
     id: "RCP-201",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-08-04",
+    customer: {
       id: "cust-016",
       name: "Mariam Hassan",
+      email: "mariam.hassan@hassangroup.com",
       dateSent: "Aug 04, 2026",
       amount: "$5,250",
       paymentStatus: "paid",
-    }],
-    date: "Aug 04, 2026",
-    issueDate: "Aug 04, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Delivery Service",
+        description: "Same-day delivery to the customer address",
+        quantity: 1,
+        price: 3150,
+        amount: 3150,
+      },
+      {
+        id: "item-2",
+        name: "Maintenance Visit",
+        description: "Scheduled maintenance and inspection",
+        quantity: 1,
+        price: 2100,
+        amount: 2100,
+      },
+    ],
+    subtotal: 5250,
+    total: 5250,
     amount: "$5,250",
   },
   {
     businessId: "2",
     id: "RCP-202",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-08-02",
+    customer: {
       id: "cust-018",
       name: "Rita Okon",
+      email: "rita.okon@okongroup.com",
       dateSent: "Aug 02, 2026",
       amount: "$2,870",
       paymentStatus: "pending",
-    }],
-    date: "Aug 02, 2026",
-    issueDate: "Aug 02, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Product Bundle",
+        description: "Assorted items from the current catalogue",
+        quantity: 1,
+        price: 1722,
+        amount: 1722,
+      },
+      {
+        id: "item-2",
+        name: "Custom Order",
+        description: "Bespoke order prepared for the customer",
+        quantity: 1,
+        price: 1148,
+        amount: 1148,
+      },
+    ],
+    subtotal: 2870,
+    total: 2870,
     amount: "$2,870",
   },
   {
     businessId: "2",
     id: "RCP-203",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-07-30",
+    customer: {
       id: "cust-019",
       name: "Ola Oduwole",
+      email: "ola.oduwole@oduwolegroup.com",
       dateSent: "Jul 30, 2026",
       amount: "$4,900",
       paymentStatus: "paid",
-    }],
-    date: "Jul 30, 2026",
-    issueDate: "Jul 30, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Installation Service",
+        description: "On-site installation and setup",
+        quantity: 1,
+        price: 2940,
+        amount: 2940,
+      },
+      {
+        id: "item-2",
+        name: "Training Session",
+        description: "Staff training on the purchased equipment",
+        quantity: 1,
+        price: 1960,
+        amount: 1960,
+      },
+    ],
+    subtotal: 4900,
+    total: 4900,
     amount: "$4,900",
   },
   {
     businessId: "2",
     id: "RCP-204",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-07-27",
+    customer: {
       id: "cust-021",
       name: "Bisi Akinyemi",
+      email: "bisi.akinyemi@akinyemigroup.com",
       dateSent: "Jul 27, 2026",
       amount: "$3,110",
       paymentStatus: "overdue",
-    }],
-    date: "Jul 27, 2026",
-    issueDate: "Jul 27, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Maintenance Visit",
+        description: "Scheduled maintenance and inspection",
+        quantity: 1,
+        price: 1866,
+        amount: 1866,
+      },
+      {
+        id: "item-2",
+        name: "Consultation Session",
+        description: "Advisory session with follow-up notes",
+        quantity: 1,
+        price: 1244,
+        amount: 1244,
+      },
+    ],
+    subtotal: 3110,
+    total: 3110,
     amount: "$3,110",
   },
   {
     businessId: "2",
     id: "RCP-205",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-07-24",
+    customer: {
       id: "cust-022",
       name: "Chidi Ibe",
+      email: "chidi.ibe@ibegroup.com",
       dateSent: "Jul 24, 2026",
       amount: "$1,640",
       paymentStatus: "paid",
-    }],
-    date: "Jul 24, 2026",
-    issueDate: "Jul 24, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Custom Order",
+        description: "Bespoke order prepared for the customer",
+        quantity: 1,
+        price: 984,
+        amount: 984,
+      },
+      {
+        id: "item-2",
+        name: "Monthly Subscription",
+        description: "Recurring monthly service charge",
+        quantity: 1,
+        price: 656,
+        amount: 656,
+      },
+    ],
+    subtotal: 1640,
+    total: 1640,
     amount: "$1,640",
   },
   {
     businessId: "3",
     id: "RCP-301",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-08-03",
+    customer: {
       id: "cust-024",
       name: "Chinedu Okafor",
+      email: "chinedu.okafor@okaforgroup.com",
       dateSent: "Aug 03, 2026",
       amount: "$1,980",
       paymentStatus: "paid",
-    }],
-    date: "Aug 03, 2026",
-    issueDate: "Aug 03, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Training Session",
+        description: "Staff training on the purchased equipment",
+        quantity: 1,
+        price: 1188,
+        amount: 1188,
+      },
+      {
+        id: "item-2",
+        name: "Delivery Service",
+        description: "Same-day delivery to the customer address",
+        quantity: 1,
+        price: 792,
+        amount: 792,
+      },
+    ],
+    subtotal: 1980,
+    total: 1980,
     amount: "$1,980",
   },
   {
     businessId: "3",
     id: "RCP-302",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-07-31",
+    customer: {
       id: "cust-025",
       name: "Uche Nwosu",
+      email: "uche.nwosu@nwosugroup.com",
       dateSent: "Jul 31, 2026",
       amount: "$2,240",
       paymentStatus: "pending",
-    }],
-    date: "Jul 31, 2026",
-    issueDate: "Jul 31, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Consultation Session",
+        description: "Advisory session with follow-up notes",
+        quantity: 1,
+        price: 1344,
+        amount: 1344,
+      },
+      {
+        id: "item-2",
+        name: "Product Bundle",
+        description: "Assorted items from the current catalogue",
+        quantity: 1,
+        price: 896,
+        amount: 896,
+      },
+    ],
+    subtotal: 2240,
+    total: 2240,
     amount: "$2,240",
   },
   {
     businessId: "3",
     id: "RCP-303",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-07-28",
+    customer: {
       id: "cust-027",
       name: "Tunde Balogun",
+      email: "tunde.balogun@balogungroup.com",
       dateSent: "Jul 28, 2026",
       amount: "$1,780",
       paymentStatus: "paid",
-    }],
-    date: "Jul 28, 2026",
-    issueDate: "Jul 28, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Monthly Subscription",
+        description: "Recurring monthly service charge",
+        quantity: 1,
+        price: 1068,
+        amount: 1068,
+      },
+      {
+        id: "item-2",
+        name: "Installation Service",
+        description: "On-site installation and setup",
+        quantity: 1,
+        price: 712,
+        amount: 712,
+      },
+    ],
+    subtotal: 1780,
+    total: 1780,
     amount: "$1,780",
   },
   {
     businessId: "3",
     id: "RCP-304",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-07-25",
+    customer: {
       id: "cust-028",
       name: "Yemi Oseni",
+      email: "yemi.oseni@osenigroup.com",
       dateSent: "Jul 25, 2026",
       amount: "$3,300",
       paymentStatus: "overdue",
-    }],
-    date: "Jul 25, 2026",
-    issueDate: "Jul 25, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Delivery Service",
+        description: "Same-day delivery to the customer address",
+        quantity: 1,
+        price: 1980,
+        amount: 1980,
+      },
+      {
+        id: "item-2",
+        name: "Maintenance Visit",
+        description: "Scheduled maintenance and inspection",
+        quantity: 1,
+        price: 1320,
+        amount: 1320,
+      },
+    ],
+    subtotal: 3300,
+    total: 3300,
     amount: "$3,300",
   },
   {
     businessId: "3",
     id: "RCP-305",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-07-21",
+    customer: {
       id: "cust-029",
       name: "Maryam Ibrahim",
+      email: "maryam.ibrahim@ibrahimgroup.com",
       dateSent: "Jul 21, 2026",
       amount: "$2,960",
       paymentStatus: "paid",
-    }],
-    date: "Jul 21, 2026",
-    issueDate: "Jul 21, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Product Bundle",
+        description: "Assorted items from the current catalogue",
+        quantity: 1,
+        price: 1776,
+        amount: 1776,
+      },
+      {
+        id: "item-2",
+        name: "Custom Order",
+        description: "Bespoke order prepared for the customer",
+        quantity: 1,
+        price: 1184,
+        amount: 1184,
+      },
+    ],
+    subtotal: 2960,
+    total: 2960,
     amount: "$2,960",
   },
   {
     businessId: "4",
     id: "RCP-401",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-08-02",
+    customer: {
       id: "cust-031",
       name: "Ada Okoye",
+      email: "ada.okoye@okoyegroup.com",
       dateSent: "Aug 02, 2026",
       amount: "$1,240",
       paymentStatus: "paid",
-    }],
-    date: "Aug 02, 2026",
-    issueDate: "Aug 02, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Installation Service",
+        description: "On-site installation and setup",
+        quantity: 1,
+        price: 744,
+        amount: 744,
+      },
+      {
+        id: "item-2",
+        name: "Training Session",
+        description: "Staff training on the purchased equipment",
+        quantity: 1,
+        price: 496,
+        amount: 496,
+      },
+    ],
+    subtotal: 1240,
+    total: 1240,
     amount: "$1,240",
   },
   {
     businessId: "4",
     id: "RCP-402",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-07-30",
+    customer: {
       id: "cust-033",
       name: "Rita Nwosu",
+      email: "rita.nwosu@nwosugroup.com",
       dateSent: "Jul 30, 2026",
       amount: "$980",
       paymentStatus: "paid",
-    }],
-    date: "Jul 30, 2026",
-    issueDate: "Jul 30, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Maintenance Visit",
+        description: "Scheduled maintenance and inspection",
+        quantity: 1,
+        price: 588,
+        amount: 588,
+      },
+      {
+        id: "item-2",
+        name: "Consultation Session",
+        description: "Advisory session with follow-up notes",
+        quantity: 1,
+        price: 392,
+        amount: 392,
+      },
+    ],
+    subtotal: 980,
+    total: 980,
     amount: "$980",
   },
   {
     businessId: "4",
     id: "RCP-403",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-07-27",
+    customer: {
       id: "cust-034",
       name: "Kosi Anya",
+      email: "kosi.anya@anyagroup.com",
       dateSent: "Jul 27, 2026",
       amount: "$1,860",
       paymentStatus: "pending",
-    }],
-    date: "Jul 27, 2026",
-    issueDate: "Jul 27, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Custom Order",
+        description: "Bespoke order prepared for the customer",
+        quantity: 1,
+        price: 1116,
+        amount: 1116,
+      },
+      {
+        id: "item-2",
+        name: "Monthly Subscription",
+        description: "Recurring monthly service charge",
+        quantity: 1,
+        price: 744,
+        amount: 744,
+      },
+    ],
+    subtotal: 1860,
+    total: 1860,
     amount: "$1,860",
   },
   {
     businessId: "4",
     id: "RCP-404",
-    sentTo: [{
+    template: "receipt-2",
+    currency: "USD",
+    paymentDate: "2026-07-24",
+    customer: {
       id: "cust-036",
       name: "Oluchi Mbah",
+      email: "oluchi.mbah@mbahgroup.com",
       dateSent: "Jul 24, 2026",
       amount: "$2,540",
       paymentStatus: "paid",
-    }],
-    date: "Jul 24, 2026",
-    issueDate: "Jul 24, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Training Session",
+        description: "Staff training on the purchased equipment",
+        quantity: 1,
+        price: 1524,
+        amount: 1524,
+      },
+      {
+        id: "item-2",
+        name: "Delivery Service",
+        description: "Same-day delivery to the customer address",
+        quantity: 1,
+        price: 1016,
+        amount: 1016,
+      },
+    ],
+    subtotal: 2540,
+    total: 2540,
     amount: "$2,540",
   },
   {
     businessId: "4",
     id: "RCP-405",
-    sentTo: [{
+    template: "receipt-1",
+    currency: "USD",
+    paymentDate: "2026-07-20",
+    customer: {
       id: "cust-037",
       name: "Ayo Lawal",
+      email: "ayo.lawal@lawalgroup.com",
       dateSent: "Jul 20, 2026",
       amount: "$760",
       paymentStatus: "overdue",
-    }],
-    date: "Jul 20, 2026",
-    issueDate: "Jul 20, 2026",
+    },
+    items: [
+      {
+        id: "item-1",
+        name: "Consultation Session",
+        description: "Advisory session with follow-up notes",
+        quantity: 1,
+        price: 456,
+        amount: 456,
+      },
+      {
+        id: "item-2",
+        name: "Product Bundle",
+        description: "Assorted items from the current catalogue",
+        quantity: 1,
+        price: 304,
+        amount: 304,
+      },
+    ],
+    subtotal: 760,
+    total: 760,
     amount: "$760",
   },
 ]
+
+// One shared copy of the store per server process, so the receipt list and the
+// receipt KPI route read and mutate the same array.
+export const receipts = createMockStore("receiptsStore", seedReceipts)

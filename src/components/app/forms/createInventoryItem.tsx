@@ -1,8 +1,14 @@
 "use client"
 
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
+import { createInventoryItem, inventoryQueryKey } from "@/src/services/inventoryService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useQuery } from "@tanstack/react-query"
+import { useToastState } from "@/src/store/toastState"
+import { FormObjectTypes, ObjectRecordType, ToastType } from "@/src/types/types"
+import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
 import Form from "../../base/ui/composites/form"
@@ -15,11 +21,61 @@ import Label from "../../base/ui/primitives/label"
 
 export default function CreateInventoryItemForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const pathname = usePathname()
+  const queryClient = useQueryClient()
+  const [isSaving, setIsSaving] = useState(false)
+  // A form opened from a business page always targets that business and the
+  // business field is read only there. On the home dashboard there is no
+  // business context, so the field stays changeable.
+  const contextBusinessId = getBusinessIdFromPathname(pathname)
+  const isBusinessContext = Boolean(contextBusinessId)
 
   const { data: businesses = [] } = useQuery({
     queryKey: businessesQueryKey,
     queryFn: getBusinesses,
   })
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  const saveInventoryItem = async (values: FormObjectTypes) => {
+    const targetBusinessId = String(values.businessId ?? "")
+
+    setIsSaving(true)
+
+    try {
+      const { data: createdItem } = await createInventoryItem(targetBusinessId, values)
+
+      // The new item is put straight into the table, and the table and the KPI
+      // cards refetch.
+      queryClient.setQueryData<ObjectRecordType[]>(
+        inventoryQueryKey(targetBusinessId),
+        (currentItems = []) => [
+          ...currentItems.filter((item) => item.SKU !== createdItem.SKU),
+          createdItem,
+        ]
+      )
+      queryClient.invalidateQueries({ queryKey: inventoryQueryKey(targetBusinessId) })
+
+      showToast({
+        variant: "success",
+        title: "Item added",
+        message: `${createdItem.Item} was added to inventory successfully.`,
+      })
+
+      closeCreateInventoryItemForm()
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Create failed",
+        message: "The item could not be added. Please try again.",
+      })
+    } finally {
+      setIsSaving(false)
+    }
+  }
 
   const closeCreateInventoryItemForm = () => {
     setBackdropContent(null)
@@ -37,7 +93,7 @@ export default function CreateInventoryItemForm() {
         </Frame>
       </Frame>
 
-      <Form url="/api/post">
+      <Form onSubmit={saveInventoryItem}>
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
             <Label required text="Item Name" size="xs" />
@@ -77,6 +133,12 @@ export default function CreateInventoryItemForm() {
                 name="businessId"
                 size="sm"
                 width="100%"
+                value={
+                  isBusinessContext
+                    ? contextBusinessId
+                    : undefined
+                }
+                disabled={isBusinessContext}
                 options={businesses.map((business) => ({
                   label: business.businessName,
                   value: business.id,
@@ -86,8 +148,8 @@ export default function CreateInventoryItemForm() {
           </Frame>
 
           <Frame className="justify-end w-full">
-            <Button variant="fill" role="submit" size="md" propagate>
-              Add Item
+            <Button variant="fill" role="submit" size="md" propagate disabled={isSaving}>
+              {isSaving ? "Adding..." : "Add Item"}
             </Button>
           </Frame>
         </Frame>

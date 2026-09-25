@@ -1,6 +1,6 @@
 import { colors, ColorTypes } from "@/src/app/design/colors"
 import { ToastType } from "@/src/types/types"
-import { CSSProperties } from "react"
+import { CSSProperties, useEffect, useState } from "react"
 import Button from "../primitives/button"
 import Frame from "../primitives/frame"
 import Icon, { IconType } from "../primitives/icon"
@@ -9,9 +9,11 @@ import Paragraph from "../primitives/paragraph"
 
 type ToastProps = ToastType & {
   onClose?: () => void
+  exitDuration?: number
 }
 
-export default function Toast({variant, title, message, onClose}: ToastProps) {
+export default function Toast({variant, title, message, onClose, exitDuration = 260}: ToastProps) {
+  const [isLeaving, setIsLeaving] = useState(false)
 
   const background:ColorTypes = `${variant}2`
 
@@ -26,14 +28,34 @@ export default function Toast({variant, title, message, onClose}: ToastProps) {
     color: colors[variant], 
     boxShadow:"5px 5px 3px -2px #0000005b, 0px 0px 5px -2px #00000057",
     backgroundColor: colors[background],
-    flexShrink:0
+    flexShrink:0,
   }
 
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setIsLeaving(true)
+    }, 5000)
+
+    const exitTimeoutId = window.setTimeout(() => {
+      onClose?.()
+    }, 5000 + exitDuration)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+      window.clearTimeout(exitTimeoutId)
+    }
+  }, [exitDuration, onClose])
+
   return (
-    <Frame
-      className="w-[350px] h-max bg-[var(--color-white)] rounded-[var(--radius-sm)] shrink-0"
+    <div
+      className="w-[350px] shrink-0 overflow-hidden rounded-[var(--radius-sm)] bg-[var(--color-white)]"
+      style={{
+        opacity: isLeaving ? 0 : 1,
+        transform: isLeaving ? "translateX(18px)" : "translateX(0)",
+        transition: `transform ${exitDuration}ms ease, opacity ${exitDuration}ms ease`,
+      }}
     >
-      <Frame className="w-full h-full border gap-[var(--space-md)] rounded-[inherit] p-[var(--space-md)]"  specificStyles={{ ...baseStyle }}>
+      <Frame className="w-full h-full border gap-[var(--space-md)] rounded-[inherit] p-[var(--space-md)]" specificStyles={{ ...baseStyle }}>
         <Button
           variant="ghost"
           isIcon
@@ -80,6 +102,6 @@ export default function Toast({variant, title, message, onClose}: ToastProps) {
           </Paragraph>
         </Frame>
       </Frame>
-    </Frame>
+    </div>
   )
 }

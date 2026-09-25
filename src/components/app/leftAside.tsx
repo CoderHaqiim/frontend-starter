@@ -23,7 +23,7 @@ export default function LeftAside() {
       width="240px"
       className="items-start border-r border-r-[var(--color-outline1)] justify-between"
       specificStyles={{
-        backgroundColor: colors["background3"],
+        backgroundColor: colors["background1"],
       }}
     >
       <Frame className="flex h-[70px] w-max">

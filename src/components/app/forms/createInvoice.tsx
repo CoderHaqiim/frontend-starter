@@ -1,14 +1,20 @@
 "use client"
 
-import { http } from "@/src/http/client"
+import type { Invoice } from "@/src/data/invoices"
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
+import {
+  createInvoice as createBusinessInvoice,
+  invoiceKpisQueryKey,
+  invoicesQueryKey,
+} from "@/src/services/invoiceService"
 import { useBackdropState } from "@/src/store/backdropState"
 import { getItemsSubtotal, InvoiceDraft, useInvoiceDraft } from "@/src/store/invoiceDraftState"
 import { useInvoiceFormState } from "@/src/store/invoiceFormState"
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState"
+import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { getCurrencyOptions } from "@/src/utils/currencySymbol"
-import { useQuery } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { usePathname, useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 import Card from "../../base/ui/composites/card"
@@ -25,13 +31,20 @@ import CreateInvoiceItemForm from "./createInvoiceItem"
 
 export default function CreateInvoiceForm() {
   const router = useRouter()
+  const pathname = usePathname()
   const isOpen = useInvoiceFormState((state) => state.isOpen)
   const closeInvoice = useInvoiceFormState((state) => state.closeInvoice)
   const invoiceDraft = useInvoiceDraft()
   const { setInvoiceField, resetDraft } = invoiceDraft
   const { selectedBusiness, setSelectedBusiness } = useSelectedBusiness()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const queryClient = useQueryClient()
   const selectedTemplate = invoiceDraft.template as InvoiceTemplateId
+  // A form opened from a business page always targets that business and the
+  // business field is read only there. On the home dashboard there is no
+  // business context, so the field stays changeable.
+  const contextBusinessId = getBusinessIdFromPathname(pathname)
+  const isBusinessContext = Boolean(contextBusinessId)
 
   const setSelectedTemplate = (template: InvoiceTemplateId) => {
     setInvoiceField("template", template)
@@ -53,6 +66,17 @@ export default function CreateInvoiceForm() {
   useEffect(() => {
     if (businesses.length === 0) return
 
+    // A business page locks the form to the business whose page is open.
+    if (isBusinessContext && contextBusinessId) {
+      const contextBusiness = businesses.find(
+        (business) => business.id === contextBusinessId,
+      )
+      if (contextBusiness && contextBusiness.id !== selectedBusiness.id) {
+        setSelectedBusiness(contextBusiness)
+      }
+      return
+    }
+
     const isSelectedBusinessAvailable = businesses.some(
       (business) => business.id === selectedBusiness.id,
     )
@@ -60,7 +84,7 @@ export default function CreateInvoiceForm() {
     if (!isSelectedBusinessAvailable) {
       setSelectedBusiness(businesses[0])
     }
-  }, [businesses, selectedBusiness.id, setSelectedBusiness])
+  }, [businesses, selectedBusiness.id, setSelectedBusiness, isBusinessContext, contextBusinessId])
 
   if (!isOpen) return null
 
@@ -85,6 +109,10 @@ export default function CreateInvoiceForm() {
   const handleBusinessChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
+    // While a business page is open the field is read only, so the business
+    // can only be changed from the home dashboard.
+    if (isBusinessContext) return
+
     const business = businesses.find(
       (item) => item.id === event.target.value,
     )
@@ -123,9 +151,13 @@ export default function CreateInvoiceForm() {
     const vatAmount = (subtotal - discountAmount) * (vatRate / 100)
     const total = subtotal - discountAmount + vatAmount
 
+    // The invoice belongs to the business whose page the form was opened from,
+    // falling back to the selected business on the home dashboard.
+    const targetBusinessId = contextBusinessId ?? selectedBusiness.id
+
     const payload = {
       template: selectedTemplate,
-      businessId: selectedBusiness.id,
+      businessId: targetBusinessId,
 
       customer: {
         name: invoiceDraft.customer,
@@ -145,15 +177,28 @@ export default function CreateInvoiceForm() {
     }
 
     try {
-      const response = await http<{ message: string, data: { invoiceNo: string}}>(
-        "/api/invoices",
+      // The invoice is stored against its business, so the business invoice
+      // route is what the invoice page reads from.
+      const { data: createdInvoice } = await createBusinessInvoice(
+        targetBusinessId,
         payload,
-        { method: "POST"},
       )
 
-      if (!response?.data?.invoiceNo) return
+      if (!createdInvoice?.id) return
 
-      setInvoiceField("invoiceNo", response.data.invoiceNo)
+      setInvoiceField("invoiceNo", createdInvoice.id)
+
+      // The created invoice is put straight into the list, and the list and the
+      // KPI cards both refetch so the invoices page is up to date.
+      queryClient.setQueryData<Invoice[]>(
+        invoicesQueryKey(targetBusinessId),
+        (currentInvoices = []) => [
+          createdInvoice,
+          ...currentInvoices.filter((invoice) => invoice.id !== createdInvoice.id),
+        ],
+      )
+      queryClient.invalidateQueries({ queryKey: invoicesQueryKey(targetBusinessId) })
+      queryClient.invalidateQueries({ queryKey: invoiceKpisQueryKey(targetBusinessId) })
 
       // The draft is intentionally left intact: the view-invoice page renders
       // the invoice that was just created.
@@ -347,25 +392,21 @@ export default function CreateInvoiceForm() {
                   text="Business"
                   size="xxs"
                 />
-
                 <Dropdown
                   name="businessId"
                   size="xxs"
                   width="100%"
+                  disabled={isBusinessContext}
                   value={
-                    selectedBusiness.id ||
-                    undefined
+                    isBusinessContext
+                      ? contextBusinessId
+                      : selectedBusiness.id || undefined
                   }
-                  formFunc={
-                    handleBusinessChange
-                  }
-                  options={businesses.map(
-                    (business) => ({
-                      label:
-                        business.businessName,
-                      value: business.id,
-                    }),
-                  )}
+                  formFunc={handleBusinessChange}
+                  options={businesses.map((business) => ({
+                    label: business.businessName,
+                    value: business.id,
+                  }))}
                 />
               </Frame>
 

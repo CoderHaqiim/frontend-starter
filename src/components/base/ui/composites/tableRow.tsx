@@ -1,8 +1,12 @@
 import { ColorTypes } from "@/src/app/design/colors"
 import { FrameSizeType, ObjectRecordType, SizeType } from "@/src/types/types"
+import { ReactNode } from "react"
 import Badge from "./badge"
 import TableCell from "./tableCell"
 
+
+// The header the actions column renders under when a row exposes actions.
+export const ACTIONS_COLUMN = "Actions"
 
 type TableRowProps = {
     data: ObjectRecordType
@@ -14,6 +18,7 @@ type TableRowProps = {
     selectedColumnIndex?: number | null
     onSelect?: () => void
     isCustomerData?: boolean
+    rowActions?: (row: ObjectRecordType) => ReactNode
 }
 
 export default function TableRow({
@@ -25,22 +30,23 @@ export default function TableRow({
   isSelected = false,
   selectedColumnIndex = null,
   onSelect,
-  isCustomerData = false
+  isCustomerData = false,
+  rowActions
 }: TableRowProps) {
 
   const valuesArray = headerData.map(key => data[key] ?? "")
   const statusColorMap: Record<string, ColorTypes> = {
-    "Active": "success",
-    "Inactive": "muted",
-    "Watchlist": "error",
-    "In stock": "success",
-    "Low stock": "warning",
-    "Out of stock": "error",
+    "active": "success",
+    "inactive": "muted",
+    "watchlist": "error",
+    "in stock": "success",
+    "low stock": "warning",
+    "out of stock": "error",
   }
 
   return (
     <div
-      className={`bg-[var(--color-white)] w-full h-max flex ${isSelected ? "bg-[var(--color-background1)]" : ""} ${isCustomerData && data.Status === "Watchlist" ? "border-2 border-[var(--color-error2)]" : ""}`}
+      className={`bg-[var(--color-white)] w-full h-max flex ${isSelected ? "bg-[var(--color-background1)]" : ""} ${isCustomerData && data.Status === "watchlist" ? "border-2 border-[var(--color-error2)]" : ""}`}
       role="row"
       aria-selected={isSelected}
       onClick={onSelect}
@@ -57,6 +63,14 @@ export default function TableRow({
         const columnKey = headerData[index]
         const isStatusColumn = columnKey === "Status" || columnKey === "status"
         const statusColor = isStatusColumn ? (statusColorMap[String(item)] ?? "muted") : "muted"
+
+        if (columnKey === ACTIONS_COLUMN && rowActions) {
+          return (
+            <TableCell key={index} width={widths[index]} size={size} showCopyButton={false}>
+              {rowActions(data)}
+            </TableCell>
+          )
+        }
 
         return (
           <TableCell

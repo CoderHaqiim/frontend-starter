@@ -96,47 +96,49 @@ export default function ReceiptTable() {
             </td>
             <td className={`${cellClass} text-center`}>{item.quantity}</td>
             <td className={`${cellClass} text-right`}>{formatCurrency(item.price, currencySymbol)}</td>
-            <td className={`${cellClass} relative text-right`}>
-              {formatCurrency(item.amount, currencySymbol)}
-              {isInteractive && selectedItemId === item.id && (
-                <div className="absolute right-2 top-[0] z-[10] top-[2px] flex flex-col gap-1 overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-white)] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    rounded="sm"
-                    iconName="icon-pencil"
-                    iconColor="textColor1"
-                    justify="start"
-                    className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
-                    specificStyles={{ borderRadius: "inherit" }}
-                    func={() => {
-                      openEditItem(item)
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    rounded="sm"
-                    iconName="icon-delete"
-                    iconColor="error"
-                    justify="start"
-                    className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
-                    specificStyles={{
-                      backgroundColor: "var(--color-error2)",
-                      color: "var(--color-error)",
-                      borderRadius: "inherit",
-                    }}
-                    func={() => {
-                      removeItem(item.id)
-                      setSelectedItemId(null)
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              )}
+            <td className={`${cellClass} text-right`}>
+              <div className="relative inline-block">
+                {formatCurrency(item.amount, currencySymbol)}
+                {isInteractive && selectedItemId === item.id && (
+                  <div className="absolute right-0 top-full z-[9999] mt-1 flex flex-col gap-1 overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-white)] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      rounded="sm"
+                      iconName="icon-pencil"
+                      iconColor="textColor1"
+                      justify="start"
+                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
+                      specificStyles={{ borderRadius: "inherit" }}
+                      func={() => {
+                        openEditItem(item)
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      rounded="sm"
+                      iconName="icon-delete"
+                      iconColor="error"
+                      justify="start"
+                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
+                      specificStyles={{
+                        backgroundColor: "var(--color-error2)",
+                        color: "var(--color-error)",
+                        borderRadius: "inherit",
+                      }}
+                      func={() => {
+                        removeItem(item.id)
+                        setSelectedItemId(null)
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+              </div>
             </td>
           </tr>
         ))}

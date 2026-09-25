@@ -3,6 +3,7 @@
 import KpiRow from "@/src/components/app/cards/kpiCard"
 import KpiLoader from "@/src/components/app/cards/kpiLoader"
 import QuickAccessCard from "@/src/components/app/cards/quickAccess"
+import RowActions from "@/src/components/app/rowActions"
 import Section from "@/src/components/base/layout/section"
 import Dropdown from "@/src/components/base/ui/composites/dropdown"
 import Table from "@/src/components/base/ui/composites/table"
@@ -10,15 +11,66 @@ import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
-import { customerKpisQueryKey, customersQueryKey, getCustomerKpis, getCustomers, getQuickAccessCustomers, quickAccessCustomersQueryKey } from "@/src/services/customerService"
+import { customerKpisQueryKey, customersQueryKey, deleteCustomer, getCustomerKpis, getCustomers, getQuickAccessCustomers, quickAccessCustomersQueryKey } from "@/src/services/customerService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useQuery } from "@tanstack/react-query"
+import { useToastState } from "@/src/store/toastState"
+import { ObjectRecordType, ToastType } from "@/src/types/types"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 import { useState } from "react"
 
 export default function Home() {
   const { businessId } = useParams<{ businessId: string }>()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const queryClient = useQueryClient()
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  // The directory table is built from the displayed columns, so a row is linked
+  // back to its customer through the name and email it shows.
+  const handleDeleteCustomer = async (row: ObjectRecordType) => {
+    const customer = customers.find(
+      (entry) => entry.name === row["Customer name"] && entry.email === row["Email"]
+    )
+
+    if (!customer) {
+      showToast({
+        variant: "error",
+        title: "Delete failed",
+        message: "The customer could not be found. Please try again.",
+      })
+
+      return
+    }
+
+    try {
+      await deleteCustomer(businessId, String(customer.id))
+
+      // The row leaves the cached directory straight away, and the directory, the
+      // KPI cards and the quick access cards all refetch.
+      queryClient.setQueryData<ObjectRecordType[]>(customersQueryKey(businessId), (currentCustomers = []) =>
+        currentCustomers.filter((entry) => entry.id !== customer.id)
+      )
+      queryClient.invalidateQueries({ queryKey: customersQueryKey(businessId) })
+      queryClient.invalidateQueries({ queryKey: customerKpisQueryKey(businessId) })
+      queryClient.invalidateQueries({ queryKey: quickAccessCustomersQueryKey(businessId) })
+
+      showToast({
+        variant: "success",
+        title: "Customer deleted",
+        message: `${customer.name} was deleted successfully.`,
+      })
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Delete failed",
+        message: "The customer could not be deleted. Please try again.",
+      })
+    }
+  }
   const { data: customers = [] } = useQuery({
     queryKey: customersQueryKey(businessId),
     queryFn: () => getCustomers(businessId),
@@ -66,7 +118,7 @@ export default function Home() {
             </Paragraph>
           </Frame>
           <Frame>
-            <Button variant="outline" iconName="icon-plus" size="sm" func={createCustomer}> Add Customer </Button>
+            <Button variant="fill" iconName="icon-plus" size="sm" func={createCustomer}> Add Customer </Button>
           </Frame>
         </Frame>
       </Section>
@@ -101,14 +153,24 @@ export default function Home() {
             <Dropdown
               name="customerStatus"
               value={selectedStatus}
-              options={["All", "Active", "Inactive", "Watchlist"]}
+              options={["all", "active", "inactive", "watchlist"]}
               size="sm"
               width="max-content"
               formFunc={(event) => setSelectedStatus(event.target.value)}
             />
           </Frame>
           <Frame className="w-full h-max">
-            <Table width="stretch" cellWidth="180px" height="hug" size="sm" data={customerDirectoryTableData} isCustomerData />
+            <Table
+              width="stretch"
+              cellWidth="180px"
+              height="hug"
+              size="sm"
+              data={customerDirectoryTableData}
+              isCustomerData
+              rowActions={(row) => (
+                <RowActions onDelete={() => handleDeleteCustomer(row)} />
+              )}
+            />
           </Frame>
         </Frame>
       </Section>

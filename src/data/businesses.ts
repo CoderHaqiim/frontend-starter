@@ -1,5 +1,10 @@
 
-export const businesses = [
+import { Business } from "@/src/types/types"
+
+// The mock store. The business routes push into, patch and splice this array, so
+// a change is visible to every other route on its next request. Stored strings are
+// lowercased when the store is created and when a route writes to it.
+const seedBusinesses: Business[] = [
   {
     id: "0",
     logo:"",
@@ -76,3 +81,12 @@ export const businesses = [
     state: "Lagos",
   },
 ]
+
+// Next.js gives every route module its own copy of a plain module export, so the
+// store is parked on globalThis to keep one copy per server process. That is what
+// lets a business created, updated or deleted by one route be seen by the others.
+const globalStore = globalThis as typeof globalThis & { businessStore?: Business[] }
+
+export const businesses = globalStore.businessStore ?? seedBusinesses
+
+globalStore.businessStore = businesses

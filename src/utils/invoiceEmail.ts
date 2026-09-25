@@ -8,11 +8,13 @@ import { InvoiceDraft } from "@/src/store/invoiceDraftState"
  */
 export type InvoiceEmail = {
   subject: string
+  to: string
   body: string
 }
 
 export const buildInvoiceEmail = (draft: InvoiceDraft): InvoiceEmail => ({
   subject: `Invoice ${draft.invoiceNo}`,
+  to: `${draft.customerEmail}`,
   body: [
     `Hello ${draft.customer || "there"},`,
     "",

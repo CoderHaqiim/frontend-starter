@@ -10,19 +10,30 @@ import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
-import { getInvoiceKpis, getInvoices, invoiceKpisQueryKey, invoicesQueryKey } from "@/src/services/invoiceService"
+import type { Invoice } from "@/src/data/invoices"
+import { deleteInvoice, getInvoiceKpis, getInvoices, invoiceKpisQueryKey, invoicesQueryKey } from "@/src/services/invoiceService"
+import { useInvoiceDraft } from "@/src/store/invoiceDraftState"
 import { useInvoiceFormState } from "@/src/store/invoiceFormState"
-import { useQuery } from "@tanstack/react-query"
-import { useParams } from "next/navigation"
+import { useToastState } from "@/src/store/toastState"
+import type { ToastType } from "@/src/types/types"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useParams, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
+
+// Stable empty fallback. A fresh `[]` literal on every render would change the
+// query data reference each time and retrigger consumers.
+const EMPTY_INVOICES: Invoice[] = []
 
 export default function InvoicesPage() {
   const { businessId } = useParams<{ businessId: string }>()
-  const { data: invoices = [] } = useQuery({
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const { data } = useQuery({
     queryKey: invoicesQueryKey(businessId),
     queryFn: () => getInvoices(businessId),
     enabled: Boolean(businessId),
   })
+  const invoices = data ?? EMPTY_INVOICES
   const { data: invoiceKpis = [], isLoading: isInvoiceKpisLoading } = useQuery({
     queryKey: invoiceKpisQueryKey(businessId),
     queryFn: () => getInvoiceKpis(businessId),
@@ -31,6 +42,12 @@ export default function InvoicesPage() {
   })
   const [selectedInvoiceFilter, setSelectedInvoiceFilter] = useState("all")
   const openInvoice = useInvoiceFormState((state) => state.openInvoice)
+  const setDraftState = useInvoiceDraft.setState
+  const { toastState, setToastState } = useToastState()
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
 
   const filteredInvoices = useMemo(() => {
     if (selectedInvoiceFilter === "all") {
@@ -38,18 +55,65 @@ export default function InvoicesPage() {
     }
 
     return invoices.filter(
-      (invoice) => invoice.customer.paymentStatus === selectedInvoiceFilter
+      (invoice) => invoice.customer.paymentStatus === selectedInvoiceFilter,
     )
   }, [invoices, selectedInvoiceFilter])
 
-  const handleInvoiceFilterChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleInvoiceFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedInvoiceFilter(event.target.value)
   }
 
   const createInvoice = () => {
     openInvoice()
+  }
+
+  const handleViewInvoice = (invoiceId: string) => {
+    const invoice = invoices.find((item) => item.id === invoiceId)
+
+    if (!invoice) return
+
+    setDraftState({
+      customer: invoice.customer.name,
+      customerEmail: invoice.customer.email,
+      customerAddress: invoice.customer.address,
+      amount: String(invoice.total),
+      currency: invoice.currency,
+      issueDate: invoice.issueDate,
+      dueDate: invoice.dueDate,
+      vat: String(invoice.vat),
+      discount: String(invoice.discount),
+      invoiceNo: invoice.id,
+      template: invoice.template,
+      items: invoice.items.map((item) => ({ ...item })),
+    })
+
+    router.push("/dashboard/view-invoice")
+  }
+
+  const handleDeleteInvoice = async (invoiceId: string) => {
+    try {
+      await deleteInvoice(businessId, invoiceId)
+      queryClient.setQueryData<Invoice[]>(
+        invoicesQueryKey(businessId),
+        (currentInvoices) =>
+        (currentInvoices ?? []).filter((invoice) => invoice.id !== invoiceId),
+      )
+      queryClient.invalidateQueries({ queryKey: invoiceKpisQueryKey(businessId) })
+
+      showToast({
+        variant: "success",
+        title: "Invoice deleted",
+        message: `Invoice ${invoiceId} was deleted successfully.`,
+      })
+    } catch (error) {
+      console.error("Failed to delete the invoice:", error)
+
+      showToast({
+        variant: "error",
+        title: "Delete failed",
+        message: "The invoice could not be deleted. Please try again.",
+      })
+    }
   }
 
   return (
@@ -64,13 +128,7 @@ export default function InvoicesPage() {
           </Frame>
 
           <Frame>
-            <Button
-              variant="outline"
-              size="sm"
-              iconPosition="left"
-              iconName="icon-plus"
-              func={createInvoice}
-            >
+            <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createInvoice}>
               New Invoice
             </Button>
           </Frame>
@@ -101,9 +159,11 @@ export default function InvoicesPage() {
           <Frame className="w-full h-full">
             <List width="stretch" height="stretch" scroll="hidden">
               <InvoiceHeader />
-              {filteredInvoices.map((invoice) => (
-                <InvoiceLine key={invoice.id} invoice={invoice} />
-              ))}
+              {
+                filteredInvoices.map((invoice) => (
+                  <InvoiceLine key={invoice.id} invoice={invoice} onView={handleViewInvoice} onDelete={handleDeleteInvoice}/>
+                ))
+              }
             </List>
           </Frame>
         </Frame>

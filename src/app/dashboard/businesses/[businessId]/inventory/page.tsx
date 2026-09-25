@@ -8,9 +8,12 @@ import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
-import { getInventory, inventoryQueryKey } from "@/src/services/inventoryService"
+import RowActions from "@/src/components/app/rowActions"
+import { deleteInventoryItem, getInventory, inventoryQueryKey } from "@/src/services/inventoryService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useQuery } from "@tanstack/react-query"
+import { useToastState } from "@/src/store/toastState"
+import { ObjectRecordType, ToastType } from "@/src/types/types"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
 
@@ -18,6 +21,37 @@ export default function InventoryPage() {
   const { businessId } = useParams<{ businessId: string }>()
   const [selectedInventoryFilter, setSelectedInventoryFilter] = useState("all")
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const queryClient = useQueryClient()
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  const handleDeleteInventoryItem = async (sku: string) => {
+    try {
+      await deleteInventoryItem(businessId, sku)
+
+      // The row leaves the cached table straight away, and the table and the KPI
+      // cards refetch.
+      queryClient.setQueryData<ObjectRecordType[]>(inventoryQueryKey(businessId), (currentItems = []) =>
+        currentItems.filter((item) => item.SKU !== sku)
+      )
+      queryClient.invalidateQueries({ queryKey: inventoryQueryKey(businessId) })
+
+      showToast({
+        variant: "success",
+        title: "Item deleted",
+        message: `Item ${sku} was deleted successfully.`,
+      })
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Delete failed",
+        message: "The item could not be deleted. Please try again.",
+      })
+    }
+  }
   const { data: inventoryItems = [], isLoading: isInventoryLoading } = useQuery({
     queryKey: inventoryQueryKey(businessId),
     queryFn: () => getInventory(businessId),
@@ -27,8 +61,8 @@ export default function InventoryPage() {
 
   const inventoryKpis = useMemo(() => {
     const totalStockUnits = availableInventoryItems.reduce((total, item) => total + Number(item.Stock), 0)
-    const lowStockItems = availableInventoryItems.filter((item) => item.Status === "Low stock")
-    const outOfStockItems = availableInventoryItems.filter((item) => item.Status === "Out of stock")
+    const lowStockItems = availableInventoryItems.filter((item) => item.Status === "low stock")
+    const outOfStockItems = availableInventoryItems.filter((item) => item.Status === "out of stock")
 
     return [
       {
@@ -89,13 +123,7 @@ export default function InventoryPage() {
           </Frame>
 
           <Frame>
-            <Button
-              variant="outline"
-              size="sm"
-              iconPosition="left"
-              iconName="icon-plus"
-              func={createInventoryItem}
-            >
+            <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createInventoryItem}>
               Add inventory item
             </Button>
           </Frame>
@@ -129,6 +157,11 @@ export default function InventoryPage() {
               height="hug"
               size="sm"
               data={filteredItems}
+              rowActions={(row) => (
+                <RowActions
+                  onDelete={() => handleDeleteInventoryItem(String(row.SKU))}
+                />
+              )}
             />
           </Frame>
         </Frame>

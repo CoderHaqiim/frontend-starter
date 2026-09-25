@@ -1,6 +1,7 @@
 import { Task } from "@/src/types/types"
+import { createMockStore } from "@/src/utils/mockStore"
 
-export const tasks: Task[] = [
+const seedTasks: Task[] = [
   {
     id: "1",
     title: "Finish June Report",
@@ -272,3 +273,7 @@ export const tasks: Task[] = [
     status: "pending",
   },
 ]
+
+// One shared copy of the store per server process, so the task list and the
+// today route read and mutate the same array.
+export const tasks = createMockStore("tasksStore", seedTasks)

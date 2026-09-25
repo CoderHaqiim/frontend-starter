@@ -60,8 +60,8 @@ export default function InvoiceTable() {
   return (
     <table className="relative z-[60] w-full overflow-visible border-separate border-spacing-0 border border-[var(--color-outline1)]">
       <thead>
-        <tr className="bg-[var(--color-background3)]">
-          <th className="border-r border-[var(--color-outline1)] px-[var(--space-md)] py-[var(--space-sm)] text-left text-[length:var(--bodySize-sm)] font-[600] text-[var(--color-textColor1)]"> </th>
+        <tr className="bg-[#f6f6f6]">
+          <th className="border-r border-[#111111] px-[var(--space-md)] py-[var(--space-sm)] text-left text-[length:var(--bodySize-sm)] font-[600] text-[var(--color-textColor1)]"> </th>
           <th className="border-r border-[var(--color-outline1)] px-[var(--space-md)] py-[var(--space-sm)] text-left text-[length:var(--bodySize-sm)] font-[600] text-[var(--color-textColor1)]">Description</th>
           <th className="border-r border-[var(--color-outline1)] px-[var(--space-md)] py-[var(--space-sm)] text-center text-[length:var(--bodySize-sm)] font-[600] text-[var(--color-textColor1)]">Quantity</th>
           <th className="border-r border-[var(--color-outline1)] px-[var(--space-md)] py-[var(--space-sm)] text-right text-[length:var(--bodySize-sm)] font-[600] text-[var(--color-textColor1)]">Unit Price</th>
@@ -83,47 +83,49 @@ export default function InvoiceTable() {
             </td>
             <td className={`${cellClass} text-center`}>{item.quantity}</td>
             <td className={`${cellClass} text-right`}>{formatCurrency(item.price, currencySymbol)}</td>
-            <td className={`${cellClass} relative text-right`}>
-              {formatCurrency(item.amount, currencySymbol)}
-              {isInteractive && selectedItemId === item.id && (
-                <div className="absolute right-2 top-full z-[9999] mt-1 flex flex-col gap-1 overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-white)] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
-                  <Button
-                    variant="ghost"
-                    size="xs"
-                    rounded="sm"
-                    iconName="icon-pencil"
-                    iconColor="textColor1"
-                    justify="start"
-                    className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
-                    specificStyles={{ borderRadius: "inherit" }}
-                    func={() => {
-                      openEditItem(item)
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="xs"
-                    rounded="sm"
-                    iconName="icon-delete"
-                    iconColor="error"
-                    justify="start"
-                    className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
-                    specificStyles={{
-                      backgroundColor: "var(--color-error2)",
-                      color: "var(--color-error)",
-                      borderRadius: "inherit",
-                    }}
-                    func={() => {
-                      removeItem(item.id)
-                      setSelectedItemId(null)
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              )}
+            <td className={`${cellClass} text-right`}>
+              <div className="relative inline-block">
+                {formatCurrency(item.amount, currencySymbol)}
+                {isInteractive && selectedItemId === item.id && (
+                  <div className="absolute right-0 top-full z-[9999] mt-1 flex flex-col gap-1 overflow-hidden rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-white)] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+                    <Button
+                      variant="ghost"
+                      size="xs"
+                      rounded="sm"
+                      iconName="icon-pencil"
+                      iconColor="textColor1"
+                      justify="start"
+                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
+                      specificStyles={{ borderRadius: "inherit" }}
+                      func={() => {
+                        openEditItem(item)
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="xs"
+                      rounded="sm"
+                      iconName="icon-delete"
+                      iconColor="error"
+                      justify="start"
+                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
+                      specificStyles={{
+                        backgroundColor: "var(--color-error2)",
+                        color: "var(--color-error)",
+                        borderRadius: "inherit",
+                      }}
+                      func={() => {
+                        removeItem(item.id)
+                        setSelectedItemId(null)
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+              </div>
             </td>
           </tr>
         ))}

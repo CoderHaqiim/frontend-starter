@@ -1,8 +1,18 @@
 "use client"
 
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
+import {
+  businessTasksQueryKey,
+  createBusinessTask,
+  todayBusinessTasksQueryKey,
+} from "@/src/services/taskService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useQuery } from "@tanstack/react-query"
+import { useToastState } from "@/src/store/toastState"
+import { FormObjectTypes, Task, ToastType } from "@/src/types/types"
+import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
 import Form from "../../base/ui/composites/form"
@@ -15,6 +25,57 @@ import Label from "../../base/ui/primitives/label"
 
 export default function CreateTaskForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const pathname = usePathname()
+  const queryClient = useQueryClient()
+  const [isSaving, setIsSaving] = useState(false)
+  // A form opened from a business page always targets that business and the
+  // business field is read only there. On the home dashboard there is no
+  // business context, so the field stays changeable.
+  const contextBusinessId = getBusinessIdFromPathname(pathname)
+  const isBusinessContext = Boolean(contextBusinessId)
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  const saveTask = async (values: FormObjectTypes) => {
+    const targetBusinessId = String(values.businessId ?? "")
+
+    setIsSaving(true)
+
+    try {
+      const { data: createdTask } = await createBusinessTask(targetBusinessId, values)
+
+      // The new task is added to the board straight away, and the board and the
+      // today card both refetch.
+      queryClient.setQueryData<Task[]>(
+        businessTasksQueryKey(targetBusinessId),
+        (currentTasks = []) => [
+          ...currentTasks.filter((task) => String(task.id) !== String(createdTask.id)),
+          createdTask,
+        ]
+      )
+      queryClient.invalidateQueries({ queryKey: businessTasksQueryKey(targetBusinessId) })
+      queryClient.invalidateQueries({ queryKey: todayBusinessTasksQueryKey(targetBusinessId) })
+
+      showToast({
+        variant: "success",
+        title: "Task created",
+        message: `${createdTask.title} was created successfully.`,
+      })
+
+      closeCreateTaskForm()
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Create failed",
+        message: "The task could not be created. Please try again.",
+      })
+    } finally {
+      setIsSaving(false)
+    }
+  }
 
   const closeCreateTaskForm = () => {
     setBackdropContent(null)
@@ -38,7 +99,7 @@ export default function CreateTaskForm() {
         </Frame>
       </Frame>
 
-      <Form url="/api/post">
+      <Form onSubmit={saveTask}>
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
 
           {/* Task Title */}
@@ -100,6 +161,12 @@ export default function CreateTaskForm() {
             <Frame className="w-1/2 flex-col">
               <Label text="Business" size="xs" />
               <Dropdown name="businessId" size="sm" width="100%"
+                value={
+                  isBusinessContext
+                    ? contextBusinessId
+                    : undefined
+                }
+                disabled={isBusinessContext}
                 options={businesses.map((business) => ({
                   label: business.businessName,
                   value: business.id,
@@ -110,8 +177,8 @@ export default function CreateTaskForm() {
 
           {/* Submit */}
           <Frame className="justify-end w-full">
-            <Button variant="fill" role="submit" size="md" propagate>
-              Create Task
+            <Button variant="fill" role="submit" size="md" propagate disabled={isSaving}>
+              {isSaving ? "Creating..." : "Create Task"}
             </Button>
           </Frame>
         </Frame>

@@ -146,7 +146,7 @@ export default function Home() {
           </Frame>
 
           <Frame>
-            <Button variant="outline" func={createBusiness} size="sm" iconName="icon-plus">
+            <Button variant="fill" func={createBusiness} size="sm" iconName="icon-plus">
               Create Business
             </Button>
           </Frame>

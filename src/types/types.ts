@@ -60,6 +60,7 @@ export type BusinessKpiResponse = {
   businessId: string
   financials: {
     revenue: KpiMetric
+    receivables: KpiMetric
     expenses: KpiMetric
     profit: KpiMetric
     cashBalance: KpiMetric
@@ -108,7 +109,7 @@ export type Schedule = {
   updatedAt: string
 }
 
-export type Priority = "low" | "medium" | "high";
+export type Priority = "low" | "medium" | "high" | "urgent";
 export type TaskStatus = "pending" | "in-progress" | "completed" | "overdue"
 
 export interface Task {

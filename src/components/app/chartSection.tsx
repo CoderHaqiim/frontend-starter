@@ -55,10 +55,10 @@ export default function ChartSection({ chartUrl }: ChartSectionProps) {
         </Frame>
 
         <Frame className="w-auto h-max items-center gap-[var(--space-sm)]">
-          <Dropdown name="chart" width="max-content" size="sm" options={chartOptions} formFunc={chartChangeHandler} />
-          <Dropdown name="report" width="max-content" size="sm" options={reportDuration} formFunc={reportChangeHandler} />
+          <Dropdown name="chart" width="max-content" size="xs" options={chartOptions} formFunc={chartChangeHandler} />
+          <Dropdown name="report" width="max-content" size="xs" options={reportDuration} formFunc={reportChangeHandler} />
           <Tooltip content="expand chart">
-            <Button func={() => openChart(chartData, selectedChart, selectedPeriod)} size="sm" variant="outline" isIcon iconName="icon-expand" />
+            <Button func={() => openChart(chartData, selectedChart, selectedPeriod)} size="xs" variant="outline" isIcon iconName="icon-expand" />
           </Tooltip>
         </Frame>
       </Frame>

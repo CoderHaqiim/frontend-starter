@@ -35,7 +35,11 @@ export default function KpiCard({
 
   return (
 
-      <Card width={width} height="100px" padding="lg" rounded="md" className="flex-1 bg-[var(--color-white)]">
+      <Card width={width} height="110px" padding="lg" className="flex-1 bg-[var(--color-white)]" specificStyles={{
+        border:0,
+        justifyContent: "center",
+        borderRadius: "0"
+      }}>
         <Frame className="justify-between w-full">
           <Paragraph size="xs" weight="medium" color="textColor2">
             {kpi.title}
@@ -52,7 +56,7 @@ export default function KpiCard({
           </Frame>
         </Frame>
 
-        <Paragraph size="lg" color="textColor1" weight="medium">
+        <Paragraph size="xl" color="textColor1" weight="semiBold">
           {abridgeNumber(kpi.value)}
         </Paragraph>
 

@@ -305,16 +305,18 @@ export default function ViewReceipt() {
     )
   }
 
-    return (
-      <Frame className="w-full flex-col h-max">
+  return (
+    <Frame className="w-full flex-col h-max">
       {/* HEADER + ACTIONS */}
-      <Section
-        className="bg-[var(--color-background1)] shadow-[0_1px_3px_var(--color-shadow)]"
-        specificStyles={{ position: "sticky", top: 0, zIndex: 20 }}
-      >
-        <Frame className="justify-between">
+      <Frame
+        className="w-full bg-[var(--color-background1)] top-0 z-[20] p-[var(--space-lg)]"
+        specificStyles={{
+          position: "sticky",
+      }}>
+        <Frame className="w-full justify-between">
+
           <Frame className="gap-[var(--space-xs)] z-[50] bg-[var(--color-background1)] h-max flex-col">
-            <Heading size="lg" type="h1">
+            <Heading size="md" type="h1">
               Receipt {receiptNo}
             </Heading>
             <Paragraph weight="light" size="sm">
@@ -358,7 +360,7 @@ export default function ViewReceipt() {
             </div>
           </Frame>
         </Frame>
-          </Section>
+      </Frame>
 
       {/* RECEIPT */}
       <Section className="z-0">

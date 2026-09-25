@@ -1,7 +1,12 @@
 "use client"
 
-import { http } from "@/src/http/client"
+import type { Receipt } from "@/src/data/receipts"
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
+import {
+  createReceipt as createBusinessReceipt,
+  receiptKpisQueryKey,
+  receiptsQueryKey,
+} from "@/src/services/receiptService"
 import { useBackdropState } from "@/src/store/backdropState"
 import {
   getReceiptItemsSubtotal,
@@ -10,9 +15,10 @@ import {
 } from "@/src/store/receiptDraftState"
 import { useReceiptFormState } from "@/src/store/receiptFormState"
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState"
+import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { getCurrencyOptions } from "@/src/utils/currencySymbol"
-import { useQuery } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { usePathname, useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 import Card from "../../base/ui/composites/card"
@@ -32,13 +38,20 @@ import CreateReceiptItemForm from "./createReceiptItem"
 
 export default function CreateReceiptForm() {
   const router = useRouter()
+  const pathname = usePathname()
   const isOpen = useReceiptFormState((state) => state.isOpen)
   const closeReceipt = useReceiptFormState((state) => state.closeReceipt)
   const receiptDraft = useReceiptDraft()
   const { setReceiptField, resetDraft } = receiptDraft
   const { selectedBusiness, setSelectedBusiness } = useSelectedBusiness()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const queryClient = useQueryClient()
   const selectedTemplate = receiptDraft.template as ReceiptTemplateId
+  // A form opened from a business page always targets that business and the
+  // business field is read only there. On the home dashboard there is no
+  // business context, so the field stays changeable.
+  const contextBusinessId = getBusinessIdFromPathname(pathname)
+  const isBusinessContext = Boolean(contextBusinessId)
 
   const setSelectedTemplate = (template: ReceiptTemplateId) => {
     setReceiptField("template", template)
@@ -56,11 +69,21 @@ export default function CreateReceiptForm() {
 
   useEffect(() => {
     if (businesses.length === 0) return
+    // A business page locks the form to the business whose page is open.
+    if (isBusinessContext && contextBusinessId) {
+      const contextBusiness = businesses.find(
+        (business) => business.id === contextBusinessId,
+      )
+      if (contextBusiness && contextBusiness.id !== selectedBusiness.id) {
+        setSelectedBusiness(contextBusiness)
+      }
+      return
+    }
     const isSelectedBusinessAvailable = businesses.some(
       (business) => business.id === selectedBusiness.id,
     )
     if (!isSelectedBusinessAvailable) setSelectedBusiness(businesses[0])
-  }, [businesses, selectedBusiness.id, setSelectedBusiness])
+  }, [businesses, selectedBusiness.id, setSelectedBusiness, isBusinessContext, contextBusinessId])
 
   if (!isOpen) return null
 
@@ -82,6 +105,9 @@ export default function CreateReceiptForm() {
   }
 
   const handleBusinessChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    // While a business page is open the field is read only, so the business
+    // can only be changed from the home dashboard.
+    if (isBusinessContext) return
     const business = businesses.find((item) => item.id === event.target.value)
     if (business) setSelectedBusiness(business)
   }
@@ -105,9 +131,13 @@ export default function CreateReceiptForm() {
     // The amount is derived from the item lines, so it is also the subtotal.
     const itemsSubtotal = getReceiptItemsSubtotal(receiptDraft.items)
 
+    // The receipt belongs to the business whose page the form was opened from,
+    // falling back to the selected business on the home dashboard.
+    const targetBusinessId = contextBusinessId ?? selectedBusiness.id
+
     const payload = {
       template: selectedTemplate,
-      businessId: selectedBusiness.id,
+      businessId: targetBusinessId,
       customer: {
         name: receiptDraft.customer,
         email: receiptDraft.customerEmail,
@@ -120,14 +150,27 @@ export default function CreateReceiptForm() {
     }
 
     try {
-      const response = await http<{ message: string; data: { receiptNo: string } }>(
-        "/api/receipts",
+      // The receipt is stored against its business, so the business receipt
+      // route is what the receipt page reads from.
+      const { data: createdReceipt } = await createBusinessReceipt(
+        targetBusinessId,
         payload,
-        { method: "POST" },
       )
 
-      if (!response?.data?.receiptNo) return
-      setReceiptField("receiptNo", response.data.receiptNo)
+      if (!createdReceipt?.id) return
+      setReceiptField("receiptNo", createdReceipt.id)
+
+      // The created receipt is put straight into the list, and the list and the
+      // KPI cards both refetch so the receipts page is up to date.
+      queryClient.setQueryData<Receipt[]>(
+        receiptsQueryKey(targetBusinessId),
+        (currentReceipts = []) => [
+          createdReceipt,
+          ...currentReceipts.filter((receipt) => receipt.id !== createdReceipt.id),
+        ],
+      )
+      queryClient.invalidateQueries({ queryKey: receiptsQueryKey(targetBusinessId) })
+      queryClient.invalidateQueries({ queryKey: receiptKpisQueryKey(targetBusinessId) })
 
       // The draft is intentionally left intact: the view-receipt page renders
       // the receipt that was just created.
@@ -245,7 +288,12 @@ export default function CreateReceiptForm() {
                   name="businessId"
                   size="xxs"
                   width="100%"
-                  value={selectedBusiness.id || undefined}
+                  disabled={isBusinessContext}
+                  value={
+                    isBusinessContext
+                      ? contextBusinessId
+                      : selectedBusiness.id || undefined
+                  }
                   formFunc={handleBusinessChange}
                   options={businesses.map((business) => ({
                     label: business.businessName,

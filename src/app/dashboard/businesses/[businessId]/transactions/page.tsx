@@ -8,10 +8,12 @@ import Button from '@/src/components/base/ui/primitives/button'
 import Frame from '@/src/components/base/ui/primitives/frame'
 import Heading from '@/src/components/base/ui/primitives/heading'
 import Paragraph from '@/src/components/base/ui/primitives/paragraph'
-import { businessTransactionsQueryKey, getBusinessTransactions } from '@/src/services/transactionService'
+import { businessTransactionsQueryKey, deleteBusinessTransaction, getBusinessTransactions } from '@/src/services/transactionService'
 import { useBackdropState } from '@/src/store/backdropState'
-import { kpiObjectProps } from '@/src/types/types'
-import { useQuery } from '@tanstack/react-query'
+import { useToastState } from '@/src/store/toastState'
+import { kpiObjectProps, ToastType, Transaction } from '@/src/types/types'
+import { getCurrencySymbol } from '@/src/utils/currencySymbol'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 
@@ -23,6 +25,39 @@ export default function Item3() {
     queryFn: () => getBusinessTransactions(businessId, page),
   })
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const queryClient = useQueryClient()
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  const handleDeleteTransaction = async (transactionId: string) => {
+    try {
+      await deleteBusinessTransaction(businessId, transactionId)
+
+      // The row leaves the cached page straight away, and every cached query is
+      // refreshed so the list, the recent transactions and the KPI cards follow.
+      queryClient.setQueryData<Transaction[]>(
+        businessTransactionsQueryKey(businessId, page),
+        (currentTransactions = []) =>
+          currentTransactions.filter((transaction) => transaction.id !== transactionId)
+      )
+      queryClient.invalidateQueries()
+
+      showToast({
+        variant: "success",
+        title: "Transaction deleted",
+        message: `Transaction ${transactionId} was deleted successfully.`,
+      })
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Delete failed",
+        message: "The transaction could not be deleted. Please try again.",
+      })
+    }
+  }
 
   const createTransaction = () => {
     setBackdropContent(<CreateTransactionForm businessId={businessId} />)
@@ -36,11 +71,25 @@ export default function Item3() {
     .filter((transaction) => transaction.type === "expense")
     .reduce((total, transaction) => total + transaction.amount, 0)
   const netProfit = totalIncome - totalExpenses
+  // Receivables are the income customers have not paid for yet, so only the pending
+  // incomes count. Cancelled transactions never happened and are left out.
+  const receivables = transactions
+    .filter(
+      (transaction) => transaction.type === "income" && transaction.status === "pending"
+    )
+    .reduce((total, transaction) => total + transaction.amount, 0)
+  // Every business in the mock trades in NGN, so the rows are reported in naira.
+  const currencySymbol = getCurrencySymbol("NGN")
   const transactionKpis: kpiObjectProps[] = [
     { title: "Total Transactions", value: String(transactions.length) },
-    { title: "Income", value: `$${totalIncome.toLocaleString()}` },
-    { title: "Expenses", value: `$${totalExpenses.toLocaleString()}` },
-    { title: "Net Profit", value: `$${netProfit.toLocaleString()}` },
+    { title: "Income", value: `${currencySymbol} ${totalIncome.toLocaleString()}` },
+    {
+      title: "Receivables",
+      value: `${currencySymbol} ${receivables.toLocaleString()}`,
+      meaning: "Income in this list that customers have not paid for yet.",
+    },
+    { title: "Expenses", value: `${currencySymbol} ${totalExpenses.toLocaleString()}` },
+    { title: "Net Profit", value: `${currencySymbol} ${netProfit.toLocaleString()}` },
   ]
 
   return (
@@ -53,7 +102,7 @@ export default function Item3() {
           </Frame>
 
           <Frame>
-            <Button variant="outline" size="sm" iconPosition="left" iconName="icon-plus" func={createTransaction}>
+            <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createTransaction}>
               Add Transaction
             </Button>
           </Frame>
@@ -61,13 +110,14 @@ export default function Item3() {
       </Section>
 
       <Section>
-        <KpiRow kpis={transactionKpis} isLoading={isTransactionsLoading} itemsCount={4} />
+        <KpiRow kpis={transactionKpis} isLoading={isTransactionsLoading} itemsCount={5} />
       </Section>
 
       <TransactionManager
         transactions={transactions}
         currentPage={page}
         onPageChange={setPage}
+        onDelete={handleDeleteTransaction}
       />
     </Frame>
   )

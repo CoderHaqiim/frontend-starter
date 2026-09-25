@@ -1,6 +1,11 @@
  "use client"
 
+import { createBusiness } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
+import { useToastState } from "@/src/store/toastState"
+import { FormObjectTypes, ToastType } from "@/src/types/types"
+import { useQueryClient } from "@tanstack/react-query"
+import { useState } from "react"
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
 import Form from "../../base/ui/composites/form"
@@ -14,10 +19,48 @@ import CountryStateFields from "./countryStateFields"
 
 export default function CreateBusinessForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const queryClient = useQueryClient()
+  const [isSaving, setIsSaving] = useState(false)
 
   const closeCreateBusinessForm = () => {
     setBackdropContent(null)
     setBackdropOpen(false)
+  }
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  const saveBusiness = async (values: FormObjectTypes) => {
+    setIsSaving(true)
+
+    try {
+      const { data: createdBusiness } = await createBusiness({
+        ...values,
+        establishedYear: Number(values.establishedYear) || new Date().getFullYear(),
+      })
+
+      // A new business changes the business list, the dashboard totals and the
+      // ranking, so every cached query is refreshed.
+      queryClient.invalidateQueries()
+
+      showToast({
+        variant: "success",
+        title: "Business created",
+        message: `${createdBusiness.businessName} was created successfully.`,
+      })
+
+      closeCreateBusinessForm()
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Create failed",
+        message: "The business could not be created. Please try again.",
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -32,7 +75,7 @@ export default function CreateBusinessForm() {
         </Frame>
       </Frame>
 
-      <Form url="/api/post">
+      <Form onSubmit={saveBusiness}>
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
 
           {/* Business Name */}
@@ -110,8 +153,8 @@ export default function CreateBusinessForm() {
 
           {/* Submit */}
           <Frame className="w-full justify-end">
-            <Button variant="fill" role="submit" size="md" propagate>
-              Create Business
+            <Button variant="fill" role="submit" size="md" propagate disabled={isSaving}>
+              {isSaving ? "Creating..." : "Create Business"}
             </Button>
           </Frame>
 

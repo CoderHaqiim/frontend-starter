@@ -5,7 +5,7 @@ type HealthMetricValues = BusinessHealth["metrics"]
 
 type BusinessHealthRecord = Pick<BusinessHealth, "businessId" | "period">
 
-const metricWeights: Record<string, HealthMetricValues> = {
+const seedMetricWeights: Record<string, HealthMetricValues> = {
   "0-weekly": { operational: 30, growth: 22, stability: 18, profitability: 100 },
   "0-monthly": { operational: 19, growth: 21, stability: 18, profitability: 22 },
   "0-annual": { operational: 16, growth: 17, stability: 15, profitability: 17 },
@@ -27,10 +27,30 @@ const metricWeights: Record<string, HealthMetricValues> = {
   "4-annual": { operational: 14, growth: 15, stability: 14, profitability: 15 },
 }
 
-export const businessHealthRecords: BusinessHealthRecord[] = Object.keys(metricWeights).map((key) => {
-  const [businessId, period] = key.split("-")
-  return { businessId, period: period as BusinessHealth["period"] }
-})
+type HealthStore = {
+  metricWeights: Record<string, HealthMetricValues>
+  records: BusinessHealthRecord[]
+}
+
+// Next.js gives every route module its own copy of a plain module export, so the
+// health store is parked on globalThis to keep one copy per server process. That
+// is what lets the records registered by the create route be seen by the health
+// routes.
+const globalStore = globalThis as typeof globalThis & { businessHealthStore?: HealthStore }
+
+const healthStore: HealthStore = globalStore.businessHealthStore ?? {
+  metricWeights: seedMetricWeights,
+  records: Object.keys(seedMetricWeights).map((key) => {
+    const [businessId, period] = key.split("-")
+    return { businessId, period: period as BusinessHealth["period"] }
+  }),
+}
+
+globalStore.businessHealthStore = healthStore
+
+const metricWeights = healthStore.metricWeights
+
+export const businessHealthRecords = healthStore.records
 
 const getHealthStatus = (score: number): HealthType => {
   if (score < 50) return "critical"
@@ -63,4 +83,41 @@ export const toBusinessHealthResponse = (health: BusinessHealthRecord): Business
     healthStatus: getHealthStatus(healthScore),
     metrics,
   }
+}
+
+const businessPeriods: BusinessHealth["period"][] = ["weekly", "monthly", "annual"]
+
+// A business created through the API has no trading history, so it starts from a
+// flat metric set. Both the metrics and the listing entry are registered, because
+// the listing is built from the metrics when this module is first loaded.
+const defaultMetrics: HealthMetricValues = {
+  operational: 0,
+  growth: 0,
+  stability: 0,
+  profitability: 0,
+}
+
+export const registerBusinessHealth = (businessId: string) => {
+  businessPeriods.forEach((period) => {
+    const metricKey = `${businessId}-${period}`
+
+    if (metricWeights[metricKey]) return
+
+    metricWeights[metricKey] = { ...defaultMetrics }
+    businessHealthRecords.push({ businessId, period })
+  })
+}
+
+export const unregisterBusinessHealth = (businessId: string) => {
+  businessPeriods.forEach((period) => {
+    delete metricWeights[`${businessId}-${period}`]
+
+    const recordIndex = businessHealthRecords.findIndex(
+      (record) => record.businessId === businessId && record.period === period
+    )
+
+    if (recordIndex !== -1) {
+      businessHealthRecords.splice(recordIndex, 1)
+    }
+  })
 }

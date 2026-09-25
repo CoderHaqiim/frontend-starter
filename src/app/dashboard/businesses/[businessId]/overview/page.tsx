@@ -128,15 +128,10 @@ export default function BusinessPage() {
       meaning: "This is the number of people your business currently serves."
     },
     {
-      title: "Recievables",
-      value: formatAmount((financials?.revenue.value ?? 0) * 0.18),
-      trend: "down",
-      meaning: "This is the total amount of money that customers owe your business for products or services they have already received but have not yet paid for."
-    },
-    {
       title: "Cash flow",
-      value: formatAmount((financials?.revenue.value ?? 0) - (financials?.expenses.value ?? 0)),
-      trend: financials && financials.revenue.value >= financials.expenses.value ? "up" : "down",
+      value: formatAmount(financials?.cashBalance.value ?? 0),
+      trend: financials && financials.cashBalance.value >= 0 ? "up" : "down",
+      change: financials?.cashBalance.change ?? 0,
       meaning: "Cash flow measures the movement of actual cash into and out of a business over a specific period."
     }
   ]
@@ -193,7 +188,7 @@ export default function BusinessPage() {
 
           {/* Actions */}
           <Frame className="gap-[var(--space-sm)] h-max w-max shrink-0 relative">
-            <Button variant="outline" size="sm" width="max-content" iconName='icon-pencil' func={editBusiness}>Edit Business</Button>
+            <Button variant="fill" size="sm" width="max-content" iconName='icon-pencil' func={editBusiness}>Edit Business</Button>
           </Frame>
         </Frame>
       </Section>
@@ -224,7 +219,7 @@ export default function BusinessPage() {
               color: colors["accent"],
               backgroundColor: "transparent",
               fontWeight: fontWeight["semiBold"],
-              marginBottom: space["xs"]
+              marginTop: space["sm"]
             }}
           >
             {kpisExpanded ? 'See less KPIs' : 'See more KPIs'}
@@ -302,7 +297,6 @@ export default function BusinessPage() {
             )}
           </Frame>
       </Section>
-
     </Frame>
   )
 }

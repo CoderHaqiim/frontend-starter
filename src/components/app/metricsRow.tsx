@@ -2,6 +2,7 @@
 
 import { BusinessStats } from '@/src/types/types'
 import abridgeNumber from '@/src/utils/abridgeNumber'
+import { getCurrencySymbol } from '@/src/utils/currencySymbol'
 import { shortenText } from '@/src/utils/shortenText'
 import Frame from '../base/ui/primitives/frame'
 import Paragraph from '../base/ui/primitives/paragraph'
@@ -11,7 +12,8 @@ type MetricsRowProps = {
 }
 
 export default function MetricsRow({ data }: MetricsRowProps) {
-  // const currencySymbol = getCurrencySymbol(data.currency)
+  // Every business in the mock trades in NGN, so the ranking is reported in naira.
+  const currencySymbol = getCurrencySymbol("NGN")
   const getRankColor = (rank: number) => {
   switch (rank) {
     case 1:
@@ -60,8 +62,7 @@ export default function MetricsRow({ data }: MetricsRowProps) {
            <Frame className="w-auto h-max items-center p-[var(--space-xs)] rounded-[var(--radius-sm)] gap-[var(--space-sm)]">
               <Frame className='w-[60px] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-xs)] justify-end rounded-[var(--radius-sm)]'>
                 <Paragraph size="xs" color="textColor1" weight="semiBold">
-                  {/* {currencySymbol} {abridgeNumber(data?.value)} */}
-                  $ {abridgeNumber(data?.value)}
+                  {currencySymbol} {abridgeNumber(data?.value)}
                 </Paragraph>
               </Frame>
             </Frame>

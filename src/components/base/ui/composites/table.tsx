@@ -1,10 +1,10 @@
 "use client"
 
 import { FrameSizeType, ObjectRecordType, SizeType } from "@/src/types/types"
-import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { MouseEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Frame from "../primitives/frame"
 import TableHeaderRow from "./tableHeaderRow"
-import TableRow from "./tableRow"
+import TableRow, { ACTIONS_COLUMN } from "./tableRow"
 
 type TableProps = {
     width: FrameSizeType,
@@ -12,7 +12,11 @@ type TableProps = {
     height: FrameSizeType,
     data: ObjectRecordType[],
     size: SizeType,
-    isCustomerData?: boolean
+    isCustomerData?: boolean,
+    // Renders the trailing actions cell of a row, for example a delete menu. The
+    // table adds an actions column for it, and leaves the table untouched when it
+    // is not given.
+    rowActions?: (row: ObjectRecordType) => ReactNode
 }
 
 const MIN_COLUMN_WIDTH = 50
@@ -36,7 +40,8 @@ export default function Table({
     height,
     data,
     size,
-    isCustomerData = false
+    isCustomerData = false,
+    rowActions
 }: TableProps) {
 
     const headerData: string[] = useMemo(() => {
@@ -54,8 +59,8 @@ export default function Table({
             pushToSet(getObjectKey(item ?? " "))
         })
 
-        return [...itemSet]
-    }, [data])
+        return rowActions ? [...itemSet, ACTIONS_COLUMN] : [...itemSet]
+    }, [data, rowActions])
 
     const [columnWidths, setColumnWidths] = useState<number[]>([])
     const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null)
@@ -186,6 +191,7 @@ export default function Table({
                                 setSelectedColumnIndex(null)
                             }}
                             isCustomerData={isCustomerData}
+                            rowActions={rowActions}
                         />
                     ))
                 }

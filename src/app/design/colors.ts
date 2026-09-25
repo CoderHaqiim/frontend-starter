@@ -26,15 +26,16 @@ const lightColors = {
     "accent2": "#3b155c40",
     "shadow":"#00000009",
     "textColor1": "#1e1e1e",
+    "textColor2": "#555555",
     "muted": "#9e9d9d",
     "muted2": "#e7e5e5",
-    "textColor2": "#444444",
-    "background1": "#fdfdfd",
-    "background2": "#fbfbfb",
-    "background3": "#f9f9f9",
+    "background1": "#fbfbfb",
+    "background2": "#f9f9f9",
+    "background3": "#f6f6f6",
     "white": "#ffffff",
-    "outline2": "#a1a1a1",
-    "outline1": "#dddddd",
+    "outline3": "#c0c0c0",
+    "outline2": "#dddddd",
+    "outline1": "#d5d5d5",
 } as const
 
 const darkColors: ColorsMap = {
@@ -53,6 +54,7 @@ const darkColors: ColorsMap = {
     "background3": "#101010",
     "white": "#010101",
     "outline2": "#333333",
+    "outline3": "#a1a1a1",
     "outline1": "#222222",
 }
 

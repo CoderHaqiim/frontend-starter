@@ -1,7 +1,8 @@
 "use client";
 
-import { businessTasksQueryKey, getBusinessTasks } from "@/src/services/taskService";
-import { Task, TaskStatus } from "@/src/types/types";
+import { businessTasksQueryKey, deleteBusinessTask, getBusinessTasks, todayBusinessTasksQueryKey, updateBusinessTask } from "@/src/services/taskService";
+import { useToastState } from "@/src/store/toastState";
+import { Task, TaskStatus, ToastType } from "@/src/types/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import Badge from "../base/ui/composites/badge";
@@ -19,10 +20,41 @@ const columns: { status: TaskStatus; title: string }[] = [
 export default function TaskManager() {
 	const { businessId } = useParams<{ businessId: string }>()
 	const queryClient = useQueryClient()
+	const { toastState, setToastState } = useToastState()
 	const { data: tasks = [] } = useQuery({
 		queryKey: businessTasksQueryKey(businessId),
 		queryFn: () => getBusinessTasks(businessId),
 	})
+
+	const showToast = (toast: ToastType) => {
+		setToastState([...toastState, toast])
+	}
+
+	const handleDeleteTask = async (taskId: string) => {
+		try {
+			await deleteBusinessTask(businessId, taskId)
+
+			// The card leaves the board straight away, and the board and the today
+			// card both refetch.
+			queryClient.setQueryData<Task[]>(businessTasksQueryKey(businessId), (currentTasks = []) =>
+				currentTasks.filter((task) => String(task.id) !== taskId),
+			)
+			queryClient.invalidateQueries({ queryKey: businessTasksQueryKey(businessId) })
+			queryClient.invalidateQueries({ queryKey: todayBusinessTasksQueryKey(businessId) })
+
+			showToast({
+				variant: "success",
+				title: "Task deleted",
+				message: "The task was deleted successfully.",
+			})
+		} catch {
+			showToast({
+				variant: "error",
+				title: "Delete failed",
+				message: "The task could not be deleted. Please try again.",
+			})
+		}
+	}
 
 	const updateTaskStatus = (taskId: string, status: TaskStatus) => {
 		queryClient.setQueryData<Task[]>(businessTasksQueryKey(businessId), (currentTasks = []) =>
@@ -30,6 +62,23 @@ export default function TaskManager() {
 				String(task.id) === taskId ? { ...task, status } : task,
 			),
 		);
+
+		// The move is saved as well, and the board is refetched either way so it
+		// matches the store when the request fails.
+		updateBusinessTask(businessId, taskId, { status })
+			.then(() => {
+				queryClient.invalidateQueries({ queryKey: businessTasksQueryKey(businessId) })
+				queryClient.invalidateQueries({ queryKey: todayBusinessTasksQueryKey(businessId) })
+			})
+			.catch(() => {
+				queryClient.invalidateQueries({ queryKey: businessTasksQueryKey(businessId) })
+
+				showToast({
+					variant: "error",
+					title: "Update failed",
+					message: "The task status could not be saved. Please try again.",
+				})
+			});
 	};
 
 	return (
@@ -54,7 +103,7 @@ export default function TaskManager() {
 
 						<Frame scroll="hidden" className="flex flex-col items-center gap-[var(--space-md)]">
 							<Frame className="w-max items-center h-max pb-[var(--space-md)] flex flex-col gap-[var(--space-md)]">
-								{ columnTasks.map((task) => ( <TaskCard key={task.id} task={task} />))}
+								{ columnTasks.map((task) => ( <TaskCard key={task.id} task={task} onDelete={handleDeleteTask} />))}
 							</Frame>
 						</Frame>
 					</section>

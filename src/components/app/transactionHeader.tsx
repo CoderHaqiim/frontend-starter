@@ -6,11 +6,11 @@ import Paragraph from "../base/ui/primitives/paragraph";
 export default function TransactionHeader() {
 
   return (
-    <Frame className="w-full p-[var(--space-lg)] justify-between bg-[var(--color-background1)]">
+    <Frame className="w-full p-[var(--space-md)] justify-between bg-[var(--color-background3)]">
       <Frame className="w-[80px]" >
         <Paragraph color="textColor1" weight="medium" size="sm">Date</Paragraph>
       </Frame>
-      <Frame className="w-[220px]">
+      <Frame className="w-[200px]">
         <Paragraph color="textColor1" weight="medium" size="sm">
           Description
         </Paragraph>
@@ -29,6 +29,9 @@ export default function TransactionHeader() {
       </Frame>
       <Frame className="flex-col items-end w-[100px]">
         <Paragraph color="textColor1" weight="medium" size="sm">Amount</Paragraph>
+      </Frame>
+      <Frame className="w-[40px] flex-col items-end">
+        <Paragraph color="textColor1" weight="medium" size="sm">Actions</Paragraph>
       </Frame>
     </Frame>
   );

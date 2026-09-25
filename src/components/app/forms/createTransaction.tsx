@@ -1,8 +1,17 @@
 "use client"
 
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
+import {
+  businessTransactionsQueryKey,
+  createBusinessTransaction,
+} from "@/src/services/transactionService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useQuery } from "@tanstack/react-query"
+import { useToastState } from "@/src/store/toastState"
+import { FormObjectTypes, ToastType, Transaction } from "@/src/types/types"
+import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
 import Form from "../../base/ui/composites/form"
@@ -19,6 +28,15 @@ type CreateTransactionFormProps = {
 
 export default function CreateTransactionForm({ businessId }: CreateTransactionFormProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
+  const { toastState, setToastState } = useToastState()
+  const pathname = usePathname()
+  const queryClient = useQueryClient()
+  const [isSaving, setIsSaving] = useState(false)
+  // A form opened from a business page always targets that business and the
+  // business field is read only there. On the home dashboard there is no
+  // business context, so the field stays changeable.
+  const contextBusinessId = getBusinessIdFromPathname(pathname)
+  const isBusinessContext = Boolean(contextBusinessId)
   const { data: businesses = [] } = useQuery({
     queryKey: businessesQueryKey,
     queryFn: getBusinesses,
@@ -27,6 +45,53 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
   const closeForm = () => {
     setBackdropContent(null)
     setBackdropOpen(false)
+  }
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
+
+  const saveTransaction = async (values: FormObjectTypes) => {
+    const targetBusinessId = String(values.businessId ?? "")
+
+    setIsSaving(true)
+
+    try {
+      const { data: createdTransaction } = await createBusinessTransaction(targetBusinessId, {
+        ...values,
+        amount: Number(values.amount) || 0,
+      })
+
+      // The new transaction goes straight into the first page of the list, and
+      // every cached query is refreshed so the list, the recent transactions and
+      // the KPI cards all pick it up.
+      queryClient.setQueryData<Transaction[]>(
+        businessTransactionsQueryKey(targetBusinessId, 1),
+        (currentTransactions = []) => [
+          createdTransaction,
+          ...currentTransactions.filter(
+            (transaction) => transaction.id !== createdTransaction.id
+          ),
+        ]
+      )
+      queryClient.invalidateQueries()
+
+      showToast({
+        variant: "success",
+        title: "Transaction created",
+        message: `${createdTransaction.description} was created successfully.`,
+      })
+
+      closeForm()
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Create failed",
+        message: "The transaction could not be created. Please try again.",
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -38,7 +103,7 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
         </Frame>
       </Frame>
 
-      <Form url={`/api/post`}>
+      <Form onSubmit={saveTransaction}>
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
             <Label required text="Description" size="xs" />
@@ -53,6 +118,12 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
                 size="sm"
                 width="100%"
                 defaultValue={businessId}
+                disabled={isBusinessContext}
+                value={
+                  isBusinessContext
+                    ? contextBusinessId
+                    : undefined
+                }
                 options={businesses.map((business) => ({
                   label: business.businessName,
                   value: business.id,
@@ -111,7 +182,9 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
           </Frame>
 
           <Frame className="justify-end w-full">
-            <Button variant="fill" role="submit" size="md" propagate>Create Transaction</Button>
+            <Button variant="fill" role="submit" size="md" propagate disabled={isSaving}>
+              {isSaving ? "Creating..." : "Create Transaction"}
+            </Button>
           </Frame>
         </Frame>
       </Form>

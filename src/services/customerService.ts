@@ -28,3 +28,42 @@ export function getCustomerKpis(businessId: string) {
 export function getQuickAccessCustomers(businessId: string) {
   return http<ObjectRecordType[]>(`/api/businesses/${businessId}/customers/quickAccessCard`)
 }
+
+// The mutations go through the business customers route, which answers with the
+// saved customer next to the message.
+export type CustomerMutationResponse = {
+  message: string
+  data: ObjectRecordType
+}
+
+// The route validates and coerces what it receives, so a form body is passed on
+// unchanged.
+type CustomerMutationBody = Record<string, unknown>
+
+export function createCustomer(businessId: string, customer: CustomerMutationBody) {
+  return http<CustomerMutationResponse>(
+    `/api/businesses/${businessId}/customers`,
+    customer,
+    { method: "POST" },
+  )
+}
+
+export function updateCustomer(
+  businessId: string,
+  customerId: string,
+  updates: CustomerMutationBody,
+) {
+  return http<CustomerMutationResponse>(
+    `/api/businesses/${businessId}/customers?customerId=${encodeURIComponent(customerId)}`,
+    updates,
+    { method: "PATCH" },
+  )
+}
+
+export function deleteCustomer(businessId: string, customerId: string) {
+  return http<CustomerMutationResponse>(
+    `/api/businesses/${businessId}/customers?customerId=${encodeURIComponent(customerId)}`,
+    undefined,
+    { method: "DELETE" },
+  )
+}

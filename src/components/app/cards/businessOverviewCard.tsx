@@ -8,6 +8,8 @@ import {
 import { generateHealthBackground } from "@/src/utils/healthBackground"
 import { healthMap } from "@/src/utils/healthMap"
 import { shortenText } from "@/src/utils/shortenText"
+import abridgeNumber from "@/src/utils/abridgeNumber"
+import { getCurrencySymbol } from "@/src/utils/currencySymbol"
 import Link from "next/link"
 import Card from "../../base/ui/composites/card"
 import RadialProgress from "../../base/ui/composites/radialProgress"
@@ -40,8 +42,9 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
   const healthBackground = generateHealthBackground( businessHealth.health)
   const businessInitial = getBusinessInitial(data.businessName)
   const businessColor = getBusinessColor(index)
-  // const currencySymbol = getCurrencySymbol(data.currency)
-  // const formatAmount = (amount: number) => `${currencySymbol} ${abridgeNumber(amount)}`
+  // Every business in the mock trades in NGN, so the card always reports naira.
+  const currencySymbol = getCurrencySymbol("NGN")
+  const formatAmount = (amount = 0) => `${currencySymbol} ${abridgeNumber(amount)}`
   const financials = kpis?.financials
 
   return (
@@ -141,10 +144,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               weight="medium"
               size="sm"
             >
-              {
-                 "$" + financials?.revenue.value
-                  // formatAmount( financials?.revenue.value ?? 0)
-              }
+              {formatAmount(financials?.revenue.value ?? 0)}
             </Paragraph>
           </Frame>
 
@@ -172,10 +172,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               weight="medium"
               size="sm"
             >
-              {
-                "$" + financials?.revenue.value
-                // formatAmount( financials?.expenses.value ?? 0)
-              }
+              {formatAmount(financials?.expenses.value ?? 0)}
             </Paragraph>
           </Frame>
 
@@ -185,10 +182,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
             </Paragraph>
 
             <Paragraph color="textColor1" weight="medium" size="sm">
-              {
-                "$" + financials?.profit.value
-                // formatAmount( financials?.profit.value ?? 0)
-              }
+              {formatAmount(financials?.profit.value ?? 0)}
             </Paragraph>
           </Frame>
         </Frame>

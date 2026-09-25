@@ -15,12 +15,14 @@ type TransactionManagerProps = {
   transactions: Transaction[]
   currentPage?: number
   onPageChange?: (page: number) => void
+  onDelete?: (transactionId: string) => void
 }
 
 export default function TransactionManager({
   transactions = [],
   currentPage = 1,
   onPageChange,
+  onDelete,
 }: Partial<TransactionManagerProps>) {
   const businesses = ["All Businesses", "Business1", "Business2", "Business3"];
   const statuses = ["All", "Completed", "Pending", "Cancelled"];
@@ -68,7 +70,7 @@ export default function TransactionManager({
         <Frame className="gap-[var(--space-sm)]">
          <Dropdown
            width="max-content"
-           size="sm"
+           size="xs"
            name="Date"
            options={dateSortOptions}
            value={selectedDateSort}
@@ -79,7 +81,7 @@ export default function TransactionManager({
          />
          <Dropdown
            width="max-content"
-           size="sm"
+           size="xs"
            name="Amount"
            options={amountSortOptions}
            value={selectedAmountSort}
@@ -90,7 +92,7 @@ export default function TransactionManager({
          />
          <Dropdown
            width="max-content"
-           size="sm"
+           size="xs"
            name="Type"
            options={types}
            value={selectedType}
@@ -98,7 +100,7 @@ export default function TransactionManager({
          />
          <Dropdown
            width="max-content"
-           size="sm"
+           size="xs"
            name="Status"
            options={statusOptions}
            value={selectedStatus}
@@ -106,7 +108,7 @@ export default function TransactionManager({
          />
          <Dropdown
            width="max-content"
-           size="sm"
+           size="xs"
            name="Category"
            options={categorySortOptions}
            value={selectedCategorySort}
@@ -122,7 +124,7 @@ export default function TransactionManager({
           <List width="stretch" height="stretch" scroll="hidden">
             <TransactionHeader/>
             {sortedTransactions.map((transaction) => (
-              <TransactionLine key={transaction.id} transaction={transaction}/>
+              <TransactionLine key={transaction.id} transaction={transaction} onDelete={onDelete ?? (() => undefined)}/>
             ))}
           </List>
         ) : (
