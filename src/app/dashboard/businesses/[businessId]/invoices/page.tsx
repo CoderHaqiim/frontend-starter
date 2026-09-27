@@ -4,7 +4,7 @@ import InvoiceHeader from "@/src/components/app/invoiceHeader"
 import InvoiceLine from "@/src/components/app/invoiceLine"
 import Section from "@/src/components/base/layout/section"
 import Dropdown from "@/src/components/base/ui/composites/dropdown"
-import KpiRow from "@/src/components/base/ui/composites/kpiRow"
+import EmptyState from "@/src/components/base/ui/composites/emptyState"
 import List from "@/src/components/base/ui/composites/list"
 import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
@@ -135,10 +135,10 @@ export default function InvoicesPage() {
         </Frame>
       </Section>
 
-      {/* Kpis */}
+      {/* Kpis
       <Section>
         <KpiRow kpis={invoiceKpis} isLoading={isInvoiceKpisLoading} itemsCount={4} />
-      </Section>
+      </Section> */}
 
       <Section>
         <Frame className="w-full h-max flex flex-col gap-[var(--space-md)]">
@@ -157,14 +157,18 @@ export default function InvoicesPage() {
           </Frame>
 
           <Frame className="w-full h-full">
-            <List width="stretch" height="stretch" scroll="hidden">
-              <InvoiceHeader />
-              {
-                filteredInvoices.map((invoice) => (
-                  <InvoiceLine key={invoice.id} invoice={invoice} onView={handleViewInvoice} onDelete={handleDeleteInvoice}/>
-                ))
-              }
-            </List>
+            {filteredInvoices.length > 0 ? (
+              <List width="stretch" height="stretch" scroll="hidden">
+                <InvoiceHeader />
+                {
+                  filteredInvoices.map((invoice) => (
+                    <InvoiceLine key={invoice.id} invoice={invoice} onView={handleViewInvoice} onDelete={handleDeleteInvoice}/>
+                  ))
+                }
+              </List>
+            ) : (
+              <EmptyState message="When you create invoices, they appear here." />
+            )}
           </Frame>
         </Frame>
       </Section>

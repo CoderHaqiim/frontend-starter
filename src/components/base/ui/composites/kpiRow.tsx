@@ -13,7 +13,7 @@ type KpiRowProps = {
 
 export default function KpiRow({kpis, isLoading = false, itemsCount = 4}: KpiRowProps) {
   return (
-    <Frame className="w-full bg-[var(--color-outline2)] gap-[1px] h-max rounded-[var(--radius-md)] overflow-hidden border border-[var(--color-outline2)]">
+    <Frame className="w-full gap-[var(--space-lg)] h-max overflow-hidden">
         {
             isLoading?
             Array.from({length: itemsCount}).map((item, index) => <KpiLoader key={index}/>): 

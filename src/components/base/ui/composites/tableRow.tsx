@@ -46,7 +46,7 @@ export default function TableRow({
 
   return (
     <div
-      className={`bg-[var(--color-white)] w-full h-max flex ${isSelected ? "bg-[var(--color-background1)]" : ""} ${isCustomerData && data.Status === "watchlist" ? "border-2 border-[var(--color-error2)]" : ""}`}
+      className={`bg-[var(--color-white)] w-full h-max flex ${isSelected ? "bg-[var(--color-background1)]" : ""}`}
       role="row"
       aria-selected={isSelected}
       onClick={onSelect}

@@ -139,7 +139,6 @@ export default function Table({
                 ${width === "hug" ? "w-max" : ""}
                 ${height === "stretch" ? "h-full" : ""}
                 ${height === "hug" ? "h-max" : ""}
-                rounded-[var(--radius-sm)]
                 border-[0.5px]
                 border-[var(--color-outline1)]
                 overflow-auto

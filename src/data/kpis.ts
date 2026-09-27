@@ -79,6 +79,16 @@ const roundTotals = (totals: TransactionTotals): TransactionTotals => ({
 export const getBusinessTransactionTotals = (businessId: string) =>
   roundTotals(sumTransactions(businessId))
 
+// The all-time figures for every business together, used where a report is not tied
+// to a period. This is what the company wide customers report reads its receivables
+// from, so both customers reports answer with the same definition of the money
+// customers have not paid yet.
+export const getGeneralTransactionTotals = () =>
+  businesses.reduce<TransactionTotals>(
+    (totals, business) => addTotals(totals, sumTransactions(business.id)),
+    { ...emptyTotals }
+  )
+
 // What a business did during the window being reported, next to what it did during
 // the window directly before it. The second set is what the reported change is
 // derived from.

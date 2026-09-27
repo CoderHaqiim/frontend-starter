@@ -3,9 +3,9 @@
 import { SupportTicket } from "@/src/types/types";
 import Section from "../base/layout/section";
 import Dropdown from "../base/ui/composites/dropdown";
+import EmptyState from "../base/ui/composites/emptyState";
 import List from "../base/ui/composites/list";
 import Frame from "../base/ui/primitives/frame";
-import Paragraph from "../base/ui/primitives/paragraph";
 import SupportItem from "./supportItem";
 
 const supportTickets: SupportTicket[] = [
@@ -95,30 +95,7 @@ export default function SupportManager() {
             ))}
           </List>
         ) : (
-          <Frame
-            className="
-              flex
-              w-full
-              h-full
-              items-center
-              justify-center
-            "
-          >
-            <Paragraph
-              size="md"
-              weight="light"
-              className="
-                flex
-                h-[100px]
-                w-full
-                items-center
-                justify-center
-                text-center
-              "
-            >
-              When support tickets are created, they appear here.
-            </Paragraph>
-          </Frame>
+          <EmptyState message="When support tickets are created, they appear here." />
         )}
       </Frame>
     </Section>

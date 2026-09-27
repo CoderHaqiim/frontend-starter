@@ -18,7 +18,10 @@ const UNTOUCHED_KEYS = new Set(["id", "logo", "createdAt", "updatedAt"])
 // Bumped whenever the seed shape or the normalisation changes: a running server
 // keeps its stores on globalThis, so the version is part of the key to make the
 // next request re-seed instead of serving data built by the old rules.
-const STORE_VERSION = "v4"
+// v5: the transaction history was regenerated (twenty-plus transactions per
+// business across the weekly, monthly and annual windows), so a server that was
+// already running re-seeds from the new rules on its next request.
+const STORE_VERSION = "v5"
 
 function lowercaseStrings(value: unknown, key = ""): unknown {
   if (typeof value === "string") {

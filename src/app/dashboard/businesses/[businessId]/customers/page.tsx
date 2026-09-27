@@ -1,11 +1,12 @@
 "use client"
 
-import KpiRow from "@/src/components/app/cards/kpiCard"
 import KpiLoader from "@/src/components/app/cards/kpiLoader"
 import QuickAccessCard from "@/src/components/app/cards/quickAccess"
-import RowActions from "@/src/components/app/rowActions"
+import ImportModal from "@/src/components/app/import/importModal"
 import Section from "@/src/components/base/layout/section"
 import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import EmptyState from "@/src/components/base/ui/composites/emptyState"
+import KpiRow from "@/src/components/base/ui/composites/kpiRow"
 import Table from "@/src/components/base/ui/composites/table"
 import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
@@ -79,9 +80,12 @@ export default function Home() {
     queryKey: quickAccessCustomersQueryKey(businessId),
     queryFn: () => getQuickAccessCustomers(businessId),
   })
-  const { data: customerKpis = { kpis: [] }, isLoading: isCustomerKpisLoading } = useQuery({
+  const { data: customerKpis = [], isLoading: isCustomerKpisLoading } = useQuery({
     queryKey: customerKpisQueryKey(businessId),
     queryFn: () => getCustomerKpis(businessId),
+    // The route answers with the cards under `kpis`, the same shape the invoice and
+    // receipt KPI queries unwrap.
+    select: (response) => response.kpis,
   })
   const [selectedStatus, setSelectedStatus] = useState("all")
 
@@ -107,6 +111,11 @@ export default function Home() {
     setBackdropContent("create-customer-form")
   }
 
+  const importCustomers = () => {
+    setBackdropOpen(true)
+    setBackdropContent(<ImportModal definitionId="customers" businessId={businessId} />)
+  }
+
   return (
     <Frame className="w-full flex-col h-max">
       <Section>
@@ -117,18 +126,24 @@ export default function Home() {
               Track and manage your customers and their relationships with your business.
             </Paragraph>
           </Frame>
-          <Frame>
-            <Button variant="fill" iconName="icon-plus" size="sm" func={createCustomer}> Add Customer </Button>
+          <Frame className="gap-[var(--space-sm)]">
+            <Button variant="outline" size="sm" iconName="icon-download" iconColor="accent" func={importCustomers}
+              specificStyles={{
+                color: "var(--color-accent)",
+                borderColor: "var(--color-accent)",
+              }}
+            >
+              Import Customers
+            </Button>
+            <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createCustomer}>
+              Add Customer
+            </Button>
           </Frame>
         </Frame>
       </Section>
 
       <Section>
-        <Frame className="w-full h-[100px] gap-[var(--space-md)]">
-          {isCustomerKpisLoading
-            ? Array.from({ length: 4 }).map((_, index) => <KpiLoader key={index} />)
-            : customerKpis.kpis.map((item) => <KpiRow key={item?.id} kpi={item} />)}
-        </Frame>
+        <KpiRow kpis={customerKpis} isLoading={isCustomerKpisLoading} itemsCount={4} />
       </Section>
 
       <Section>
@@ -160,17 +175,23 @@ export default function Home() {
             />
           </Frame>
           <Frame className="w-full h-max">
-            <Table
-              width="stretch"
-              cellWidth="180px"
-              height="hug"
-              size="sm"
-              data={customerDirectoryTableData}
-              isCustomerData
-              rowActions={(row) => (
-                <RowActions onDelete={() => handleDeleteCustomer(row)} />
-              )}
-            />
+            {customerDirectoryTableData.length > 0 ? (
+              <Table
+                width="stretch"
+                cellWidth="180px"
+                height="hug"
+                size="sm"
+                data={customerDirectoryTableData}
+                isCustomerData
+              />
+            ) : (
+              // The surface mirrors the directory table frame above, so the box
+              // keeps its shape while the directory is empty.
+              <EmptyState
+                message="When you add customers, they appear here."
+                surface="border-[0.5px] border-[var(--color-outline1)] bg-[var(--color-white)]"
+              />
+            )}
           </Frame>
         </Frame>
       </Section>

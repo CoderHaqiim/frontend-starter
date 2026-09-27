@@ -116,16 +116,7 @@ export default function Searchbar({ url = "/search", queryParam = "search", debo
 
   return (
     <Frame
-      className={`
-        relative
-        w-[290px]
-        h-max
-        justify-center
-        items-center
-        rounded-[var(--radius-lg)]
-        px-[var(--space-sm)]
-        bg-[var(--color-white)]
-      `}
+      className={`relative w-[290px] h-max justify-center items-center rounded-[var(--radius-sm)] px-[var(--space-sm)] bg-[var(--color-white)]`}
       specificStyles={{
         border: focused ? `1.5px ${colors["accent"]} solid` : `1px solid ${colors["outline1"]}`,
       }}

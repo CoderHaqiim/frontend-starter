@@ -32,14 +32,6 @@ const settingsGroups = [
     ],
   },
   {
-    title: "Business settings",
-    items: [
-      { label: "Business profile", value: "BrightWorks Ltd", action: "View" },
-      { label: "Billing details", value: "Saved", action: "Edit" },
-      { label: "Team access", value: "8 members", action: "Manage" },
-    ],
-  },
-  {
     title: "Integrations",
     items: [
       { label: "WhatsApp", value: "Connected", action: "Manage" },
@@ -55,7 +47,7 @@ export default function SettingsPage() {
         <Frame className="gap-[var(--space-xs)] h-max flex-col">
           <Heading size="xl" type="h1">Settings</Heading>
           <Paragraph weight="light" size="sm">
-            Manage your profile, account, app preferences, and business details.
+            Manage your profile, account, app preferences and integrations.
           </Paragraph>
         </Frame>
       </Section>

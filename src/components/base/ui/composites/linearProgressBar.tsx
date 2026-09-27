@@ -34,7 +34,7 @@ export default function LinearProgress({
   )
 
   return (
-    <Frame className="gap-[var(--space-sm)] w-full items-center">
+    <Frame className="gap-[var(--space-xs)] w-full items-center">
       <Frame className={` rounded-[var(--radius-xl)]  bg-[var(--color-background3)] overflow-hidden flex-1`}
         specificStyles={{
           height: height

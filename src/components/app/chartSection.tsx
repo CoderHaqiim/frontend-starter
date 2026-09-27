@@ -47,7 +47,7 @@ export default function ChartSection({ chartUrl }: ChartSectionProps) {
 
   return (
     <Section>
-      <Frame className="w-full items-center h-max justify-between mb-[var(--space-md)]">
+      <Frame className="w-full items-center h-max justify-between">
         <Frame className="flex-col">
           <Heading size="md" type="h2">
             Financial Performance

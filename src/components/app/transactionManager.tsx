@@ -4,10 +4,10 @@ import { Transaction } from "@/src/types/types";
 import { useState } from "react";
 import Section from "../base/layout/section";
 import Dropdown from "../base/ui/composites/dropdown";
+import EmptyState from "../base/ui/composites/emptyState";
 import List from "../base/ui/composites/list";
 import Button from "../base/ui/primitives/button";
 import Frame from "../base/ui/primitives/frame";
-import Paragraph from "../base/ui/primitives/paragraph";
 import TransactionHeader from "./transactionHeader";
 import TransactionLine from "./transactionLine";
 
@@ -15,14 +15,16 @@ type TransactionManagerProps = {
   transactions: Transaction[]
   currentPage?: number
   onPageChange?: (page: number) => void
-  onDelete?: (transactionId: string) => void
+  onChangeStatus?: (transactionId: string, status: Transaction["status"]) => void
+  onChangeType?: (transactionId: string, type: Transaction["type"]) => void
 }
 
 export default function TransactionManager({
   transactions = [],
   currentPage = 1,
   onPageChange,
-  onDelete,
+  onChangeStatus,
+  onChangeType,
 }: Partial<TransactionManagerProps>) {
   const businesses = ["All Businesses", "Business1", "Business2", "Business3"];
   const statuses = ["All", "Completed", "Pending", "Cancelled"];
@@ -64,9 +66,11 @@ export default function TransactionManager({
       : new Date(second.date).getTime() - new Date(first.date).getTime()
   })
 
+  console.log(transactions)
+
   return (
     <Section height="hug" className="min-h-[200px]">
-      <Frame className="w-full h-max justify-end gap-[var(--space-sm)] pb-[var(--space-md)]">
+      <Frame className="w-full h-max justify-end gap-[var(--space-sm)]">
         <Frame className="gap-[var(--space-sm)]">
          <Dropdown
            width="max-content"
@@ -117,6 +121,7 @@ export default function TransactionManager({
              setSortBy("category")
            }}
          />
+         
         </Frame>
       </Frame>
       <Frame className="w-full h-full">
@@ -124,15 +129,16 @@ export default function TransactionManager({
           <List width="stretch" height="stretch" scroll="hidden">
             <TransactionHeader/>
             {sortedTransactions.map((transaction) => (
-              <TransactionLine key={transaction.id} transaction={transaction} onDelete={onDelete ?? (() => undefined)}/>
+              <TransactionLine
+                key={transaction.id}
+                transaction={transaction}
+                onChangeStatus={onChangeStatus ?? (() => undefined)}
+                onChangeType={onChangeType ?? (() => undefined)}
+              />
             ))}
           </List>
         ) : (
-          <Frame className="w-full h-full jusityf-center items-center ">
-            <Paragraph size="md" weight="light" className="text-center w-full h-[100px] flex">
-              When you create transactions, they appear here.
-            </Paragraph>
-          </Frame>
+          <EmptyState message="When you create transactions, they appear here." />
         )}
       </Frame>
       <Frame className="w-full gap-[var(--space-sm)] pt-[var(--space-md)]">

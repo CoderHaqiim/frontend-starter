@@ -1,23 +1,22 @@
 "use client"
 
 import { shadow3 } from '@/src/app/design/shadows'
-import { space } from '@/src/app/design/spacing'
 import { fontWeight } from '@/src/app/design/typograhy'
-import BusinessSwitcher from '@/src/components/app/businessSwitcher'
 import ChartSection from '@/src/components/app/chartSection'
+import DeleteBusinessModal from '@/src/components/app/forms/deleteBusiness'
 import EditLogo from '@/src/components/app/forms/editLogo'
 import HealthProgressMetric from '@/src/components/app/healthProgressMetric'
 import TransactionItem from '@/src/components/app/transactionItem'
 import Section from '@/src/components/base/layout/section'
 import Card from '@/src/components/base/ui/composites/card'
 import Dropdown from '@/src/components/base/ui/composites/dropdown'
+import EmptyState from '@/src/components/base/ui/composites/emptyState'
 import KpiRow from '@/src/components/base/ui/composites/kpiRow'
 import List from '@/src/components/base/ui/composites/list'
 import RadialProgress from '@/src/components/base/ui/composites/radialProgress'
 import Button from '@/src/components/base/ui/primitives/button'
 import Frame from '@/src/components/base/ui/primitives/frame'
 import Heading from '@/src/components/base/ui/primitives/heading'
-import Icon from '@/src/components/base/ui/primitives/icon'
 import Paragraph from '@/src/components/base/ui/primitives/paragraph'
 import { useTheme } from '@/src/components/providers/themeProvider'
 import { businessHealthQueryKey, businessKpisQueryKey, businessQueryKey, getBusiness, getBusinessHealth, getBusinessKpis } from '@/src/services/businessService'
@@ -42,8 +41,6 @@ export default function BusinessPage() {
   const reportDuration = ["weekly", "monthly", "annual"]
   const queryClient = useQueryClient()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-
-
 
   //Fetches
   const { data: businessResponse} = useQuery({
@@ -104,6 +101,16 @@ export default function BusinessPage() {
     )
   }
 
+  const confirmDeleteBusiness = () => {
+    setBackdropOpen(true)
+    setBackdropContent(
+      <DeleteBusinessModal
+        businessId={String(businessId)}
+        businessName={business?.businessName ?? "this business"}
+      />
+    )
+  }
+
   const financials = businessKpisResponse?.financials
 
   const currency = "NGN"
@@ -112,6 +119,15 @@ export default function BusinessPage() {
   const profitMargin = financials?.revenue.value ? Math.round((financials.profit.value / financials.revenue.value) * 100) : 0
   const businessHealth = business?.health ?? "healthy"
   const businessHealthScore = business?.healthScore ?? 0
+
+  // The account information comes from the business record the page already
+  // fetches, so each business shows its own values.
+  const accountInformation = [
+    { label: "Account type", value: business?.accountType ?? "Not set" },
+    { label: "Account number", value: business?.accountNumber ?? "Not set" },
+    { label: "Billing email", value: business?.billingEmail ?? "Not set" },
+    { label: "Payment terms", value: business?.paymentTerms ?? "Not set" },
+  ]
   
   const businessKpis: kpiObjectProps[] = [
     ...kpiResponseToCards(businessKpisResponse, currency),
@@ -144,22 +160,17 @@ export default function BusinessPage() {
         <Frame className="w-full rounded-[var(--radius-sm)] h-max justify-between">
           {/* Business Info */}
           <Frame className="gap-[var(--space-lg)]">
-            <Frame className="w-[50px] justify-center items-center h-[50px] border rounded-[var(--radius-sm)] text-[white] bg-[green]">
+            <Frame className="w-[80px] justify-center items-center h-[80px] border rounded-[var(--radius-sm)] text-[white] bg-[green]">
               {
-                business?.logo ? (
-                <img src={business.logo} alt={`${business.businessName} logo`} className="h-full w-full rounded-[var(--radius-sm)] object-cover"/>
-              ) : (
-                business?.businessName?.trim().charAt(0).toUpperCase() || "B"
-              )}
-              <Frame specificStyles={{ position: "absolute", right: "-6px", bottom: "-6px" }}>
-                <button
-                  type="button"
-                  aria-label="Edit business"
-                  onClick={editLogo}
-                  className={`${shadow3} flex h-[20px] w-[20px] items-center justify-center rounded-[50%] border-[0.5px] border-[var(--color-outline2)] bg-[var(--color-white)]`}
-                >
-                  <Icon size="xxs" stroke='2' name='icon-pencil'/>
-                </button>
+                business?.logo ? 
+                <img src={business.logo} alt={`${business.businessName} logo`} className="h-full w-full rounded-[var(--radius-sm)] object-cover"/>:
+                (business?.businessName?.trim().charAt(0).toUpperCase() || "B")
+              }
+              <Frame specificStyles={{ position: "absolute", right: "-8px", bottom: "-0px" }}>
+                <Button variant='outline' size="xxs" isIcon iconName="icon-pencil" func={editLogo}
+                  className={`${shadow3} flex h-[20px] w-[20px] items-center justify-center rounded-[50%] border-[0.5px] border-[var(--color-outline2)]`}
+                />
+  
               </Frame>
             </Frame>
 
@@ -168,7 +179,6 @@ export default function BusinessPage() {
                 <Heading size="xl" type="h1">
                   { shortenText(business?.businessName?? "", 30) ?? "Business name" }
                 </Heading>
-                <BusinessSwitcher activeBusinessId={String(businessId)} />
               </Frame>
               <Frame className="gap-[var(--space-xs)] items-center">
                 <Paragraph weight="light" size="sm">
@@ -194,22 +204,21 @@ export default function BusinessPage() {
       </Section>
 
       {/* KPIS */}
-      <Section
-        className={`w-full gap-[var(--space-sm)] h-max flex-col`}
+      <Section className={`w-full h-max flex-col`}
         specificStyles={{
           overflow: "hidden",
           transition: "max-height 300ms ease, transform 250ms ease",
         }}
       >
-        <Frame className=' flex-col gap-[var(--space-md)]'>
-          <Frame className="w-full justify-end">
+        <Frame className="w-full justify-end">
             <Dropdown formFunc={reportChangeHandler} name="summaryPeriod" width="max-content" size="xs" options={reportDuration}/>
           </Frame>
+        
           <KpiRow isLoading={isBusinessDataLoading} kpis={businessKpis.slice(0, 4)} itemsCount={4} />
           {kpisExpanded && (
             <KpiRow isLoading={isBusinessDataLoading} kpis={businessKpis.slice(4)} itemsCount={4}/>
           )}
-        </Frame>
+        
         <Frame className="w-full justify-center">
           <Button
             variant="ghost"
@@ -218,8 +227,7 @@ export default function BusinessPage() {
             specificStyles={{
               color: colors["accent"],
               backgroundColor: "transparent",
-              fontWeight: fontWeight["semiBold"],
-              marginTop: space["sm"]
+              fontWeight: fontWeight["semiBold"]
             }}
           >
             {kpisExpanded ? 'See less KPIs' : 'See more KPIs'}
@@ -230,18 +238,16 @@ export default function BusinessPage() {
 
       {/* Business Health */}
       <Section height="stretch">
-        <Frame className="justify-between gap-[var(--space-xs)] h-max w-full">
           <Frame className="w-full items-center gap-[var(--space-sm)]">
             <Heading type="h2" size='md'>Business Health</Heading>
             <span>•</span>
             <Paragraph weight="light" size='xs'>Score and Metrics</Paragraph>
           </Frame>
-        </Frame>
 
-        <Frame className="gap-[var(--space-md)] h-[250px]">
-          <Card gap="lg" padding="lg" width="max-content" height="100%" rounded="md" className="bg-[var(--color-background1)]">
+        <Frame className="gap-[var(--space-lg)] h-[235px]">
+          <Card gap="xl" padding="xl" width="max-content" height="100%" rounded="md" className="bg-[var(--color-background1)]">
             <Heading type="h3" size='xs'>Business score</Heading>
-            <RadialProgress size={180} strokeWidth={4} score={businessHealthScore} color={healthMap[businessHealth]}/>
+            <RadialProgress size={150} strokeWidth={4} score={businessHealthScore} color={healthMap[businessHealth]}/>
           </Card>
 
           <Frame className=" justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] flex-col h-full flex-1 border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]">
@@ -289,13 +295,60 @@ export default function BusinessPage() {
                 ))}
               </List>
             ) : (
-              <Frame className="w-full h-full jusityf-center items-center ">
-                <Paragraph size="md" weight="light" className="text-center w-full h-[100px] flex">
-                  When you create transactions, they appear here.
-                </Paragraph>
-              </Frame>
+              <EmptyState message="When you create transactions, they appear here." />
             )}
           </Frame>
+      </Section>
+
+      {/* Business Settings */}
+      <Section>
+        <Frame className="w-full flex-col gap-[var(--space-lg)]">
+          <Heading type="h2" size='md'>Business settings</Heading>
+
+          {/* Account information */}
+          <Frame className="w-full flex-col gap-[var(--space-md)]">
+            <Heading type="h3" size='xs'>Account information</Heading>
+
+            <Frame className="w-full flex-col gap-[var(--space-sm)]">
+              {
+                accountInformation.map((item) => (
+                  <Frame
+                    key={item.label}
+                    className="w-full items-center justify-between border-b border-[var(--color-outline1)] pb-[var(--space-sm)] last:border-b-0 last:pb-0"
+                  >
+                    <Paragraph size="sm" color="textColor1" weight="medium">{item.label}</Paragraph>
+                    <Paragraph size="xs">{item.value}</Paragraph>
+                  </Frame>
+                ))
+              }
+            </Frame>
+          </Frame>
+
+          {/* Delete business */}
+          <Frame className="w-full flex-col gap-[var(--space-sm)] border-t border-[var(--color-outline1)] pt-[var(--space-lg)]">
+            <Heading type="h3" size='xs'>Delete business</Heading>
+
+            <Paragraph size="xs">
+              Deleting {business?.businessName ?? "this business"} removes the business and
+              everything recorded against it. This action cannot be undone.
+            </Paragraph>
+
+            <Frame className="w-full">
+              <Button
+                variant="outline"
+                size="sm"
+                iconName="icon-delete"
+                iconColor="error"
+                func={confirmDeleteBusiness}
+                specificStyles={{
+                  color: colors["error"],
+                }}
+              >
+                Delete business
+              </Button>
+            </Frame>
+          </Frame>
+        </Frame>
       </Section>
     </Frame>
   )

@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react"
 
 import Section from "../base/layout/section"
 import DownloadDialogue from "../base/ui/composites/downloadDialogue"
+import EmptyState from "../base/ui/composites/emptyState"
 import ShareDialogue from "../base/ui/composites/shareDialogue"
 import Button from "../base/ui/primitives/button"
 import Frame from "../base/ui/primitives/frame"
@@ -295,11 +296,7 @@ export default function ViewReceipt() {
     return (
       <Frame className="w-full flex-col h-max">
         <Section emptyState>
-          <Frame className="w-full h-full items-center justify-center">
-            <Paragraph size="md" weight="light" className="text-center w-full h-[100px] flex">
-              When you create a receipt, it appears here.
-            </Paragraph>
-          </Frame>
+          <EmptyState message="When you create a receipt, it appears here." surface="" />
         </Section>
       </Frame>
     )

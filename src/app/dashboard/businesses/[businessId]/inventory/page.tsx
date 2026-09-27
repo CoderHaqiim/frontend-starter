@@ -1,14 +1,17 @@
 "use client"
 
+import ImportModal from "@/src/components/app/import/importModal"
+import InventoryHeader from "@/src/components/app/inventoryHeader"
+import InventoryLine from "@/src/components/app/inventoryLine"
 import Section from "@/src/components/base/layout/section"
 import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import EmptyState from "@/src/components/base/ui/composites/emptyState"
 import KpiRow from "@/src/components/base/ui/composites/kpiRow"
-import Table from "@/src/components/base/ui/composites/table"
+import List from "@/src/components/base/ui/composites/list"
 import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
-import RowActions from "@/src/components/app/rowActions"
 import { deleteInventoryItem, getInventory, inventoryQueryKey } from "@/src/services/inventoryService"
 import { useBackdropState } from "@/src/store/backdropState"
 import { useToastState } from "@/src/store/toastState"
@@ -111,6 +114,11 @@ export default function InventoryPage() {
     setBackdropContent("create-inventory-item-form")
   }
 
+  const importInventory = () => {
+    setBackdropOpen(true)
+    setBackdropContent(<ImportModal definitionId="inventory" businessId={businessId} />)
+  }
+
   return (
     <Frame className="w-full h-max flex flex-col">
       <Section>
@@ -122,7 +130,15 @@ export default function InventoryPage() {
             </Paragraph>
           </Frame>
 
-          <Frame>
+          <Frame className="gap-[var(--space-sm)]">
+            <Button variant="outline" size="sm" iconName="icon-download" iconColor="accent" func={importInventory}
+              specificStyles={{
+                color: "var(--color-accent)",
+                borderColor: "var(--color-accent)",
+              }}
+            >
+              Import Inventory
+            </Button>
             <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createInventoryItem}>
               Add inventory item
             </Button>
@@ -151,18 +167,20 @@ export default function InventoryPage() {
           </Frame>
 
           <Frame className="w-full h-max">
-            <Table
-              width="stretch"
-              cellWidth="180px"
-              height="hug"
-              size="sm"
-              data={filteredItems}
-              rowActions={(row) => (
-                <RowActions
-                  onDelete={() => handleDeleteInventoryItem(String(row.SKU))}
-                />
-              )}
-            />
+            {filteredItems.length > 0 ? (
+              <List width="stretch" height="stretch" scroll="hidden">
+                <InventoryHeader />
+                {filteredItems.map((item) => (
+                  <InventoryLine
+                    key={item.SKU}
+                    item={item}
+                    onDelete={handleDeleteInventoryItem}
+                  />
+                ))}
+              </List>
+            ) : (
+              <EmptyState message="When you add inventory items, they appear here." />
+            )}
           </Frame>
         </Frame>
       </Section>

@@ -2,12 +2,12 @@
 
 import { shadow2 } from "@/src/app/design/shadows"
 import {
-    CSSProperties,
-    ReactNode,
-    useEffect,
-    useId,
-    useRef,
-    useState,
+  CSSProperties,
+  ReactNode,
+  useEffect,
+  useId,
+  useRef,
+  useState,
 } from "react"
 import { createPortal } from "react-dom"
 import Frame from "../primitives/frame"
@@ -20,7 +20,7 @@ type PopupProps = {
   position?: PopupPosition
   disabled?: boolean
   specificStyle?: CSSProperties
-  width?: "hug" | "stretch"
+  width?: CSSProperties["width"]
   gap: number
 }
 
@@ -32,8 +32,9 @@ type Coordinates = {
 export default function Popup({
   children,
   content,
+  position = "left",
   gap,
-  width = "hug",
+  width = "250px",
   disabled = false,
   specificStyle,
 }: PopupProps) {
@@ -53,7 +54,7 @@ export default function Popup({
     setMounted(true)
   }, [])
 
-  function togglePopup(event: React.MouseEvent<HTMLDivElement>) {
+  function togglePopup() {
     if (disabled) return
 
     if (isVisible) {
@@ -61,9 +62,41 @@ export default function Popup({
       return
     }
 
+    const trigger = triggerRef.current
+
+    if (!trigger) return
+
+    const triggerRect = trigger.getBoundingClientRect()
+
+    let top = 0
+    let left = 0
+
+    switch (position) {
+      case "right":
+        top = triggerRect.top + triggerRect.height / 2
+        left = triggerRect.right + gap
+        break
+
+      case "top":
+        top = triggerRect.top - gap
+        left = triggerRect.left + triggerRect.width / 2
+        break
+
+      case "bottom":
+        top = triggerRect.bottom + gap
+        left = triggerRect.left + triggerRect.width / 2
+        break
+
+      case "left":
+      default:
+        top = triggerRect.top + triggerRect.height / 2
+        left = triggerRect.left - gap
+        break
+    }
+
     setCoordinates({
-      top: event.clientY,
-      left: event.clientX + gap,
+      top,
+      left,
     })
 
     setIsVisible(true)
@@ -94,42 +127,37 @@ export default function Popup({
     }
   }, [isVisible])
 
-  function handleMouseLeave() {
-    setIsVisible(false)
-  }
+  const transform =
+    position === "left"
+      ? "translate(-100%, -50%)"
+      : position === "right"
+        ? "translateY(-50%)"
+        : position === "top"
+          ? "translate(-50%, -100%)"
+          : "translateX(-50%)"
 
   return (
     <>
-      <div
-        ref={triggerRef}
-        className={width === "stretch" ? "w-full" : "w-auto"}
-        aria-describedby={!disabled ? popupId : undefined}
-        onClick={togglePopup}
-      >
+      <div ref={triggerRef} className="w-max" aria-describedby={!disabled ? popupId : undefined} onClick={togglePopup}>
         {children}
       </div>
 
       {mounted &&
         createPortal(
-          <div
-            ref={popupRef}
-            id={popupId}
-            role="popup"
-            onMouseLeave={handleMouseLeave}
-            className={`pointer-events-auto ${shadow2} fixed z-[9999] w-max max-w-[200px] rounded-[var(--radius-sm)] bg-[var(--color-background2)] p-[var(--space-sm)] transition-opacity duration-300 ${
-              isVisible
-                ? "opacity-100"
-                : "pointer-events-none opacity-0"
+          <div ref={popupRef} id={popupId} role="popup"
+            className={`pointer-events-auto ${shadow2} fixed z-[9999] max-w-[250px] rounded-[var(--radius-sm)] bg-[var(--color-white)] border border-[var(--color-outline1)] p-[var(--space-md)] transition-opacity duration-300 ${
+              isVisible ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
             style={{
+              width: width,
               top: coordinates.top,
               left: coordinates.left,
-              transform: "translateY(-50%)",
+              transform,
               ...specificStyle,
             }}
           >
             <Frame
-              className="flex-col"
+              className="flex-col w-full"
               specificStyles={{
                 lineHeight: "1.5",
                 color: "var(--color-background1)",

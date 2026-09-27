@@ -1,6 +1,7 @@
 'use client'
 
 import CreateTransactionForm from '@/src/components/app/forms/createTransaction'
+import ImportModal from '@/src/components/app/import/importModal'
 import TransactionManager from '@/src/components/app/transactionManager'
 import Section from '@/src/components/base/layout/section'
 import KpiRow from '@/src/components/base/ui/composites/kpiRow'
@@ -8,10 +9,10 @@ import Button from '@/src/components/base/ui/primitives/button'
 import Frame from '@/src/components/base/ui/primitives/frame'
 import Heading from '@/src/components/base/ui/primitives/heading'
 import Paragraph from '@/src/components/base/ui/primitives/paragraph'
-import { businessTransactionsQueryKey, deleteBusinessTransaction, getBusinessTransactions } from '@/src/services/transactionService'
+import { businessTransactionsQueryKey, getBusinessTransactions } from '@/src/services/transactionService'
 import { useBackdropState } from '@/src/store/backdropState'
 import { useToastState } from '@/src/store/toastState'
-import { kpiObjectProps, ToastType, Transaction } from '@/src/types/types'
+import { kpiObjectProps, ToastType } from '@/src/types/types'
 import { getCurrencySymbol } from '@/src/utils/currencySymbol'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -24,6 +25,7 @@ export default function Item3() {
     queryKey: businessTransactionsQueryKey(businessId, page),
     queryFn: () => getBusinessTransactions(businessId, page),
   })
+
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
   const { toastState, setToastState } = useToastState()
   const queryClient = useQueryClient()
@@ -32,35 +34,40 @@ export default function Item3() {
     setToastState([...toastState, toast])
   }
 
-  const handleDeleteTransaction = async (transactionId: string) => {
-    try {
-      await deleteBusinessTransaction(businessId, transactionId)
+  // const handleDeleteTransaction = async (transactionId: string) => {
+  //   try {
+  //     await deleteBusinessTransaction(businessId, transactionId)
 
-      // The row leaves the cached page straight away, and every cached query is
-      // refreshed so the list, the recent transactions and the KPI cards follow.
-      queryClient.setQueryData<Transaction[]>(
-        businessTransactionsQueryKey(businessId, page),
-        (currentTransactions = []) =>
-          currentTransactions.filter((transaction) => transaction.id !== transactionId)
-      )
-      queryClient.invalidateQueries()
+  //     // The row leaves the cached page straight away, and every cached query is
+  //     // refreshed so the list, the recent transactions and the KPI cards follow.
+  //     queryClient.setQueryData<Transaction[]>(
+  //       businessTransactionsQueryKey(businessId, page),
+  //       (currentTransactions = []) =>
+  //         currentTransactions.filter((transaction) => transaction.id !== transactionId)
+  //     )
+  //     queryClient.invalidateQueries()
 
-      showToast({
-        variant: "success",
-        title: "Transaction deleted",
-        message: `Transaction ${transactionId} was deleted successfully.`,
-      })
-    } catch {
-      showToast({
-        variant: "error",
-        title: "Delete failed",
-        message: "The transaction could not be deleted. Please try again.",
-      })
-    }
-  }
+  //     showToast({
+  //       variant: "success",
+  //       title: "Transaction deleted",
+  //       message: `Transaction ${transactionId} was deleted successfully.`,
+  //     })
+  //   } catch {
+  //     showToast({
+  //       variant: "error",
+  //       title: "Delete failed",
+  //       message: "The transaction could not be deleted. Please try again.",
+  //     })
+  //   }
+  // }
 
   const createTransaction = () => {
     setBackdropContent(<CreateTransactionForm businessId={businessId} />)
+    setBackdropOpen(true)
+  }
+
+  const importTransactions = () => {
+    setBackdropContent(<ImportModal definitionId="transactions" businessId={businessId} />)
     setBackdropOpen(true)
   }
 
@@ -101,7 +108,15 @@ export default function Item3() {
             <Paragraph weight="light" size="sm">Track and manage all income and expenses for this business.</Paragraph>
           </Frame>
 
-          <Frame>
+          <Frame className="gap-[var(--space-sm)]">
+            <Button variant="outline" size="sm" iconName="icon-download" iconColor="accent" func={importTransactions}
+              specificStyles={{
+                color: "var(--color-accent)",
+                borderColor: "var(--color-accent)",
+              }}
+            >
+              Import Transactions
+            </Button>
             <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createTransaction}>
               Add Transaction
             </Button>
@@ -113,12 +128,7 @@ export default function Item3() {
         <KpiRow kpis={transactionKpis} isLoading={isTransactionsLoading} itemsCount={5} />
       </Section>
 
-      <TransactionManager
-        transactions={transactions}
-        currentPage={page}
-        onPageChange={setPage}
-        onDelete={handleDeleteTransaction}
-      />
+      <TransactionManager transactions={transactions} currentPage={page} onPageChange={setPage}/>
     </Frame>
   )
 }

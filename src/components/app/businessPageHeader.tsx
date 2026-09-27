@@ -12,16 +12,16 @@ export default function BusinessPageHeader() {
   const pathname = usePathname()
 
   const isBusinessRoute = pathname.startsWith("/dashboard/businesses/")
-  const isOverview = pathname.endsWith("/overview")
+  // const isOverview = pathname.endsWith("/overview")
   const { data: businesses = [] } = useQuery({
     queryKey: businessesQueryKey,
     queryFn: getBusinesses,
-    enabled: isBusinessRoute && !isOverview,
+    enabled: isBusinessRoute
   })
 
   const selectedBusiness = businesses.find((business) => business.id === businessId)
 
-  if (!isBusinessRoute || isOverview) return null
+  if (!isBusinessRoute) return null
 
   return (
     <Frame className="w-full items-center gap-[var(--space-md)] border-b border-[var(--color-outline1)] py-[var(--space-sm)] px-[var(--space-lg)]">

@@ -4,12 +4,12 @@ import { Task } from "@/src/types/types";
 import { format } from "date-fns";
 import { DragEvent } from "react";
 import Badge from "../../base/ui/composites/badge";
+import Popup from "../../base/ui/composites/popup";
 import Button from "../../base/ui/primitives/button";
 import Frame from "../../base/ui/primitives/frame";
 import Heading from "../../base/ui/primitives/heading";
 import Paragraph from "../../base/ui/primitives/paragraph";
 import { useTheme } from "../../providers/themeProvider";
-import RowActions from "../rowActions";
 
 export default function TaskCard({task, onDelete}:{task: Task, onDelete?: (taskId: string) => void}) {
   const {colors} = useTheme()
@@ -45,7 +45,31 @@ export default function TaskCard({task, onDelete}:{task: Task, onDelete?: (taskI
             <Badge color={badgePriorityColor} size="xxs" text={task.priority + " priority"}/>
           </Frame>
           {onDelete ? (
-            <RowActions onDelete={() => onDelete(String(task.id))} />
+            // The card menu opens to the left of the dots button, so the delete
+            // action always takes a second click before the task is removed.
+            <Popup
+              gap={12}
+              content={
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  rounded="sm"
+                  iconName="icon-delete"
+                  iconColor="error"
+                  justify="start"
+                  className="w-full px-[var(--space-sm)] py-[var(--space-xs)] text-[13px]"
+                  specificStyles={{
+                    backgroundColor: "var(--color-error2)",
+                    color: "var(--color-error)",
+                  }}
+                  func={() => onDelete(String(task.id))}
+                >
+                  Delete
+                </Button>
+              }
+            >
+              <Button variant="ghost" size="xs" isIcon iconName="icon-vertival-dots" />
+            </Popup>
           ) : (
             <Button variant="ghost" size="xxs" iconName="icon-vertival-dots" isIcon />
           )}

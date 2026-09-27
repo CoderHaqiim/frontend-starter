@@ -4,6 +4,7 @@ import ReceiptHeader from "@/src/components/app/receiptHeader"
 import ReceiptLine from "@/src/components/app/receiptLine"
 import Section from "@/src/components/base/layout/section"
 import Dropdown from "@/src/components/base/ui/composites/dropdown"
+import EmptyState from "@/src/components/base/ui/composites/emptyState"
 import List from "@/src/components/base/ui/composites/list"
 import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
@@ -158,17 +159,21 @@ export default function ReceiptsPage() {
           </Frame>
 
           <Frame className="w-full h-full">
-            <List width="stretch" height="stretch" scroll="hidden">
-              <ReceiptHeader />
-              {filteredReceipts.map((receipt) => (
-                <ReceiptLine
-                  key={receipt.id}
-                  receipt={receipt}
-                  onView={handleViewReceipt}
-                  onDelete={handleDeleteReceipt}
-                />
-              ))}
-            </List>
+            {filteredReceipts.length > 0 ? (
+              <List width="stretch" height="stretch" scroll="hidden">
+                <ReceiptHeader />
+                {filteredReceipts.map((receipt) => (
+                  <ReceiptLine
+                    key={receipt.id}
+                    receipt={receipt}
+                    onView={handleViewReceipt}
+                    onDelete={handleDeleteReceipt}
+                  />
+                ))}
+              </List>
+            ) : (
+              <EmptyState message="When you create receipts, they appear here." />
+            )}
           </Frame>
         </Frame>
       </Section>

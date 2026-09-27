@@ -1,6 +1,6 @@
 import { http } from "@/src/http/client"
 
-export type NotificationItem = {
+export type NotificationType = {
   id?: number | string
   title?: string
   message?: string
@@ -15,5 +15,5 @@ export function notificationsQueryKey() {
 }
 
 export function getNotifications() {
-  return http<NotificationItem[]>("/api/notifications", undefined, { method: "GET" })
+  return http<NotificationType[]>("/api/notifications", undefined, { method: "GET" })
 }

@@ -43,6 +43,12 @@ export interface Business {
   country: string
   state: string
   customers: number
+  // The account information the business overview shows. The server owns these
+  // values, so the client only reads them.
+  accountType?: string
+  accountNumber?: string
+  billingEmail?: string
+  paymentTerms?: string
   health?: HealthType
   healthScore?: number
 }

@@ -5,6 +5,7 @@ import Section from "@/src/components/base/layout/section"
 import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
+import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import { useBackdropState } from "@/src/store/backdropState"
 
 export default function Page() {
@@ -21,6 +22,9 @@ export default function Page() {
         <Frame className="justify-between">
           <Frame className="gap-[var(--space-xs)] h-max flex-col">
             <Heading size="xl" type="h1">Task manager</Heading>
+            <Paragraph size="sm" weight="light">
+              Manage your tasks
+            </Paragraph>
           </Frame>
           <Frame>
             <Button variant="fill" size="sm" iconPosition="left" iconName="icon-plus" func={createTask}>

@@ -10,6 +10,16 @@ export function recentBusinessTransactionsQueryKey(businessId: string, limit = 5
   return ["recent-business-transactions", businessId, limit]
 }
 
+// The prefix shared by every cached page of a business, so a bulk change such as
+// an import can refresh them all at once.
+export function businessTransactionsPrefixQueryKey(businessId: string) {
+  return ["business-transactions", businessId]
+}
+
+export function recentBusinessTransactionsPrefixQueryKey(businessId: string) {
+  return ["recent-business-transactions", businessId]
+}
+
 export { getBusinessTransactions, getRecentBusinessTransactions }
 
 // The mutations all go through the business transactions route, which answers with

@@ -36,7 +36,7 @@ export default function TableCell({
     }
 
   return (
-        <Frame className={`${className} group relative border-[0.5px] border-[var(--color-background1)] items-center justify-start p-[var(--space-sm)] hover:border-[1px] hover:border-[var(--color-accent)] overflow-hidden`}
+        <Frame className={`${className} group relative border-[0.5px] border-[var(--color-outline1)] items-center justify-start p-[var(--space-sm)] hover:border-[1px] hover:border-[var(--color-accent)] overflow-hidden`}
         specificStyles={{
             width: width,
             height: elementSizes[size]
@@ -70,7 +70,7 @@ export default function TableCell({
                     iconColor="textColor2"
                     specificStyles={{
                         backgroundColor: "var(--color-background1)",
-                        border: "1px solid var(--color-outline1)",
+                        border: "1px solid var(--color-outline2)",
                         borderRadius: "var(--radius-sm)",
                         color: "var(--color-textColor2)",
                     }}

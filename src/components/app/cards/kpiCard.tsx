@@ -36,9 +36,8 @@ export default function KpiCard({
   return (
 
       <Card width={width} height="110px" padding="lg" className="flex-1 bg-[var(--color-white)]" specificStyles={{
-        border:0,
         justifyContent: "center",
-        borderRadius: "0"
+        borderRadius: "var(--radius-md)"
       }}>
         <Frame className="justify-between w-full">
           <Paragraph size="xs" weight="medium" color="textColor2">

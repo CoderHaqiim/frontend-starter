@@ -184,7 +184,7 @@ export default function Home() {
           </Frame>
         </Frame>
 
-        <Frame ref={sliderRef} className="w-full h-max overflow-hidden flex gap-[var(--space-md)]">
+        <Frame ref={sliderRef} className="w-full h-max overflow-hidden flex gap-[var(--space-lg)]">
           {
             businesses.length > 0 ? (
               filteredBusinesses.map( (business, index) =>
@@ -206,20 +206,14 @@ export default function Home() {
 
       {/* Performance Ranking */}
       <Section>
-        <Frame className="w-full h-max justify-between mb-[var(--space-md)]">
+        <Frame className="w-full items-center h-max justify-between">
           <Heading size="md" type="h2">
             Performance Ranking
           </Heading>
 
           <Frame className="w-auto h-max gap-[var(--space-sm)]">
-            <Dropdown formFunc={selectRankingMetric} name="ranking" size="sm" options={rankingMetrics}/>
-
-            <Dropdown
-              formFunc={selectRankingPeriod}
-              name="rankingDuration"
-              size="sm"
-              options={reportDuration}
-            />
+            <Dropdown formFunc={selectRankingMetric} name="ranking" size="xs" options={rankingMetrics}/>
+            <Dropdown formFunc={selectRankingPeriod} name="rankingDuration" size="xs" options={reportDuration}/>
           </Frame>
         </Frame>
 

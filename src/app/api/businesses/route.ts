@@ -76,6 +76,13 @@ export async function POST(request: Request) {
     }
   })
 
+  // Account information belongs to the server the way the id and the customer
+  // count do, so a new business always starts with its own set of values.
+  createdBusiness.accountType = "Business"
+  createdBusiness.accountNumber = `ACC-${1000 + Number(createdBusiness.id)}`
+  createdBusiness.billingEmail = createdBusiness.email ?? ""
+  createdBusiness.paymentTerms = "Net 30"
+
   businesses.push(createdBusiness)
 
   registerBusinessHealth(createdBusiness.id)

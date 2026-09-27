@@ -33,11 +33,7 @@ export default function TaskManagerCard({}: TaskManagerCardProps) {
   }
 
   return (
-    <Card
-      padding="lg"
-      rounded="md"
-      width="290px"
-      height="max-content"
+    <Card padding="lg" rounded="md" width="290px" height="max-content"
       specificStyles={{
         border: `solid 1px ${colors["outline1"]}`
       }}
@@ -60,34 +56,28 @@ export default function TaskManagerCard({}: TaskManagerCardProps) {
       </Frame>
 
       <div>
-        <Frame
-          className="
-            flex
-            w-full
-            h-max
-            items-center
-            gap-[var(--space-xs)]
-            mb-[var(--space-md)]
-            mt-[var(--space-sm)]
-          "
-        >
-          <Heading type="h3" size="xxs">
-            Today
-          </Heading>
+        <Frame className=" flex flex-col w-full h-max gap-[var(--space-xs)] mb-[var(--space-md)] mt-[var(--space-sm)]">
+          <Paragraph size="xs"> Today</Paragraph>
 
-          <Frame>
-            <Paragraph size="xxs">
-              {" • " + (tasks?.length ?? "0") + " Tasks" +
-                " • " + (tasks?.filter(task => task.status === "completed").length ?? "0") + " Completed" +
-                " • " + (tasks?.filter(task => task.status === "pending").length ?? "0") + " Pending" +
-                " • " + (tasks?.filter(task => task.status === "overdue").length ?? "0") + " Overdue"}
-            </Paragraph>
+          <Frame className="gap-[var(--space-sm)]">
+            <Paragraph size="xxs">{(tasks?.length ?? "0") + " Tasks"}</Paragraph>
+            <Paragraph size="xxs">{" • " + (tasks?.filter(task => task.status === "completed").length ?? "0") + " Completed"}</Paragraph>
+            <Paragraph size="xxs">{" • " + (tasks?.filter(task => task.status === "pending").length ?? "0") + " Pending"}</Paragraph>
+            <Paragraph size="xxs">{" • " + (tasks?.filter(task => task.status === "overdue").length ?? "0") + " Overdue"}</Paragraph>
           </Frame>
         </Frame>
 
-        <List width="stretch" scroll="hidden" className="flex-1">
+        <List width="stretch" scroll="hidden" className="flex-1"  specificStyles={{
+          borderRadius: "var(--radius-sm)"
+        }}>
           {
-            tasks?.slice(0,4).map((task) => <TaskLine task={task} key={task.id}/> )
+            tasks?.length
+              ? tasks.slice(0,4).map((task) => <TaskLine task={task} key={task.id}/>)
+              : (
+                <Frame className="flex bg-[var(--color-background1)] w-full h-max items-center justify-center p-[var(--space-md)]">
+                  <Paragraph size="xs" color="textColor1" weight="medium" className="text-center">You have no tasks for today</Paragraph>
+                </Frame>
+              )
           }
         </List>
       </div>

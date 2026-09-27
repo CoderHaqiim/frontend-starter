@@ -6,6 +6,7 @@ import { Task, TaskStatus, ToastType } from "@/src/types/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import Badge from "../base/ui/composites/badge";
+import EmptyState from "../base/ui/composites/emptyState";
 import Frame from "../base/ui/primitives/frame";
 import Heading from "../base/ui/primitives/heading";
 import TaskCard from "./cards/taskCard";
@@ -80,6 +81,16 @@ export default function TaskManager() {
 				})
 			});
 	};
+
+	// The board has no cards yet, so it keeps its frame and centres the message
+	// inside it. `surface=""` keeps the message from drawing a box of its own.
+	if (tasks.length === 0) {
+		return (
+			<Frame className="h-full min-h-0 w-full flex-1 items-center justify-center border border-[var(--color-outline1)] bg-[var(--color-background2)]">
+				<EmptyState message="When you create tasks, they appear here." surface="" />
+			</Frame>
+		);
+	}
 
 	return (
 		<div className="grid h-full min-h-0 w-full flex-1 grid-cols-4 gap-[1px] overflow-hidden border border-[var(--color-outline1)] bg-[var(--color-outline1)]">

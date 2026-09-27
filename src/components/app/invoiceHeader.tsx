@@ -6,7 +6,7 @@ import Paragraph from "../base/ui/primitives/paragraph";
 export default function InvoiceHeader() {
 
   return (
-    <Frame className="w-full p-[var(--space-lg)] justify-between bg-[var(--color-background1)]">
+    <Frame className="w-full p-[var(--space-lg)] justify-between bg-[var(--color-background3)]">
       <Frame className="w-[100px]" >
         <Paragraph color="textColor1" weight="medium" size="sm">Created on</Paragraph>
       </Frame>
@@ -23,6 +23,9 @@ export default function InvoiceHeader() {
       </Frame>
       <Frame className="w-[200px]">
         <Paragraph color="textColor1" weight="medium" size="sm">Customer</Paragraph>
+      </Frame>
+      <Frame className="w-[60px] flex-col items-end">
+        <Paragraph color="textColor1" weight="medium" size="sm">Actions</Paragraph>
       </Frame>
     </Frame>
   );

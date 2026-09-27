@@ -2,6 +2,11 @@ import { FrameSizeType } from "@/src/types/types";
 import { Children, CSSProperties, ReactNode } from "react";
 import Frame from "../primitives/frame";
 
+// The box a list draws around its rows. It is exported so the empty state a list
+// falls back to keeps exactly the same shape.
+export const listSurfaceClass =
+  "bg-[var(--color-background3)] border-[1px] border-[var(--color-outline2)] rounded-[var(--radius-md)]";
+
 type ListProps = {
   scroll?: "hidden" | "visible";
   children: ReactNode;
@@ -24,11 +29,8 @@ export default function List({
       className={`
         ${width === "stretch" ? "w-full" : width === "hug" ? "w-max" : `w-[${width}]`}
         ${height === "stretch" ? "h-full" : height === "hug" ? "h-max" : height ? `h-[${height}]` : ""}
-        bg-[var(--color-background3)]
-        border-[1px]
-        border-[var(--color-outline2)]
+        ${listSurfaceClass}
         gap-[var(--space-xxs)]
-        rounded-[var(--radius-md)]
         flex
         flex-col
         overflow-visible

@@ -5,11 +5,11 @@ import {
   BusinessHealth,
   BusinessKpiResponse,
 } from "@/src/types/types"
+import abridgeNumber from "@/src/utils/abridgeNumber"
+import { getCurrencySymbol } from "@/src/utils/currencySymbol"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
 import { healthMap } from "@/src/utils/healthMap"
 import { shortenText } from "@/src/utils/shortenText"
-import abridgeNumber from "@/src/utils/abridgeNumber"
-import { getCurrencySymbol } from "@/src/utils/currencySymbol"
 import Link from "next/link"
 import Card from "../../base/ui/composites/card"
 import RadialProgress from "../../base/ui/composites/radialProgress"
@@ -56,7 +56,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
         width="320px"
         height="max-content"
         justify="space-between"
-        padding="lg"
+        padding="xl"
         gap="lg"
         specificStyles={{
           position: "relative",
