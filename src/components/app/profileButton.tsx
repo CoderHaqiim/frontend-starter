@@ -37,13 +37,8 @@ export default function ProfileButton() {
                 border:"solid 1px var(--color-outline1)"
             }}>
             <Avatar size="sm" src={profileData?.profilePicture}/>
-            <span className="flex flex-col justify-center items-start">
-                <span className="block leading-[1] text-[length:var(--bodySize-sm)] font-[var(--fontWeight-semiBold)]">
-                    {profileData?.userName ?? "Loading..."}
-                </span>
-                <span className="block font-[weight:var(--fontWeight-light)] text-[length:var(--bodySize-xs)] text-[color:var(--color-textColor2)]">
-                    {profileData?.userRole ?? ""}
-                </span>
+            <span className="block leading-[1] text-[length:var(--bodySize-sm)] font-[var(--fontWeight-semiBold)]">
+                {profileData?.userName ?? "Loading..."}
             </span>
         </Button>
     </Frame>

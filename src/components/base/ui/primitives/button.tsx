@@ -29,6 +29,8 @@ type ButtonProps = {
     height?: CSSProperties
     showFocusRing?: boolean
     disabled?: boolean
+    onMouseEnter?: () => void
+    onMouseLeave?: () => void
 }
 
 export default function Button({
@@ -50,6 +52,8 @@ export default function Button({
     height,
     showFocusRing = true,
     disabled = false,
+    onMouseEnter,
+    onMouseLeave,
     func
 }: ButtonProps) {
 
@@ -114,6 +118,8 @@ export default function Button({
     <button 
     type={role}
     onClick={clickHandler}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
     disabled={disabled}
     className={`
             ${className}

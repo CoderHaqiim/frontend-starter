@@ -1,5 +1,5 @@
 import { http } from "@/src/http/client"
-import { Business, Businesses, BusinessHealth, BusinessKpiResponse, Duration, Transaction } from "@/src/types/types"
+import { Business, BusinessAccount, Businesses, BusinessHealth, BusinessKpiResponse, Duration, Transaction } from "@/src/types/types"
 
 export const businessesQueryKey = ["businesses"]
 
@@ -80,6 +80,12 @@ export function updateBusiness(businessId: string, updates: BusinessMutationBody
 
 export function deleteBusiness(businessId: string) {
   return http<BusinessMutationResponse>(`/api/businesses/${businessId}`, undefined, { method: "DELETE" })
+}
+
+// The edit bank details form saves the account as one set, so it travels under
+// the key the business route reads.
+export function updateBusinessAccount(businessId: string, account: BusinessAccount) {
+  return http<BusinessMutationResponse>(`/api/businesses/${businessId}`, { account }, { method: "PATCH" })
 }
 
 export function updateBusinessLogo(businessId: string, logo: string) {

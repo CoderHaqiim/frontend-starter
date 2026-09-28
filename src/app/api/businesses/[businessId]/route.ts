@@ -1,6 +1,8 @@
 import { businesses } from "@/src/data/businesses"
+import { BusinessAccount } from "@/src/types/types"
+import { isAccountNumber } from "@/src/utils/bankInformation"
 import { unregisterBusinessHealth } from "@/src/utils/businessHealthResponse";
-import { normalizeText } from "@/src/utils/mockApi";
+import { normalizeText, toText } from "@/src/utils/mockApi";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request, {params}:{params: Promise<{businessId: string}>}) {
@@ -35,6 +37,24 @@ const updatableFields = [
 
 type RouteParams = { params: Promise<{ businessId: string }> }
 
+// The bank information the edit bank details form sends. The three details travel
+// together, so a saved account always holds a set the overview and the invoice
+// payment details can show.
+function readAccount(value: unknown): BusinessAccount | null {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return null
+
+  const account = value as Record<string, unknown>
+  const accountName = toText(account.accountName)
+  const accountNumber = toText(account.accountNumber)
+  // Any bank the business is paid into is accepted, so the bank name is free
+  // text and keeps the casing it was saved with.
+  const bankName = toText(account.bankName)
+
+  if (!accountName || !isAccountNumber(accountNumber) || !bankName) return null
+
+  return { accountName, accountNumber, bankName }
+}
+
 // Shared by PATCH and the POST alias below, so the two verbs cannot drift apart.
 async function updateBusiness(request: Request, { params }: RouteParams) {
   const { businessId } = await params
@@ -52,7 +72,7 @@ async function updateBusiness(request: Request, { params }: RouteParams) {
     return NextResponse.json({ message: "Invalid logo" }, { status: 400 })
   }
 
-  const updates: Record<string, string | number> = {}
+  const updates: Record<string, string | number | BusinessAccount> = {}
 
   updatableFields.forEach((field) => {
     if (typeof body[field] === "string") {
@@ -67,6 +87,18 @@ async function updateBusiness(request: Request, { params }: RouteParams) {
 
   if (typeof body.logo === "string") {
     updates.logo = body.logo
+  }
+
+  // The bank information is validated as one set, so a half filled account can
+  // never reach the store.
+  if (body.account !== undefined) {
+    const account = readAccount(body.account)
+
+    if (!account) {
+      return NextResponse.json({ message: "Invalid bank information" }, { status: 400 })
+    }
+
+    updates.account = account
   }
 
   if (Object.keys(updates).length === 0) {

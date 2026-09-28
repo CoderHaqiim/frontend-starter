@@ -17,18 +17,18 @@ export default function Avatar({size, src = "/images/akeem.png"}: AvatarProps) {
         width: size && elementSizes[size],
         height: size && elementSizes[size],
       }}>
-        <Image 
-            alt="user avatar"
-          src={src}
-            fill
-            sizes= {elementSizes[size]}
-
-            style={{
-                border: `solid 1.5px ${colors["accent"]}`,
-                borderRadius: "inherit",
-                objectFit: "cover",
-            }}
-        />
+        {
+          src && (
+            <Image alt="user avatar" src={src} fill sizes= {elementSizes[size]}
+              style={{
+                  border: `solid 1.5px ${colors["accent"]}`,
+                  borderRadius: "inherit",
+                  objectFit: "cover",
+              }}
+          />
+          )
+        }
+        
     </Frame>
   )
 }

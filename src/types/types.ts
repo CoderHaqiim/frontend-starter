@@ -6,11 +6,18 @@ export type SizeType =  "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
 export type FrameSizeType = "hug" | "stretch" | CSSProperties["height"] | CSSProperties["width"];
 export type FunctionType = (arg?: number | string) => void | Promise<void>
 
+// The personal information the settings page lists and the profile button and
+// card show. The username is what those two display, and the currency is the
+// account currency the account settings list and the money fields are read in.
 export interface Profile {
   profilePicture: string
   userName: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  currency: string
   userId: string | number
-  userRole: string
 }
 export type HealthType = "healthy" | "critical" | "moderate"
 export type Duration = "weekly" |"monthly" |"annual"
@@ -28,6 +35,14 @@ export interface BusinessHealth {
   }
 }
 
+// The bank information a business is paid into, shown on the business overview
+// and on the invoice payment details.
+export type BusinessAccount = {
+  accountName: string
+  accountNumber: string
+  bankName: string
+}
+
 export interface Business {
   id: string
   businessName: string
@@ -43,12 +58,9 @@ export interface Business {
   country: string
   state: string
   customers: number
-  // The account information the business overview shows. The server owns these
-  // values, so the client only reads them.
-  accountType?: string
-  accountNumber?: string
-  billingEmail?: string
-  paymentTerms?: string
+  // The bank information the business overview and the invoice payment details
+  // show. The server owns these values, so the client only reads them.
+  account?: BusinessAccount
   health?: HealthType
   healthScore?: number
 }

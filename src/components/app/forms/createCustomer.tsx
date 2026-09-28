@@ -92,13 +92,17 @@ export default function CreateCustomerForm() {
 
   return (
     <Card width="550px" padding="xl" height="max-content">
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeCreateCustomerForm} />
+      </Frame>
       <Frame className="mb-[var(--space-lg)] max-h-[500px] justify-between">
         <Heading size="md" type="h2">
           Add Customer
         </Heading>
-        <Frame>
-          <CloseButton func={closeCreateCustomerForm} />
-        </Frame>
       </Frame>
       <Form onSubmit={saveCustomer}>
         <Frame className="w-full max-h-[380px] px-[var(--space-sm)] flex-col gap-[var(--space-lg)]">

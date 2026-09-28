@@ -44,6 +44,11 @@ export default function Invoice1() {
   const businessPhone = selectedBusiness.phone || EMPTY_VALUE;
   const businessEmail = selectedBusiness.email || EMPTY_VALUE;
   const businessWebsite = selectedBusiness.website || EMPTY_VALUE;
+  // The payment details come from the bank information on the business record,
+  // so the invoice shows the account the customer should pay into.
+  const accountName = selectedBusiness.account?.accountName || businessName;
+  const accountNumber = selectedBusiness.account?.accountNumber || EMPTY_VALUE;
+  const bankName = selectedBusiness.account?.bankName || EMPTY_VALUE;
 
   const enteredAmount = Number(invoiceDraft.amount);
   const itemsSubtotal = getItemsSubtotal(invoiceDraft.items);
@@ -136,23 +141,15 @@ export default function Invoice1() {
               }}>Payment Details</Paragraph>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Bank Name:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{EMPTY_VALUE}</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{bankName}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Account Name:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{businessName}</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{accountName}</Paragraph>
               </Frame>
               <Frame className="gap-[var(--space-lg)]">
                 <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Account Number:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{EMPTY_VALUE}</Paragraph>
-              </Frame>
-              <Frame className="gap-[var(--space-lg)]">
-                <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Sort Code:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{EMPTY_VALUE}</Paragraph>
-              </Frame>
-              <Frame className="gap-[var(--space-lg)]">
-                <Paragraph size="xs" color="textColor1" className="w-[100px]" specificStyle={{ color: '#1b1b1b' }}>Reference:</Paragraph>
-                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{EMPTY_VALUE}</Paragraph>
+                <Paragraph size="xs" color="textColor2" specificStyle={{ color: '#4f4f4f' }}>{accountNumber}</Paragraph>
               </Frame>
             </Frame>
           </Frame>

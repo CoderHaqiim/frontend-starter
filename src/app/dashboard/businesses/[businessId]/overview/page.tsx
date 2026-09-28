@@ -4,6 +4,7 @@ import { shadow3 } from '@/src/app/design/shadows'
 import { fontWeight } from '@/src/app/design/typograhy'
 import ChartSection from '@/src/components/app/chartSection'
 import DeleteBusinessModal from '@/src/components/app/forms/deleteBusiness'
+import EditBankDetails from '@/src/components/app/forms/editBankDetails'
 import EditLogo from '@/src/components/app/forms/editLogo'
 import HealthProgressMetric from '@/src/components/app/healthProgressMetric'
 import TransactionItem from '@/src/components/app/transactionItem'
@@ -87,6 +88,13 @@ export default function BusinessPage() {
     setBackdropContent("edit-business-form")
   }
 
+  // The bank information is saved through the business route, so the modal takes
+  // the business the page is showing.
+  const editBankDetails = () => {
+    setBackdropOpen(true)
+    setBackdropContent(<EditBankDetails businessId={String(businessId)} />)
+  }
+
   const editLogo = () => {
     setBackdropOpen(true)
     setBackdropContent(
@@ -104,10 +112,7 @@ export default function BusinessPage() {
   const confirmDeleteBusiness = () => {
     setBackdropOpen(true)
     setBackdropContent(
-      <DeleteBusinessModal
-        businessId={String(businessId)}
-        businessName={business?.businessName ?? "this business"}
-      />
+      <DeleteBusinessModal businessId={String(businessId)} businessName={business?.businessName ?? "this business"}/>
     )
   }
 
@@ -120,13 +125,12 @@ export default function BusinessPage() {
   const businessHealth = business?.health ?? "healthy"
   const businessHealthScore = business?.healthScore ?? 0
 
-  // The account information comes from the business record the page already
-  // fetches, so each business shows its own values.
-  const accountInformation = [
-    { label: "Account type", value: business?.accountType ?? "Not set" },
-    { label: "Account number", value: business?.accountNumber ?? "Not set" },
-    { label: "Billing email", value: business?.billingEmail ?? "Not set" },
-    { label: "Payment terms", value: business?.paymentTerms ?? "Not set" },
+  // The bank information comes from the business record the page already fetches,
+  // so each business shows its own account name, account number and bank name.
+  const bankInformation = [
+    { label: "Account name", value: business?.account?.accountName ?? business?.businessName ?? "Not set" },
+    { label: "Account number", value: business?.account?.accountNumber ?? "Not set" },
+    { label: "Bank name", value: business?.account?.bankName ?? "Not set" },
   ]
   
   const businessKpis: kpiObjectProps[] = [
@@ -302,53 +306,51 @@ export default function BusinessPage() {
 
       {/* Business Settings */}
       <Section>
-        <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Heading type="h2" size='md'>Business settings</Heading>
 
-          {/* Account information */}
-          <Frame className="w-full flex-col gap-[var(--space-md)]">
-            <Heading type="h3" size='xs'>Account information</Heading>
-
-            <Frame className="w-full flex-col gap-[var(--space-sm)]">
-              {
-                accountInformation.map((item) => (
-                  <Frame
-                    key={item.label}
-                    className="w-full items-center justify-between border-b border-[var(--color-outline1)] pb-[var(--space-sm)] last:border-b-0 last:pb-0"
-                  >
-                    <Paragraph size="sm" color="textColor1" weight="medium">{item.label}</Paragraph>
-                    <Paragraph size="xs">{item.value}</Paragraph>
-                  </Frame>
-                ))
-              }
+          <Frame className='flex-col gap-[var(--space-xl)]'>
+            {/* Bank information */}
+            <Frame className="bg-[var(--color-white)] w-full border-[0.5px] border-[var(--color-outline1)] p-[var(--space-lg)] flex-col gap-[var(--space-sm)] rounded-[var(--radius-md)]">
+              <Frame className='w-full items-center justify-between border-b border-[var(--color-outline1)] pb-[var(--space-sm)]'>
+                <Heading type="h3" size='sm'>Bank information</Heading>
+                <Button variant="outline" size="xxs" iconName="icon-pencil" func={editBankDetails}>
+                  Edit
+                </Button>
+              </Frame>
+              <Frame className="w-full flex-col gap-[var(--space-sm)]">
+                {
+                  bankInformation.map((item) => (
+                    <Frame key={item.label} className="w-full items-center justify-between last:border-b-0 last:pb-0">
+                      <Paragraph size="xs" color="textColor1" weight="medium">{item.label}</Paragraph>
+                      <Paragraph size="xs">{item.value}</Paragraph>
+                    </Frame>
+                  ))
+                }
+              </Frame>
             </Frame>
-          </Frame>
-
-          {/* Delete business */}
-          <Frame className="w-full flex-col gap-[var(--space-sm)] border-t border-[var(--color-outline1)] pt-[var(--space-lg)]">
-            <Heading type="h3" size='xs'>Delete business</Heading>
-
-            <Paragraph size="xs">
-              Deleting {business?.businessName ?? "this business"} removes the business and
-              everything recorded against it. This action cannot be undone.
-            </Paragraph>
-
-            <Frame className="w-full">
-              <Button
-                variant="outline"
-                size="sm"
-                iconName="icon-delete"
-                iconColor="error"
-                func={confirmDeleteBusiness}
-                specificStyles={{
-                  color: colors["error"],
-                }}
-              >
-                Delete business
-              </Button>
+            
+              {/* Delete business */}
+            <Frame className="w-full bg-[var(--color-white)] border-[0.5px] border-[var(--color-outline1)] p-[var(--space-lg)] flex-col gap-[var(--space-sm)] rounded-[var(--radius-md)]">
+              <Frame className='flex-col border-b border-[var(--color-outline1)] pb-[var(--space-sm)]'>
+                <Heading type="h3" size='sm'>Delete business</Heading>
+              </Frame>
+              
+              <Frame className="w-full gap-[var(--space-lg)] flex-col">
+                <Paragraph size="xs">
+                  Deleting {business?.businessName ?? "this business"} removes the business and
+                  everything recorded against it. <br/>This action cannot be undone.
+                </Paragraph>
+                <Button variant="outline" size="sm" iconName="icon-delete" iconColor="error" func={confirmDeleteBusiness}
+                  specificStyles={{
+                    color: colors["error"],
+                  }}
+                >
+                  Delete business
+                </Button>
+              </Frame>
             </Frame>
+
           </Frame>
-        </Frame>
       </Section>
     </Frame>
   )

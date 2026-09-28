@@ -96,11 +96,15 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
 
   return (
     <Card width="500px" padding="xl" height="max-content">
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeForm} />
+      </Frame>
       <Frame className="mb-[var(--space-xl)] justify-between">
         <Heading size="md" type="h2">New Transaction</Heading>
-        <Frame>
-            <CloseButton func={closeForm} />
-        </Frame>
       </Frame>
 
       <Form onSubmit={saveTransaction}>

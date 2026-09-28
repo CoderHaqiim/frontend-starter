@@ -84,13 +84,17 @@ export default function CreateInventoryItemForm() {
 
   return (
     <Card width="500px" padding="xl" height="max-content">
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeCreateInventoryItemForm} />
+      </Frame>
       <Frame className="mb-[var(--space-xl)] justify-between">
         <Heading size="md" type="h2">
           Add Inventory Item
         </Heading>
-        <Frame>
-          <CloseButton func={closeCreateInventoryItemForm} />
-        </Frame>
       </Frame>
 
       <Form onSubmit={saveInventoryItem}>

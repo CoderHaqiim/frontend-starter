@@ -229,6 +229,14 @@ export default function CreateInvoiceForm() {
         borderRadius: "0px",
       }}
     >
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeCreateInvoiceForm} />
+      </Frame>
+
       {/* HEADER */}
 
       <Frame
@@ -243,12 +251,6 @@ export default function CreateInvoiceForm() {
         <Heading size="lg" type="h2">
           Create Invoice
         </Heading>
-
-        <Frame>
-          <CloseButton
-            func={closeCreateInvoiceForm}
-          />
-        </Frame>
       </Frame>
 
       {/* BODY */}

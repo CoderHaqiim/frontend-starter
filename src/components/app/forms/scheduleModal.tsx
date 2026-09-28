@@ -41,14 +41,17 @@ export default function ScheduleModal({ date }: ScheduleModalProps = {}) {
         maxHeight: "calc(100vh - 48px)",
       }}
     >
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeScheduleModal} />
+      </Frame>
       <Frame className="mb-[var(--space-lg)] justify-between">
         <Heading size="md" type="h2">
           Add Schedule
         </Heading>
-
-        <Frame>
-          <CloseButton func={closeScheduleModal} />
-        </Frame>
       </Frame>
 
       <Form url="/create-schedule">

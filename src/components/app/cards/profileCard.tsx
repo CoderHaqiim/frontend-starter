@@ -41,14 +41,10 @@ export default function ProfileCard() {
         {/* Avatar */}
         <Avatar size="md" src={profileData?.profilePicture}/>
 
-        <Frame className="flex-col gap-[var(--space-xxs)]">
+        <Frame className="flex-col">
           <Heading type="h2" size="sm">
             {profileData?.userName ?? "Loading..."}
           </Heading>
-
-          <Paragraph size="xs" color="textColor2">
-            {profileData?.userRole ?? ""}
-          </Paragraph>
         </Frame>
       </Frame>
 

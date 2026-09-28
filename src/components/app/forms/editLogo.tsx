@@ -51,9 +51,15 @@ export default function EditLogo({ businessId, onSaved }: EditLogoProps) {
 
   return (
     <Card width="400px" padding="xl" height="max-content">
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeForm} />
+      </Frame>
       <Frame className="mb-[var(--space-xl)] justify-between">
         <Heading size="md" type="h2">Edit Logo</Heading>
-        <CloseButton func={closeForm} />
       </Frame>
 
       <form onSubmit={saveLogo} className="flex w-full flex-col gap-[var(--space-lg)]">

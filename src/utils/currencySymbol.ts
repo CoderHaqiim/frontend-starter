@@ -23,3 +23,9 @@ export function getCurrencyOptions() {
     value: code,
   }))
 }
+
+// The account currency the settings page saves has to be one of the codes the
+// app knows, so a saved currency always maps to a symbol.
+export function isCurrencyCode(currency: string) {
+  return Object.keys(currencySymbols).includes(currency.trim().toUpperCase())
+}

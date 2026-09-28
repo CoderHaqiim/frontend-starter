@@ -192,12 +192,17 @@ export default function CreateReceiptForm() {
       className="w-full"
       specificStyles={{ position: "fixed", top: 0, left: 0, zIndex: 1000, borderRadius: "0px" }}
     >
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeCreateReceiptForm} />
+      </Frame>
+
       {/* HEADER */}
       <Frame className="p-[var(--space-md)] border-b border-b-[var(--color-outline1)] items-center justify-between">
         <Heading size="lg" type="h2">Create Receipt</Heading>
-        <Frame>
-          <CloseButton func={closeCreateReceiptForm} />
-        </Frame>
       </Frame>
 
       {/* BODY */}

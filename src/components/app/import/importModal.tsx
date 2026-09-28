@@ -212,11 +212,15 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
 
   return (
     <Card width="500px" padding="xl" height="max-content" specificStyles={{ maxHeight: "calc(100vh - 48px)" }}>
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeImportModal} />
+      </Frame>
       <Frame className="mb-[var(--space-lg)] justify-between">
         <Heading size="md" type="h2">Import {definition.title}</Heading>
-        <Frame>
-          <CloseButton func={closeImportModal} />
-        </Frame>
       </Frame>
 
       <Frame scroll="hidden" className="w-full flex-col gap-[var(--space-lg)]" specificStyles={{ minHeight: 0 }}>

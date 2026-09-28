@@ -1,5 +1,6 @@
 import { businesses } from "@/src/data/businesses"
 import { Business } from "@/src/types/types"
+import { exampleBankNames, generateAccountNumber } from "@/src/utils/bankInformation"
 import { registerBusinessHealth } from "@/src/utils/businessHealthResponse"
 import { normalizeText } from "@/src/utils/mockApi"
 import { NextResponse } from "next/server"
@@ -76,12 +77,16 @@ export async function POST(request: Request) {
     }
   })
 
-  // Account information belongs to the server the way the id and the customer
-  // count do, so a new business always starts with its own set of values.
-  createdBusiness.accountType = "Business"
-  createdBusiness.accountNumber = `ACC-${1000 + Number(createdBusiness.id)}`
-  createdBusiness.billingEmail = createdBusiness.email ?? ""
-  createdBusiness.paymentTerms = "Net 30"
+  // Bank information belongs to the server the way the id and the customer count
+  // do, so a new business always starts with its own set of values. The account
+  // name follows the business name and the bank starts on one of the example
+  // banks, because a business can be paid into any bank once the details are
+  // edited.
+  createdBusiness.account = {
+    accountName: createdBusiness.businessName,
+    accountNumber: generateAccountNumber(createdBusiness.id),
+    bankName: exampleBankNames[Number(createdBusiness.id) % exampleBankNames.length],
+  }
 
   businesses.push(createdBusiness)
 

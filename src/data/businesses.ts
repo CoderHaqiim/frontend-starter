@@ -19,10 +19,11 @@ const seedBusinesses: Business[] = [
     establishedYear: 2010,
     country: "Nigeria",
     state: "Lagos",
-    accountType: "Business",
-    accountNumber: "ACC-1000",
-    billingEmail: "billing@multilinks.com",
-    paymentTerms: "Net 30",
+    account: {
+      accountName: "Multilinks Limited",
+      accountNumber: "1012345678",
+      bankName: "GT Bank",
+    },
   },
   {
     id: "1",
@@ -38,10 +39,11 @@ const seedBusinesses: Business[] = [
     establishedYear: 2005,
     country: "United Kingdom",
     state: "London",
-    accountType: "Enterprise",
-    accountNumber: "ACC-1001",
-    billingEmail: "billing@dangotecement.com",
-    paymentTerms: "Net 45",
+    account: {
+      accountName: "Dangote Cement Limited",
+      accountNumber: "3012345678",
+      bankName: "First Bank",
+    },
   },
   {
     id: "2",
@@ -57,10 +59,11 @@ const seedBusinesses: Business[] = [
     establishedYear: 2015,
     country: "United States",
     state: "Las Vegas",
-    accountType: "Enterprise",
-    accountNumber: "ACC-1002",
-    billingEmail: "billing@microsoft.ng",
-    paymentTerms: "Net 30",
+    account: {
+      accountName: "Microsoft Nigeria Limited",
+      accountNumber: "0123456789",
+      bankName: "Access Bank",
+    },
   },
   {
     id: "3",
@@ -76,10 +79,11 @@ const seedBusinesses: Business[] = [
     establishedYear: 2012,
     country: "Nigeria",
     state: "Lagos",
-    accountType: "Business",
-    accountNumber: "ACC-1003",
-    billingEmail: "billing@opicfarms.com",
-    paymentTerms: "Net 15",
+    account: {
+      accountName: "Opic Farms Limited",
+      accountNumber: "2034567891",
+      bankName: "First Bank",
+    },
   },
   {
     id: "4",
@@ -95,10 +99,11 @@ const seedBusinesses: Business[] = [
     establishedYear: 2010,
     country: "Nigeria",
     state: "Lagos",
-    accountType: "Starter",
-    accountNumber: "ACC-1004",
-    billingEmail: "billing@alvinstores.com",
-    paymentTerms: "Due on receipt",
+    account: {
+      accountName: "Alvin Stores",
+      accountNumber: "0745678923",
+      bankName: "Access Bank",
+    },
   },
 ]
 

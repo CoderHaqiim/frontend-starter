@@ -47,6 +47,12 @@ export default function Invoice2() {
   const businessEmail = selectedBusiness.email || EMPTY_VALUE;
   const businessWebsite = selectedBusiness.website || EMPTY_VALUE;
 
+  // The payment details come from the bank information on the business record,
+  // so the invoice shows the account the customer should pay into.
+  const accountName = selectedBusiness.account?.accountName || businessName;
+  const accountNumber = selectedBusiness.account?.accountNumber || EMPTY_VALUE;
+  const bankName = selectedBusiness.account?.bankName || EMPTY_VALUE;
+
   const enteredAmount = Number(invoiceDraft.amount);
   const itemsSubtotal = getItemsSubtotal(invoiceDraft.items);
 
@@ -298,7 +304,7 @@ export default function Invoice2() {
                   color="textColor2"
                   specificStyle={{ color: "#4f4f4f" }}
                 >
-                  {EMPTY_VALUE}
+                  {bankName}
                 </Paragraph>
               </Frame>
 
@@ -318,7 +324,7 @@ export default function Invoice2() {
                   color="textColor2"
                   specificStyle={{ color: "#4f4f4f" }}
                 >
-                  {businessName}
+                  {accountName}
                 </Paragraph>
               </Frame>
 
@@ -338,47 +344,7 @@ export default function Invoice2() {
                   color="textColor2"
                   specificStyle={{ color: "#4f4f4f" }}
                 >
-                  {EMPTY_VALUE}
-                </Paragraph>
-              </Frame>
-
-              <Frame className="gap-[var(--space-md)]">
-                <Paragraph
-                  size="xs"
-                  weight="medium"
-                  color="textColor1"
-                  className="w-[28mm]"
-                  specificStyle={{ color: "#1b1b1b" }}
-                >
-                  Sort Code:
-                </Paragraph>
-
-                <Paragraph
-                  size="xs"
-                  color="textColor2"
-                  specificStyle={{ color: "#4f4f4f" }}
-                >
-                  {EMPTY_VALUE}
-                </Paragraph>
-              </Frame>
-
-              <Frame className="gap-[var(--space-md)]">
-                <Paragraph
-                  size="xs"
-                  weight="medium"
-                  color="textColor1"
-                  className="w-[28mm]"
-                  specificStyle={{ color: "#1b1b1b" }}
-                >
-                  Reference:
-                </Paragraph>
-
-                <Paragraph
-                  size="xs"
-                  color="textColor2"
-                  specificStyle={{ color: "#4f4f4f" }}
-                >
-                  {EMPTY_VALUE}
+                  {accountNumber}
                 </Paragraph>
               </Frame>
 

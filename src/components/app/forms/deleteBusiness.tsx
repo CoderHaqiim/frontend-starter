@@ -73,32 +73,30 @@ export default function DeleteBusinessModal({ businessId, businessName }: Delete
 
   return (
     <Card width="500px" padding="xl" height="max-content">
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeDeleteBusinessModal} />
+      </Frame>
       <Frame className="mb-[var(--space-lg)] justify-between">
         <Heading size="md" type="h2">
           Delete business
         </Heading>
-
-        <Frame>
-          <CloseButton func={closeDeleteBusinessModal} />
-        </Frame>
       </Frame>
 
       <Frame className="w-full flex-col gap-[var(--space-lg)]">
-        <Paragraph size="sm">
-          Are you sure you want to delete {businessName}? The business and everything
+        <Paragraph size="sm" specificStyle={{
+          display: "inline"
+        }}>
+          <span className=" font-[var(--fontWeight-semiBold)] text-[var(--color-textColor1)]">Are you sure you want to delete {businessName}? </span>
+          The business and everything
           recorded against it will be removed for good, and this cannot be undone.
         </Paragraph>
 
         <Frame className="w-full justify-end gap-[var(--space-sm)]">
-          <Button variant="outline" size="md" disabled={isDeleting} func={closeDeleteBusinessModal}>
-            Cancel
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="md"
-            disabled={isDeleting}
-            func={confirmDeleteBusiness}
+          <Button variant="ghost" size="md" disabled={isDeleting} func={confirmDeleteBusiness}
             specificStyles={{
               backgroundColor: "var(--color-error2)",
               color: "var(--color-error)",

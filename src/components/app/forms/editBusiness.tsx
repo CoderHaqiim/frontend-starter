@@ -112,13 +112,17 @@ export default function EditBusinessForm({ businessId }: EditBusinessFormProps) 
 
   return (
     <Card width="500px" padding="xl" height="max-content">
+      <Frame specificStyles={{
+          position: "absolute",
+          top:"15px",
+          right:"15px"
+        }}>
+          <CloseButton size="sm" func={closeEditBusinessForm} />
+      </Frame>
       <Frame className="mb-[var(--space-lg)] justify-between">
         <Heading size="md" type="h2">
           Edit Business
         </Heading>
-        <Frame>
-          <CloseButton func={closeEditBusinessForm} />
-        </Frame>
       </Frame>
 
       {!business ? (
