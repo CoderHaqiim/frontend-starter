@@ -2,8 +2,8 @@
 
 import { businessQueryKey, businessesQueryKey, getBusiness, updateBusinessAccount } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { Business, FormObjectTypes, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { Business, FormObjectTypes } from "@/src/types/types"
 import { accountNumberLength, isAccountNumber } from "@/src/utils/bankInformation"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
@@ -27,7 +27,7 @@ type EditBankDetailsProps = {
 // the record is saved.
 export default function EditBankDetails({ businessId }: EditBankDetailsProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
 
@@ -39,13 +39,9 @@ export default function EditBankDetails({ businessId }: EditBankDetailsProps) {
     enabled: Boolean(businessId),
   })
 
-  // The account name follows the business name while the business has none of its
-  // own saved yet.
-  const accountName = business?.account?.accountName ?? business?.businessName ?? ""
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
+  // The form opens with the saved account name, or empty while the business has
+  // no bank details yet — nothing is filled in from the business name.
+  const accountName = business?.account?.accountName ?? ""
 
   const closeEditBankDetails = () => {
     setBackdropContent(null)
@@ -54,6 +50,20 @@ export default function EditBankDetails({ businessId }: EditBankDetailsProps) {
 
   const saveBankDetails = async (values: FormObjectTypes) => {
     if (!business) return
+
+    // The account name is typed into the form, so it is read straight from the
+    // values. A business with no saved bank details never has one filled in for
+    // it, and the three details are only sent together once they are all valid.
+    const accountName = String(values.accountName ?? "").trim()
+
+    if (!accountName) {
+      showToast({
+        variant: "error",
+        title: "Account name is required",
+        message: "Enter the name on the account.",
+      })
+      return
+    }
 
     // The account number is stored as ten digits, so anything else that was typed
     // is dropped before the bank information is sent.
@@ -73,7 +83,7 @@ export default function EditBankDetails({ businessId }: EditBankDetailsProps) {
 
     try {
       const { data: updatedBusiness } = await updateBusinessAccount(businessId, {
-        accountName: String(values.accountName ?? "").trim() || business.businessName,
+        accountName,
         accountNumber,
         bankName,
       })

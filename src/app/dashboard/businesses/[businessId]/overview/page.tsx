@@ -20,13 +20,13 @@ import Frame from '@/src/components/base/ui/primitives/frame'
 import Heading from '@/src/components/base/ui/primitives/heading'
 import Paragraph from '@/src/components/base/ui/primitives/paragraph'
 import { useTheme } from '@/src/components/providers/themeProvider'
+import useAccountCurrency, { useAccountCurrencySymbol } from '@/src/hooks/accountCurrency'
 import { businessHealthQueryKey, businessKpisQueryKey, businessQueryKey, getBusiness, getBusinessHealth, getBusinessKpis } from '@/src/services/businessService'
 import { getRecentBusinessTransactions, recentBusinessTransactionsQueryKey } from '@/src/services/transactionService'
 import { useBackdropState } from '@/src/store/backdropState'
 import { Business, Duration, kpiObjectProps } from '@/src/types/types'
-import abridgeNumber from '@/src/utils/abridgeNumber'
 import { businessHealthMetrics } from '@/src/utils/businessHealthMetrics'
-import { getCurrencySymbol } from '@/src/utils/currencySymbol'
+import { formatAbridgedAmount } from '@/src/utils/formatAmount'
 import { healthMap } from '@/src/utils/healthMap'
 import { kpiResponseToCards } from '@/src/utils/kpiResponseToCards'
 import { shortenText } from '@/src/utils/shortenText'
@@ -118,17 +118,20 @@ export default function BusinessPage() {
 
   const financials = businessKpisResponse?.financials
 
-  const currency = "NGN"
-  const currencySymbol = getCurrencySymbol(currency)
-  const formatAmount = (amount = 0) => `${currencySymbol} ${abridgeNumber(amount)}`
+  // The business figures are reported in the account currency, shortened so a
+  // large figure still fits on the card.
+  const currency = useAccountCurrency()
+  const currencySymbol = useAccountCurrencySymbol()
   const profitMargin = financials?.revenue.value ? Math.round((financials.profit.value / financials.revenue.value) * 100) : 0
   const businessHealth = business?.health ?? "healthy"
   const businessHealthScore = business?.healthScore ?? 0
 
   // The bank information comes from the business record the page already fetches,
-  // so each business shows its own account name, account number and bank name.
+  // so each business shows its own stored account name, account number and bank
+  // name, or "Not set" while it has none saved yet. Nothing is derived from the
+  // business name.
   const bankInformation = [
-    { label: "Account name", value: business?.account?.accountName ?? business?.businessName ?? "Not set" },
+    { label: "Account name", value: business?.account?.accountName ?? "Not set" },
     { label: "Account number", value: business?.account?.accountNumber ?? "Not set" },
     { label: "Bank name", value: business?.account?.bankName ?? "Not set" },
   ]
@@ -149,7 +152,7 @@ export default function BusinessPage() {
     },
     {
       title: "Cash flow",
-      value: formatAmount(financials?.cashBalance.value ?? 0),
+      value: formatAbridgedAmount(currencySymbol, financials?.cashBalance.value ?? 0),
       trend: financials && financials.cashBalance.value >= 0 ? "up" : "down",
       change: financials?.cashBalance.change ?? 0,
       meaning: "Cash flow measures the movement of actual cash into and out of a business over a specific period."

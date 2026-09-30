@@ -6,6 +6,7 @@ import { useBackdropState } from "@/src/store/backdropState"
 import { useReceiptDraft } from "@/src/store/receiptDraftState"
 import { useReceiptFormState } from "@/src/store/receiptFormState"
 import { getCurrencySymbol } from "@/src/utils/currencySymbol"
+import { formatCurrency } from "@/src/utils/formatCurrency"
 import { useEffect, useState } from "react"
 
 const cellClass =
@@ -108,7 +109,8 @@ export default function ReceiptTable() {
                       iconName="icon-pencil"
                       iconColor="textColor1"
                       justify="start"
-                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
+                      width="stretch"
+                      className="text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
                       specificStyles={{ borderRadius: "inherit" }}
                       func={() => {
                         openEditItem(item)
@@ -123,7 +125,8 @@ export default function ReceiptTable() {
                       iconName="icon-delete"
                       iconColor="error"
                       justify="start"
-                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
+                      width="stretch"
+                      className="text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
                       specificStyles={{
                         backgroundColor: "var(--color-error2)",
                         color: "var(--color-error)",
@@ -145,11 +148,4 @@ export default function ReceiptTable() {
       </tbody>
     </table>
   )
-}
-
-function formatCurrency(amount: number, symbol?: string) {
-  return `${symbol ? symbol : ""}${amount.toLocaleString("en-NG", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`
 }

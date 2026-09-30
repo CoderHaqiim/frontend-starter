@@ -14,8 +14,7 @@ import type { Receipt } from "@/src/data/receipts"
 import { deleteReceipt, getReceiptKpis, getReceipts, receiptKpisQueryKey, receiptsQueryKey } from "@/src/services/receiptService"
 import { useReceiptDraft } from "@/src/store/receiptDraftState"
 import { useReceiptFormState } from "@/src/store/receiptFormState"
-import { useToastState } from "@/src/store/toastState"
-import type { ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
@@ -42,11 +41,7 @@ export default function ReceiptsPage() {
   const [selectedReceiptFilter, setSelectedReceiptFilter] = useState("all")
   const openReceipt = useReceiptFormState((state) => state.openReceipt)
   const setDraftState = useReceiptDraft.setState
-  const { toastState, setToastState } = useToastState()
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
+  const showToast = useShowToast()
 
   const filteredReceipts = useMemo(() => {
     if (selectedReceiptFilter === "all") {

@@ -14,6 +14,7 @@ import Button from "@/src/components/base/ui/primitives/button"
 import Frame from "@/src/components/base/ui/primitives/frame"
 import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
+import useAccountCurrency from "@/src/hooks/accountCurrency"
 import { dashboardRankingQueryKey, dashboardSummaryQueryKey, getDashboardRanking, getDashboardSummary } from "@/src/services/dashboardService"
 import { getProfile, profileQueryKey } from "@/src/services/profileService"
 import { useBackdropState } from "@/src/store/backdropState"
@@ -46,9 +47,13 @@ export default function Home() {
     queryFn: getProfile,
   })
 
+  // The dashboard reports money in the account currency, and the summary is read
+  // again when the currency the account keeps changes.
+  const accountCurrency = useAccountCurrency()
+
   const { data: dashboardSummary, isLoading: isDashboardSummaryLoading } = useQuery({
-    queryKey: dashboardSummaryQueryKey(summaryPeriod),
-    queryFn: () => getDashboardSummary(summaryPeriod),
+    queryKey: dashboardSummaryQueryKey(summaryPeriod, accountCurrency),
+    queryFn: () => getDashboardSummary(summaryPeriod, accountCurrency),
   })
 
   const { data: dashboardRanking } = useQuery({

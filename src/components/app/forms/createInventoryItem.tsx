@@ -1,10 +1,14 @@
 "use client"
 
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
-import { createInventoryItem, inventoryQueryKey } from "@/src/services/inventoryService"
+import {
+  createInventoryItem,
+  inventoryQueryKey,
+  updateInventoryItem,
+} from "@/src/services/inventoryService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { FormObjectTypes, ObjectRecordType, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { FormObjectTypes, ObjectRecordType } from "@/src/types/types"
 import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname } from "next/navigation"
@@ -19,9 +23,15 @@ import Heading from "../../base/ui/primitives/heading"
 import Input from "../../base/ui/primitives/input"
 import Label from "../../base/ui/primitives/label"
 
-export default function CreateInventoryItemForm() {
+type CreateInventoryItemFormProps = {
+  // The item being changed. The form opens blank when it is not given, and the
+  // values it holds are saved back through the inventory route when it is.
+  itemToEdit?: ObjectRecordType
+}
+
+export default function CreateInventoryItemForm({ itemToEdit }: CreateInventoryItemFormProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const pathname = usePathname()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
@@ -30,22 +40,45 @@ export default function CreateInventoryItemForm() {
   // business context, so the field stays changeable.
   const contextBusinessId = getBusinessIdFromPathname(pathname)
   const isBusinessContext = Boolean(contextBusinessId)
+  const isEditing = Boolean(itemToEdit)
 
   const { data: businesses = [] } = useQuery({
     queryKey: businessesQueryKey,
     queryFn: getBusinesses,
   })
 
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
-
   const saveInventoryItem = async (values: FormObjectTypes) => {
-    const targetBusinessId = String(values.businessId ?? "")
+    const targetBusinessId = String(values.businessId ?? "") || contextBusinessId || ""
 
     setIsSaving(true)
 
     try {
+      if (itemToEdit) {
+        // An edit travels through the same route as the create, keyed by the SKU the
+        // item was listed under, and the saved item replaces the row it came from.
+        const { data: savedItem } = await updateInventoryItem(
+          targetBusinessId,
+          String(itemToEdit.SKU),
+          values,
+        )
+
+        queryClient.setQueryData<ObjectRecordType[]>(
+          inventoryQueryKey(targetBusinessId),
+          (currentItems = []) =>
+            currentItems.map((item) => item.SKU === itemToEdit.SKU ? savedItem : item)
+        )
+        queryClient.invalidateQueries({ queryKey: inventoryQueryKey(targetBusinessId) })
+
+        showToast({
+          variant: "success",
+          title: "Item updated",
+          message: `${savedItem.Item} was updated successfully.`,
+        })
+
+        closeCreateInventoryItemForm()
+        return
+      }
+
       const { data: createdItem } = await createInventoryItem(targetBusinessId, values)
 
       // The new item is put straight into the table, and the table and the KPI
@@ -69,8 +102,10 @@ export default function CreateInventoryItemForm() {
     } catch {
       showToast({
         variant: "error",
-        title: "Create failed",
-        message: "The item could not be added. Please try again.",
+        title: isEditing ? "Update failed" : "Create failed",
+        message: isEditing
+          ? "The item could not be updated. Please try again."
+          : "The item could not be added. Please try again.",
       })
     } finally {
       setIsSaving(false)
@@ -93,7 +128,7 @@ export default function CreateInventoryItemForm() {
       </Frame>
       <Frame className="mb-[var(--space-xl)] justify-between">
         <Heading size="md" type="h2">
-          Add Inventory Item
+          {isEditing ? "Edit Inventory Item" : "Add Inventory Item"}
         </Heading>
       </Frame>
 
@@ -101,13 +136,13 @@ export default function CreateInventoryItemForm() {
         <Frame className="w-full flex-col gap-[var(--space-lg)]">
           <Frame className="w-full flex-col">
             <Label required text="Item Name" size="xs" />
-            <Input required size="sm" rounded="sm" placeholder="Item name" outline border type="text" name="itemName" variant="default" />
+            <Input required size="sm" rounded="sm" placeholder="Item name" outline border type="text" name="itemName" variant="default" defaultValue={itemToEdit?.Item} />
           </Frame>
 
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
               <Label required text="SKU" size="xs" />
-              <Input required size="sm" rounded="sm" placeholder="SKU" outline border type="text" name="sku" variant="default" />
+              <Input required size="sm" rounded="sm" placeholder="SKU" outline border type="text" name="sku" variant="default" defaultValue={itemToEdit?.SKU} />
             </Frame>
             <Frame className="w-1/2 flex-col">
               <Label text="Category" size="xs" />
@@ -115,6 +150,7 @@ export default function CreateInventoryItemForm() {
                 name="category"
                 size="sm"
                 width="100%"
+                defaultValue={itemToEdit?.Category}
                 options={[
                   { label: "Beverages", value: "beverages" },
                   { label: "Accessories", value: "accessories" },
@@ -129,7 +165,7 @@ export default function CreateInventoryItemForm() {
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
               <Label required text="Stock" size="xs" />
-              <Input required size="sm" rounded="sm" outline border type="number" name="stock" variant="default" />
+              <Input required size="sm" rounded="sm" outline border type="number" name="stock" variant="default" defaultValue={itemToEdit?.Stock} />
             </Frame>
             <Frame className="w-1/2 flex-col">
               <Label text="Business" size="xs" />
@@ -153,7 +189,7 @@ export default function CreateInventoryItemForm() {
 
           <Frame className="justify-end w-full">
             <Button variant="fill" role="submit" size="md" propagate disabled={isSaving}>
-              {isSaving ? "Adding..." : "Add Item"}
+              {isSaving ? "Saving..." : isEditing ? "Save Changes" : "Add Item"}
             </Button>
           </Frame>
         </Frame>

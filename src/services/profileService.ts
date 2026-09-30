@@ -25,3 +25,17 @@ export function updateProfile(updates: Record<string, unknown>) {
 export function deleteProfile() {
   return http<ProfileMutationResponse>("/api/profile", undefined, { method: "DELETE" })
 }
+
+// The password reset the settings page asks for. The route checks the account email
+// next to the password the account is signed in with, then answers with the message
+// it sent to that address.
+export type ResetPasswordResponse = {
+  message: string
+  data: {
+    email: string
+  }
+}
+
+export function resetPassword(account: { email: string; currentPassword: string }) {
+  return http<ResetPasswordResponse>("/api/reset-password", account, { method: "POST" })
+}

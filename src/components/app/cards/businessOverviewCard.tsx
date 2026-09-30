@@ -1,12 +1,12 @@
 "use client"
 
+import { useAccountCurrencySymbol } from "@/src/hooks/accountCurrency"
 import {
   Business,
   BusinessHealth,
   BusinessKpiResponse,
 } from "@/src/types/types"
-import abridgeNumber from "@/src/utils/abridgeNumber"
-import { getCurrencySymbol } from "@/src/utils/currencySymbol"
+import { formatAbridgedAmount } from "@/src/utils/formatAmount"
 import { generateHealthBackground } from "@/src/utils/healthBackground"
 import { healthMap } from "@/src/utils/healthMap"
 import { shortenText } from "@/src/utils/shortenText"
@@ -42,9 +42,9 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
   const healthBackground = generateHealthBackground( businessHealth.health)
   const businessInitial = getBusinessInitial(data.businessName)
   const businessColor = getBusinessColor(index)
-  // Every business in the mock trades in NGN, so the card always reports naira.
-  const currencySymbol = getCurrencySymbol("NGN")
-  const formatAmount = (amount = 0) => `${currencySymbol} ${abridgeNumber(amount)}`
+  // The card reports money in the account currency, shortened so a large figure
+  // still fits on the card.
+  const currencySymbol = useAccountCurrencySymbol()
   const financials = kpis?.financials
 
   return (
@@ -144,7 +144,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               weight="medium"
               size="sm"
             >
-              {formatAmount(financials?.revenue.value ?? 0)}
+              {formatAbridgedAmount(currencySymbol, financials?.revenue.value ?? 0)}
             </Paragraph>
           </Frame>
 
@@ -172,7 +172,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               weight="medium"
               size="sm"
             >
-              {formatAmount(financials?.expenses.value ?? 0)}
+              {formatAbridgedAmount(currencySymbol, financials?.expenses.value ?? 0)}
             </Paragraph>
           </Frame>
 
@@ -182,7 +182,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
             </Paragraph>
 
             <Paragraph color="textColor1" weight="medium" size="sm">
-              {formatAmount(financials?.profit.value ?? 0)}
+              {formatAbridgedAmount(currencySymbol, financials?.profit.value ?? 0)}
             </Paragraph>
           </Frame>
         </Frame>

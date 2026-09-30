@@ -90,13 +90,14 @@ function InvoiceLinePopup({onDelete, onView, invoice}:InvoiceLineProps) {
   return(
     <Frame className="w-full flex-col">
       <Button variant="ghost" size="xs" rounded="sm" iconName="icon-eye" iconColor="textColor1"
-        className="w-full hover:bg-[var(--color-background3)]"
+        width="stretch"
+        className="hover:bg-[var(--color-background3)]"
         func={() =>  onView(invoice.id)}
       >
         View
       </Button>
       <Button variant="ghost" size="xs" rounded="sm" iconName="icon-delete" iconColor="error" justify="start" 
-        className="w-full"
+        width="stretch"
         specificStyles={{
           backgroundColor: "var(--color-error2)",
           color: "var(--color-error)",

@@ -6,8 +6,8 @@ import {
   createBusinessTransaction,
 } from "@/src/services/transactionService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { FormObjectTypes, ToastType, Transaction } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { FormObjectTypes, Transaction } from "@/src/types/types"
 import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname } from "next/navigation"
@@ -28,7 +28,7 @@ type CreateTransactionFormProps = {
 
 export default function CreateTransactionForm({ businessId }: CreateTransactionFormProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const pathname = usePathname()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
@@ -45,10 +45,6 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
   const closeForm = () => {
     setBackdropContent(null)
     setBackdropOpen(false)
-  }
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
   }
 
   const saveTransaction = async (values: FormObjectTypes) => {

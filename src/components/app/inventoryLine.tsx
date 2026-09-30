@@ -4,6 +4,7 @@ import type { ColorTypes } from "@/src/app/design/colors"
 import type { ObjectRecordType } from "@/src/types/types"
 import Badge from "../base/ui/composites/badge"
 import Popup from "../base/ui/composites/popup"
+import RowActionsMenu from "../base/ui/composites/rowActionsMenu"
 import Button from "../base/ui/primitives/button"
 import Frame from "../base/ui/primitives/frame"
 import Paragraph from "../base/ui/primitives/paragraph"
@@ -18,10 +19,11 @@ const statusColorMap: Record<string, ColorTypes> = {
 
 type InventoryLineProps = {
   item: ObjectRecordType
+  onEdit: (sku: string) => void
   onDelete: (sku: string) => void
 }
 
-export default function InventoryLine({ item, onDelete }: InventoryLineProps) {
+export default function InventoryLine({ item, onEdit, onDelete }: InventoryLineProps) {
   const statusColor = statusColorMap[item.Status] ?? "muted"
 
   return (
@@ -54,29 +56,24 @@ export default function InventoryLine({ item, onDelete }: InventoryLineProps) {
         <Badge text={item.Status} color={statusColor} size="xs" className="w-max" />
       </Frame>
 
-      {/* The row menu sits at the end of the row, so the delete action only
-          appears once the button is clicked. */}
+      {/* The row menu sits at the end of the row, so the edit and delete actions
+          only appear once the button is clicked. Both travel through the inventory
+          route, keyed by the SKU the item is listed under. */}
       <Frame className="w-[60px] items-center justify-end">
-        <Popup gap={12} width="120px" content={<InventoryLinePopup onDelete={() => onDelete(String(item.SKU))} />}>
+        <Popup
+          gap={12}
+          width="120px"
+          closeOnContentClick
+          content={
+            <RowActionsMenu
+              onEdit={() => onEdit(String(item.SKU))}
+              onDelete={() => onDelete(String(item.SKU))}
+            />
+          }
+        >
           <Button variant="ghost" size="xs" isIcon iconName="icon-vertival-dots" />
         </Popup>
       </Frame>
     </Frame>
-  )
-}
-
-
-function InventoryLinePopup({ onDelete }: { onDelete: () => void }) {
-  return (
-    <Button variant="ghost" size="sm" rounded="sm" iconName="icon-delete" iconColor="error"
-      specificStyles={{
-        backgroundColor: "var(--color-error2)",
-        color: "var(--color-error)",
-        width: "100%",
-      }}
-      func={onDelete}
-    >
-      Delete
-    </Button>
   )
 }

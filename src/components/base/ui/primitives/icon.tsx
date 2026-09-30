@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  ArrowBigRight,
   ArrowLeftRight,
   ArrowRight,
   ArrowRightLeft,
@@ -38,7 +39,9 @@ import {
   House,
   Info,
   LayoutDashboard,
+  LifeBuoy,
   Link,
+  ListChecks,
   Mail,
   Maximize2,
   Moon,
@@ -52,6 +55,7 @@ import {
   Plus,
   Receipt,
   ReceiptText,
+  Rocket,
   Search,
   Settings,
   Share2,
@@ -124,6 +128,7 @@ const icons = {
     "icon-calendar-check": CalendarCheck,
     "icon-arrow-up-right": ArrowUpRight,
     "icon-arrow-right": ArrowRight,
+    "icon-arrow-big-right": ArrowBigRight,
     "icon-link": Link,
     "icon-move-right": MoveRight,
     "icon-trend-up": TrendingUp,
@@ -150,7 +155,10 @@ const icons = {
     "icon-share": Share2,
     "icon-play" : Play,
     "icon-change": ArrowLeftRight,
-    "icon-coppy": Copy
+    "icon-coppy": Copy,
+    "icon-rocket": Rocket,
+    "icon-list-checks": ListChecks,
+    "icon-life-buoy": LifeBuoy
 };
 
 export type IconType = keyof typeof icons;

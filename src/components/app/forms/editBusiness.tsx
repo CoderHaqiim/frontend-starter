@@ -2,8 +2,8 @@
 
 import { businessQueryKey, businessesQueryKey, getBusiness, updateBusiness } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { Business, FormObjectTypes, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { Business, FormObjectTypes } from "@/src/types/types"
 import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname } from "next/navigation"
@@ -39,7 +39,7 @@ const industries = [
 
 export default function EditBusinessForm({ businessId }: EditBusinessFormProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const pathname = usePathname()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
@@ -62,10 +62,6 @@ export default function EditBusinessForm({ businessId }: EditBusinessFormProps) 
 
   if (business?.industry && !industryOptions.some((option) => option.value === business.industry)) {
     industryOptions.unshift({ label: business.industry, value: business.industry })
-  }
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
   }
 
   const closeEditBusinessForm = () => {

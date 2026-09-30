@@ -1,4 +1,5 @@
 import { BusinessHealth, BusinessKpiResponse, Duration } from "@/src/types/types"
+import { defaultCurrency } from "@/src/utils/currencySymbol"
 import { FinancialMetric, kpiResponseToCards } from "@/src/utils/kpiResponseToCards"
 import { getBusinessKpis, getBusinesses, getBusinessesHealth, getDashboardKpis } from "./businessService"
 
@@ -12,15 +13,17 @@ export const dashboardFinancialMetrics: FinancialMetric[] = [
   "cashBalance",
 ]
 
-export function dashboardSummaryQueryKey(period: Duration) {
-  return ["dashboard-summary", period]
+// The account currency the summary is reported in is part of the key, so the
+// figures are read again when the currency the account keeps changes.
+export function dashboardSummaryQueryKey(period: Duration, currency: string) {
+  return ["dashboard-summary", period, currency]
 }
 
 export function dashboardRankingQueryKey(period: Duration) {
   return ["dashboard-ranking", period]
 }
 
-export async function getDashboardSummary(period: Duration) {
+export async function getDashboardSummary(period: Duration, currency = defaultCurrency) {
   const [businesses, kpis, healthStatus] = await Promise.all([
     getBusinesses(),
     getDashboardKpis(period),
@@ -33,7 +36,7 @@ export async function getDashboardSummary(period: Duration) {
 
   return {
     businesses,
-    dashboardKpis: kpiResponseToCards(kpis, "NGN", dashboardFinancialMetrics),
+    dashboardKpis: kpiResponseToCards(kpis, currency, dashboardFinancialMetrics),
     businessHealth: Object.fromEntries(
       healthStatus.map((item) => [item.businessId, item])
     ) as Record<string, BusinessHealth>,

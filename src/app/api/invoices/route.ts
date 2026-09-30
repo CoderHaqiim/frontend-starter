@@ -1,46 +1,8 @@
 import { invoices } from "@/src/data/invoices"
+import type { InvoiceRoutePayload, LineItemPayload } from "@/src/types/types"
+import { roundAmount } from "@/src/utils/amount"
+import { toNumber, toText } from "@/src/utils/mockApi"
 import { NextResponse } from "next/server"
-
-type InvoiceItemPayload = {
-  id?: string
-  name?: string
-  description?: string
-  quantity?: number | string
-  price?: number | string
-  amount?: number | string
-}
-
-// Payload submitted by the create invoice form.
-// "discount" and "vat" arrive as the percentages typed on the form, and the
-// line items are the source of truth for the money figures.
-export type CreateInvoicePayload = {
-  template?: string
-  businessId?:string
-  customer?: {
-    name?: string
-    email?: string
-    address?: string
-  }
-  currency?: string
-  items?: InvoiceItemPayload[]
-  amount?: number | string
-  subtotal?: number | string
-  discount?: number | string
-  vat?: number | string
-  total?: number | string
-  issueDate?: string
-  dueDate?: string
-}
-
-const roundAmount = (amount: number) => Math.round(amount * 100) / 100
-
-const toNumber = (value: unknown) => {
-  const parsed = Number(value)
-
-  return Number.isFinite(parsed) ? parsed : 0
-}
-
-const toText = (value: unknown) => (typeof value === "string" ? value.trim() : "")
 
 // Keeps the console readable when the business logo was uploaded as a data URL.
 const getLoggableLogo = (logo: string) =>
@@ -56,7 +18,9 @@ const getNextInvoiceNo = () => {
   return `INV-${String(highestNumber + 1).padStart(3, "0")}`
 }
 
-const parseItems = (items: InvoiceItemPayload[] = []) =>
+// Reads the line items the request carries, deriving each amount from the
+// quantity and price when the client did not send one.
+const parseItems = (items: LineItemPayload[] = []) =>
   items.map((item, index) => {
     const quantity = toNumber(item.quantity)
     const price = toNumber(item.price)
@@ -72,10 +36,9 @@ const parseItems = (items: InvoiceItemPayload[] = []) =>
     }
   })
 
-
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as CreateInvoicePayload
+    const body = (await request.json()) as InvoiceRoutePayload
     const invoice = getNextInvoiceNo()
 
     return NextResponse.json({

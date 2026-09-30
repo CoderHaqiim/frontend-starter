@@ -1,8 +1,8 @@
 "use client"
 
+import { useAccountCurrencySymbol } from '@/src/hooks/accountCurrency'
 import { BusinessStats } from '@/src/types/types'
 import abridgeNumber from '@/src/utils/abridgeNumber'
-import { getCurrencySymbol } from '@/src/utils/currencySymbol'
 import { shortenText } from '@/src/utils/shortenText'
 import Frame from '../base/ui/primitives/frame'
 import Paragraph from '../base/ui/primitives/paragraph'
@@ -12,8 +12,8 @@ type MetricsRowProps = {
 }
 
 export default function MetricsRow({ data }: MetricsRowProps) {
-  // Every business in the mock trades in NGN, so the ranking is reported in naira.
-  const currencySymbol = getCurrencySymbol("NGN")
+  // The ranking reports money in the account currency.
+  const currencySymbol = useAccountCurrencySymbol()
   const getRankColor = (rank: number) => {
   switch (rank) {
     case 1:

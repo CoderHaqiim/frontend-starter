@@ -14,8 +14,7 @@ import type { Invoice } from "@/src/data/invoices"
 import { deleteInvoice, getInvoiceKpis, getInvoices, invoiceKpisQueryKey, invoicesQueryKey } from "@/src/services/invoiceService"
 import { useInvoiceDraft } from "@/src/store/invoiceDraftState"
 import { useInvoiceFormState } from "@/src/store/invoiceFormState"
-import { useToastState } from "@/src/store/toastState"
-import type { ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
@@ -43,11 +42,7 @@ export default function InvoicesPage() {
   const [selectedInvoiceFilter, setSelectedInvoiceFilter] = useState("all")
   const openInvoice = useInvoiceFormState((state) => state.openInvoice)
   const setDraftState = useInvoiceDraft.setState
-  const { toastState, setToastState } = useToastState()
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
+  const showToast = useShowToast()
 
   const filteredInvoices = useMemo(() => {
     if (selectedInvoiceFilter === "all") {

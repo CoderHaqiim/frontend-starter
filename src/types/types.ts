@@ -104,7 +104,9 @@ export type ToastType = {
 
 export type ScheduleType = "task" | "meeting" | "reminder" | "event"
 
-export type ScheduleStatus = "scheduled" | "cancelled" | "completed" | "in-progress"
+// A schedule is either still to be done or done: the two statuses the schedule
+// list and the schedules panel show.
+export type ScheduleStatus = "complete" | "pending"
 
 export type ScheduleRecurrenceFrequency = "daily" | "weekly" | "monthly" | "yearly"
 
@@ -236,21 +238,38 @@ export type ChartResponse = {
   }
 }
 
+// A line item on an invoice or a receipt, whether it is being drafted on a form,
+// stored on a record or printed on a document. Quantity and price are the source
+// values and the amount is always derived from them.
+export type LineItem = {
+  id: string
+  name: string
+  description: string
+  quantity: number
+  price: number
+  amount: number
+}
+
 export type InvoiceCustomerPayload = {
   name?: string
   email?: string
   address?: string
 }
 
-// A line item as typed on the form: quantity and price are the source values,
-// the amount is always derived from them.
-export type CreateInvoiceItemPayload = {
+// A line item as it arrives on a request. The amount is sent only by a client
+// that already worked it out, which is why it is optional here.
+export type LineItemPayload = {
   id?: string
   name?: string
   description?: string
   quantity?: number | string
   price?: number | string
+  amount?: number | string
 }
+
+// A line item as typed on the create invoice form. The amount is derived from
+// the quantity and price, so it is never sent.
+export type CreateInvoiceItemPayload = Omit<LineItemPayload, "amount">
 
 // JSON payload sent by the create invoice form. It carries source values only:
 // the business travels as its id, and the line items, discount and vat rates are
@@ -282,14 +301,7 @@ export type CreatedInvoice = {
     code: string
     symbol: string
   }
-  items: {
-    id: string
-    name: string
-    description: string
-    quantity: number
-    price: number
-    amount: number
-  }[]
+  items: LineItem[]
   totals: {
     subtotal: number
     discountRate: number
@@ -310,4 +322,28 @@ export type CreateInvoiceResponse = {
   data: CreatedInvoice
 }
 
+// The invoice payload a request carries before the route normalises it. The route
+// accepts the money figures the client already worked out as well, so a request
+// that sends the derived totals does not have to send the line items and rates.
+export type InvoiceRoutePayload = Omit<CreateInvoicePayload, "items"> & {
+  items?: LineItemPayload[]
+  amount?: number | string
+  subtotal?: number | string
+  total?: number | string
+}
+
+// The receipt payload a request carries before the route normalises it.
+export type ReceiptRoutePayload = {
+  template?: string
+  businessId?: string
+  customer?: {
+    name?: string
+    email?: string
+  }
+  currency?: string
+  items?: LineItemPayload[]
+  amount?: string
+  subtotal?: number | string
+  paymentDate?: string
+}
 

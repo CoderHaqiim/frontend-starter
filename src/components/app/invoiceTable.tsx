@@ -6,6 +6,7 @@ import { useBackdropState } from "@/src/store/backdropState"
 import { useInvoiceDraft } from "@/src/store/invoiceDraftState"
 import { useInvoiceFormState } from "@/src/store/invoiceFormState"
 import { getCurrencySymbol } from "@/src/utils/currencySymbol"
+import { formatCurrency } from "@/src/utils/formatCurrency"
 import { useEffect, useState } from "react"
 
 const cellClass = "border-t border-[var(--color-outline1)] px-[var(--space-md)] py-[var(--space-sm)] text-[11px] text-[var(--color-textColor2)]"
@@ -95,7 +96,8 @@ export default function InvoiceTable() {
                       iconName="icon-pencil"
                       iconColor="textColor1"
                       justify="start"
-                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
+                      width="stretch"
+                      className="text-[13px] px-[var(--space-sm)] py-[var(--space-xs)] hover:bg-[var(--color-background3)]"
                       specificStyles={{ borderRadius: "inherit" }}
                       func={() => {
                         openEditItem(item)
@@ -110,7 +112,8 @@ export default function InvoiceTable() {
                       iconName="icon-delete"
                       iconColor="error"
                       justify="start"
-                      className="w-full text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
+                      width="stretch"
+                      className="text-[13px] px-[var(--space-sm)] py-[var(--space-xs)]"
                       specificStyles={{
                         backgroundColor: "var(--color-error2)",
                         color: "var(--color-error)",
@@ -132,11 +135,4 @@ export default function InvoiceTable() {
       </tbody>
     </table>
   )
-}
-
-function formatCurrency(amount: number, symbol: string) {
-  return `${symbol}${amount.toLocaleString("en-NG", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`
 }

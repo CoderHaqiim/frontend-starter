@@ -1,3 +1,5 @@
+import type { LineItem } from "@/src/types/types"
+import { getItemAmount, roundAmount, sumLineItems } from "@/src/utils/amount"
 import { create } from "zustand"
 
 export type InvoiceDraft = {
@@ -14,22 +16,9 @@ export type InvoiceDraft = {
   template: string
 }
 
-export type InvoiceItem = {
-  id: string
-  name: string
-  description: string
-  quantity: number
-  price: number
-  amount: number
-}
+export type InvoiceItemDraft = Omit<LineItem, "id" | "amount">
 
-export type InvoiceItemDraft = Omit<InvoiceItem, "id" | "amount">
-
-const getItemAmount = (item: Pick<InvoiceItem, "quantity" | "price">) => item.quantity * item.price
-const roundAmount = (amount: number) => Math.round(amount * 100) / 100
-export const getItemsSubtotal = (items: Pick<InvoiceItem, "amount">[]) => roundAmount(items.reduce((subtotal, item) => subtotal + item.amount, 0))
-
-const getNextItemId = (items: InvoiceItem[]) => {
+const getNextItemId = (items: LineItem[]) => {
   const highestId = items.reduce((highest, item) => {
     const numericId = Number(item.id.replace(/\D/g, ""))
 
@@ -39,9 +28,9 @@ const getNextItemId = (items: InvoiceItem[]) => {
   return `item-${highestId + 1}`
 }
 
-const withItemsAmount = (items: InvoiceItem[]) => ({
+const withItemsAmount = (items: LineItem[]) => ({
   items,
-  amount: items.length > 0 ? String(getItemsSubtotal(items)) : "",
+  amount: items.length > 0 ? String(sumLineItems(items)) : "",
 })
 
 
@@ -51,7 +40,7 @@ const withItemsAmount = (items: InvoiceItem[]) => ({
 type InvoiceDraftState = InvoiceDraft & {
   setInvoiceField: (field: keyof InvoiceDraft, value: string) => void
   resetDraft: () => void
-  items: InvoiceItem[]
+  items: LineItem[]
   addItem: (item: InvoiceItemDraft) => void
   updateItem: (id: string, item: InvoiceItemDraft) => void
   removeItem: (id: string) => void

@@ -1,6 +1,5 @@
 import { businesses } from "@/src/data/businesses"
 import { Business } from "@/src/types/types"
-import { exampleBankNames, generateAccountNumber } from "@/src/utils/bankInformation"
 import { registerBusinessHealth } from "@/src/utils/businessHealthResponse"
 import { normalizeText } from "@/src/utils/mockApi"
 import { NextResponse } from "next/server"
@@ -26,9 +25,25 @@ const profileFields = [
 ] as const
 
 // Ids continue the numbering the store is seeded with, so the business pages can
-// keep using the id in their urls.
-const nextBusinessId = () =>
-  String(businesses.reduce((highest, business) => Math.max(highest, Number(business.id) || 0), -1) + 1)
+// keep using the id in their urls, and an id is never handed out a second time.
+// Deleting a business removes its records now, but keeping the counter ahead of
+// the store also guarantees a recycled id can never resurrect the records of a
+// business that was deleted. The counter is parked on globalThis the way the
+// stores are, so every copy of this route module shares it and a hot reload does
+// not reset it.
+const idCounter = globalThis as typeof globalThis & { lastIssuedBusinessId?: number }
+
+const nextBusinessId = () => {
+  const highestStoredId = businesses.reduce(
+    (highest, business) => Math.max(highest, Number(business.id) || 0),
+    -1
+  )
+
+  idCounter.lastIssuedBusinessId =
+    Math.max(idCounter.lastIssuedBusinessId ?? -1, highestStoredId) + 1
+
+  return String(idCounter.lastIssuedBusinessId)
+}
 
 // Creates a business in the in-memory store. The business is registered with
 // zeroed KPIs and a flat health record, because the dashboard, ranking and health
@@ -77,16 +92,9 @@ export async function POST(request: Request) {
     }
   })
 
-  // Bank information belongs to the server the way the id and the customer count
-  // do, so a new business always starts with its own set of values. The account
-  // name follows the business name and the bank starts on one of the example
-  // banks, because a business can be paid into any bank once the details are
-  // edited.
-  createdBusiness.account = {
-    accountName: createdBusiness.businessName,
-    accountNumber: generateAccountNumber(createdBusiness.id),
-    bankName: exampleBankNames[Number(createdBusiness.id) % exampleBankNames.length],
-  }
+  // A new business holds no bank details. Nothing is derived from its name or id,
+  // so the overview and the invoice payment details report the account as not set
+  // until the details are entered in the edit bank details form.
 
   businesses.push(createdBusiness)
 

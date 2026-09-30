@@ -1,6 +1,6 @@
-import { Schedule } from "@/src/types/types"
+import { Schedule, ScheduleStatus } from "@/src/types/types"
 
-export const schedules: Schedule[] = [
+const seedSchedules: Schedule[] = [
   {
     id: "sch_001",
     businessId: "biz_001",
@@ -9,7 +9,7 @@ export const schedules: Schedule[] = [
     description: "Discuss the new project",
 
     type: "meeting",
-    status: "scheduled",
+    status: "pending",
 
     startAt: "2026-08-31T10:00:00.000Z",
     endAt: "2026-08-31T11:00:00.000Z",
@@ -31,7 +31,7 @@ export const schedules: Schedule[] = [
     description: "Review Q3 performance and set targets for Q4",
 
     type: "meeting",
-    status: "scheduled",
+    status: "pending",
 
     startAt: "2026-09-01T14:00:00.000Z",
     endAt: "2026-09-01T15:30:00.000Z",
@@ -56,7 +56,7 @@ export const schedules: Schedule[] = [
     description: "Confirm delivery timeline for the new machinery",
 
     type: "task",
-    status: "in-progress",
+    status: "pending",
 
     startAt: "2026-09-02T09:00:00.000Z",
     endAt: "2026-09-02T09:30:00.000Z",
@@ -81,7 +81,7 @@ export const schedules: Schedule[] = [
     description: "Company offsite and strategy workshop",
 
     type: "event",
-    status: "scheduled",
+    status: "pending",
 
     startAt: "2026-09-10T08:00:00.000Z",
     endAt: "2026-09-10T17:00:00.000Z",
@@ -106,7 +106,7 @@ export const schedules: Schedule[] = [
     description: "Reminder to approve and release monthly payroll",
 
     type: "reminder",
-    status: "completed",
+    status: "complete",
 
     startAt: "2026-08-28T16:00:00.000Z",
     endAt: "2026-08-28T16:30:00.000Z",
@@ -124,3 +124,33 @@ export const schedules: Schedule[] = [
     updatedAt: "2026-08-29T12:00:00.000Z"
   }
 ]
+
+// One copy of the store per server process, parked on globalThis the way the
+// other mutable stores are: the schedules route creates, updates and deletes in
+// it, and a plain module export can be re-instantiated without warning. The
+// seeded titles keep the casing they were written with, so the store is parked
+// without the lowercasing the other stores apply.
+const registry = globalThis as typeof globalThis & { schedulesStore?: Schedule[] }
+
+if (!registry.schedulesStore) {
+  registry.schedulesStore = seedSchedules
+}
+
+// A store parked by an earlier build holds the statuses that were replaced, so
+// its records are moved onto the two the app knows before they are served.
+const legacyStatuses: Record<string, ScheduleStatus> = {
+  scheduled: "pending",
+  "in-progress": "pending",
+  completed: "complete",
+  cancelled: "pending",
+}
+
+registry.schedulesStore.forEach((schedule) => {
+  const status = legacyStatuses[schedule.status]
+
+  if (status) {
+    schedule.status = status
+  }
+})
+
+export const schedules = registry.schedulesStore

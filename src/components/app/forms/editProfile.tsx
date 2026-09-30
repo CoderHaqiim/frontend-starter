@@ -2,8 +2,8 @@
 
 import { getProfile, profileQueryKey, updateProfile } from "@/src/services/profileService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { FormObjectTypes, Profile, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { FormObjectTypes, Profile } from "@/src/types/types"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import Card from "../../base/ui/composites/card"
@@ -22,7 +22,7 @@ import Paragraph from "../../base/ui/primitives/paragraph"
 // business form saves its fields.
 export default function EditProfile() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
 
@@ -32,10 +32,6 @@ export default function EditProfile() {
     queryKey: profileQueryKey,
     queryFn: getProfile,
   })
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const closeForm = () => {
     setBackdropContent(null)

@@ -1,5 +1,6 @@
 "use client"
 
+import CreateInventoryItemForm from "@/src/components/app/forms/createInventoryItem"
 import ImportModal from "@/src/components/app/import/importModal"
 import InventoryHeader from "@/src/components/app/inventoryHeader"
 import InventoryLine from "@/src/components/app/inventoryLine"
@@ -14,8 +15,8 @@ import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import { deleteInventoryItem, getInventory, inventoryQueryKey } from "@/src/services/inventoryService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { ObjectRecordType, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { ObjectRecordType } from "@/src/types/types"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
@@ -24,12 +25,8 @@ export default function InventoryPage() {
   const { businessId } = useParams<{ businessId: string }>()
   const [selectedInventoryFilter, setSelectedInventoryFilter] = useState("all")
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const handleDeleteInventoryItem = async (sku: string) => {
     try {
@@ -61,6 +58,25 @@ export default function InventoryPage() {
     enabled: Boolean(businessId),
   })
   const availableInventoryItems = inventoryItems
+
+  // Edit opens the form the create opens, filled in with the item, and saving it
+  // travels through the inventory route as a change to that item.
+  const handleEditInventoryItem = (sku: string) => {
+    const item = availableInventoryItems.find((entry) => entry.SKU === sku)
+
+    if (!item) {
+      showToast({
+        variant: "error",
+        title: "Edit failed",
+        message: "The item could not be found. Please try again.",
+      })
+
+      return
+    }
+
+    setBackdropContent(<CreateInventoryItemForm itemToEdit={item} />)
+    setBackdropOpen(true)
+  }
 
   const inventoryKpis = useMemo(() => {
     const totalStockUnits = availableInventoryItems.reduce((total, item) => total + Number(item.Stock), 0)
@@ -174,6 +190,7 @@ export default function InventoryPage() {
                   <InventoryLine
                     key={item.SKU}
                     item={item}
+                    onEdit={handleEditInventoryItem}
                     onDelete={handleDeleteInventoryItem}
                   />
                 ))}

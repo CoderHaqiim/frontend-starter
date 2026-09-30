@@ -1,12 +1,12 @@
 "use client"
 
+import usePointerDownOutside from "@/src/hooks/pointerDownOutside"
 import { useInvoiceDraft } from "@/src/store/invoiceDraftState"
-import { useToastState } from "@/src/store/toastState"
-import { ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
 import { buildInvoiceEmail } from "@/src/utils/invoiceEmail"
 import { toJpeg, toPng } from "html-to-image"
 import jsPDF from "jspdf"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 import Section from "../base/layout/section"
 import DownloadDialogue from "../base/ui/composites/downloadDialogue"
@@ -20,7 +20,7 @@ import { invoiceTemplateComponents, type InvoiceTemplateId } from "./templateLis
 
 export default function ViewInvoice() {
   const invoiceDraft = useInvoiceDraft()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const [downloadOpen, setDownloadOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
@@ -35,34 +35,14 @@ export default function ViewInvoice() {
   const ActiveTemplate = invoiceTemplateComponents[invoiceDraft.template as InvoiceTemplateId]
 
   // close the download and share menus on an outside click
-  useEffect(() => {
-    if (!downloadOpen && !shareOpen) return
-
-    const handlePointerDown = (event: MouseEvent) => {
-      const target = event.target
-
-      if (!(target instanceof Node)) return
-
-      const isInsideDownloadMenu =
-        Boolean(downloadTriggerRef.current?.contains(target)) ||
-        Boolean(downloadDialogRef.current?.contains(target))
-
-      const isInsideShareMenu =
-        Boolean(shareTriggerRef.current?.contains(target)) ||
-        Boolean(shareDialogRef.current?.contains(target))
-
-      if (isInsideDownloadMenu || isInsideShareMenu) {
-        return
-      }
-
+  usePointerDownOutside(
+    [downloadTriggerRef, downloadDialogRef, shareTriggerRef, shareDialogRef],
+    () => {
       setDownloadOpen(false)
       setShareOpen(false)
-    }
-
-    document.addEventListener("mousedown", handlePointerDown)
-
-    return () => { document.removeEventListener("mousedown", handlePointerDown) }
-  }, [downloadOpen, shareOpen])
+    },
+    downloadOpen || shareOpen,
+  )
 
   const openDownloadDialogue = () => {
     setShareOpen(false)
@@ -165,7 +145,6 @@ export default function ViewInvoice() {
     }
   }
 
-
   const downloadPDF = async () => {
     if (!previewRef.current) return
 
@@ -178,10 +157,6 @@ export default function ViewInvoice() {
     } catch (error) {
       console.error("Failed to download invoice PDF:", error)
     }
-  }
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
   }
 
   /*

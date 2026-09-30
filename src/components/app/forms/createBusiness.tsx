@@ -2,8 +2,8 @@
 
 import { createBusiness } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { FormObjectTypes, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { FormObjectTypes } from "@/src/types/types"
 import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import Card from "../../base/ui/composites/card"
@@ -19,17 +19,13 @@ import CountryStateFields from "./countryStateFields"
 
 export default function CreateBusinessForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
 
   const closeCreateBusinessForm = () => {
     setBackdropContent(null)
     setBackdropOpen(false)
-  }
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
   }
 
   const saveBusiness = async (values: FormObjectTypes) => {

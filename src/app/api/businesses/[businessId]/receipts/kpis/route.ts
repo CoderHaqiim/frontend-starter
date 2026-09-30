@@ -1,15 +1,15 @@
+import { account } from "@/src/data/account"
 import { receipts } from "@/src/data/receipts"
+import { parseAmount } from "@/src/utils/amount"
+import { formatWholeAmount } from "@/src/utils/formatAmount"
 import { NextResponse } from "next/server"
-
-const parseAmount = (amount: string) => Number(amount.replace(/[^0-9.-]+/g, ""))
-
-const formatAmount = (amount: number) => `$${amount.toLocaleString()}`
 
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ businessId: string }> }
 ) {
   const { businessId } = await params
+
   const businessReceipts = receipts.filter((receipt) => receipt.businessId === businessId)
 
   const totalAmount = businessReceipts.reduce(
@@ -41,25 +41,25 @@ export async function GET(
       {
         id: "totalMoney",
         title: "Total Amount",
-        value: formatAmount(totalAmount),
+        value: formatWholeAmount(account.currency, totalAmount),
         meaning: "Total amount received",
       },
       {
         id: "outstanding",
         title: "Outstanding",
-        value: formatAmount(outstandingAmount),
+        value: formatWholeAmount(account.currency, outstandingAmount),
         meaning: "Pending receipt value",
       },
       {
         id: "overdue",
         title: "Overdue",
-        value: formatAmount(overdueAmount),
+        value: formatWholeAmount(account.currency, overdueAmount),
         meaning: "Overdue receipt value",
       },
       {
         id: "paid",
         title: "Paid",
-        value: formatAmount(paidAmount),
+        value: formatWholeAmount(account.currency, paidAmount),
         meaning: "Collected receipt value",
       },
     ],

@@ -11,8 +11,8 @@ import {
   readQueryParam,
   recordNotFoundResponse,
   toDisplayDate,
-  todayIsoDate,
 } from "@/src/utils/mockApi"
+import { todayIsoDate } from "@/src/utils/todayIsoDate"
 import { NextResponse } from "next/server"
 
 // Stored choices are lowercase, so a typed value only has to match them

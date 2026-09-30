@@ -7,8 +7,8 @@ import {
   todayBusinessTasksQueryKey,
 } from "@/src/services/taskService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { FormObjectTypes, Task, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { FormObjectTypes, Task } from "@/src/types/types"
 import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname } from "next/navigation"
@@ -25,7 +25,7 @@ import Label from "../../base/ui/primitives/label"
 
 export default function CreateTaskForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const pathname = usePathname()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
@@ -34,10 +34,6 @@ export default function CreateTaskForm() {
   // business context, so the field stays changeable.
   const contextBusinessId = getBusinessIdFromPathname(pathname)
   const isBusinessContext = Boolean(contextBusinessId)
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const saveTask = async (values: FormObjectTypes) => {
     const targetBusinessId = String(values.businessId ?? "")

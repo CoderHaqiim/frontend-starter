@@ -1,8 +1,9 @@
+import usePointerDownOutside from '@/src/hooks/pointerDownOutside'
 import { useBackdropState } from '@/src/store/backdropState'
 import { ChartPeriod, ChartPoint, chartTypes } from '@/src/types/types'
 import { toPng } from 'html-to-image'
 import jsPDF from 'jspdf'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import DownloadDialogue from '../composites/downloadDialogue'
 import Tooltip from '../composites/tooltip'
 import Button from '../primitives/button'
@@ -23,23 +24,9 @@ export default function ExpandedChart({chartData, selectedChart, selectedPeriod}
     const triggerRef = useRef<HTMLDivElement>(null)
     const {setBackdropOpen, setBackdropContent} = useBackdropState()
 
-    useEffect(() => {
-        if (!downloadOpen) return
-
-        const handlePointerDown = (event: MouseEvent) => {
-            const target = event.target
-
-            if (target instanceof Node && (triggerRef.current?.contains(target) || dialogRef.current?.contains(target))) {
-                return
-            }
-
-            setDownloadOpen(false)
-        }
-
-        document.addEventListener('mousedown', handlePointerDown)
-
-        return () => document.removeEventListener('mousedown', handlePointerDown)
-    }, [downloadOpen])
+    // The download menu closes when a click lands outside the trigger or the
+    // dialogue.
+    usePointerDownOutside([triggerRef, dialogRef], () => setDownloadOpen(false), downloadOpen)
 
     const openDownloadDialogue = () => {
         setDownloadOpen(true)

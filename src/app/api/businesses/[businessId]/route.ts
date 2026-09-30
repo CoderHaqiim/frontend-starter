@@ -1,4 +1,10 @@
 import { businesses } from "@/src/data/businesses"
+import { businessCustomers } from "@/src/data/customers"
+import { inventoryByBusinessId } from "@/src/data/inventory"
+import { invoices } from "@/src/data/invoices"
+import { receipts } from "@/src/data/receipts"
+import { tasks } from "@/src/data/tasks"
+import { transactions } from "@/src/data/transactions"
 import { BusinessAccount } from "@/src/types/types"
 import { isAccountNumber } from "@/src/utils/bankInformation"
 import { unregisterBusinessHealth } from "@/src/utils/businessHealthResponse";
@@ -122,6 +128,19 @@ export async function POST(request: Request, { params }: RouteParams) {
   return updateBusiness(request, { params })
 }
 
+// Removes every record a business holds in a resource store, so a deleted
+// business leaves nothing behind for a later business to inherit.
+const removeBusinessRecords = <Entry extends { businessId: string }>(
+  records: Entry[],
+  businessId: string
+) => {
+  for (let index = records.length - 1; index >= 0; index -= 1) {
+    if (records[index].businessId === businessId) {
+      records.splice(index, 1)
+    }
+  }
+}
+
 // Removes the business from the in-memory store. The KPI and health stores are
 // keyed by business id, so the entries belonging to it are cleared with it and
 // the dashboard totals stop counting it.
@@ -134,6 +153,17 @@ export async function DELETE(_request: Request, { params }: RouteParams) {
   }
 
   const [deletedBusiness] = businesses.splice(businessIndex, 1)
+
+  // The resource stores hold their records against the business id, so they are
+  // emptied with the business: a store that kept them would show them as the
+  // records of whichever business was given this id next.
+  removeBusinessRecords(transactions, businessId)
+  removeBusinessRecords(invoices, businessId)
+  removeBusinessRecords(receipts, businessId)
+  removeBusinessRecords(tasks, businessId)
+
+  delete businessCustomers[businessId]
+  delete inventoryByBusinessId[businessId]
 
   unregisterBusinessHealth(businessId)
 

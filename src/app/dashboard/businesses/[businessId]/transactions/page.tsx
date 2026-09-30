@@ -9,11 +9,18 @@ import Button from '@/src/components/base/ui/primitives/button'
 import Frame from '@/src/components/base/ui/primitives/frame'
 import Heading from '@/src/components/base/ui/primitives/heading'
 import Paragraph from '@/src/components/base/ui/primitives/paragraph'
-import { businessTransactionsQueryKey, getBusinessTransactions } from '@/src/services/transactionService'
+import { useAccountCurrencySymbol } from '@/src/hooks/accountCurrency'
+import {
+  businessTransactionsPrefixQueryKey,
+  businessTransactionsQueryKey,
+  deleteBusinessTransaction,
+  getBusinessTransactions,
+  recentBusinessTransactionsPrefixQueryKey,
+  updateBusinessTransaction,
+} from '@/src/services/transactionService'
 import { useBackdropState } from '@/src/store/backdropState'
-import { useToastState } from '@/src/store/toastState'
-import { kpiObjectProps, ToastType } from '@/src/types/types'
-import { getCurrencySymbol } from '@/src/utils/currencySymbol'
+import { useShowToast } from '@/src/store/toastState'
+import { kpiObjectProps, Transaction } from '@/src/types/types'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -27,39 +34,71 @@ export default function Item3() {
   })
 
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
 
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
+  // The list, the recent transactions on the overview and the KPI cards all follow
+  // a change to one of the transactions.
+  const refreshTransactionViews = () => {
+    queryClient.invalidateQueries({ queryKey: businessTransactionsPrefixQueryKey(businessId) })
+    queryClient.invalidateQueries({ queryKey: recentBusinessTransactionsPrefixQueryKey(businessId) })
   }
 
-  // const handleDeleteTransaction = async (transactionId: string) => {
-  //   try {
-  //     await deleteBusinessTransaction(businessId, transactionId)
+  const handleDeleteTransaction = async (transactionId: string) => {
+    try {
+      await deleteBusinessTransaction(businessId, transactionId)
 
-  //     // The row leaves the cached page straight away, and every cached query is
-  //     // refreshed so the list, the recent transactions and the KPI cards follow.
-  //     queryClient.setQueryData<Transaction[]>(
-  //       businessTransactionsQueryKey(businessId, page),
-  //       (currentTransactions = []) =>
-  //         currentTransactions.filter((transaction) => transaction.id !== transactionId)
-  //     )
-  //     queryClient.invalidateQueries()
+      // The row leaves the cached page straight away, and every cached query is
+      // refreshed so the list, the recent transactions and the KPI cards follow.
+      queryClient.setQueryData<Transaction[]>(
+        businessTransactionsQueryKey(businessId, page),
+        (currentTransactions = []) =>
+          currentTransactions.filter((transaction) => transaction.id !== transactionId)
+      )
+      refreshTransactionViews()
 
-  //     showToast({
-  //       variant: "success",
-  //       title: "Transaction deleted",
-  //       message: `Transaction ${transactionId} was deleted successfully.`,
-  //     })
-  //   } catch {
-  //     showToast({
-  //       variant: "error",
-  //       title: "Delete failed",
-  //       message: "The transaction could not be deleted. Please try again.",
-  //     })
-  //   }
-  // }
+      showToast({
+        variant: "success",
+        title: "Transaction deleted",
+        message: `Transaction ${transactionId} was deleted successfully.`,
+      })
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Delete failed",
+        message: "The transaction could not be deleted. Please try again.",
+      })
+    }
+  }
+
+  // The type and the status both travel through the transactions route as a change
+  // to the transaction, and the row wears the change as it is made so the menu
+  // answers straight away. The list is read again either way, so it matches the
+  // store when a save is refused.
+  const handleChangeTransaction = async (
+    transactionId: string,
+    updates: Partial<Pick<Transaction, "status" | "type">>,
+  ) => {
+    queryClient.setQueryData<Transaction[]>(
+      businessTransactionsQueryKey(businessId, page),
+      (currentTransactions = []) =>
+        currentTransactions.map((transaction) =>
+          transaction.id === transactionId ? { ...transaction, ...updates } : transaction
+        )
+    )
+
+    try {
+      await updateBusinessTransaction(businessId, transactionId, updates)
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Update failed",
+        message: "The transaction could not be saved. Please try again.",
+      })
+    } finally {
+      refreshTransactionViews()
+    }
+  }
 
   const createTransaction = () => {
     setBackdropContent(<CreateTransactionForm businessId={businessId} />)
@@ -85,8 +124,8 @@ export default function Item3() {
       (transaction) => transaction.type === "income" && transaction.status === "pending"
     )
     .reduce((total, transaction) => total + transaction.amount, 0)
-  // Every business in the mock trades in NGN, so the rows are reported in naira.
-  const currencySymbol = getCurrencySymbol("NGN")
+  // The rows are reported in the account currency.
+  const currencySymbol = useAccountCurrencySymbol()
   const transactionKpis: kpiObjectProps[] = [
     { title: "Total Transactions", value: String(transactions.length) },
     { title: "Income", value: `${currencySymbol} ${totalIncome.toLocaleString()}` },
@@ -128,7 +167,14 @@ export default function Item3() {
         <KpiRow kpis={transactionKpis} isLoading={isTransactionsLoading} itemsCount={5} />
       </Section>
 
-      <TransactionManager transactions={transactions} currentPage={page} onPageChange={setPage}/>
+      <TransactionManager
+        transactions={transactions}
+        currentPage={page}
+        onPageChange={setPage}
+        onDelete={handleDeleteTransaction}
+        onChangeStatus={(transactionId, status) => handleChangeTransaction(transactionId, { status })}
+        onChangeType={(transactionId, type) => handleChangeTransaction(transactionId, { type })}
+      />
     </Frame>
   )
 }

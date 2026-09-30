@@ -2,8 +2,7 @@
 
 import { businessQueryKey, businessesQueryKey, deleteBusiness } from "@/src/services/businessService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
 import { useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -24,14 +23,10 @@ type DeleteBusinessModalProps = {
 // out, but the confirming button carries the destructive colours.
 export default function DeleteBusinessModal({ businessId, businessName }: DeleteBusinessModalProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
   const router = useRouter()
   const [isDeleting, setIsDeleting] = useState(false)
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const closeDeleteBusinessModal = () => {
     setBackdropContent(null)

@@ -1,4 +1,5 @@
 import { Invoice, invoices } from "@/src/data/invoices"
+import { roundAmount, sumLineItems } from "@/src/utils/amount"
 import {
   badRequestResponse,
   businessNotFoundResponse,
@@ -10,14 +11,12 @@ import {
   readBody,
   readQueryParam,
   recordNotFoundResponse,
-  roundAmount,
-  sumLineItems,
   toDisplayAmount,
   toDisplayDate,
   toNumber,
   toText,
-  todayIsoDate,
 } from "@/src/utils/mockApi"
+import { todayIsoDate } from "@/src/utils/todayIsoDate"
 import { NextResponse } from "next/server"
 
 const invoicePaymentStatuses: Invoice["customer"]["paymentStatus"][] = ["overdue", "paid", "pending"]

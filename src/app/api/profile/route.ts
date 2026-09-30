@@ -1,3 +1,4 @@
+import { account as profile } from "@/src/data/account"
 import { Profile } from "@/src/types/types"
 import { isCurrencyCode } from "@/src/utils/currencySymbol"
 import { toText } from "@/src/utils/mockApi"
@@ -5,17 +6,8 @@ import { NextResponse } from "next/server"
 
 // The personal information of the signed in user, the way the settings page and
 // the profile button and card read it. The currency is the account currency the
-// account settings list shows.
-const profile: Profile = {
-  profilePicture: "/images/akeem.png",
-  userName: "Haqiim",
-  firstName: "Haqiim",
-  lastName: "Bello",
-  email: "haqiim@company.com",
-  phone: "+234 801 234 5678",
-  currency: "NGN",
-  userId: 90,
-}
+// account settings list shows, and the one the routes that report money read, so
+// every amount the app shows is reported in it.
 
 // The fields the profile forms own. The id belongs to the server, so it is never
 // taken from a body.

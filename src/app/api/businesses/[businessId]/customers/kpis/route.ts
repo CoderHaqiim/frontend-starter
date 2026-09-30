@@ -1,3 +1,4 @@
+import { account } from "@/src/data/account"
 import { businessCustomers } from "@/src/data/customers"
 import { getBusinessTransactionTotals } from "@/src/data/kpis"
 import { Duration } from "@/src/types/types"
@@ -6,9 +7,6 @@ import { PERIOD_DAYS, getPeriodWindows, isWithinRange } from "@/src/utils/dateRa
 import { NextResponse } from "next/server"
 
 const reportPeriods = ["weekly", "monthly", "annual"]
-
-// Every business in the mock trades in NGN, so the amounts are reported in naira.
-const currencySymbol = getCurrencySymbol("NGN")
 
 // Every value is read from the records themselves, the same way the transactions
 // page builds its KPI row: the customers the business holds, the ones it gained
@@ -48,6 +46,9 @@ export async function GET(
   ).length
 
   const { receivables } = getBusinessTransactionTotals(businessId)
+
+  // The amount is reported in the account currency.
+  const currencySymbol = getCurrencySymbol(account.currency)
 
   return NextResponse.json({
     kpis: [

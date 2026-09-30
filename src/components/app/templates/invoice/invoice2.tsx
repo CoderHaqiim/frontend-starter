@@ -3,27 +3,13 @@
 import InvoiceTable from "@/src/components/app/invoiceTable";
 import Frame from "@/src/components/base/ui/primitives/frame";
 import Paragraph from "@/src/components/base/ui/primitives/paragraph";
-import { getItemsSubtotal, useInvoiceDraft } from "@/src/store/invoiceDraftState";
+import { useInvoiceDraft } from "@/src/store/invoiceDraftState";
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState";
+import { sumLineItems } from "@/src/utils/amount";
 import { getCurrencySymbol } from "@/src/utils/currencySymbol";
-
-const EMPTY_VALUE = " ";
-
-const formatCurrency = (amount: number, symbol: string) =>
-  `${symbol}${amount.toLocaleString("en-NG", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-
-const formatDate = (date: string) => {
-  if (!date) return EMPTY_VALUE;
-
-  return new Intl.DateTimeFormat("en-NG", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
-};
+import { EMPTY_VALUE } from "@/src/utils/emptyValue";
+import { formatCurrency } from "@/src/utils/formatCurrency";
+import { formatDate } from "@/src/utils/formatDate";
 
 export default function Invoice2() {
   const { selectedBusiness } = useSelectedBusiness();
@@ -47,14 +33,15 @@ export default function Invoice2() {
   const businessEmail = selectedBusiness.email || EMPTY_VALUE;
   const businessWebsite = selectedBusiness.website || EMPTY_VALUE;
 
-  // The payment details come from the bank information on the business record,
-  // so the invoice shows the account the customer should pay into.
-  const accountName = selectedBusiness.account?.accountName || businessName;
+  // The payment details come from the bank information saved on the business
+  // record, so a business with no bank details yet leaves them blank instead of
+  // showing anything derived from its name.
+  const accountName = selectedBusiness.account?.accountName || EMPTY_VALUE;
   const accountNumber = selectedBusiness.account?.accountNumber || EMPTY_VALUE;
   const bankName = selectedBusiness.account?.bankName || EMPTY_VALUE;
 
   const enteredAmount = Number(invoiceDraft.amount);
-  const itemsSubtotal = getItemsSubtotal(invoiceDraft.items);
+  const itemsSubtotal = sumLineItems(invoiceDraft.items);
 
   const subtotal =
     invoiceDraft.items.length > 0

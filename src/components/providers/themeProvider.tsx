@@ -15,6 +15,7 @@ type ThemeContextType = {
   colors: ColorsMap ;
   colorVariables: ColorVariables;
   toggleTheme: () => void;
+  setTheme: (theme: ThemeType) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
@@ -22,6 +23,7 @@ const ThemeContext = createContext<ThemeContextType>({
   colors: themeColors.light,
   colorVariables: colorVariables,
   toggleTheme: () => undefined,
+  setTheme: () => undefined,
 });
 
 type ThemeProviderProps = {
@@ -69,14 +71,19 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
     document.documentElement.dataset.theme = theme;
   }, [colorVariables, theme]);
 
-  const toggleTheme = () => {
-    const nextTheme = theme === "light" ? "dark" : "light";
+  // The saved theme is what every reader of the context follows: the header button
+  // flips between the two, and the settings modal picks one of them.
+  const setTheme = (nextTheme: ThemeType) => {
     window.localStorage.setItem(storageKey, nextTheme);
     window.dispatchEvent(new Event(themeChange));
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, colors, colorVariables, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, colors, colorVariables, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

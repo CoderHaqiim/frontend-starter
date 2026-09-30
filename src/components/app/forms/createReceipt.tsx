@@ -1,6 +1,7 @@
 "use client"
 
 import type { Receipt } from "@/src/data/receipts"
+import useFirstFieldFocus from "@/src/hooks/firstFieldFocus"
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
 import {
   createReceipt as createBusinessReceipt,
@@ -8,18 +9,15 @@ import {
   receiptsQueryKey,
 } from "@/src/services/receiptService"
 import { useBackdropState } from "@/src/store/backdropState"
-import {
-  getReceiptItemsSubtotal,
-  ReceiptDraft,
-  useReceiptDraft,
-} from "@/src/store/receiptDraftState"
+import { ReceiptDraft, useReceiptDraft } from "@/src/store/receiptDraftState"
 import { useReceiptFormState } from "@/src/store/receiptFormState"
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState"
+import { sumLineItems } from "@/src/utils/amount"
 import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { getCurrencyOptions } from "@/src/utils/currencySymbol"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
@@ -47,6 +45,11 @@ export default function CreateReceiptForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
   const queryClient = useQueryClient()
   const selectedTemplate = receiptDraft.template as ReceiptTemplateId
+  // The first field of the form takes the focus as the form opens, so a new receipt
+  // can be typed into straight away.
+  const formRef = useRef<HTMLFormElement | null>(null)
+  useFirstFieldFocus(formRef, isOpen)
+
   // A form opened from a business page always targets that business and the
   // business field is read only there. On the home dashboard there is no
   // business context, so the field stays changeable.
@@ -129,7 +132,7 @@ export default function CreateReceiptForm() {
     }
 
     // The amount is derived from the item lines, so it is also the subtotal.
-    const itemsSubtotal = getReceiptItemsSubtotal(receiptDraft.items)
+    const itemsSubtotal = sumLineItems(receiptDraft.items)
 
     // The receipt belongs to the business whose page the form was opened from,
     // falling back to the selected business on the home dashboard.
@@ -246,6 +249,7 @@ export default function CreateReceiptForm() {
           "
         >
           <form
+            ref={formRef}
             onSubmit={createReceipt}
             className="
               gap-[var(--space-lg)]

@@ -1,4 +1,5 @@
 import { Receipt, receipts } from "@/src/data/receipts"
+import { sumLineItems } from "@/src/utils/amount"
 import {
   badRequestResponse,
   businessNotFoundResponse,
@@ -10,12 +11,11 @@ import {
   readBody,
   readQueryParam,
   recordNotFoundResponse,
-  sumLineItems,
   toDisplayAmount,
   toDisplayDate,
   toText,
-  todayIsoDate,
 } from "@/src/utils/mockApi"
+import { todayIsoDate } from "@/src/utils/todayIsoDate"
 import { NextResponse } from "next/server"
 
 const receiptPaymentStatuses = ["overdue", "paid", "pending"]

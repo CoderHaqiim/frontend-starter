@@ -4,6 +4,7 @@ import { Transaction } from "@/src/types/types";
 import { shortenText } from "@/src/utils/shortenText";
 import Badge from "../base/ui/composites/badge";
 import Popup from "../base/ui/composites/popup";
+import RowActionsMenu from "../base/ui/composites/rowActionsMenu";
 import Button from "../base/ui/primitives/button";
 import Frame from "../base/ui/primitives/frame";
 import Paragraph from "../base/ui/primitives/paragraph";
@@ -14,9 +15,10 @@ type TransactionItemProps = {
   transaction: Transaction;
   onChangeStatus: (transactionId: string, status: Transaction["status"]) => void;
   onChangeType: (transactionId: string, type: Transaction["type"]) => void;
+  onDelete: (transactionId: string) => void;
 }
 
-export default function TransactionLine({ transaction, onChangeStatus, onChangeType }: TransactionItemProps) {
+export default function TransactionLine({ transaction, onChangeStatus, onChangeType, onDelete }: TransactionItemProps) {
   const isIncome = transaction.type === "income";
   const amount = `${isIncome ? "+" : "-"}${transaction.amount.toLocaleString()}`;
 
@@ -62,17 +64,20 @@ export default function TransactionLine({ transaction, onChangeStatus, onChangeT
         <Paragraph weight="medium" color={isIncome ? "success" : "error"} size="xs">{amount}</Paragraph>
       </Frame>
 
-      {/* The row menu sits at the end of the row: the status and type changes only
-          act once the button is clicked. */}
+      {/* The row menu sits at the end of the row: the type and status changes and the
+          delete only act once the button is clicked, and each travels through the
+          transactions route. */}
       <Frame className="w-[60px] items-center justify-end">
         <Popup
           gap={20}
           width="210px"
+          closeOnContentClick
           content={
             <TransactionLinePopup
               transaction={transaction}
               onChangeStatus={(status) => onChangeStatus(transaction.id, status)}
               onChangeType={(type) => onChangeType(transaction.id, type)}
+              onDelete={() => onDelete(transaction.id)}
             />
           }
         >
@@ -88,9 +93,10 @@ type TransactionLinePopupProps = {
   transaction: Transaction;
   onChangeStatus: (status: Transaction["status"]) => void;
   onChangeType: (type: Transaction["type"]) => void;
+  onDelete: () => void;
 }
 
-function TransactionLinePopup({ transaction, onChangeStatus, onChangeType }: TransactionLinePopupProps) {
+function TransactionLinePopup({ transaction, onChangeStatus, onChangeType, onDelete }: TransactionLinePopupProps) {
   const isCompleted = transaction.status === "completed"
 
   return (
@@ -137,6 +143,10 @@ function TransactionLinePopup({ transaction, onChangeStatus, onChangeType }: Tra
           Mark complete
         </Button>
       }
+
+      {/* Deleting travels through the transactions route, keyed by the transaction
+          the row shows. */}
+      <RowActionsMenu onDelete={onDelete} />
 
     </Frame>
   )

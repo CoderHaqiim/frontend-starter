@@ -14,3 +14,12 @@ export const useToastState = create<ToastState>((set) => ({
         toastState: state.toastState.filter((item) => item !== toast)
     }))
 }))
+
+// Shows a toast. Every page and form that reports the outcome of a save calls
+// this, so the list the toast bar reads is appended to in one place instead of
+// being spread by hand at each call site.
+export function useShowToast() {
+    const { toastState, setToastState } = useToastState()
+
+    return (toast: ToastType) => setToastState([...toastState, toast])
+}

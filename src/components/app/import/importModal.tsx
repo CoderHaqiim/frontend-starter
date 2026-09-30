@@ -1,8 +1,7 @@
 "use client"
 
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
 import {
   isBlankSpreadsheetRow,
   validateImportRows,
@@ -49,7 +48,7 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
   const definition = importDefinitions[definitionId]
   const { headers, exampleRow } = getTemplateRows(definition)
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
 
   const [workbook, setWorkbook] = useState<Spreadsheet | null>(null)
@@ -60,10 +59,6 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
   const [fileError, setFileError] = useState<string | null>(null)
   const [isImporting, setIsImporting] = useState(false)
   const [importedCount, setImportedCount] = useState(0)
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const closeImportModal = () => {
     setBackdropContent(null)

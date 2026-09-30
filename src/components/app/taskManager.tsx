@@ -1,8 +1,8 @@
 "use client";
 
 import { businessTasksQueryKey, deleteBusinessTask, getBusinessTasks, todayBusinessTasksQueryKey, updateBusinessTask } from "@/src/services/taskService";
-import { useToastState } from "@/src/store/toastState";
-import { Task, TaskStatus, ToastType } from "@/src/types/types";
+import { useShowToast } from "@/src/store/toastState";
+import { Task, TaskStatus } from "@/src/types/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import Badge from "../base/ui/composites/badge";
@@ -21,15 +21,11 @@ const columns: { status: TaskStatus; title: string }[] = [
 export default function TaskManager() {
 	const { businessId } = useParams<{ businessId: string }>()
 	const queryClient = useQueryClient()
-	const { toastState, setToastState } = useToastState()
+	const showToast = useShowToast()
 	const { data: tasks = [] } = useQuery({
 		queryKey: businessTasksQueryKey(businessId),
 		queryFn: () => getBusinessTasks(businessId),
 	})
-
-	const showToast = (toast: ToastType) => {
-		setToastState([...toastState, toast])
-	}
 
 	const handleDeleteTask = async (taskId: string) => {
 		try {

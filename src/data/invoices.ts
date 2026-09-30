@@ -1,13 +1,5 @@
+import type { LineItem } from "@/src/types/types"
 import { createMockStore } from "@/src/utils/mockStore"
-
-export type InvoiceItem = {
-  id: string
-  name: string
-  description: string
-  quantity: number
-  price: number
-  amount: number
-}
 
 /*
  * An invoice as it is stored once it has been created.
@@ -38,7 +30,7 @@ export type Invoice = {
     amount: string
     paymentStatus: "overdue" | "paid" | "pending"
   }
-  items: InvoiceItem[]
+  items: LineItem[]
   subtotal: number
   discount: number
   vat: number

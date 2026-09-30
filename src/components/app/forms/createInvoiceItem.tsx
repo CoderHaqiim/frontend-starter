@@ -1,7 +1,9 @@
 "use client"
 
-import { InvoiceItem, useInvoiceDraft } from "@/src/store/invoiceDraftState"
-import { ChangeEvent, useEffect, useRef, useState } from "react"
+import usePointerDownOutside from "@/src/hooks/pointerDownOutside"
+import { useInvoiceDraft } from "@/src/store/invoiceDraftState"
+import type { LineItem } from "@/src/types/types"
+import { ChangeEvent, useRef, useState } from "react"
 import Card from "../../base/ui/composites/card"
 import Button from "../../base/ui/primitives/button"
 import CloseButton from "../../base/ui/primitives/closeButton"
@@ -26,7 +28,7 @@ const initialForm: ItemForm = {
 
 type CreateInvoiceItemFormProps = {
   onClose: () => void
-  itemToEdit?: InvoiceItem
+  itemToEdit?: LineItem
 }
 
 export default function CreateInvoiceItemForm({ onClose, itemToEdit }: CreateInvoiceItemFormProps) {
@@ -48,19 +50,7 @@ export default function CreateInvoiceItemForm({ onClose, itemToEdit }: CreateInv
   // The form stays open while the pointer moves over the page. It closes when a
   // click lands outside the card, the way the dropdowns close, or through the
   // close button.
-  useEffect(() => {
-    const handlePointerDown = (event: MouseEvent) => {
-      const target = event.target
-
-      if (!(target instanceof Node) || cardRef.current?.contains(target)) return
-
-      onClose()
-    }
-
-    document.addEventListener("mousedown", handlePointerDown)
-
-    return () => document.removeEventListener("mousedown", handlePointerDown)
-  }, [onClose])
+  usePointerDownOutside([cardRef], onClose)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target

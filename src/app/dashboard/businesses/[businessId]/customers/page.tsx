@@ -2,6 +2,7 @@
 
 import KpiLoader from "@/src/components/app/cards/kpiLoader"
 import QuickAccessCard from "@/src/components/app/cards/quickAccess"
+import CreateCustomerForm from "@/src/components/app/forms/createCustomer"
 import ImportModal from "@/src/components/app/import/importModal"
 import Section from "@/src/components/base/layout/section"
 import Dropdown from "@/src/components/base/ui/composites/dropdown"
@@ -14,8 +15,8 @@ import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import { customerKpisQueryKey, customersQueryKey, deleteCustomer, getCustomerKpis, getCustomers, getQuickAccessCustomers, quickAccessCustomersQueryKey } from "@/src/services/customerService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { ObjectRecordType, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { ObjectRecordType } from "@/src/types/types"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 import { useState } from "react"
@@ -23,19 +24,62 @@ import { useState } from "react"
 export default function Home() {
   const { businessId } = useParams<{ businessId: string }>()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
 
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
+  const { data: customers = [] } = useQuery({
+    queryKey: customersQueryKey(businessId),
+    queryFn: () => getCustomers(businessId),
+  })
+  const { data: quickAccessCustomers = [], isLoading: isCustomerQuickAccessLoading } = useQuery({
+    queryKey: quickAccessCustomersQueryKey(businessId),
+    queryFn: () => getQuickAccessCustomers(businessId),
+  })
+  const { data: customerKpis = [], isLoading: isCustomerKpisLoading } = useQuery({
+    queryKey: customerKpisQueryKey(businessId),
+    queryFn: () => getCustomerKpis(businessId),
+    // The route answers with the cards under `kpis`, the same shape the invoice and
+    // receipt KPI queries unwrap.
+    select: (response) => response.kpis,
+  })
+  const [selectedStatus, setSelectedStatus] = useState("all")
 
   // The directory table is built from the displayed columns, so a row is linked
   // back to its customer through the name and email it shows.
-  const handleDeleteCustomer = async (row: ObjectRecordType) => {
-    const customer = customers.find(
-      (entry) => entry.name === row["Customer name"] && entry.email === row["Email"]
+  const findCustomer = (row: ObjectRecordType) =>
+    customers.find(
+      (customer) => customer.name === row["Customer name"] && customer.email === row["Email"]
     )
+
+  // The directory, the KPI cards and the quick access cards all follow a change to
+  // one of the customers.
+  const refreshCustomerViews = () => {
+    queryClient.invalidateQueries({ queryKey: customersQueryKey(businessId) })
+    queryClient.invalidateQueries({ queryKey: customerKpisQueryKey(businessId) })
+    queryClient.invalidateQueries({ queryKey: quickAccessCustomersQueryKey(businessId) })
+  }
+
+  // Edit opens the form the create opens, filled in with the customer, and saving it
+  // travels through the customers route as a change to that customer.
+  const handleEditCustomer = (row: ObjectRecordType) => {
+    const customer = findCustomer(row)
+
+    if (!customer) {
+      showToast({
+        variant: "error",
+        title: "Edit failed",
+        message: "The customer could not be found. Please try again.",
+      })
+
+      return
+    }
+
+    setBackdropContent(<CreateCustomerForm customerToEdit={customer} />)
+    setBackdropOpen(true)
+  }
+
+  const handleDeleteCustomer = async (row: ObjectRecordType) => {
+    const customer = findCustomer(row)
 
     if (!customer) {
       showToast({
@@ -55,9 +99,7 @@ export default function Home() {
       queryClient.setQueryData<ObjectRecordType[]>(customersQueryKey(businessId), (currentCustomers = []) =>
         currentCustomers.filter((entry) => entry.id !== customer.id)
       )
-      queryClient.invalidateQueries({ queryKey: customersQueryKey(businessId) })
-      queryClient.invalidateQueries({ queryKey: customerKpisQueryKey(businessId) })
-      queryClient.invalidateQueries({ queryKey: quickAccessCustomersQueryKey(businessId) })
+      refreshCustomerViews()
 
       showToast({
         variant: "success",
@@ -72,22 +114,6 @@ export default function Home() {
       })
     }
   }
-  const { data: customers = [] } = useQuery({
-    queryKey: customersQueryKey(businessId),
-    queryFn: () => getCustomers(businessId),
-  })
-  const { data: quickAccessCustomers = [], isLoading: isCustomerQuickAccessLoading } = useQuery({
-    queryKey: quickAccessCustomersQueryKey(businessId),
-    queryFn: () => getQuickAccessCustomers(businessId),
-  })
-  const { data: customerKpis = [], isLoading: isCustomerKpisLoading } = useQuery({
-    queryKey: customerKpisQueryKey(businessId),
-    queryFn: () => getCustomerKpis(businessId),
-    // The route answers with the cards under `kpis`, the same shape the invoice and
-    // receipt KPI queries unwrap.
-    select: (response) => response.kpis,
-  })
-  const [selectedStatus, setSelectedStatus] = useState("all")
 
   const filteredCustomers = selectedStatus === "all"? 
   customers : customers.filter((customer) => customer.status === selectedStatus)
@@ -183,6 +209,8 @@ export default function Home() {
                 size="sm"
                 data={customerDirectoryTableData}
                 isCustomerData
+                onEditRow={handleEditCustomer}
+                onDeleteRow={handleDeleteCustomer}
               />
             ) : (
               // The surface mirrors the directory table frame above, so the box

@@ -17,6 +17,11 @@ type TableProps = {
     // table adds an actions column for it, and leaves the table untouched when it
     // is not given.
     rowActions?: (row: ObjectRecordType) => ReactNode
+    // The Edit and Delete actions the serial number column of a row opens. The
+    // column itself is always there; it only becomes the handle for the row's
+    // actions when the table is given one of the two handlers.
+    onEditRow?: (row: ObjectRecordType) => void
+    onDeleteRow?: (row: ObjectRecordType) => void
 }
 
 const MIN_COLUMN_WIDTH = 50
@@ -41,7 +46,9 @@ export default function Table({
     data,
     size,
     isCustomerData = false,
-    rowActions
+    rowActions,
+    onEditRow,
+    onDeleteRow
 }: TableProps) {
 
     const headerData: string[] = useMemo(() => {
@@ -191,6 +198,8 @@ export default function Table({
                             }}
                             isCustomerData={isCustomerData}
                             rowActions={rowActions}
+                            onEditRow={onEditRow}
+                            onDeleteRow={onDeleteRow}
                         />
                     ))
                 }

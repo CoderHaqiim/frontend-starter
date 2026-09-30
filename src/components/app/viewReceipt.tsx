@@ -1,12 +1,12 @@
 "use client"
 
+import usePointerDownOutside from "@/src/hooks/pointerDownOutside"
 import { useReceiptDraft } from "@/src/store/receiptDraftState"
-import { useToastState } from "@/src/store/toastState"
-import { ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
 import { buildReceiptEmail } from "@/src/utils/receiptEmail"
 import { toJpeg, toPng } from "html-to-image"
 import jsPDF from "jspdf"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 import Section from "../base/layout/section"
 import DownloadDialogue from "../base/ui/composites/downloadDialogue"
@@ -26,7 +26,7 @@ const A5 = { width: 148, height: 210 }
 
 export default function ViewReceipt() {
   const receiptDraft = useReceiptDraft()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const [downloadOpen, setDownloadOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
@@ -42,34 +42,14 @@ export default function ViewReceipt() {
     receiptTemplateComponents[receiptDraft.template as ReceiptTemplateId]
 
   // close the download and share menus on an outside click
-  useEffect(() => {
-    if (!downloadOpen && !shareOpen) return
-
-    const handlePointerDown = (event: MouseEvent) => {
-      const target = event.target
-
-      if (!(target instanceof Node)) return
-
-      const isInsideDownloadMenu =
-        Boolean(downloadTriggerRef.current?.contains(target)) ||
-        Boolean(downloadDialogRef.current?.contains(target))
-
-      const isInsideShareMenu =
-        Boolean(shareTriggerRef.current?.contains(target)) ||
-        Boolean(shareDialogRef.current?.contains(target))
-
-      if (isInsideDownloadMenu || isInsideShareMenu) {
-        return
-      }
-
+  usePointerDownOutside(
+    [downloadTriggerRef, downloadDialogRef, shareTriggerRef, shareDialogRef],
+    () => {
       setDownloadOpen(false)
       setShareOpen(false)
-    }
-
-    document.addEventListener("mousedown", handlePointerDown)
-
-    return () => { document.removeEventListener("mousedown", handlePointerDown) }
-  }, [downloadOpen, shareOpen])
+    },
+    downloadOpen || shareOpen,
+  )
 
   const openDownloadDialogue = () => {
     setShareOpen(false)
@@ -191,10 +171,6 @@ export default function ViewReceipt() {
     } catch (error) {
       console.error("Failed to download receipt PDF:", error)
     }
-  }
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
   }
 
   /*

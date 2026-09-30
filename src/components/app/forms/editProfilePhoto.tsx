@@ -2,8 +2,8 @@
 
 import { getProfile, profileQueryKey, updateProfile } from "@/src/services/profileService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { Profile, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { Profile } from "@/src/types/types"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import Avatar from "../../base/ui/composites/avatar"
@@ -19,7 +19,7 @@ import Label from "../../base/ui/primitives/label"
 // form saves the business logo.
 export default function EditProfilePhoto() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
   const [photo, setPhoto] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
@@ -30,10 +30,6 @@ export default function EditProfilePhoto() {
     queryKey: profileQueryKey,
     queryFn: getProfile,
   })
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const closeForm = () => {
     setBackdropContent(null)

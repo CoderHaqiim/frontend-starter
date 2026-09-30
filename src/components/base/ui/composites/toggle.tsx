@@ -3,11 +3,13 @@ import React, {useState} from 'react'
 
 type ToggleProps = {
     name: string,
+    // The state a switch opens with, so a form can show the preference it changes.
+    defaultChecked?: boolean,
     formFunc?: (e:React.ChangeEvent<HTMLInputElement>) => void 
 }
 
-export default function Toggle({name, formFunc} : ToggleProps) {
-    const [checked, setChecked] = useState<boolean>(false)
+export default function Toggle({name, defaultChecked = false, formFunc} : ToggleProps) {
+    const [checked, setChecked] = useState<boolean>(defaultChecked)
 
     const toggleFunction = (e: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(e.target.checked)

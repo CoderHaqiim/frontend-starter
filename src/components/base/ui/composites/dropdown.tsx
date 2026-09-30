@@ -25,6 +25,13 @@ type DropdownProps = {
   disabled?: boolean
   specificStyle?: CSSProperties
   formFunc?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  // A prefix names what the dropdown controls, so a sort reads as
+  // "Sort: Newest to oldest" while its menu keeps the plain option labels.
+  prefix?: string
+  // Menus open from the left edge by default. A control sitting at the right end
+  // of a toolbar opens from its right edge instead, so the menu stays inside the
+  // page rather than running past the section it sits in.
+  menuAlign?: "left" | "right"
 }
 
 export default function Dropdown({
@@ -39,6 +46,8 @@ export default function Dropdown({
   disabled = false,
   specificStyle,
   formFunc,
+  prefix,
+  menuAlign = "left",
 }: DropdownProps) {
   const { colors } = useTheme()
   const [open, setOpen] = useState(false)
@@ -76,6 +85,8 @@ export default function Dropdown({
     options.find(
       (option) => getOptionValue(option) === selectedValue
     ) ?? options[0]
+
+  const selectedLabel = getOptionLabel(selectedOption)
 
   const dropdownTextSize: SizeType = ["lg", "xl", "xxl"].includes(size)
     ? "md"
@@ -143,7 +154,7 @@ export default function Dropdown({
         >
           {/* Selected text */}
           <span className="min-w-0 truncate">
-            {getOptionLabel(selectedOption)}
+            {prefix && selectedLabel ? `${prefix} ${selectedLabel}` : selectedLabel}
           </span>
 
           {/* Chevron icon */}
@@ -156,7 +167,7 @@ export default function Dropdown({
         {open && (
           <Frame
             scroll="hidden"
-            className={`${shadow2} left-0 top-[100%] mt-1 flex max-h-[150px] ${isContentSized ? "w-fit" : "w-full"} min-w-[100px] flex-col overflow-y-auto rounded-[var(--radius-sm)] border border-[var(--color-outline2)] bg-[var(--color-white)]`}
+            className={`${shadow2} ${menuAlign === "right" ? "right-0" : "left-0"} top-[100%] mt-1 flex max-h-[150px] ${isContentSized ? "w-fit" : "w-full"} min-w-[100px] flex-col overflow-y-auto rounded-[var(--radius-sm)] border border-[var(--color-outline2)] bg-[var(--color-white)]`}
             specificStyles={{
               position: "absolute",
             }}

@@ -2,8 +2,7 @@
 
 import { deleteProfile, profileQueryKey } from "@/src/services/profileService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
 import { useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -24,14 +23,10 @@ type DeleteAccountModalProps = {
 // destructive colours.
 export default function DeleteAccountModal({ accountName }: DeleteAccountModalProps) {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
   const router = useRouter()
   const [isDeleting, setIsDeleting] = useState(false)
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const closeDeleteAccountModal = () => {
     setBackdropContent(null)
@@ -87,7 +82,7 @@ export default function DeleteAccountModal({ accountName }: DeleteAccountModalPr
         <Paragraph size="sm" specificStyle={{
           display: "inline"
         }}>
-          <span className=" font-[var(--fontWeight-semiBold)] text-[var(--color-textColor1)]">Are you sure you want to delete {accountName}? </span>
+          <span className=" font-[var(--fontWeight-semiBold)] text-[var(--color-textColor1)]">Are you sure you want to delete {accountName}? </span><br/>
           Your account and everything
           recorded against it will be removed for good, and this cannot be undone.
         </Paragraph>

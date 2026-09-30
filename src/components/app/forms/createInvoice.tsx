@@ -1,6 +1,7 @@
 "use client"
 
 import type { Invoice } from "@/src/data/invoices"
+import useFirstFieldFocus from "@/src/hooks/firstFieldFocus"
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
 import {
   createInvoice as createBusinessInvoice,
@@ -8,14 +9,15 @@ import {
   invoicesQueryKey,
 } from "@/src/services/invoiceService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { getItemsSubtotal, InvoiceDraft, useInvoiceDraft } from "@/src/store/invoiceDraftState"
+import { InvoiceDraft, useInvoiceDraft } from "@/src/store/invoiceDraftState"
 import { useInvoiceFormState } from "@/src/store/invoiceFormState"
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState"
+import { sumLineItems } from "@/src/utils/amount"
 import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { getCurrencyOptions } from "@/src/utils/currencySymbol"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
@@ -40,6 +42,11 @@ export default function CreateInvoiceForm() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
   const queryClient = useQueryClient()
   const selectedTemplate = invoiceDraft.template as InvoiceTemplateId
+  // The first field of the form takes the focus as the form opens, so a new invoice
+  // can be typed into straight away.
+  const formRef = useRef<HTMLFormElement | null>(null)
+  useFirstFieldFocus(formRef, isOpen)
+
   // A form opened from a business page always targets that business and the
   // business field is read only there. On the home dashboard there is no
   // business context, so the field stays changeable.
@@ -142,7 +149,7 @@ export default function CreateInvoiceForm() {
       return
     }
 
-    const itemsSubtotal = getItemsSubtotal(invoiceDraft.items)
+    const itemsSubtotal = sumLineItems(invoiceDraft.items)
     const enteredAmount = Number(invoiceDraft.amount) || 0
     const subtotal = invoiceDraft.items.length > 0 ? itemsSubtotal : enteredAmount
     const discountRate = Number(invoiceDraft.discount) || 0
@@ -300,6 +307,7 @@ export default function CreateInvoiceForm() {
           "
         >
           <form
+            ref={formRef}
             onSubmit={createInvoice}
             className="
               gap-[var(--space-lg)]

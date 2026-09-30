@@ -40,7 +40,7 @@ export default function KpiCard({
         borderRadius: "var(--radius-md)"
       }}>
         <Frame className="justify-between w-full">
-          <Paragraph size="xs" weight="medium" color="textColor2">
+          <Paragraph size="xs" weight="normal" color="textColor2">
             {kpi.title}
           </Paragraph>
           <Frame 
@@ -55,7 +55,7 @@ export default function KpiCard({
           </Frame>
         </Frame>
 
-        <Paragraph size="xl" color="textColor1" weight="semiBold">
+        <Paragraph size="xxl" color="textColor1" weight="bold">
           {abridgeNumber(kpi.value)}
         </Paragraph>
 

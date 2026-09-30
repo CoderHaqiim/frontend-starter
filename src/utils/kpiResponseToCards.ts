@@ -1,5 +1,5 @@
 import { BusinessKpiResponse, kpiObjectProps } from "@/src/types/types"
-import { getCurrencySymbol } from "./currencySymbol"
+import { defaultCurrency, getCurrencySymbol } from "./currencySymbol"
 
 // The figures a KPI card can report, in the order the cards are shown.
 export type FinancialMetric = keyof BusinessKpiResponse["financials"]
@@ -40,7 +40,7 @@ const allMetrics: FinancialMetric[] = [
 // receivables to the per-business reports.
 export function kpiResponseToCards(
   kpis: BusinessKpiResponse | null,
-  currency = "NGN",
+  currency = defaultCurrency,
   metrics: FinancialMetric[] = allMetrics
 ): kpiObjectProps[] {
   

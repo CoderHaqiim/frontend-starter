@@ -5,26 +5,12 @@ import Paragraph from "@/src/components/base/ui/primitives/paragraph";
 import { useReceiptDraft } from "@/src/store/receiptDraftState";
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState";
 import { getCurrencySymbol } from "@/src/utils/currencySymbol";
+import { EMPTY_VALUE } from "@/src/utils/emptyValue";
+import { formatCurrency } from "@/src/utils/formatCurrency";
+import { formatDate } from "@/src/utils/formatDate";
 import { BadgeCheck } from "lucide-react";
 import Image from "next/image";
 import ReceiptTable from "./receiptTable";
-
-const EMPTY_VALUE = " ";
-
-const formatCurrency = (amount: number, symbol: string) =>
-  `${symbol}${amount.toLocaleString("en-NG", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-
-const formatDate = (date: string) => {
-  if (!date) return EMPTY_VALUE;
-  return new Intl.DateTimeFormat("en-NG", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
-};
 
 export default function Receipt1() {
   const { selectedBusiness } = useSelectedBusiness();

@@ -1,7 +1,8 @@
 "use client"
 
 import { useBackdropState } from "@/src/store/backdropState"
-import { ReactNode, isValidElement } from "react"
+import useFirstFieldFocus from "@/src/hooks/firstFieldFocus"
+import { ReactNode, isValidElement, useRef } from "react"
 import CreateCustomerForm from "../../../app/forms/createCustomer"
 import CreateInventoryItemForm from "../../../app/forms/createInventoryItem"
 import CreateTaskForm from "../../../app/forms/createTask"
@@ -15,6 +16,11 @@ type BackdropProps = {
 
 export default function Backdrop({children}: BackdropProps) {
   const {backdropOpen, backdropContent} = useBackdropState()
+  const backdropRef = useRef<HTMLDivElement | null>(null)
+
+  // The first field of the modal takes the focus as it opens, so the form behind it
+  // is ready to be typed into.
+  useFirstFieldFocus(backdropRef, backdropOpen)
 
   const selectBackdropContent = ()=> {
     if (isValidElement(backdropContent)) {
@@ -32,7 +38,7 @@ export default function Backdrop({children}: BackdropProps) {
   }
 
   return (
-    <Frame className="w-full h-[100vh] justify-center items-center bg-[#00000040] inset-0 z-3000" 
+    <Frame ref={backdropRef} className="w-full h-[100vh] justify-center items-center bg-[#00000040] inset-0 z-3000" 
         specificStyles={{
             display: backdropOpen? "flex" : "none",
             position: "fixed",

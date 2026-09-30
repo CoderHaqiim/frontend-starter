@@ -11,6 +11,10 @@ const currencySymbols: Record<string, string> = {
   AUD: "$",
 }
 
+// The currency the mock account is seeded with. It is what the app reports until the
+// profile answers, and what an amount falls back to when no account currency is set.
+export const defaultCurrency = "NGN"
+
 export function getCurrencySymbol(currency: string) {
   const code = currency.trim().toUpperCase()
 

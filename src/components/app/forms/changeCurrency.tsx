@@ -2,8 +2,8 @@
 
 import { getProfile, profileQueryKey, updateProfile } from "@/src/services/profileService"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useToastState } from "@/src/store/toastState"
-import { FormObjectTypes, Profile, ToastType } from "@/src/types/types"
+import { useShowToast } from "@/src/store/toastState"
+import { FormObjectTypes, Profile } from "@/src/types/types"
 import { getCurrencyOptions, getCurrencySymbol } from "@/src/utils/currencySymbol"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
@@ -23,7 +23,7 @@ import Paragraph from "../../base/ui/primitives/paragraph"
 // currency helper owns, so the money fields read the same set.
 export default function ChangeCurrency() {
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const { toastState, setToastState } = useToastState()
+  const showToast = useShowToast()
   const queryClient = useQueryClient()
   const [isSaving, setIsSaving] = useState(false)
 
@@ -33,10 +33,6 @@ export default function ChangeCurrency() {
     queryKey: profileQueryKey,
     queryFn: getProfile,
   })
-
-  const showToast = (toast: ToastType) => {
-    setToastState([...toastState, toast])
-  }
 
   const closeForm = () => {
     setBackdropContent(null)
@@ -60,6 +56,10 @@ export default function ChangeCurrency() {
       // The settings page, the profile button and the profile card read the same
       // cache, so the saved currency is written back before the modal closes.
       queryClient.setQueryData<Profile>(profileQueryKey, updatedProfile)
+
+      // Every figure the app reports is read in the account currency, so the cached
+      // reports are refreshed to follow the currency that was saved.
+      queryClient.invalidateQueries()
 
       showToast({
         variant: "success",
@@ -108,14 +108,17 @@ export default function ChangeCurrency() {
         <Form onSubmit={saveCurrency}>
           <Frame className="w-full flex-col gap-[var(--space-lg)]">
 
-            {/* Currency */}
+            {/* Currency. The picker opens on the currency the account holds, and the
+                one picked is what the form submits: a dropdown that is handed a value
+                is held at that value and never moves, so the saved currency is handed
+                over as the value it starts on. */}
             <Frame className="w-full flex-col">
               <Label required text="Account currency" size="xs" />
               <Dropdown
                 name="currency"
                 size="xs"
                 width="100%"
-                value={profile.currency}
+                defaultValue={profile.currency}
                 options={getCurrencyOptions()}
               />
             </Frame>

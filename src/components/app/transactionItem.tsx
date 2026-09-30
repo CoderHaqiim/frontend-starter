@@ -1,5 +1,6 @@
 "use client"
 
+import { useAccountCurrencySymbol } from "@/src/hooks/accountCurrency";
 import { Transaction } from "@/src/types/types";
 import Frame from "../base/ui/primitives/frame";
 import Icon from "../base/ui/primitives/icon";
@@ -12,8 +13,10 @@ type TransactionItemProps = {
 
 export default function TransactionItem({ transaction }: TransactionItemProps) {
   const { colors } = useTheme()
+  // The amount is reported in the account currency.
+  const currencySymbol = useAccountCurrencySymbol()
   const isIncome = transaction.type === "income";
-  const amount = `${isIncome ? "+" : "-"}$${transaction.amount.toLocaleString()}`;
+  const amount = `${isIncome ? "+" : "-"}${currencySymbol}${transaction.amount.toLocaleString()}`;
 
   return (
     <Frame className="w-full px-[var(--space-lg)] py-[var(--space-md)] flex-col gap-[var(--space-sm)]">

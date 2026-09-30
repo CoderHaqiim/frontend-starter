@@ -1,11 +1,11 @@
+import { account } from "@/src/data/account"
 import { invoices } from "@/src/data/invoices"
+import { parseAmount } from "@/src/utils/amount"
+import { formatWholeAmount } from "@/src/utils/formatAmount"
 import { NextResponse } from "next/server"
 
-const parseAmount = (amount: string) => Number(amount.replace(/[^0-9.-]+/g, ""))
-
-const formatAmount = (amount: number) => `$${amount.toLocaleString()}`
-
 export async function GET() {
+
   const sentInvoices = invoices.map((invoice) => ({
     amount: parseAmount(invoice.amount),
     paymentStatus: invoice.customer.paymentStatus,
@@ -39,25 +39,25 @@ export async function GET() {
       {
         id: "totalMoney",
         title: "Total Amount",
-        value: formatAmount(totalAmount),
+        value: formatWholeAmount(account.currency, totalAmount),
         meaning: "Total amount of sent invoices",
       },
       {
         id: "outstanding",
         title: "Outstanding",
-        value: formatAmount(outstandingAmount),
+        value: formatWholeAmount(account.currency, outstandingAmount),
         meaning: "Unpaid invoice amount",
       },
       {
         id: "overdue",
         title: "Overdue",
-        value: formatAmount(overdueAmount),
+        value: formatWholeAmount(account.currency, overdueAmount),
         meaning: "Overdue invoice amount",
       },
       {
         id: "paid",
         title: "Paid",
-        value: formatAmount(paidAmount),
+        value: formatWholeAmount(account.currency, paidAmount),
         meaning: "Paid invoice amount",
       },
     ],

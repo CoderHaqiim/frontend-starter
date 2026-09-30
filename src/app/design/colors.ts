@@ -21,9 +21,8 @@ const staticColors= {
 const lightColors = {
     ...staticColors,
     "accent": "#4a1b72",
-    "accent-lt-1":" #2dc55b",
-    "accent-lt-2": "#5c153c",
     "accent2": "#3b155c40",
+    "accent3": "#3b155c10",
     "shadow":"#00000009",
     "textColor1": "#1e1e1e",
     "textColor2": "#555555",
@@ -41,9 +40,8 @@ const lightColors = {
 const darkColors: ColorsMap = {
     ...staticColors,
     "accent": "#1d9bf0",
-    "accent-lt-1": "#00ba7c",
-    "accent-lt-2": "#7856ff",
     "accent2": "#1d9cf040",
+    "accent3": "#1d9cf010",
     "shadow":"#ffffff14",
     "textColor1": "#e7e9ea",
     "muted": "#676b6e",

@@ -10,6 +10,7 @@ import Heading from "@/src/components/base/ui/primitives/heading"
 import Paragraph from "@/src/components/base/ui/primitives/paragraph"
 import { customers } from "@/src/data/customers"
 import { ObjectRecordType } from "@/src/types/types"
+import { todayIsoDate } from "@/src/utils/todayIsoDate"
 import { useMemo, useState } from "react"
 
 type MailStatus = "Sent" | "Draft" | "Scheduled"
@@ -78,10 +79,6 @@ const initialMailRecords: MailRecord[] = [
   },
 ]
 
-function todayLabel() {
-  return new Date().toISOString().slice(0, 10)
-}
-
 function toTableData(records: MailRecord[]): ObjectRecordType[] {
   return records.map((record) => ({
     Subject: record.subject,
@@ -142,7 +139,7 @@ export default function MailingPage() {
       audience: selectedGroup?.name ?? "No group",
       recipients: String(selectedGroup?.customerIds.length ?? 0),
       status,
-      createdAt: todayLabel(),
+      createdAt: todayIsoDate(),
       sentAt: status === "Sent" ? new Date().toLocaleString() : "",
       scheduledFor: status === "Scheduled" ? scheduledFor.replace("T", " ") : "",
     }
