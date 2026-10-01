@@ -127,7 +127,7 @@ export default function BusinessOverview({ data, health, kpis, index,}: Business
               size="md"
               className="leading-[1]"
             >
-              {businessHealth.health}
+              {businessHealth.health === "insufficient" ? "Not enough data yet" : businessHealth.health}
             </Paragraph>
           </Frame>
         </Frame>

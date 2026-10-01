@@ -47,24 +47,12 @@ export default function LinearProgress({
         />
       </Frame>
 
-      {showPercentage && (
-        <Paragraph
-          size={textSize}
-          weight="semiBold"
-          color={color}
-        >
-          {normalizedScore}%
-        </Paragraph>
-      )}
-      {(!showPercentage && insertedText) && (
-        <Paragraph
-          size={textSize}
-          weight="semiBold"
-          color={color}
-        >
-          {insertedText}
-        </Paragraph>
-      )}
+      {
+        showPercentage && (<Paragraph size={textSize} weight="semiBold" color={color}>{normalizedScore}%</Paragraph>)
+      }
+      {
+        ( !showPercentage && insertedText) && (<Paragraph size={textSize} weight="semiBold" color={color}>{insertedText}</Paragraph>)
+      }
     </Frame>
   )
 }

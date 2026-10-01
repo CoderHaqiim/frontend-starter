@@ -19,7 +19,10 @@ export interface Profile {
   currency: string
   userId: string | number
 }
-export type HealthType = "healthy" | "critical" | "moderate"
+// "insufficient" is the state a business answers with when its own records are
+// too thin to score — it is not a performance status and never reads as
+// critical.
+export type HealthType = "healthy" | "critical" | "moderate" | "insufficient"
 export type Duration = "weekly" |"monthly" |"annual"
 
 export interface BusinessHealth {
@@ -33,6 +36,10 @@ export interface BusinessHealth {
     stability: number
     profitability: number
   }
+  // The metrics the business's own records could not produce a score for. They
+  // report as unavailable rather than as zero performance, and the overall
+  // score is normalized over the weights that remain.
+  insufficientMetrics: (keyof BusinessHealth["metrics"])[]
 }
 
 // The bank information a business is paid into, shown on the business overview
@@ -158,6 +165,21 @@ export interface Transaction {
   date: string;
   createdAt: string;
   updatedAt: string;
+}
+
+// The periods the transactions page reports on: the three windows every other
+// report uses, plus everything the business has recorded.
+export type TransactionPeriod = Duration | "alltime"
+
+// The figures the KPI row above the transactions list reports. They are read
+// from every transaction the business holds, so the row reports the whole list
+// rather than the page of records being viewed.
+export type BusinessTransactionKpis = {
+  total: number
+  income: number
+  expenses: number
+  netProfit: number
+  receivables: number
 }
 
 export interface JournalEntry {

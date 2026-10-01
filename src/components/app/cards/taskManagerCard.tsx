@@ -1,8 +1,11 @@
 "use client"
 
-import { getTodayBusinessTasks, todayBusinessTasksQueryKey } from "@/src/services/taskService"
+import { getTodayBusinessTasks, refreshBusinessTaskViews, todayBusinessTasksQueryKey, updateBusinessTask } from "@/src/services/taskService"
+import useBusinessHealthRefresh from "@/src/hooks/businessHealthRefresh"
 import { useBackdropState } from "@/src/store/backdropState"
-import { useQuery } from "@tanstack/react-query"
+import { useShowToast } from "@/src/store/toastState"
+import { Task } from "@/src/types/types"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
 import Card from "../../base/ui/composites/card"
 import List from "../../base/ui/composites/list"
@@ -14,18 +17,55 @@ import Paragraph from "../../base/ui/primitives/paragraph"
 import { useTheme } from "../../providers/themeProvider"
 import TaskLine from "../taskLine"
 
-type TaskManagerCardProps = {
-}
+// The card is a glance at the day rather than the whole list, so it lists this many
+// of the tasks due today. The counts above it still report every task due today, so a
+// day holding more than this says so through the count rather than by growing the
+// card.
+const visibleTaskCount = 4
 
-export default function TaskManagerCard({}: TaskManagerCardProps) {
+export default function TaskManagerCard() {
   const {setBackdropContent, setBackdropOpen} = useBackdropState()
   const {colors} = useTheme()
   const { businessId } = useParams<{ businessId: string }>()
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const showToast = useShowToast()
+  // Completing a task changes the share of completed tasks the health score is
+  // measured on, so the score is refetched with the list.
+  const refreshBusinessHealth = useBusinessHealthRefresh(businessId)
   const { data: tasks = [] } = useQuery({
     queryKey: todayBusinessTasksQueryKey(businessId),
     queryFn: () => getTodayBusinessTasks(businessId),
   })
+
+  // Ticking a task completes it. The tick travels through the tasks route as a
+  // status change, so the board behind it and the today card both read the same
+  // status once it comes back.
+  const completeTask = async (taskId: string) => {
+    try {
+      const { data: savedTask } = await updateBusinessTask(businessId, taskId, { status: "completed" })
+
+      // The line stays ticked straight away, and the list is refetched either way so
+      // it matches the store when the request fails.
+      queryClient.setQueryData<Task[]>(todayBusinessTasksQueryKey(businessId), (currentTasks = []) =>
+        currentTasks.map((task) => (String(task.id) === taskId ? savedTask : task)),
+      )
+      refreshBusinessTaskViews(queryClient, businessId)
+      refreshBusinessHealth()
+
+      showToast({
+        variant: "success",
+        title: "Task completed",
+        message: `${savedTask.title} was marked as completed.`,
+      })
+    } catch {
+      showToast({
+        variant: "error",
+        title: "Update failed",
+        message: "The task could not be completed. Please try again.",
+      })
+    }
+  }
 
   const createTask = () => {
     setBackdropOpen(true)
@@ -72,7 +112,7 @@ export default function TaskManagerCard({}: TaskManagerCardProps) {
         }}>
           {
             tasks?.length
-              ? tasks.slice(0,4).map((task) => <TaskLine task={task} key={task.id}/>)
+              ? tasks.slice(0, visibleTaskCount).map((task) => <TaskLine task={task} key={task.id} onComplete={completeTask}/>)
               : (
                 <Frame className="flex bg-[var(--color-background1)] w-full h-max items-center justify-center p-[var(--space-md)]">
                   <Paragraph size="xs" color="textColor1" weight="medium" className="text-center">You have no tasks for today</Paragraph>

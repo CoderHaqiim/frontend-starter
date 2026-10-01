@@ -150,7 +150,7 @@ export default function CreateTransactionForm({ businessId }: CreateTransactionF
               />
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label required text="Due Date" size="xs" />
+              <Label required text="Date" size="xs" />
               <input required type="date" name="date"
                 className="w-full text-[length:var(--bodySize-sm)] h-[var(--elementSize-sm)] rounded-[var(--radius-sm)] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-md)] outline-none"
               />

@@ -1,5 +1,5 @@
 import { http } from "@/src/http/client"
-import { Business, BusinessAccount, Businesses, BusinessHealth, BusinessKpiResponse, Duration, Transaction } from "@/src/types/types"
+import { Business, BusinessAccount, Businesses, BusinessHealth, BusinessKpiResponse, Duration, Transaction, TransactionPeriod } from "@/src/types/types"
 
 export const businessesQueryKey = ["businesses"]
 
@@ -11,12 +11,28 @@ export function businessHealthQueryKey(businessId: string, period: Duration) {
   return ["business-health", businessId, period]
 }
 
+// The prefixes every cached period of one health report sits under. The score is
+// worked out from the records themselves rather than stored, so a change to a
+// transaction or a task is reflected by refreshing the whole prefix, whichever
+// period a screen happens to be showing.
+export function businessHealthPrefixQueryKey(businessId: string) {
+  return ["business-health", businessId]
+}
+
 export function businessesHealthQueryKey(period: Duration) {
   return ["businesses-health", period]
 }
 
+export function businessesHealthPrefixQueryKey() {
+  return ["businesses-health"]
+}
+
 export function businessKpisQueryKey(businessId: string, period: Duration) {
   return ["business-kpis", businessId, period]
+}
+
+export function businessKpisPrefixQueryKey(businessId: string) {
+  return ["business-kpis", businessId]
 }
 
 export function dashboardKpisQueryKey(period: Duration) {
@@ -51,8 +67,15 @@ export function getDashboardKpis(period: Duration) {
   return http<BusinessKpiResponse>(`/api/kpis?period=${period}`)
 }
 
-export function getBusinessTransactions(businessId: string, page: number, limit = 10) {
-  return http<Transaction[]>(`/api/businesses/${businessId}/transactions?page=${page}&limit=${limit}`)
+export function getBusinessTransactions(
+  businessId: string,
+  page: number,
+  limit = 10,
+  period: TransactionPeriod = "alltime"
+) {
+  return http<Transaction[]>(
+    `/api/businesses/${businessId}/transactions?page=${page}&limit=${limit}&period=${period}`
+  )
 }
 
 export function getRecentBusinessTransactions(businessId: string, limit = 5) {

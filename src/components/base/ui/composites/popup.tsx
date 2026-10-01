@@ -52,17 +52,21 @@ export default function Popup({
   const triggerRef = useRef<HTMLDivElement>(null)
   const popupRef = useRef<HTMLDivElement>(null)
 
-  const [mounted, setMounted] = useState(false)
+  /*
+   * The portal renders into `document.body`, which does not exist while the page
+   * is being rendered on the server, so the popup only reaches the DOM once it is
+   * in a browser. That is read as the initial state rather than set from an effect,
+   * so the very first render already knows whether it may use the document and
+   * there is no render that tries to portal before it may.
+   */
+  const [mounted] = useState(() => typeof document !== "undefined")
+
   const [isVisible, setIsVisible] = useState(false)
 
   const [coordinates, setCoordinates] = useState<Coordinates>({
     top: 0,
     left: 0,
   })
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   // The click that bubbles out of the content is answered after the content's own
   // handler has run, so the action the pick carries always happens before the popup
@@ -169,30 +173,48 @@ export default function Popup({
 
       {mounted &&
         createPortal(
-          <div ref={popupRef} id={popupId} role="popup" onClick={handleContentClick}
-            className={`pointer-events-auto ${shadow2} fixed z-[9999] max-w-[250px] rounded-[var(--radius-sm)] bg-[var(--color-white)] border border-[var(--color-outline1)] p-[var(--space-md)] transition-opacity duration-300 ${
-              isVisible ? "opacity-100" : "pointer-events-none opacity-0"
-            }`}
-            style={{
-              width: width,
-              top: coordinates.top,
-              left: coordinates.left,
-              transform,
-              ...specificStyle,
-            }}
-          >
-            <Frame
-              className="flex-col w-full"
-              specificStyles={{
-                lineHeight: "1.5",
-                color: "var(--color-background1)",
-                fontSize: "10px",
-                fontWeight: 300,
+          /*
+           * A closed popup is unmounted rather than just faded out.
+           *
+           * Fading it alone was not enough: the closed container carried
+           * `pointer-events-none`, but the download buttons inside it are real
+           * buttons that set their own `pointer-events` to `all`, and a descendant
+           * that turns pointer events back on stays clickable even when its parent
+           * has turned them off. The closed popup therefore remained an invisible
+           * wall of live controls sitting over the page — which is why clicking the
+           * file input behind it hit "Download" instead of opening the file manager.
+           *
+           * Rendering nothing while the popup is closed removes it from hit testing
+           * and from the tab order altogether, so nothing inside it can be clicked,
+           * focused or read out until it has actually been opened. The cost is that
+           * the fade-out is no longer animated: a closing popup now disappears at
+           * once rather than easing away, which is the trade for it never being able
+           * to swallow a click meant for the page underneath.
+           */
+          isVisible ? (
+            <div ref={popupRef} id={popupId} role="popup" onClick={handleContentClick}
+              className={`pointer-events-auto ${shadow2} fixed z-[9999] max-w-[250px] rounded-[var(--radius-sm)] bg-[var(--color-white)] border border-[var(--color-outline1)] p-[var(--space-md)] transition-opacity duration-300 opacity-100`}
+              style={{
+                width: width,
+                top: coordinates.top,
+                left: coordinates.left,
+                transform,
+                ...specificStyle,
               }}
             >
-              {content}
-            </Frame>
-          </div>,
+              <Frame
+                className="flex-col w-full"
+                specificStyles={{
+                  lineHeight: "1.5",
+                  color: "var(--color-background1)",
+                  fontSize: "10px",
+                  fontWeight: 300,
+                }}
+              >
+                {content}
+              </Frame>
+            </div>
+          ) : null,
           document.body
         )}
     </>

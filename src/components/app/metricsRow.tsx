@@ -55,12 +55,8 @@ export default function MetricsRow({ data }: MetricsRowProps) {
 
         {/* Ranking Value */}
         <Frame className='gap-[var(--space-xl)] items-center'>
-          <Frame className='items-center gap-[var(--space-sm)]'>
-            <Paragraph color="textColor2" size='xs'>{data.metric}</Paragraph>
-          </Frame>
-
            <Frame className="w-auto h-max items-center p-[var(--space-xs)] rounded-[var(--radius-sm)] gap-[var(--space-sm)]">
-              <Frame className='w-[60px] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-xs)] justify-end rounded-[var(--radius-sm)]'>
+              <Frame className='w-[80px] border border-[var(--color-outline1)] bg-[var(--color-background1)] p-[var(--space-xs)] justify-end rounded-[var(--radius-sm)]'>
                 <Paragraph size="xs" color="textColor1" weight="semiBold">
                   {currencySymbol} {abridgeNumber(data?.value)}
                 </Paragraph>

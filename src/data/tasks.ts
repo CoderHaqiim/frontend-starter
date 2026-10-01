@@ -1,4 +1,5 @@
 import { Task } from "@/src/types/types"
+import { withResolvedStatus } from "@/src/utils/taskOverdue"
 import { createMockStore } from "@/src/utils/mockStore"
 
 const seedTasks: Task[] = [
@@ -277,3 +278,27 @@ const seedTasks: Task[] = [
 // One shared copy of the store per server process, so the task list and the
 // today route read and mutate the same array.
 export const tasks = createMockStore("tasksStore", seedTasks)
+
+/*
+ * A task can only be overdue once its due date is in the past, so the store never
+ * holds a task that says otherwise: an open task whose day has gone by is marked
+ * overdue, and a task marked overdue before its day has arrived is put back to
+ * pending. The status is derived from the due date rather than kept by hand, so a
+ * task crosses into overdue on its own as the date moves on and the board, the
+ * today card and the health score all read the same answer.
+ *
+ * The store outlives a request, so this runs on every read rather than once at
+ * seed time: a process that stays up across midnight still corrects the tasks
+ * whose day passed while it was running.
+ */
+export const syncOverdueTasks = (today: Date = new Date()) => {
+  tasks.forEach((task, index) => {
+    tasks[index] = withResolvedStatus(task, today)
+  })
+
+  return tasks
+}
+
+// The seed is corrected on the way in, so a freshly started process already reads
+// with the rule applied.
+syncOverdueTasks()

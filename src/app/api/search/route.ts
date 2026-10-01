@@ -6,7 +6,7 @@ import { inventoryByBusinessId } from "@/src/data/inventory"
 import { invoices } from "@/src/data/invoices"
 import { receipts } from "@/src/data/receipts"
 import { schedules } from "@/src/data/schedules"
-import { helpCategories } from "@/src/data/supportHelp"
+import { popularArticles } from "@/src/data/supportHelp"
 import { tasks } from "@/src/data/tasks"
 import { transactions } from "@/src/data/transactions"
 import { badRequestResponse } from "@/src/utils/mockApi"
@@ -90,12 +90,9 @@ function getSearchScope(page: string): SearchScope | null {
         records: schedules,
         fields: ["title", "description", "type", "status", "location"],
       }
-    // The support page lists its categories and the articles inside them.
+    // The support page lists the popular articles the help center holds.
     case "support":
-      return {
-        records: [...helpCategories, ...helpCategories.flatMap((category) => category.articles)],
-        fields: ["title", "description"],
-      }
+      return { records: popularArticles, fields: ["title"] }
     // The settings page shows the profile of the signed in user.
     case "settings":
       return {

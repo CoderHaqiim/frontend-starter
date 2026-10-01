@@ -1,5 +1,6 @@
-import { tasks } from "@/src/data/tasks"
+import { syncOverdueTasks, tasks } from "@/src/data/tasks"
 import { Priority, Task, TaskStatus } from "@/src/types/types"
+import { withResolvedStatus } from "@/src/utils/taskOverdue"
 import {
   badRequestResponse,
   businessNotFoundResponse,
@@ -38,6 +39,10 @@ export async function GET(
   { params }: { params: Promise<{ businessId: string }> }
 ) {
   const { businessId } = await params
+  // Read through the overdue rule, so the board shows a task that fell past its due
+  // date while the process was running in the overdue column.
+  syncOverdueTasks()
+
   return NextResponse.json(tasks.filter((task) => task.businessId === businessId))
 }
 
@@ -101,10 +106,14 @@ export async function POST(
     task.assignee = assignee
   }
 
-  tasks.push(task)
+  // A task is only overdue once its due date has passed, so the status it is saved
+  // with is the one its due date supports rather than the one the body asked for.
+  const savedTask = withResolvedStatus(task)
+
+  tasks.push(savedTask)
 
   return NextResponse.json(
-    { message: `Task ${task.id} created successfully`, data: task },
+    { message: `Task ${savedTask.id} created successfully`, data: savedTask },
     { status: 201 }
   )
 }
@@ -193,9 +202,15 @@ export async function PATCH(
     }
   }
 
+  // Moving a due date can move a task into or out of overdue, so the saved status
+  // is settled against the date it now carries.
+  const savedTask = withResolvedStatus(task)
+
+  tasks[tasks.indexOf(task)] = savedTask
+
   return NextResponse.json({
     message: `Task ${taskId} updated successfully`,
-    data: task,
+    data: savedTask,
   })
 }
 

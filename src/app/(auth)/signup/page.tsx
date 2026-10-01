@@ -29,26 +29,24 @@ export default function SignupPage() {
                     <Frame className="w-full h-max mb-[var(--space-xl)]">
                         <Heading size="xxl" type='h1'>Create an account</Heading>
                     </Frame>
-                    <Form url="/api/post">
+                    <Form url="/api/post" successTitle="Account created" errorTitle="Signup failed">
                         <input type="hidden" name="action" value="signup" />
                         <Frame className="flex-col w-full h-full">
                             <Label text='Email' size='md'/>
-                            <Input outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
-                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                            <Input required outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
                         </Frame>
                         <Frame className="flex-col w-full h-full">
                             <Label text='Password' size='md'/>
                                    <Input
-                                     outline rounded='sm' name="password" variant="password" type='text' size="md"
+                                     required outline rounded='sm' name="password" variant="password" type='text' size="md"
                                      border placeholder='Password'
                                      formFunc={(event) => setPassword(event.target.value)}
                                    />
-                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
                         </Frame>
                         <Frame className="flex-col w-full h-full">
                             <Label text='Confirm Password' size='md'/>
                                    <Input
-                                     outline rounded='sm' name="confirm-password" variant="password" type='text' size="md"
+                                     required outline rounded='sm' name="confirm-password" variant="password" type='text' size="md"
                                      border placeholder='Password'
                                      formFunc={(event) => setConfirmPassword(event.target.value)}
                                    />

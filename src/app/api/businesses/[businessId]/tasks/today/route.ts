@@ -1,20 +1,17 @@
-import { tasks } from "@/src/data/tasks"
+import { syncOverdueTasks, tasks } from "@/src/data/tasks"
+import { isDueToday } from "@/src/utils/todayIsoDate"
 import { NextResponse } from "next/server"
-
-const isSameCalendarDate = (firstDate: string, secondDate: Date) => {
-  const date = new Date(`${firstDate}T00:00:00`)
-
-  return date.getFullYear() === secondDate.getFullYear()
-    && date.getMonth() === secondDate.getMonth()
-    && date.getDate() === secondDate.getDate()
-}
 
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ businessId: string }> }
 ) {
   const { businessId } = await params
+  // Read through the overdue rule, so a task that fell past its due date while the
+  // process was running shows as overdue on the card as well as on the board.
+  syncOverdueTasks()
+
   return NextResponse.json(
-    tasks.filter((task) => task.businessId === businessId && isSameCalendarDate(task.dueDate, new Date()))
+    tasks.filter((task) => task.businessId === businessId && isDueToday(task.dueDate))
   )
 }

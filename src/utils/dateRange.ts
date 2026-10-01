@@ -1,4 +1,4 @@
-import { Duration } from "@/src/types/types"
+import { Duration, TransactionPeriod } from "@/src/types/types"
 
 /*
  * The date handling the KPI windows share.
@@ -52,3 +52,17 @@ export const getPeriodWindows = (period: Duration, today = new Date()) => {
     },
   }
 }
+
+// Every period the transactions routes accept, so the list and the KPI row read
+// the same windows the rest of the app reports on, plus everything recorded.
+export const TRANSACTION_PERIODS: TransactionPeriod[] = [
+  "weekly",
+  "monthly",
+  "annual",
+  "alltime",
+]
+
+// The window a transaction period reads: the three report windows end today, and
+// all time reads every record the business holds.
+export const getReportWindow = (period: TransactionPeriod, today = new Date()): DateRange =>
+  period === "alltime" ? {} : getPeriodWindows(period, today).current

@@ -96,7 +96,7 @@ function InvoiceLinePopup({onDelete, onView, invoice}:InvoiceLineProps) {
       >
         View
       </Button>
-      <Button variant="ghost" size="xs" rounded="sm" iconName="icon-delete" iconColor="error" justify="start" 
+      <Button variant="ghost" size="xs" rounded="sm" iconName="icon-delete" iconColor="error"
         width="stretch"
         specificStyles={{
           backgroundColor: "var(--color-error2)",

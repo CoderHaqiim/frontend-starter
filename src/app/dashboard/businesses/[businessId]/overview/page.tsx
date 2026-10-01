@@ -255,13 +255,20 @@ export default function BusinessPage() {
           <Card gap="xl" padding="xl" width="max-content" height="100%" rounded="md" className="bg-[var(--color-background1)]">
             <Heading type="h3" size='xs'>Business score</Heading>
             <RadialProgress size={150} strokeWidth={4} score={businessHealthScore} color={healthMap[businessHealth]}/>
+            {businessHealth === "insufficient" && (
+              <Paragraph size="xxs" color="textColor2">Not enough data yet</Paragraph>
+            )}
           </Card>
 
           <Frame className=" justify-between rounded-[var(--radius-md)] p-[var(--space-lg)] flex-col h-full flex-1 border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)]">
             {
               businessHealthMetrics.map((item, index)=> (
                 <HealthProgressMetric
-                  item={{ ...item, value: businessHealthResponse?.metrics[item.key] ?? 0 }}
+                  item={{
+                    ...item,
+                    value: businessHealthResponse?.metrics[item.key] ?? 0,
+                    insufficient: businessHealthResponse?.insufficientMetrics?.includes(item.key) ?? false,
+                  }}
                   key={index}
                 />
               ))
@@ -271,7 +278,7 @@ export default function BusinessPage() {
       </Section>
 
        {/* Chart */}
-      <ChartSection chartUrl="/api/dashboard/financialTrends" />
+      <ChartSection chartUrl={`/api/businesses/${businessId}/financialTrends`} />
 
       {/* Business Insights
       <Section height="stretch">

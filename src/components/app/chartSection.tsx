@@ -28,6 +28,10 @@ export default function ChartSection({ chartUrl }: ChartSectionProps) {
   })
   const { openChart } = useExtendedChart()
 
+  // A period with no points behind it has nothing to expand: the chart says so
+  // where it would have been drawn, and the button that would open it is off.
+  const hasChartData = chartData.length > 0
+
   const chartChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value as chartTypes
     setSelectedChart(selectedValue)
@@ -57,8 +61,17 @@ export default function ChartSection({ chartUrl }: ChartSectionProps) {
         <Frame className="w-auto h-max items-center gap-[var(--space-sm)]">
           <Dropdown name="chart" width="max-content" size="xs" options={chartOptions} formFunc={chartChangeHandler} />
           <Dropdown name="report" width="max-content" size="xs" options={reportDuration} formFunc={reportChangeHandler} />
-          <Tooltip content="expand chart">
-            <Button func={() => openChart(chartData, selectedChart, selectedPeriod)} size="xs" variant="outline" isIcon iconName="icon-expand" />
+          <Tooltip content={hasChartData ? "expand chart" : "not enough data to expand"}>
+            <Button
+              func={() => {
+                if (hasChartData) openChart(chartData, selectedChart, selectedPeriod)
+              }}
+              size="xs"
+              variant="outline"
+              isIcon
+              iconName="icon-expand"
+              disabled={!hasChartData}
+            />
           </Tooltip>
         </Frame>
       </Frame>

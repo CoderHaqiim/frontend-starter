@@ -1,6 +1,8 @@
 "use client";
 
-import { businessTasksQueryKey, deleteBusinessTask, getBusinessTasks, todayBusinessTasksQueryKey, updateBusinessTask } from "@/src/services/taskService";
+import { businessTasksQueryKey, deleteBusinessTask, getBusinessTasks, refreshBusinessTaskViews, updateBusinessTask } from "@/src/services/taskService";
+import useBusinessHealthRefresh from "@/src/hooks/businessHealthRefresh";
+import { useBackdropState } from "@/src/store/backdropState";
 import { useShowToast } from "@/src/store/toastState";
 import { Task, TaskStatus } from "@/src/types/types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +12,7 @@ import EmptyState from "../base/ui/composites/emptyState";
 import Frame from "../base/ui/primitives/frame";
 import Heading from "../base/ui/primitives/heading";
 import TaskCard from "./cards/taskCard";
+import CreateTaskForm from "./forms/createTask";
 
 const columns: { status: TaskStatus; title: string }[] = [
 	{ status: "overdue", title: "Overdue" },
@@ -22,10 +25,33 @@ export default function TaskManager() {
 	const { businessId } = useParams<{ businessId: string }>()
 	const queryClient = useQueryClient()
 	const showToast = useShowToast()
+	const { setBackdropContent, setBackdropOpen } = useBackdropState()
+	// The operational half of the health score is worked out from the tasks, so a
+	// task that is created, changed or removed moves the score as well.
+	const refreshBusinessHealth = useBusinessHealthRefresh(businessId)
 	const { data: tasks = [] } = useQuery({
 		queryKey: businessTasksQueryKey(businessId),
 		queryFn: () => getBusinessTasks(businessId),
 	})
+
+	// Edit opens the form the create opens, filled in with the task, and saving it
+	// travels through the tasks route as a change to that task.
+	const handleEditTask = (taskId: string) => {
+		const task = tasks.find((entry) => String(entry.id) === taskId)
+
+		if (!task) {
+			showToast({
+				variant: "error",
+				title: "Edit failed",
+				message: "The task could not be found. Please try again.",
+			})
+
+			return
+		}
+
+		setBackdropContent(<CreateTaskForm taskToEdit={task} />)
+		setBackdropOpen(true)
+	}
 
 	const handleDeleteTask = async (taskId: string) => {
 		try {
@@ -36,8 +62,8 @@ export default function TaskManager() {
 			queryClient.setQueryData<Task[]>(businessTasksQueryKey(businessId), (currentTasks = []) =>
 				currentTasks.filter((task) => String(task.id) !== taskId),
 			)
-			queryClient.invalidateQueries({ queryKey: businessTasksQueryKey(businessId) })
-			queryClient.invalidateQueries({ queryKey: todayBusinessTasksQueryKey(businessId) })
+			refreshBusinessTaskViews(queryClient, businessId)
+			refreshBusinessHealth()
 
 			showToast({
 				variant: "success",
@@ -64,8 +90,8 @@ export default function TaskManager() {
 		// matches the store when the request fails.
 		updateBusinessTask(businessId, taskId, { status })
 			.then(() => {
-				queryClient.invalidateQueries({ queryKey: businessTasksQueryKey(businessId) })
-				queryClient.invalidateQueries({ queryKey: todayBusinessTasksQueryKey(businessId) })
+				refreshBusinessTaskViews(queryClient, businessId)
+				refreshBusinessHealth()
 			})
 			.catch(() => {
 				queryClient.invalidateQueries({ queryKey: businessTasksQueryKey(businessId) })
@@ -110,7 +136,7 @@ export default function TaskManager() {
 
 						<Frame scroll="hidden" className="flex flex-col items-center gap-[var(--space-md)]">
 							<Frame className="w-max items-center h-max pb-[var(--space-md)] flex flex-col gap-[var(--space-md)]">
-								{ columnTasks.map((task) => ( <TaskCard key={task.id} task={task} onDelete={handleDeleteTask} />))}
+								{ columnTasks.map((task) => ( <TaskCard key={task.id} task={task} onEdit={handleEditTask} onDelete={handleDeleteTask} />))}
 							</Frame>
 						</Frame>
 					</section>

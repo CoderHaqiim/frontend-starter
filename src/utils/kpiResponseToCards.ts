@@ -56,7 +56,7 @@ export function kpiResponseToCards(
 
     return {
       title,
-      value: `${currencySymbol} ${figures.value}`,
+      value: `${currencySymbol} ${figures.value.toLocaleString()}`,
       trend: figures.direction,
       change: figures.change,
       meaning,

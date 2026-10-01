@@ -271,9 +271,9 @@ const handwrittenTransactions: Transaction[] = [
  * Every business trades in NGN and needs a trading history of its own, because the
  * weekly, monthly and annual reports are read from the transactions inside their
  * window and measured against the window directly before it. So each business is
- * given its own customers, vendors, amounts and rate of growth, and a pattern of
- * day offsets is laid over it twice: once for the current year and once for the
- * year before it.
+ * given its own customers, vendors, amounts and rate of growth, and the records it
+ * is still short of are generated until it holds the same number of transactions
+ * as every other business.
  */
 
 type TradingProfile = {
@@ -469,20 +469,47 @@ const tradingProfiles: TradingProfile[] = [
   },
 ]
 
-// Day offsets from today, laid out so every report window holds an even spread of
-// income and expenses: the first four are the current week, the next four the week
-// before it, then the rest of the current month, the month before it, and ten day
-// steps that fill the rest of the year. Every window on this list holds an even
-// number of transactions, so income and expenses alternate cleanly across it.
-const yearOffsets = [
-  0, 2, 4, 6,
-  7, 9, 11, 13,
-  15, 18, 21, 24, 27, 29,
-  31, 32, 34, 37, 38, 40, 43, 44, 46, 49, 50, 52, 55, 58,
-  65, 75, 85, 95, 105, 115, 125, 135, 145, 155,
-  165, 175, 185, 195, 205, 215, 225, 235, 245, 255,
-  265, 275, 285, 295, 305, 315, 325, 335, 345, 355,
-]
+// Every business holds this many transactions in total: the records already
+// written for it by hand, plus the generated ones it takes to reach the total.
+const TRANSACTIONS_PER_BUSINESS = 60
+
+// Day offsets spread evenly across a span, so a window holds its share of the
+// records rather than a clump at one end.
+const sampleOffsets = (start: number, end: number, count: number): number[] => {
+  if (count <= 0) return []
+  if (count === 1) return [Math.round((start + end) / 2)]
+
+  return Array.from(
+    { length: count },
+    (_, index) => start + Math.round((index * (end - start)) / (count - 1))
+  )
+}
+
+/*
+ * The day offsets a business's generated records land on, in four spans: the
+ * current week (what the weekly chart and report read), the rest of the current
+ * month (the monthly windows), the rest of the year (the annual chart and the
+ * months the health metrics read) and the year before it (the window the annual
+ * report measures itself against). The spans add up to the count they are given,
+ * so a business ends up holding exactly the total it is meant to.
+ */
+const spreadOffsets = (count: number): number[] => {
+  const week = Math.max(2, Math.round(count * 0.15))
+  const restOfMonth = Math.max(3, Math.round(count * 0.2))
+  const priorYear = Math.max(3, Math.round(count * 0.15))
+  const restOfYear = count - week - restOfMonth - priorYear
+
+  // A count too small to fill four spans is spread over the whole history
+  // instead, which still answers with exactly the count that was asked for.
+  if (restOfYear < 1) return sampleOffsets(0, 730, count)
+
+  return [
+    ...sampleOffsets(0, 6, week),
+    ...sampleOffsets(7, 29, restOfMonth),
+    ...sampleOffsets(30, 364, restOfYear),
+    ...sampleOffsets(365, 730, priorYear),
+  ]
+}
 
 // The span the generated history covers, which is what the growth of a business is
 // measured over.
@@ -519,13 +546,14 @@ const buildGeneratedTransactions = () => {
   const generated: Transaction[] = []
 
   tradingProfiles.forEach((profile, profileIndex) => {
-    // The same year of offsets is laid down twice: the current year, then the year
-    // before it, which is the year the annual report is measured against.
-    const datedOffsets = [0, 1].flatMap((yearsAgo) =>
-      yearOffsets.map((offset) => offset + yearsAgo * 365)
-    )
+    // The records already written for this business by hand count towards its
+    // total, so only the difference is generated.
+    const handwrittenCount = handwrittenTransactions.filter(
+      (transaction) => transaction.businessId === profile.businessId
+    ).length
+    const offsets = spreadOffsets(Math.max(TRANSACTIONS_PER_BUSINESS - handwrittenCount, 0))
 
-    datedOffsets.forEach((daysAgo, index) => {
+    offsets.forEach((daysAgo, index) => {
       const isIncome = index % 2 === 0
       const catalogue = isIncome ? profile.income : profile.expenses
       const parties = isIncome ? profile.customers : profile.vendors
@@ -538,7 +566,7 @@ const buildGeneratedTransactions = () => {
       const hour = String(8 + (index % 9)).padStart(2, "0")
 
       generated.push({
-        id: `trn-${profileIndex + 1}-${daysAgo > 365 ? "y2" : "y1"}-${String(index + 1).padStart(3, "0")}`,
+        id: `trn-${profileIndex + 1}-gen-${String(index + 1).padStart(3, "0")}`,
         businessId: profile.businessId,
         customer: parties[index % parties.length],
         type: isIncome ? "income" : "expense",

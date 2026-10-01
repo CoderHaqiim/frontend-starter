@@ -1,9 +1,14 @@
 import { http } from "@/src/http/client"
-import { Transaction } from "@/src/types/types"
+import { BusinessTransactionKpis, Transaction, TransactionPeriod } from "@/src/types/types"
 import { getBusinessTransactions, getRecentBusinessTransactions } from "./businessService"
 
-export function businessTransactionsQueryKey(businessId: string, page: number, limit = 10) {
-  return ["business-transactions", businessId, page, limit]
+export function businessTransactionsQueryKey(
+  businessId: string,
+  page: number,
+  limit = 10,
+  period: TransactionPeriod = "alltime"
+) {
+  return ["business-transactions", businessId, page, limit, period]
 }
 
 export function recentBusinessTransactionsQueryKey(businessId: string, limit = 5) {
@@ -18,6 +23,26 @@ export function businessTransactionsPrefixQueryKey(businessId: string) {
 
 export function recentBusinessTransactionsPrefixQueryKey(businessId: string) {
   return ["recent-business-transactions", businessId]
+}
+
+// The KPI row above the list, read from every transaction the business holds
+// rather than the page of records being viewed. It sits under the shared
+// business-transactions prefix, so the bulk refresh an import runs picks it up
+// along with every cached page.
+export function businessTransactionKpisQueryKey(
+  businessId: string,
+  period: TransactionPeriod = "alltime"
+) {
+  return ["business-transactions", businessId, "kpis", period]
+}
+
+export function getBusinessTransactionKpis(
+  businessId: string,
+  period: TransactionPeriod = "alltime"
+) {
+  return http<BusinessTransactionKpis>(
+    `/api/businesses/${businessId}/transactions/kpis?period=${period}`
+  )
 }
 
 export { getBusinessTransactions, getRecentBusinessTransactions }
@@ -50,13 +75,5 @@ export function updateBusinessTransaction(
     `/api/businesses/${businessId}/transactions?transactionId=${encodeURIComponent(transactionId)}`,
     updates,
     { method: "PATCH" },
-  )
-}
-
-export function deleteBusinessTransaction(businessId: string, transactionId: string) {
-  return http<TransactionMutationResponse>(
-    `/api/businesses/${businessId}/transactions?transactionId=${encodeURIComponent(transactionId)}`,
-    undefined,
-    { method: "DELETE" },
   )
 }

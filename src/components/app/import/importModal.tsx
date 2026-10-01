@@ -1,10 +1,12 @@
 "use client"
 
 import { useBackdropState } from "@/src/store/backdropState"
-import { useShowToast } from "@/src/store/toastState"
+import { useToastState } from "@/src/store/toastState"
+import { ToastType } from "@/src/types/types"
 import {
   isBlankSpreadsheetRow,
   validateImportRows,
+  type ImportDefinition,
   type ImportId,
   type ImportValidation,
 } from "@/src/utils/importValidation"
@@ -48,7 +50,7 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
   const definition = importDefinitions[definitionId]
   const { headers, exampleRow } = getTemplateRows(definition)
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
-  const showToast = useShowToast()
+  const { toastState, setToastState } = useToastState()
   const queryClient = useQueryClient()
 
   const [workbook, setWorkbook] = useState<Spreadsheet | null>(null)
@@ -59,6 +61,10 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
   const [fileError, setFileError] = useState<string | null>(null)
   const [isImporting, setIsImporting] = useState(false)
   const [importedCount, setImportedCount] = useState(0)
+
+  const showToast = (toast: ToastType) => {
+    setToastState([...toastState, toast])
+  }
 
   const closeImportModal = () => {
     setBackdropContent(null)
@@ -207,15 +213,11 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
 
   return (
     <Card width="500px" padding="xl" height="max-content" specificStyles={{ maxHeight: "calc(100vh - 48px)" }}>
-      <Frame specificStyles={{
-          position: "absolute",
-          top:"15px",
-          right:"15px"
-        }}>
-          <CloseButton size="sm" func={closeImportModal} />
-      </Frame>
       <Frame className="mb-[var(--space-lg)] justify-between">
         <Heading size="md" type="h2">Import {definition.title}</Heading>
+        <Frame>
+          <CloseButton size="sm" func={closeImportModal}/>
+        </Frame>
       </Frame>
 
       <Frame scroll="hidden" className="w-full flex-col gap-[var(--space-lg)]" specificStyles={{ minHeight: 0 }}>
@@ -229,7 +231,7 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
                   className="w-full rounded-[var(--radius-sm)] border border-[var(--color-outline1)] p-[var(--space-sm)] text-[length:var(--bodySize-xs)]"
                 />
               </Frame>
-              <Popup gap={8} width="190px" content={ <DownloadButtons header exampleRow definition/>}>
+              <Popup gap={8} width="190px" content={ <DownloadButtons definition={definition} headers={headers} exampleRow={exampleRow}/>}>
                 <Button variant="outline" size="sm" iconName="icon-download">Download template</Button>
               </Popup>
             </Frame>
@@ -337,9 +339,16 @@ export default function ImportModal({ definitionId, businessId }: ImportModalPro
   )
 }
 
-import React from 'react'
+// The two template downloads share the headers and the example row the definition
+// carries. They are passed in rather than read from the definition again, so the
+// buttons and the preview the modal already holds stay on the same column order.
+type DownloadButtonsProps = {
+  definition: ImportDefinition
+  headers: string[]
+  exampleRow: string[]
+}
 
-function DownloadButtons({definition, headers, exampleRow}:any) {
+function DownloadButtons({ definition, headers, exampleRow }: DownloadButtonsProps) {
   return (
     <>
       <Frame className="w-full flex-col">

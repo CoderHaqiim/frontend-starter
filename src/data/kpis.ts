@@ -76,8 +76,10 @@ const roundTotals = (totals: TransactionTotals): TransactionTotals => ({
 })
 
 // The all-time figures for a business, used where no period is being reported.
-export const getBusinessTransactionTotals = (businessId: string) =>
-  roundTotals(sumTransactions(businessId))
+// The figures for everything the business holds, or for the window given, so a
+// report can read the same totals over the period it is showing.
+export const getBusinessTransactionTotals = (businessId: string, range?: DateRange) =>
+  roundTotals(sumTransactions(businessId, range))
 
 // The all-time figures for every business together, used where a report is not tied
 // to a period. This is what the company wide customers report reads its receivables

@@ -1,12 +1,16 @@
+import { getFinancialTrends } from "@/src/data/financialTrends"
+import { ChartPeriod } from "@/src/types/types"
 import { NextRequest, NextResponse } from "next/server";
-import { financialTrends } from "@/src/data/financialTrends";
 
-type Period = "7d" | "30d" | "12m";
+const chartPeriods: ChartPeriod[] = ["7d", "30d", "12m"]
 
+// The trend chart for the dashboard: every business's transactions bucketed into
+// the days or months the period measures. A period with too little recorded to
+// draw answers with no points, which the chart reports as not enough data.
 export async function GET(request: NextRequest) {
-  const period = request.nextUrl.searchParams.get("period") as Period;
+  const period = request.nextUrl.searchParams.get("period") as ChartPeriod | null;
 
-  if (!period || !financialTrends[period]) {
+  if (!period || !chartPeriods.includes(period)) {
     return NextResponse.json(
       {
         success: false,
@@ -20,7 +24,7 @@ export async function GET(request: NextRequest) {
     success: true,
     data: {
       period,
-      points: financialTrends[period],
+      points: getFinancialTrends(period),
     },
   });
 }

@@ -9,21 +9,18 @@ type SupportArticleRowProps = {
   // somewhere else on the page, like the popular articles list.
   id?: string
   title: string
-  // The topic the article sits in, shown when the row is read away from its card.
-  categoryTitle?: string
   isSelected?: boolean
   onSelect: () => void
 }
 
 /*
  * One help article. It is a real button, so it is reachable and answerable by keyboard, and
- * the row it draws is the same one wherever an article is listed: the terms in a category
- * card and the popular articles list both use it.
+ * the row it draws is the same one wherever an article is listed: the popular articles list
+ * uses it.
  */
 export default function SupportArticleRow({
   id,
   title,
-  categoryTitle,
   isSelected = false,
   onSelect,
 }: SupportArticleRowProps) {
@@ -55,12 +52,6 @@ export default function SupportArticleRow({
         <Paragraph size="xs" color="textColor1" weight={isSelected ? "medium" : "normal"}>
           {title}
         </Paragraph>
-
-        {categoryTitle && (
-          <Paragraph size="xxs" weight="light">
-            {categoryTitle}
-          </Paragraph>
-        )}
       </Frame>
 
       <Icon name="icon-right" size="sm" color={isSelected ? "accent" : "muted"} />

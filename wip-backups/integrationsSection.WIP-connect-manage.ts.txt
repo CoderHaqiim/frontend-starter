@@ -1,0 +1,116 @@
+"use client"
+
+import { getIntegrations, integrationsQueryKey } from "@/src/services/integrationService"
+import { useBackdropState } from "@/src/store/backdropState"
+import { IntegrationSummary } from "@/src/types/integrations"
+import { useQuery } from "@tanstack/react-query"
+import { ReactNode } from "react"
+import Section from "../../base/layout/section"
+import Spinner from "../../base/ui/composites/spinner"
+import Button from "../../base/ui/primitives/button"
+import Frame from "../../base/ui/primitives/frame"
+import Heading from "../../base/ui/primitives/heading"
+import Paragraph from "../../base/ui/primitives/paragraph"
+import ConnectIntegration from "./connectIntegration"
+import IntegrationProblemNotice from "./integrationProblemNotice"
+import IntegrationStatusBadge from "./integrationStatusBadge"
+import ManageIntegration from "./manageIntegration"
+
+export default function IntegrationsSection() {
+  const { setBackdropContent, setBackdropOpen } = useBackdropState()
+
+  const integrations = useQuery({
+    queryKey: integrationsQueryKey,
+    queryFn: getIntegrations,
+  })
+
+  const summaries = integrations.data ?? []
+
+  const openModal = (content: ReactNode) => {
+    setBackdropOpen(true)
+    setBackdropContent(content)
+  }
+
+  const openManage = (summary: IntegrationSummary) => {
+    openModal(<ManageIntegration provider={summary.provider} />)
+  }
+
+  const openConnect = (summary: IntegrationSummary) => {
+    openModal(<ConnectIntegration provider={summary.provider} />)
+  }
+
+  const openAction = (summary: IntegrationSummary) => {
+    if (summary.action === "manage") {
+      openManage(summary)
+      return
+    }
+
+    openConnect(summary)
+  }
+
+  return (
+    <Section>
+      <Frame className="flex w-full flex-col gap-[var(--space-md)] border border-[var(--color-outline1)] bg-[var(--color-white)] p-[var(--space-lg)] rounded-[var(--radius-md)]">
+        <Heading size="md" type="h2">
+          Integrations
+        </Heading>
+
+        {integrations.isPending && (
+          <Frame className="w-full items-center gap-[var(--space-sm)]">
+            <Spinner size="sm" />
+            <Paragraph size="xs">Checking the connections...</Paragraph>
+          </Frame>
+        )}
+
+        {integrations.isError && (
+          <IntegrationProblemNotice
+            problem={{
+              code: "unknown",
+              title: "Something went wrong",
+              message: "The integrations could not be read.",
+              nextStep: "Try again. If it keeps happening, contact support.",
+              action: "try-again",
+            }}
+            isBusy={integrations.isFetching}
+            onAction={() => integrations.refetch()}
+          />
+        )}
+
+        {summaries.map((summary) => (
+          <Frame
+            key={summary.provider}
+            className="flex w-full flex-col gap-[var(--space-sm)] border-b border-[var(--color-outline1)] pb-[var(--space-md)] last:border-b-0 last:pb-0"
+          >
+            <Frame className="flex w-full flex-wrap items-start justify-between gap-[var(--space-md)]">
+              <Frame className="min-w-[220px] flex-1 flex-col gap-[var(--space-xxs)]">
+                <Frame className="w-full flex-wrap items-center gap-[var(--space-sm)]">
+                  <Paragraph size="sm" color="textColor1" weight="medium">
+                    {summary.name}
+                  </Paragraph>
+
+                  <IntegrationStatusBadge status={summary.status} label={summary.statusLabel}/>
+                </Frame>
+
+                <Paragraph size="xs">
+                  {summary.statusDetail}
+                </Paragraph>
+              </Frame>
+
+              <Button variant="outline" size="xs" func={() => openAction(summary)}>
+                {summary.actionLabel}
+              </Button>
+            </Frame>
+
+            {summary.problem && (
+              <IntegrationProblemNotice
+                problem={summary.problem}
+                isBusy={integrations.isFetching}
+                onAction={() => openAction(summary)}
+              />
+            )}
+          </Frame>
+        ))}
+      </Frame>
+    </Section>
+  )
+}

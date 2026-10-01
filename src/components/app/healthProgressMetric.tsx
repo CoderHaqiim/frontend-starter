@@ -13,6 +13,9 @@ type healthProgressProps = {
     label: string
     description: string
     value?: number
+    // A metric the business's records could not produce a score for: the bar
+    // shows the neutral unavailable state instead of a performance colour.
+    insufficient?: boolean
   }
 }
 
@@ -25,7 +28,18 @@ export default function HealthProgressMetric({item} : healthProgressProps) {
             </Tooltip>
         </Frame>
         <Heading type="h3" size='xxs'>{item.label}</Heading>
-        <LinearProgress height={3} textSize='xxs' score={item.value ?? 0} color={healthMap[scoreHealthMap(item.value ?? 0)]} />
+        {item.insufficient ? (
+          <LinearProgress
+            height={3}
+            textSize='xxs'
+            score={0}
+            showPercentage={false}
+            insertedText="Not enough data yet"
+            color="textColor2"
+          />
+        ) : (
+          <LinearProgress height={3} textSize='xxs' score={item.value ?? 0} color={healthMap[scoreHealthMap(item.value ?? 0)]} />
+        )}
     </Frame>
   )
 }

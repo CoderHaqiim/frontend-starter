@@ -1,7 +1,6 @@
 "use client"
 
 import type { Invoice } from "@/src/data/invoices"
-import useFirstFieldFocus from "@/src/hooks/firstFieldFocus"
 import { businessesQueryKey, getBusinesses } from "@/src/services/businessService"
 import {
   createInvoice as createBusinessInvoice,
@@ -12,12 +11,13 @@ import { useBackdropState } from "@/src/store/backdropState"
 import { InvoiceDraft, useInvoiceDraft } from "@/src/store/invoiceDraftState"
 import { useInvoiceFormState } from "@/src/store/invoiceFormState"
 import { useSelectedBusiness } from "@/src/store/selectedBusinessState"
+import { useShowToast } from "@/src/store/toastState"
 import { sumLineItems } from "@/src/utils/amount"
 import { getBusinessIdFromPathname } from "@/src/utils/businessIdFromPathname"
 import { getCurrencyOptions } from "@/src/utils/currencySymbol"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 
 import Card from "../../base/ui/composites/card"
 import Dropdown from "../../base/ui/composites/dropdown"
@@ -41,12 +41,8 @@ export default function CreateInvoiceForm() {
   const { selectedBusiness, setSelectedBusiness } = useSelectedBusiness()
   const { setBackdropContent, setBackdropOpen } = useBackdropState()
   const queryClient = useQueryClient()
+  const showToast = useShowToast()
   const selectedTemplate = invoiceDraft.template as InvoiceTemplateId
-  // The first field of the form takes the focus as the form opens, so a new invoice
-  // can be typed into straight away.
-  const formRef = useRef<HTMLFormElement | null>(null)
-  useFirstFieldFocus(formRef, isOpen)
-
   // A form opened from a business page always targets that business and the
   // business field is read only there. On the home dashboard there is no
   // business context, so the field stays changeable.
@@ -145,7 +141,10 @@ export default function CreateInvoiceForm() {
     event.preventDefault()
 
     if (invoiceDraft.items.length === 0) {
-      console.warn("Invoice requires at least one item before submission.")
+      showToast({
+        variant: "error",
+        message: "Add at least one item before creating the invoice.",
+      })
       return
     }
 
@@ -186,12 +185,18 @@ export default function CreateInvoiceForm() {
     try {
       // The invoice is stored against its business, so the business invoice
       // route is what the invoice page reads from.
-      const { data: createdInvoice } = await createBusinessInvoice(
+      const { message, data: createdInvoice } = await createBusinessInvoice(
         targetBusinessId,
         payload,
       )
 
-      if (!createdInvoice?.id) return
+      if (!createdInvoice?.id) {
+        showToast({
+          variant: "error",
+          message: "The invoice was not saved. Please try again.",
+        })
+        return
+      }
 
       setInvoiceField("invoiceNo", createdInvoice.id)
 
@@ -207,16 +212,26 @@ export default function CreateInvoiceForm() {
       queryClient.invalidateQueries({ queryKey: invoicesQueryKey(targetBusinessId) })
       queryClient.invalidateQueries({ queryKey: invoiceKpisQueryKey(targetBusinessId) })
 
+      showToast({
+        variant: "success",
+        message: message || `Invoice ${createdInvoice.id} created successfully`,
+      })
+
       // The draft is intentionally left intact: the view-invoice page renders
       // the invoice that was just created.
       closeInvoice()
 
       router.push("/dashboard/view-invoice")
     } catch (error) {
-      console.error(
-        "Failed to submit the create invoice payload:",
-        error,
-      )
+      // The route answers with the reason it refused, so that is what is shown
+      // rather than only saying that the save failed.
+      showToast({
+        variant: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "The invoice could not be created. Please try again.",
+      })
     }
   }
 
@@ -236,14 +251,6 @@ export default function CreateInvoiceForm() {
         borderRadius: "0px",
       }}
     >
-      <Frame specificStyles={{
-          position: "absolute",
-          top:"15px",
-          right:"15px"
-        }}>
-          <CloseButton size="sm" func={closeCreateInvoiceForm} />
-      </Frame>
-
       {/* HEADER */}
 
       <Frame
@@ -258,6 +265,10 @@ export default function CreateInvoiceForm() {
         <Heading size="lg" type="h2">
           Create Invoice
         </Heading>
+
+        <Frame>
+          <CloseButton func={closeCreateInvoiceForm}/>
+        </Frame>
       </Frame>
 
       {/* BODY */}
@@ -307,7 +318,6 @@ export default function CreateInvoiceForm() {
           "
         >
           <form
-            ref={formRef}
             onSubmit={createInvoice}
             className="
               gap-[var(--space-lg)]

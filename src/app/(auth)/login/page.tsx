@@ -23,17 +23,15 @@ export default function LoginPage() {
                     <Frame className="w-full h-max mb-[var(--space-xl)]">
                         <Heading size="xxl" type='h1'>Log in to your account</Heading>
                     </Frame>
-                    <Form url="/api/post">
+                    <Form url="/api/post" successTitle="Signed in" errorTitle="Login failed">
                         <input type="hidden" name="action" value="login" />
                         <Frame className="flex-col w-full h-full">
                             <Label text='Email' size='md'/>
-                            <Input outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
-                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                            <Input required outline rounded='sm' name="email" variant="default" type='text' size="md" border placeholder="Email"/>
                         </Frame>
                         <Frame className="flex-col w-full h-full">
                             <Label text='Password' size='md'/>
-                            <Input outline rounded='sm' name="password" variant="password" type='text' size='md' border placeholder='Password'/>
-                            <div className='hidden text-[0.6rem] font-[500] text-[red]'>Error message here</div>
+                            <Input required outline rounded='sm' name="password" variant="password" type='text' size='md' border placeholder='Password'/>
                         </Frame>
                         <Button propagate role='submit' rounded='xl' variant="fill" size='xl'width="stretch">Log in</Button>  
                     </Form>
@@ -55,7 +53,7 @@ export default function LoginPage() {
                         </Button>  
                     </Frame>
                     <Frame className="w-full h-max gap-[var(--space-md)] mt-[var(--space-lg)]">
-                        <Paragraph size='sm'>Don't have an account?</Paragraph>
+                        <Paragraph size='sm'>Don&apos;t have an account?</Paragraph>
                         <Link href="/signup">
                             <Paragraph size='sm' weight="normal" color="accent">Signup</Paragraph>
                         </Link>

@@ -10,21 +10,21 @@ export const businessHealthMetrics: BusinessHealthMetric[] = [
   {
     "key": "profitability",
     "label": "Profitability",
-    "description": "Measures how effectively your business generates profit from its income. Contributes 50% of the overall Business Health score."
+    "description": "How much of its income the business keeps as profit in the reported period, measured by net profit margin. Contributes 50% of the overall Business Health score."
   },
   {
     "key": "growth",
     "label": "Growth",
-    "description": "Percentage increase in revenue over the last quarter"
+    "description": "Revenue growth against the previous equivalent period. Contributes 30% of the overall Business Health score."
   },
   {
     "key": "stability",
     "label": "Stability",
-    "description": "Total number of customers"
+    "description": "How steady monthly revenue has been over the last six months. Contributes 10% of the overall Business Health score."
   },
   {
     "key": "operational",
     "label": "Operational Efficiency",
-    "description": "Efficiency of business operations"
+    "description": "Completed tasks over the tasks that fell due in the period, with anything overdue counting as a failure. The score follows the completion rate from 0 to 100. Contributes 10% of the overall Business Health score."
   }
 ]

@@ -92,12 +92,12 @@ export default function CreateBusinessForm() {
           {/* Phone & Email */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Phone" size="xs" />
-              <Input size="xs" rounded="sm" placeholder="Phone number" outline border type="tel" name="phone" variant="default"/>
+              <Label text="Phone" required size="xs" />
+              <Input size="xs" required rounded="sm" placeholder="Phone number" outline border type="tel" name="phone" variant="default"/>
             </Frame>
             <Frame className="w-1/2 flex-col">
-              <Label text="Email" size="xs" />
-              <Input size="xs" rounded="sm" placeholder="Email address" outline border type="email" name="email" variant="default"/>
+              <Label text="Email" required size="xs" />
+              <Input size="xs" required rounded="sm" placeholder="Email address" outline border type="email" name="email" variant="default"/>
             </Frame>
           </Frame>
 
@@ -107,9 +107,9 @@ export default function CreateBusinessForm() {
           {/* Industry & Currency */}
           <Frame className="gap-[var(--space-md)]">
             <Frame className="w-1/2 flex-col">
-              <Label text="Industry" size="xs" />
+              <Label required text="Industry" size="xs" />
               <Dropdown
-                name="industry" size="xs" width="100%"
+                name="industry"  size="xs" width="100%"
                 options={[
                   { label: "Technology", value: "technology" },
                   { label: "Agriculture", value: "agriculture" },

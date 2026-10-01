@@ -8,25 +8,28 @@ import EmptyState from "../base/ui/composites/emptyState";
 import List from "../base/ui/composites/list";
 import Button from "../base/ui/primitives/button";
 import Frame from "../base/ui/primitives/frame";
+import Paragraph from "../base/ui/primitives/paragraph";
 import TransactionHeader from "./transactionHeader";
 import TransactionLine from "./transactionLine";
 
 type TransactionManagerProps = {
   transactions: Transaction[]
   currentPage?: number
+  // The pages the list really holds, worked out from the total count rather
+  // than fixed, so every transaction stays reachable.
+  totalPages?: number
   onPageChange?: (page: number) => void
   onChangeStatus?: (transactionId: string, status: Transaction["status"]) => void
   onChangeType?: (transactionId: string, type: Transaction["type"]) => void
-  onDelete?: (transactionId: string) => void
 }
 
 export default function TransactionManager({
   transactions = [],
   currentPage = 1,
+  totalPages = 1,
   onPageChange,
   onChangeStatus,
   onChangeType,
-  onDelete,
 }: Partial<TransactionManagerProps>) {
   const businesses = ["All Businesses", "Business1", "Business2", "Business3"];
   const statuses = ["All", "Completed", "Pending", "Cancelled"];
@@ -148,6 +151,22 @@ export default function TransactionManager({
 
   console.log(transactions)
 
+  // The page buttons follow the pages the list really holds: the first, the last
+  // and the ones around the page being viewed, with a gap marker between the
+  // groups, so a long list does not fill the row with buttons.
+  const visiblePages = (() => {
+    const candidates = [1, totalPages, currentPage - 1, currentPage, currentPage + 1]
+    const pages = Array.from(
+      new Set(candidates.filter((pageNumber) => pageNumber >= 1 && pageNumber <= totalPages))
+    ).sort((first, second) => first - second)
+
+    return pages.reduce<(number | "gap")[]>((visible, pageNumber, index) => {
+      if (index > 0 && pageNumber - pages[index - 1] > 1) visible.push("gap")
+      visible.push(pageNumber)
+      return visible
+    }, [])
+  })()
+
   return (
     <Section height="hug" className="min-h-[200px]">
       <Frame className="w-full h-max justify-end gap-[var(--space-sm)]">
@@ -184,7 +203,6 @@ export default function TransactionManager({
                 transaction={transaction}
                 onChangeStatus={onChangeStatus ?? (() => undefined)}
                 onChangeType={onChangeType ?? (() => undefined)}
-                onDelete={onDelete ?? (() => undefined)}
               />
             ))}
           </List>
@@ -207,24 +225,30 @@ export default function TransactionManager({
             if (currentPage > 1) onPageChange?.(currentPage - 1)
           }}
         />
-        {[1, 2].map((page) => (
-          <Button
-            key={page}
-            variant="outline"
-            size="sm"
-            specificStyles={{
-              width: "30px",
-              borderRadius: `var(--radius-xs)`,
-              height: "30px",
-              border: page === currentPage
-                ? "1px solid var(--color-accent)"
-                : undefined,
-            }}
-            func={() => onPageChange?.(page)}
-          >
-            {String(page)}
-          </Button>
-        ))}
+        {visiblePages.map((pageNumber, index) =>
+          pageNumber === "gap" ? (
+            <Frame key={`page-gap-${index}`} className="w-[30px] justify-center items-center">
+              <Paragraph size="sm" color="textColor2">…</Paragraph>
+            </Frame>
+          ) : (
+            <Button
+              key={pageNumber}
+              variant="outline"
+              size="sm"
+              specificStyles={{
+                width: "30px",
+                borderRadius: `var(--radius-xs)`,
+                height: "30px",
+                border: pageNumber === currentPage
+                  ? "1px solid var(--color-accent)"
+                  : undefined,
+              }}
+              func={() => onPageChange?.(pageNumber)}
+            >
+              {String(pageNumber)}
+            </Button>
+          )
+        )}
         <Button
           variant="outline"
           size="sm"
@@ -236,7 +260,7 @@ export default function TransactionManager({
             height: "30px",
           }}
           func={() => {
-            if (currentPage < 2) onPageChange?.(currentPage + 1)
+            if (currentPage < totalPages) onPageChange?.(currentPage + 1)
           }}
         />
       </Frame>

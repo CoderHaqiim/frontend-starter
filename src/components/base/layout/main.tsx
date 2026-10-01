@@ -1,7 +1,6 @@
 "use client"
 
 import { CSSProperties, ReactNode } from "react"
-import { useTheme } from "../../providers/themeProvider"
 
 type MainProps = {
     children: ReactNode,
@@ -10,7 +9,6 @@ type MainProps = {
 }
 
 export default function Main({children, className, specificStyles}: MainProps) {
-  const {colors} = useTheme()
 
   const defaultStyle:CSSProperties = {
     // padding: space["lg"]

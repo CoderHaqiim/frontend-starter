@@ -1,35 +1,23 @@
 import { ColorTypes } from "@/src/app/design/colors";
 import { shadow1 } from "@/src/app/design/shadows";
 import { Task } from "@/src/types/types";
+import { priorityColorMap } from "@/src/utils/priorityColorMap";
+import { statusColorMap } from "@/src/utils/statusColorMap";
 import { format } from "date-fns";
 import { DragEvent } from "react";
 import Badge from "../../base/ui/composites/badge";
 import Popup from "../../base/ui/composites/popup";
+import RowActionsMenu from "../../base/ui/composites/rowActionsMenu";
 import Button from "../../base/ui/primitives/button";
 import Frame from "../../base/ui/primitives/frame";
 import Heading from "../../base/ui/primitives/heading";
 import Paragraph from "../../base/ui/primitives/paragraph";
-import { useTheme } from "../../providers/themeProvider";
 
-export default function TaskCard({task, onDelete}:{task: Task, onDelete?: (taskId: string) => void}) {
-  const {colors} = useTheme()
-
-  const priorityColor = {
-    low:"success",
-    medium: "warning",
-    high: "error",
-    urgent: "error"
-  };
-
-  const statusColor = {
-    "completed":"success",
-    "overdue": "error",
-    "pending": "warning",
-    "in-progress": "info",
-  }
-
-  const badgePriorityColor = priorityColor[task.priority] as ColorTypes
-  const badgeStatusColor = statusColor[task.status] as ColorTypes
+export default function TaskCard({task, onEdit, onDelete}:{task: Task, onEdit?: (taskId: string) => void, onDelete?: (taskId: string) => void}) {
+  // The badges take the colours the shared maps give them, so a task reads the same
+  // on the board as it does in the today card.
+  const badgePriorityColor = priorityColorMap(task.priority) as ColorTypes
+  const badgeStatusColor = statusColorMap(task.status) as ColorTypes
 
   const handleDragStart = (event: DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData("taskId", String(task.id));
@@ -43,29 +31,21 @@ export default function TaskCard({task, onDelete}:{task: Task, onDelete?: (taskI
         <Frame className="w-full justify-between">
           <Frame className="gap-[var(--space-xs)]">
             <Badge color={badgePriorityColor} size="xxs" text={task.priority + " priority"}/>
+            <Badge color={badgeStatusColor} size="xxs" text={task.status}/>
           </Frame>
-          {onDelete ? (
-            // The card menu opens to the left of the dots button, so the delete
-            // action always takes a second click before the task is removed.
+          {onEdit || onDelete ? (
+            // The card menu is the same menu a transaction row carries: it opens to the
+            // left of the dots button, and the edit and the delete only act on a
+            // second click, so the task is never changed by opening the menu.
             <Popup
               gap={12}
+              width="160px"
+              closeOnContentClick
               content={
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  rounded="sm"
-                  iconName="icon-delete"
-                  iconColor="error"
-                  justify="start"
-                  className="w-full px-[var(--space-sm)] py-[var(--space-xs)] text-[13px]"
-                  specificStyles={{
-                    backgroundColor: "var(--color-error2)",
-                    color: "var(--color-error)",
-                  }}
-                  func={() => onDelete(String(task.id))}
-                >
-                  Delete
-                </Button>
+                <RowActionsMenu
+                  onEdit={onEdit ? () => onEdit(String(task.id)) : undefined}
+                  onDelete={onDelete ? () => onDelete(String(task.id)) : undefined}
+                />
               }
             >
               <Button variant="ghost" size="xs" isIcon iconName="icon-vertival-dots" />

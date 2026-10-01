@@ -1,5 +1,6 @@
 import { transactions } from "@/src/data/transactions"
-import { Transaction } from "@/src/types/types"
+import { Transaction, TransactionPeriod } from "@/src/types/types"
+import { TRANSACTION_PERIODS, getReportWindow, isWithinRange } from "@/src/utils/dateRange"
 import {
   badRequestResponse,
   businessNotFoundResponse,
@@ -31,8 +32,16 @@ export async function GET(
   const searchParams = new URL(request.url).searchParams
   const limit = Number(searchParams.get("limit") ?? 10)
   const page = Math.max(Number(searchParams.get("page") ?? 1), 1)
+  const period = (searchParams.get("period") ?? "alltime") as TransactionPeriod
+
+  if (!TRANSACTION_PERIODS.includes(period)) {
+    return badRequestResponse("Invalid period. Use weekly, monthly, annual, or alltime.")
+  }
+
+  const range = getReportWindow(period)
   const businessTransactions = transactions.filter(
-    (transaction) => transaction.businessId === businessId
+    (transaction) =>
+      transaction.businessId === businessId && isWithinRange(transaction.date, range)
   )
 
   const pageSize = Number.isInteger(limit) && limit > 0 ? limit : 10
@@ -106,7 +115,9 @@ export async function POST(
 }
 
 // Updates a transaction for a business. The transaction id is read from the
-// `transactionId` query parameter, so the transactions stay on one route.
+// `transactionId` query parameter, so the transactions stay on one route. Only a
+// pending transaction can be updated: a cancelled or completed one is settled and
+// is refused here.
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ businessId: string }> }
@@ -129,6 +140,23 @@ export async function PATCH(
 
   if (!transaction) {
     return recordNotFoundResponse("Transaction", transactionId)
+  }
+
+  /*
+   * A transaction that has settled is read-only, and the check sits before any
+   * field is read from the body so a refused request changes nothing at all.
+   *
+   * A cancelled transaction and a completed one are both a settled outcome: the
+   * first says the transaction never happened and the second says it did and is
+   * paid. Neither is a draft that can still be edited, so a PATCH against either
+   * is refused rather than quietly applied. Together with there being no DELETE
+   * handler, a transaction's record is fixed from the moment it stops being
+   * pending.
+   */
+  if (transaction.status !== "pending") {
+    return badRequestResponse(
+      `A ${transaction.status} transaction cannot be changed. Only a pending transaction can be edited.`,
+    )
   }
 
   const body = await readBody(request)
@@ -197,36 +225,7 @@ export async function PATCH(
   })
 }
 
-// Removes a transaction for a business. The transaction id is read from the
-// `transactionId` query parameter.
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ businessId: string }> }
-) {
-  const { businessId } = await params
-
-  if (!findBusiness(businessId)) {
-    return businessNotFoundResponse()
-  }
-
-  const transactionId = readQueryParam(request, "transactionId")
-
-  if (!transactionId) {
-    return missingQueryParamResponse("transactionId")
-  }
-
-  const transactionIndex = transactions.findIndex(
-    (item) => item.id === transactionId && item.businessId === businessId
-  )
-
-  if (transactionIndex === -1) {
-    return recordNotFoundResponse("Transaction", transactionId)
-  }
-
-  const [deletedTransaction] = transactions.splice(transactionIndex, 1)
-
-  return NextResponse.json({
-    message: `Transaction ${transactionId} deleted successfully`,
-    data: deletedTransaction,
-  })
-}
+// A transaction is a financial record, so there is no DELETE handler here: a
+// transaction is never removed from the store. A mistake is put right by changing
+// the transaction's status to cancelled, which keeps the record and the history it
+// belongs to, rather than by deleting the row.

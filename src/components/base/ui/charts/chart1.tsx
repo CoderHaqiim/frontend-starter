@@ -6,6 +6,7 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart } from "recharts"
 import { useTheme } from "../../../providers/themeProvider"
 import Spinner from "../composites/spinner"
 import Frame from "../primitives/frame"
+import Paragraph from "../primitives/paragraph"
 import { LegendComponent, TooltipComponent, XAxisComponent, YAxisComponent } from "./chart.utils"
 
 type ChartProps = {
@@ -42,8 +43,19 @@ export default function Chart1({
   return (
     <Frame className="w-full rounded-[var(--radius-md)] p-[var(--space-lg)] border-[1px] border-[var(--color-outline1)] bg-[var(--color-white)] justify-center items-center">
       {isLoading ? (
-        <Frame className="w-full h-[372px] justify-center items-center">
+        // The loading state holds the footprint the chart will take, so the
+        // chart does not jump sideways when it arrives.
+        <Frame className="w-full justify-center items-center" specificStyles={{ ...chartStyle, backgroundColor: "transparent" }}>
           <Spinner />
+        </Frame>
+      ) : data.length === 0 ? (
+        // A chart with nothing behind it says so rather than drawing an empty
+        // grid: the points are only ever the records the app holds, and none are
+        // ever made up to fill it. The message takes the footprint the chart
+        // would have drawn in, so it sits centred exactly where the chart
+        // would be.
+        <Frame className="w-full justify-center items-center" specificStyles={{ ...chartStyle, backgroundColor: "transparent" }}>
+          <Paragraph size="sm" color="textColor2">Not enough data yet</Paragraph>
         </Frame>
       ) : variant === "Line chart" ? (
         <LineChart
