@@ -155,8 +155,7 @@ export const toBusinessHealthResponse = (health: BusinessHealthRecord): Business
   // Whole numbers only: each metric reads the same in the response as it does on
   // screen, and the overall score is calculated from the values that are shown.
   const roundedScores: MetricScores = {
-    profitability:
-      scores.profitability === null ? null : decimalToWholeNumber(scores.profitability),
+    profitability: scores.profitability === null ? null : decimalToWholeNumber(scores.profitability),
     growth: scores.growth === null ? null : decimalToWholeNumber(scores.growth),
     stability: scores.stability === null ? null : decimalToWholeNumber(scores.stability),
     operational: scores.operational === null ? null : decimalToWholeNumber(scores.operational),

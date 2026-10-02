@@ -28,7 +28,7 @@ export async function http<Type>(url: string, body?: unknown, options?: HttpOpti
 
   try {
     const res = await fetch(`${baseUrl}${url}`, {
-      // credentials:"include",
+      credentials:"include",
       headers: {
         "Content-Type": "application/json",
         ...headers,
